@@ -2,8 +2,8 @@
 Member portal for UCSD HKN members.
 
 ## How to run locally
- - git clone https://github.com/kelvinluime/hkn-member-portal.git
- - put environment variables .env file into root of the project (ask current webmaster for this file)
+ - git clone https://github.com/HKN-UCSD/hkn-member-portal.git
+ - put environment variables **.env** file into root of the project (ask current webmaster for this file)
  - cd /path/to/project
  - npm install (to install required packages and dependencies)
  - npm start (to start a local server)
