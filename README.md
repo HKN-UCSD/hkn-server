@@ -7,6 +7,8 @@ Member portal for UCSD HKN members.
  - cd /path/to/project
  - npm install (to install required packages and dependencies)
  - npm start (to start a local server)
+ 
+ **/ landing page is currently not implemented yet, append /signup to the url to go to sign-up page**
 
 ## Scripts
 /scripts folder provides handy scripts to edit and read database, such as download resumes of members. In order to run those scripts, you would need reader-credentials.json or editor-credentials.json files. Ask current webmaster if you need to access these two files.
