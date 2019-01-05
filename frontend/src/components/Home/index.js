@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -20,11 +20,10 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-// import { MainDrawerItems, SecondaryDrawerItems } from './draweritems';
 import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
 import * as ROUTES from '../../constants/routes'
-
+import ReusmeContent from './resume'
 
 const drawerWidth = 240
 
@@ -107,6 +106,7 @@ const styles = theme => ({
 
 const INITIAL_STATES = {
     isDrawerOpen: false,
+    currentContent: 'resume',
 }
 
 class HomePage extends React.Component {
@@ -139,6 +139,15 @@ class HomePage extends React.Component {
     handleLogout = () => {
         this.props.firebase
             .doSignOut()
+    }
+
+    getCurrentContent = () => {
+        switch(this.state.currentContent) {
+            case 'resume':
+                return <ReusmeContent />
+            default:
+                break
+        }
     }
 
     render() {
@@ -215,7 +224,7 @@ class HomePage extends React.Component {
                     </List>
                 </Drawer>
                 <main className={this.props.classes.content}>
-
+                    {this.getCurrentContent()}
                 </main>
             </div>
         )
