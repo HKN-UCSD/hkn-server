@@ -50,8 +50,8 @@ class Firebase {
     user = uid => this.db.collection('users').doc(uid)
 
     // Firestore
-    isMember = email =>
-        this.db.collection('membersList').doc(email).get().then(docSnapshot => docSnapshot.exists)
+    validateMemberStatus = email =>
+        this.db.collection('membersList').doc(email).get()
 
     updateResumeFields = (filename, timestamp) => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
