@@ -86,7 +86,9 @@ class ResumeContent extends React.Component {
         super(props)
 
         this.state = { ...INITIAL_STATES }
+    }
 
+    componentDidMount() {
         this.props.firebase
             .getUserDocument()
             .then(docSnapshot => {

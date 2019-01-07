@@ -22,8 +22,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
+import ResumeContent from './resume'
+
 import * as ROUTES from '../../constants/routes'
-import ReusmeContent from './resume'
+import * as HOME_CONTENTS from '../../constants/home'
 
 const drawerWidth = 240
 
@@ -106,7 +108,7 @@ const styles = theme => ({
 
 const INITIAL_STATES = {
     isDrawerOpen: false,
-    currentContent: 'resume',
+    currentContent: '',
 }
 
 class HomePage extends React.Component {
@@ -120,6 +122,10 @@ class HomePage extends React.Component {
         this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
             if (!authUser) {
                 this.props.history.push(ROUTES.SIGN_IN)
+            } else {
+                this.setState({
+                    currentContent: HOME_CONTENTS.RESUME,
+                })
             }
         })
     }
@@ -143,8 +149,8 @@ class HomePage extends React.Component {
 
     getCurrentContent = () => {
         switch(this.state.currentContent) {
-            case 'resume':
-                return <ReusmeContent />
+            case HOME_CONTENTS.RESUME:
+                return <ResumeContent />
             default:
                 break
         }
