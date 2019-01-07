@@ -1,6 +1,8 @@
 import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
+import firebase from '@firebase/app';
 
 // Initialize Firebase
 const config = {
@@ -18,6 +20,7 @@ class Firebase {
 
         this.auth = app.auth()
         this.db = app.firestore()
+        this.storage = app.storage()
     }
 
     // Auth API
@@ -43,12 +46,39 @@ class Firebase {
     isEmailVerified = () =>
         this.auth.currentUser.emailVerified
 
-    // User API
+    // User
     user = uid => this.db.collection('users').doc(uid)
 
-    // Firestore API
-    isMember = email => 
+    // Firestore
+    isMember = email =>
         this.db.collection('membersList').doc(email).get().then(docSnapshot => docSnapshot.exists)
+
+    updateResumeFields = (filename, timestamp) => 
+        this.db.collection('users').doc(this.auth.currentUser.uid).update({
+             resumeUploadTimestamp: timestamp,
+             resumeFilename: filename,
+        })
+
+    getUserDocument = () => 
+        this.db.collection('users').doc(this.auth.currentUser.uid).get()
+
+    getUserDcoument = () => 
+        this.db.collection('users').doc(this.auth.currentUser.uid).get()
+
+    removeResumeFields = () => 
+        this.db.collection('users').doc(this.auth.currentUser.uid).update({
+            resumeFilename: firebase.firestore.FieldValue.delete(),
+            resumeUploadTimestamp: firebase.firestore.FieldValue.delete(),
+        })
+        
+    // Storage
+    uploadResume = resumeFile => 
+        this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFile.name)
+        .put(resumeFile)
+
+    deleteResume = resumeFilename =>
+        this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFilename)
+        .delete()
 }
 
 export default Firebase
