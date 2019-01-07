@@ -34,6 +34,11 @@ yarn-error.log*
 **/serviceAccount.json
 **/storage.rules
 
+### Credentials ###
+serviceAccount.json
+hkn-reader-credentials.json
+hkn-editor-credentials.json
+
 ### Firebase Patch ###
 .runtimeconfig.json
 .firebase/
