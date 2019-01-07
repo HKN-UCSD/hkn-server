@@ -241,5 +241,4 @@ HomePage.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-// const authCondition = authUser => !!authUser
 export default compose(withStyles(styles), withFirebase)(HomePage)
