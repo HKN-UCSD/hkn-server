@@ -53,10 +53,11 @@ class Firebase {
     validateMemberStatus = email =>
         this.db.collection('membersList').doc(email).get()
 
-    updateResumeFields = (filename, timestamp) => 
+    updateResumeFields = (filename, timestamp, downloadURL) => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
              resumeUploadTimestamp: timestamp,
              resumeFilename: filename,
+             resumeDownloadURL: downloadURL,
         })
 
     getUserDocument = () => 

@@ -129,6 +129,11 @@ class ResumeContent extends React.Component {
             date.getSeconds()
     }
 
+    validateFileSize = file =>
+        new Promise((resolve, reject) => {
+            resolve(file.size <= 1 * 1024 * 1024)
+        })
+
     handleUpload = event => {
         this.fileInput.click()
     }
@@ -138,13 +143,19 @@ class ResumeContent extends React.Component {
 
         const timestamp = new Date().getTime()
 
-        this.props.firebase
-            .uploadResume(resumeFile)
+        this.validateFileSize(resumeFile)
+            .then(isCorrectSize => {
+                if (!isCorrectSize) {
+                    throw Error('File size must be less than or equal to 1 MB.')
+                }
+
+                return this.props.firebase.uploadResume(resumeFile)
+            })
             .then(snapshot => {
-                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp)
+                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
             })
             .then(() => {
-                if (this.state.uploaded) {
+                if (this.state.uploaded && resumeFile.name != this.state.filename) {
                     return this.props.firebase.deleteResume(this.state.filename)
                 }
             })
@@ -195,9 +206,6 @@ class ResumeContent extends React.Component {
                 this.setState({
                     confirmDeleteDialogOpen: false,
                     successfulDeleteDialogOpen: true,
-                    filename: '',
-                    timestamp: '',
-                    uploaded: false,
                 })
             })
             .catch(error => {
@@ -218,6 +226,9 @@ class ResumeContent extends React.Component {
     handleSuccessfulDeleteDialogClose = event => {
         this.setState({
             successfulDeleteDialogOpen: false,
+            filename: '',
+            timestamp: '',
+            uploaded: false,
         })
     }
 

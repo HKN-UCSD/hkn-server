@@ -104,7 +104,7 @@ class SignUpPage extends React.Component {
             .then(docSnapshot => {
                 if (!docSnapshot.exists) {
                     throw Error('This member portal is restricted for UCSD HKN members only. If you are a member, please contact us at hkn@ucsd.edu.')
-                } 
+                }
 
                 return docSnapshot.data()
             })

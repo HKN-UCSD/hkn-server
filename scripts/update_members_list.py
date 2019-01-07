@@ -4,8 +4,8 @@
 # Update membersList on firestore (who can sign up for a new account)
 # 
 # Prerequisities:
-# 1. Download most recent member list csv file from https://sites.google.com/site/hknucsdwiki/members-list?pli=1 (requres login with ucsd email as an officer)
-# 2. Have firebase keys in your local .env.production file (asks current Webmaster if do not have this file)
+# 1. member-list.csv
+# 2. hkn-editor-credentials.json (Ask current webmaster for access)
 #
 # Created By    : Kelvin Lui @ http://kelvinlui.me
 # Created Date  : Jan 1 2019
@@ -18,10 +18,10 @@ from firebase_admin import firestore
 from collections import defaultdict
 
 # Replace with your own paths
-SERVICE_ACCOUNT_JSON='serviceAccount.json'
+CREDENTIALS_JSON='hkn-editor-credientials.json'
 MEMBERS_LIST_CSV='members-list.csv'
 
-cred = credentials.Certificate(SERVICE_ACCOUNT_JSON) 
+cred = credentials.Certificate(CREDENTIALS_JSON) 
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
