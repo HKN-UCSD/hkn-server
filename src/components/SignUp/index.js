@@ -89,28 +89,40 @@ class SignUpPage extends React.Component {
 
     handleSignUp = async event => {
         const { email, password, confirmPassword } = this.state
+        var firstName = ''
+        var lastName = ''
+        var inductedClass = ''
 
         this.validatePasswords(password, confirmPassword)
             .then(isSame => {
                 if (isSame) {
-                    return this.props.firebase.isMember(email)
+                    return this.props.firebase.validateMemberStatus(email)
                 } else {
                     throw Error('Passwords do not match, please try again.')
                 }
             })
-            .then(isMember => {
-                if (!isMember) {
+            .then(docSnapshot => {
+                if (!docSnapshot.exists) {
                     throw Error('This member portal is restricted for UCSD HKN members only. If you are a member, please contact us at hkn@ucsd.edu.')
-                } else {
-                    return this.props.firebase
-                        .doCreateUserWithEmailAndPassword(email, password)
-                }
+                } 
+
+                return docSnapshot.data()
+            })
+            .then(data => {
+                firstName = data.firstName
+                lastName = data.lastName
+                inductedClass = data.class
+
+                return this.props.firebase.doCreateUserWithEmailAndPassword(email, password)
             })
             .then(authUser => {
                 return this.props.firebase
                     .user(authUser.uid)
                     .set({
                         email,
+                        firstName,
+                        lastName,
+                        class: inductedClass,
                     })
             })
             .then(() => {
