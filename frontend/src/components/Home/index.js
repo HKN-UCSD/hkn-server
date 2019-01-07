@@ -179,11 +179,11 @@ class HomePage extends React.Component {
                         >
                             Member Portal
                     </Typography>
-                        <IconButton color="inherit">
+                        {/* <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
-                        </IconButton>
+                        </IconButton> */}
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -209,12 +209,12 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     <List>
-                        <ListItem button>
+                        {/* <ListItem button>
                             <ListItemIcon>
                                 <ProfileIcon />
                             </ListItemIcon>
                             <ListItemText primary="Profile" />
-                        </ListItem>
+                        </ListItem> */}
                         <ListItem button onClick={this.handleLogout}>
                             <ListItemIcon>
                                 <SignOutIcon />
