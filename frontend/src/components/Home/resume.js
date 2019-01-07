@@ -144,6 +144,11 @@ class ResumeContent extends React.Component {
                 return this.props.firebase.updateResumeFields(resumeFile.name, timestamp)
             })
             .then(() => {
+                if (this.state.uploaded) {
+                    return this.props.firebase.deleteResume(this.state.filename)
+                }
+            })
+            .then(() => {
                 this.setState({
                     successfulUploadDialogOpen: true,
                     timestamp: this.getTimestampString(timestamp),
@@ -345,5 +350,6 @@ class ResumeContent extends React.Component {
 ResumeContent.propTypes = {
     classes: PropTypes.object.isRequired,
 }
+
 
 export default compose(withStyles(styles), withFirebase)(ResumeContent)
