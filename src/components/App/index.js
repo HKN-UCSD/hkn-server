@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 import 'typeface-roboto'
 import SignInPage from '../SignIn'
 import SignUpPage from '../SignUp'
@@ -31,13 +31,13 @@ class App extends React.Component {
 
         return (
             <AuthUserContext.Provider value={authUser}>
-                <Router>
-                    <div>
-                        <Route path={ROUTES.HOME} component={HomePage} />
+                <BrowserRouter>
+                    <Switch>
                         <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                         <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-                    </div>
-                </Router>
+                        <Route path={ROUTES.HOME} component={HomePage} />
+                    </Switch>
+                </BrowserRouter>
             </AuthUserContext.Provider>
         )
     }
