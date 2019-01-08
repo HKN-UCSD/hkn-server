@@ -67,6 +67,7 @@ class Firebase {
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
             resumeFilename: firebase.firestore.FieldValue.delete(),
             resumeUploadTimestamp: firebase.firestore.FieldValue.delete(),
+            resumeDownloadURL: firebase.firestore.FieldValue.delete(),
         })
         
     // Storage
