@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+
 import Typography from '@material-ui/core/Typography'
-import PdfIcon from '@material-ui/icons/PictureAsPdf'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Avatar from '@material-ui/core/Avatar'
-import Fab from '@material-ui/core/Fab'
+
 import DeleteIcon from '@material-ui/icons/Delete'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import Grid from '@material-ui/core/Grid'
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import PdfIcon from '@material-ui/icons/PictureAsPdf'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+
+import lightGreen from '@material-ui/core/colors/lightGreen'
 
 import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
@@ -70,8 +71,14 @@ const styles = theme => ({
     }
 })
 
+const RIGHT_BUTTON_ACTIONS = {
+    UPLOAD: 'UPLOAD',
+    DOWNLOAD: 'DOWNLOAD',
+}
+
 const INITIAL_STATES = {
     uploaded: false,
+    rightButtonAction: RIGHT_BUTTON_ACTIONS.UPLOAD,
     filename: '',
     timestamp: '',
     successfulUploadDialogOpen: false,
@@ -105,6 +112,7 @@ class ResumeContent extends React.Component {
 
                 this.setState({
                     uploaded: true,
+                    rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
                     timestamp: this.getTimestampString(data.resumeUploadTimestamp),
                     filename: data.resumeFilename,
                 })
@@ -122,11 +130,22 @@ class ResumeContent extends React.Component {
             ' ' +
             date.getFullYear() +
             ' ' +
-            date.getHours() +
+            (date.getHours() >= 10 ? date.getHours() : '0' + date.getHours()) +
             ':' +
-            date.getMinutes() +
+            (date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()) +
             ':' +
-            date.getSeconds()
+            (date.getSeconds() >= 10 ? date.getSeconds() : '0' + date.getSeconds())
+    }
+
+    getRightButtionIcon = () => {
+        switch (this.state.rightButtonAction) {
+            case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
+                return <CloudDownloadIcon className={this.props.classes.rightIcon} />
+            case RIGHT_BUTTON_ACTIONS.UPLOAD:
+                return <CloudUploadIcon className={this.props.classes.rightIcon} />
+            default:
+                return null
+        }
     }
 
     validateFileSize = file =>
@@ -136,6 +155,26 @@ class ResumeContent extends React.Component {
 
     handleUpload = event => {
         this.fileInput.click()
+    }
+
+    handleDownload = event => {
+        this.props.firebase
+            .getUserDocument()
+            .then(docSnapshot => {
+                if (!docSnapshot.exists) {
+                    throw Error('User document does not exist.')
+                }
+
+                return docSnapshot.data()
+            })  
+            .then(data => {
+                if (data.resumeDownloadURL == null) {
+                    throw Error('Resume download URL does not exist in user\'s document.')
+                }
+
+                window.open(data.resumeDownloadURL)
+            })
+            .catch(error => {})
     }
 
     handleOpenFile = event => {
@@ -165,6 +204,7 @@ class ResumeContent extends React.Component {
                     timestamp: this.getTimestampString(timestamp),
                     filename: resumeFile.name,
                     uploaded: true,
+                    rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
                 })
             })
             .catch(error => {
@@ -229,7 +269,41 @@ class ResumeContent extends React.Component {
             filename: '',
             timestamp: '',
             uploaded: false,
+            rightButtonAction: RIGHT_BUTTON_ACTIONS.UPLOAD,
         })
+    }
+
+    getRightButton = () => {
+        switch (this.state.rightButtonAction) {
+            case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
+                return (
+                    <Button
+                        variant='contained'
+                        color={this.state.uploaded ? 'default' : 'disabled'}
+                        className={this.props.classes.button}
+                        onClick={this.handleDownload}
+                        disabled={!this.state.uploaded}
+                    >
+                        DOWNLOAD
+                        <CloudDownloadIcon className={this.props.classes.rightIcon} />    
+                    </Button>
+                )
+            case RIGHT_BUTTON_ACTIONS.UPLOAD:
+                return (
+                    <Button
+                        variant='contained'
+                        color={this.state.uploaded ? 'disabled' : 'primary'}
+                        className={this.props.classes.button}
+                        onClick={this.handleUpload}
+                        disabled={this.state.uploaded}
+                    >
+                        UPLOAD
+                        <CloudUploadIcon className={this.props.classes.rightIcon} />    
+                    </Button>
+                )
+            default:
+                return null
+        }
     }
 
     render() {
@@ -251,15 +325,7 @@ class ResumeContent extends React.Component {
                             DELETE
                     <DeleteIcon className={this.props.classes.rightIcon} />
                         </Button>
-                        <Button
-                            variant='contained'
-                            color='default'
-                            className={this.props.classes.button}
-                            onClick={this.handleUpload}
-                        >
-                            UPLOAD
-                    <CloudUploadIcon className={this.props.classes.rightIcon} />
-                        </Button>
+                        {this.getRightButton()}
                     </div>
                 </div>
                 <div>

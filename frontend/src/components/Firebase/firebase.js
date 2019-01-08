@@ -63,9 +63,6 @@ class Firebase {
     getUserDocument = () => 
         this.db.collection('users').doc(this.auth.currentUser.uid).get()
 
-    getUserDcoument = () => 
-        this.db.collection('users').doc(this.auth.currentUser.uid).get()
-
     removeResumeFields = () => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
             resumeFilename: firebase.firestore.FieldValue.delete(),
