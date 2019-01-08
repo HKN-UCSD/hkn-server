@@ -7,7 +7,7 @@
 # 1. member-list.csv
 # 2. hkn-editor-credentials.json (Ask current webmaster for access)
 #
-# Created By    : Kelvin Lui @ http://kelvinlui.me
+# Created By    : Kelvin Lui (kelvinluime@gmail.com)
 # Created Date  : Jan 1 2019
 #
 
@@ -28,7 +28,7 @@ db = firestore.client()
 df = pd.read_csv(MEMBERS_LIST_CSV)    
 df = df.loc[df['UCSD Email'].notnull()] 
 members = defaultdict(dict)
-for idx, row in df.iterrows():
+for idx, row in df.iterrows(): 
     members[row['UCSD Email']] = {
         u'class' : unicode(row['Class']),
         u'firstName' : unicode(row['First Name']),
