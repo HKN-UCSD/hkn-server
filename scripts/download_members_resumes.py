@@ -12,12 +12,20 @@
 
 import firebase_admin
 import requests
+import os
 from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Replace with your own paths
 CREDENTIALS_JSON='hkn-viewer-credentials.json'
-SAVE_FOLDER = './member-resumes'
+RESUME_FOLDER = 'member-resumes'
+
+try:
+    os.mkdir(RESUME_FOLDER)
+except OSError as e:
+    print('Failed to create directory: %s.' % e)
+else:
+    print('Successfully created the directory %s.' % RESUME_FOLDER)
 
 cred = credentials.Certificate(CREDENTIALS_JSON)
 firebase_admin.initialize_app(cred, {
@@ -25,10 +33,26 @@ firebase_admin.initialize_app(cred, {
 })
 
 db = firestore.client()
+resumes_count = 0
 
 userDocs = db.collection('users').get()
 for doc in userDocs:
     doc_dict = doc.to_dict()
 
-    r = response = requests.get(doc_dict['resumeDownloadURL'])
-    print(r.content)
+    first_name = doc_dict['firstName']
+    last_name = doc_dict['lastName']
+    
+    try:
+        r = requests.get(doc_dict['resumeDownloadURL'])
+        resume_title = first_name + ' ' + last_name + ' Resume.pdf'
+        f = open(RESUME_FOLDER+'/'+resume_title, 'wb')
+        for chunk in r.iter_content(chunk_size=512*1024):
+            if chunk:
+                f.write(chunk)
+
+        resumes_count += 1
+        f.close()
+    except KeyError:
+        pass
+
+print('%d resumes have been successfully downloaded.' % resumes_count)
