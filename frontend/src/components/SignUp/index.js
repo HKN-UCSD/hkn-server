@@ -73,6 +73,7 @@ const INITIAL_STATE = {
     confirmPassword: '',
     signupError: null,
     verifyEmailError: null,
+    isSignUpButtonDisabled: false,
 }
 
 class SignUpPage extends React.Component {
@@ -92,6 +93,10 @@ class SignUpPage extends React.Component {
         var firstName = ''
         var lastName = ''
         var inductedClass = ''
+
+        this.setState({
+            isSignUpButtonDisabled: true,
+        })
 
         this.validatePasswords(password, confirmPassword)
             .then(isSame => {
@@ -132,6 +137,11 @@ class SignUpPage extends React.Component {
                 this.setState({
                     signupError: error,
                     failedSignUpDialogOpen: true,
+                })
+            })
+            .finally(() => {
+                this.setState({
+                    isSignUpButtonDisabled: false,
                 })
             })
 
@@ -215,6 +225,7 @@ class SignUpPage extends React.Component {
                             fullWidth
                             variant="contained"
                             color="primary"
+                            disabled={this.state.isSignUpButtonDisabled}
                             className={this.props.classes.signup}
                         >
                             Sign up
