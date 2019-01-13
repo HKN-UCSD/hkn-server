@@ -208,6 +208,10 @@ class ResumeContent extends React.Component {
                 })
             })
             .catch(error => {
+                if (error.code == 'storage/unauthorized') {
+                    error = Error('Please make sure the uploaded file is .pdf file and less than or equal to 1 MB.')
+                }
+
                 this.setState({
                     error,
                     errorDialogOpen: true,
@@ -224,10 +228,7 @@ class ResumeContent extends React.Component {
     }
 
     handleErrorDialogClose = event => {
-        this.setState({
-            error: null,
-            errorDialogOpen: false,
-        })
+        this.setState({ errorDialogOpen: false })
     }
 
     handleDelete = event => {
