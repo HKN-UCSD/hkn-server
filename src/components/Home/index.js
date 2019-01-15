@@ -142,6 +142,14 @@ class HomePage extends React.Component {
         this.setState({ isDrawerOpen: false })
     }
 
+    handleResume = event => {
+        this.setState({ currentContent: HOME_CONTENTS.RESUME })
+    }
+
+    handleProfile = event => {
+        this.setState({ currentContent: HOME_CONTENTS.PROFILE })
+    }
+
     handleLogout = () => {
         this.props.firebase
             .doSignOut()
@@ -151,6 +159,8 @@ class HomePage extends React.Component {
         switch(this.state.currentContent) {
             case HOME_CONTENTS.RESUME:
                 return <ResumeContent />
+            // case HOME_CONTENTS.PROFILE:
+            //     return <ProfileContent />
             default:
                 break
         }
@@ -206,7 +216,7 @@ class HomePage extends React.Component {
                     </div>
                     <Divider />
                     <List>
-                        <ListItem button>
+                        <ListItem button onClick={this.handleResume}>
                             <ListItemIcon>
                                 <AttachmentIcon />
                             </ListItemIcon>
@@ -215,7 +225,7 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     <List>
-                        {/* <ListItem button>
+                        {/* <ListItem button onClick={this.handleProfile}>
                             <ListItemIcon>
                                 <ProfileIcon />
                             </ListItemIcon>

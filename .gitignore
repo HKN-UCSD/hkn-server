@@ -36,7 +36,7 @@ yarn-error.log*
 
 ### Credentials ###
 serviceAccount.json
-hkn-reader-credentials.json
+hkn-viewer-credentials.json
 hkn-editor-credentials.json
 
 ### Firebase Patch ###
