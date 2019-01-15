@@ -61,18 +61,30 @@ const styles = theme => ({
         "&:hover": {
             backgroundColor: "transparent"
         },
-        float: 'right',
+        float: "right",
         marginTop: theme.spacing.unit,
     },
     signupFooter: {
         marginTop: theme.spacing.unit * 3,
         textTransform: 'none',
-        alignItems: 'center',
+        textAlign: 'center',
         flexDirection: 'column',
         display: 'flex',
     },
     signupLink: {
         textDecoration: 'none',
+    },
+    footer: {
+        marginTop: theme.spacing.unit * 3,
+        width: '100%',
+        textAlign: 'center',
+        bottom: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    footerLink: {
+        textDecoration: 'none',
+        color: 'inherit',
     }
 })
 
@@ -283,11 +295,18 @@ class SignInPage extends React.Component {
                         </Button>
                     </form>
                 </Paper>
-                <span className={this.props.classes.signupFooter}>
+                <div className={this.props.classes.signupFooter}>
                     <Typography component="p" style={{ display: 'inline-block' }}>
                         Don't have an account?  <Link to={ROUTES.SIGN_UP} className={this.props.classes.signupLink}>Sign up</Link>
                     </Typography>
-                </span>
+                </div>
+                <Typography
+                    className={this.props.classes.footer}
+                    variant="caption"
+                    gutterBottom
+                >
+                    <a className={this.props.classes.footerLink} href={"http://hkn.ucsd.edu"} target="_blank"> &copy; 2019 Eta Kappa Nu UCSD </a>
+                </Typography>
                 <div>
                     <Dialog
                         open={this.state.failedSignInDialogOpen}
