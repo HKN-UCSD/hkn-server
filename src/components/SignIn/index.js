@@ -76,11 +76,7 @@ const styles = theme => ({
     },
     footer: {
         marginTop: theme.spacing.unit * 3,
-        width: '100%',
         textAlign: 'center',
-        bottom: '10px',
-        display: 'flex',
-        flexDirection: 'column',
     },
     footerLink: {
         textDecoration: 'none',
