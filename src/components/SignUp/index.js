@@ -61,6 +61,18 @@ const styles = theme => ({
     },
     signinLink: {
         textDecoration: 'none',
+    },
+    footer: {
+        marginTop: theme.spacing.unit * 3,
+        width: '100%',
+        textAlign: 'center',
+        bottom: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    footerLink: {
+        textDecoration: 'none',
+        color: 'inherit',
     }
 })
 
@@ -235,6 +247,13 @@ class SignUpPage extends React.Component {
                         Already have an account? <Link className={this.props.classes.signinLink} to={ROUTES.SIGN_IN}>Sign In</Link>
                     </Typography>
                 </span>
+                <Typography
+                    className={this.props.classes.footer}
+                    variant="caption"
+                    gutterBottom
+                >
+                    <a className={this.props.classes.footerLink} href={"http://hkn.ucsd.edu"} target="_blank"> &copy; 2019 Eta Kappa Nu UCSD </a>
+                </Typography>
                 <div>
                     <Dialog
                         open={this.state.successfulSignUpDialogOpen}
