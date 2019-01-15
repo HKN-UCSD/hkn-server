@@ -7,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
-import LockIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { withRouter } from "react-router"
@@ -43,7 +42,8 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing.unit,
-        backgroundColor: theme.palette.primary.main,
+        width: '96px',
+        height: '64px',
     },
     form: {
         width: '100%',
@@ -53,7 +53,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
     signinFooter: {
-        marginTop: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 3,
         textTransform: 'none',
         alignItems: 'center',
         flexDirection: 'column',
@@ -201,9 +201,7 @@ class SignUpPage extends React.Component {
             <main className={this.props.classes.main}>
                 <CssBaseline />
                 <Paper className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar}>
-                        <LockIcon />
-                    </Avatar>
+                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-logo-black.png')} alt='HKN Logo' />
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
@@ -233,10 +231,9 @@ class SignUpPage extends React.Component {
                     </form>
                 </Paper>
                 <span className={this.props.classes.signinFooter}>
-                    <Typography component="p">
-                        Already have an account?
+                    <Typography component="p" style={{display: 'inline-block'}}>
+                        Already have an account? <Link className={this.props.classes.signinLink} to={ROUTES.SIGN_IN}>Sign In</Link>
                     </Typography>
-                    <Link className={this.props.classes.signinLink} to={ROUTES.SIGN_IN}>Sign In</Link>
                 </span>
                 <div>
                     <Dialog

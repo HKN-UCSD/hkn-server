@@ -16,8 +16,6 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-import lightGreen from '@material-ui/core/colors/lightGreen'
-
 import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
 
@@ -43,9 +41,6 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-    },
-    avatar: {
-        margin: theme.spacing.unit,
     },
     description: {
         align: 'center',

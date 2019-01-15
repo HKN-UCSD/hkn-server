@@ -13,7 +13,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
-import LockIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -45,7 +44,8 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing.unit,
-        backgroundColor: theme.palette.primary.main,
+        width: '96px',
+        height: '64px',
     },
     form: {
         width: '100%',
@@ -54,18 +54,12 @@ const styles = theme => ({
     signin: {
         marginTop: theme.spacing.unit * 3,
     },
-    signupText: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginTop: theme.spacing.unit * 2,
-    },
     forgotPassword: {
         marginTop: theme.spacing.unit * 3,
         textTransform: 'none',
     },
     signupFooter: {
-        marginTop: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 3,
         textTransform: 'none',
         alignItems: 'center',
         flexDirection: 'column',
@@ -233,11 +227,9 @@ class SignInPage extends React.Component {
             <main className={this.props.classes.main}>
                 <CssBaseline />
                 <Paper className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar}>
-                        <LockIcon />
-                    </Avatar>
+                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-logo-black.png')} alt='HKN Logo' />
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Member Portal Login
                     </Typography>
                     <form className={this.props.classes.form} onSubmit={this.handleSignIn}>
                         <FormControl margin="normal" required fullWidth>
@@ -267,10 +259,9 @@ class SignInPage extends React.Component {
                     </Button>
                 </Paper>
                 <span className={this.props.classes.signupFooter}>
-                    <Typography component="p">
-                        Don't have an account?
+                    <Typography component="p" style={{display: 'inline-block'}}>
+                        Don't have an account?  <Link to={ROUTES.SIGN_UP} className={this.props.classes.signupLink}>Sign up</Link>
                     </Typography>
-                    <Link to={ROUTES.SIGN_UP} className={this.props.classes.signupLink}>Sign up</Link>
                 </span>
                 <div>
                     <Dialog
