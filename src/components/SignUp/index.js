@@ -209,7 +209,7 @@ class SignUpPage extends React.Component {
             <main className={this.props.classes.main}>
                 <CssBaseline />
                 <Paper className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-logo-black.png')} alt='HKN Logo' />
+                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-logo-black.png')} />
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
