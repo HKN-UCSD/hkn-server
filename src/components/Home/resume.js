@@ -189,7 +189,7 @@ class ResumeContent extends React.Component {
                 return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
             })
             .then(() => {
-                if (this.state.uploaded && resumeFile.name != this.state.filename) {
+                if (this.state.uploaded && resumeFile.name !== this.state.filename) {
                     return this.props.firebase.deleteResume(this.state.filename)
                 }
             })
@@ -203,7 +203,7 @@ class ResumeContent extends React.Component {
                 })
             })
             .catch(error => {
-                if (error.code == 'storage/unauthorized') {
+                if (error.code === 'storage/unauthorized') {
                     error = Error('Please make sure the uploaded file is .pdf file and less than or equal to 1 MB.')
                 }
 

@@ -16,6 +16,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import { withFirebase } from '../Firebase'
 import { Link } from 'react-router-dom'
@@ -55,8 +57,12 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
     forgotPassword: {
-        marginTop: theme.spacing.unit * 3,
         textTransform: 'none',
+        "&:hover": {
+            backgroundColor: "transparent"
+        },
+        float: 'right',
+        marginTop: theme.spacing.unit,
     },
     signupFooter: {
         marginTop: theme.spacing.unit * 3,
@@ -75,6 +81,7 @@ const INITIAL_STATE = {
     password: '',
     forgotPasswordEmail: '',
     greeting: '',
+    checked: false,
     signInError: null,
     verifyEmailError: null,
     failedSignInDialogOpen: false,
@@ -97,7 +104,7 @@ class SignInPage extends React.Component {
         const { email, password } = this.state
 
         this.props.firebase
-            .doSignInWithEmailAndPassword(email, password)
+            .doSignInWithEmailAndPassword(email, password, this.state.checked)
             .then(() => {
                 this.validateEmailVerified()
             })
@@ -177,6 +184,10 @@ class SignInPage extends React.Component {
             })
     }
 
+    handleCheckRemember = event => {
+        this.setState({ checked: event.target.checked })
+    }
+
     handleForgotPassword = event => {
         this.setState({
             forgotPasswordDialogOpen: true,
@@ -218,7 +229,7 @@ class SignInPage extends React.Component {
         this.setState({
             forgotPasswordConfirmError: null,
             failedForgotPasswordConfirmDialogOpen: false,
-            forgotPasswordDialogOpen: true, 
+            forgotPasswordDialogOpen: true,
         })
     }
 
@@ -240,6 +251,17 @@ class SignInPage extends React.Component {
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handlePasswordChange.bind(this)} value={this.state.password} />
                         </FormControl>
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" onChange={this.handleCheckRemember.bind(this)} checked={this.state.checked} />}
+                            label="Remember me"
+                        />
+                        <Button
+                            size="small"
+                            variant="empty"
+                            onClick={this.handleForgotPassword}
+                            className={this.props.classes.forgotPassword}>
+                            Forgot password?
+                        </Button>
                         <Button
                             type="submit"
                             fullWidth
@@ -248,18 +270,11 @@ class SignInPage extends React.Component {
                             className={this.props.classes.signin}
                         >
                             Sign in
-                    </Button>
+                        </Button>
                     </form>
-                    <Button
-                        size="small"
-                        variant="empty"
-                        onClick={this.handleForgotPassword}
-                        className={this.props.classes.forgotPassword}>
-                        Forgot password
-                    </Button>
                 </Paper>
                 <span className={this.props.classes.signupFooter}>
-                    <Typography component="p" style={{display: 'inline-block'}}>
+                    <Typography component="p" style={{ display: 'inline-block' }}>
                         Don't have an account?  <Link to={ROUTES.SIGN_UP} className={this.props.classes.signupLink}>Sign up</Link>
                     </Typography>
                 </span>
