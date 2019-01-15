@@ -100,6 +100,16 @@ class SignInPage extends React.Component {
         this.state = { ...INITIAL_STATE }
     }
 
+    componentDidMount() {
+        this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+            if (authUser) { this.props.history.push(ROUTES.HOME) }
+        })
+    }
+
+    componentWillUnmount() {
+        this.listener()
+    }
+
     handleSignIn = event => {
         const { email, password } = this.state
 
