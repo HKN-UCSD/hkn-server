@@ -27,8 +27,11 @@ class Firebase {
     doCreateUserWithEmailAndPassword = (email, password) =>
         this.auth.createUserWithEmailAndPassword(email, password)
 
-    doSignInWithEmailAndPassword = (email, password) =>
-        this.auth.signInWithEmailAndPassword(email, password)
+    doSignInWithEmailAndPassword = (email, password, remembered) =>
+        this.auth.setPersistence(remembered ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+            return this.auth.signInWithEmailAndPassword(email, password)
+        })
 
     doSignOut = () => this.auth.signOut()
 

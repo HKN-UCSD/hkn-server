@@ -12,14 +12,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
 import SignOutIcon from '@material-ui/icons/ExitToApp'
-import ProfileIcon from '@material-ui/icons/AccountCircle'
+// import ProfileIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
+// import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+// import NotificationsIcon from '@material-ui/icons/Notifications';
 import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
 import ResumeContent from './resume'
