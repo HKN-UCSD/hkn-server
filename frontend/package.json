@@ -7,6 +7,7 @@
     "@material-ui/icons": "^3.0.1",
     "@material/layout-grid": "^0.41.0",
     "classnames": "^2.2.6",
+    "csv": "^5.1.1",
     "dotenv": "^6.2.0",
     "eslint-plugin-react": "^7.11.1",
     "npm-install-all": "^1.1.21",
