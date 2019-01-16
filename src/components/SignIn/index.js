@@ -88,7 +88,6 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     forgotPasswordEmail: '',
-    greeting: '',
     checked: false,
     signInError: null,
     verifyEmailError: null,
@@ -110,7 +109,7 @@ class SignInPage extends React.Component {
 
     componentDidMount() {
         this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-            if (authUser) { this.props.history.push(ROUTES.HOME) }
+            if (authUser && authUser.isEmailVerified) { this.props.history.push(ROUTES.HOME) }
         })
     }
 
@@ -124,7 +123,15 @@ class SignInPage extends React.Component {
         this.props.firebase
             .doSignInWithEmailAndPassword(email, password, this.state.checked)
             .then(() => {
-                this.validateEmailVerified()
+                if (this.props.firebase.auth.currentUser.emailVerified) {
+                    this.props.history.push(ROUTES.HOME)
+                } else {
+                    this.props.firebase.doSignOut()
+        
+                    this.setState({
+                        verifyEmailDialogOpen: true,
+                    })
+                }
             })
             .catch(error => {
                 this.setState({
@@ -134,31 +141,6 @@ class SignInPage extends React.Component {
             })
 
         event.preventDefault()
-    }
-
-    validateEmailVerified = () => {
-        const isEmailVerified = this.props.firebase.isEmailVerified()
-
-        if (isEmailVerified) {
-            this.props.history.push(ROUTES.HOME)
-        } else {
-            const date = new Date()
-            const hrs = date.getHours()
-            var greeting = ''
-
-            if (hrs < 12) {
-                greeting = 'Good morning'
-            } else if (hrs >= 12 && hrs <= 17) {
-                greeting = 'Good afternoon'
-            } else if (hrs >= 17 && hrs <= 24) {
-                greeting = 'Good evening'
-            }
-
-            this.setState({
-                greeting,
-                verifyEmailDialogOpen: true,
-            })
-        }
     }
 
     handleEmailChange = event => {
@@ -328,7 +310,7 @@ class SignInPage extends React.Component {
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
-                        <DialogTitle id="alert-dialog-title">{this.state.greeting}</DialogTitle>
+                        <DialogTitle id="alert-dialog-title">Welcome</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
                                 You must verify your email address before you can sign in. Press RESEND if you did not receive the verification email.
