@@ -49,3 +49,5 @@ hkn-editor-credentials.json
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+members.csv
