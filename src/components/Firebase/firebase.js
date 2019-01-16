@@ -53,8 +53,8 @@ class Firebase {
     user = uid => this.db.collection('users').doc(uid)
 
     // Firestore
-    updateResumeFields = (filename, timestamp, downloadURL) => {
-        return this.db.collection('users').doc(this.auth.currentUser.uid).update({
+    updateResumeFields = (filename, timestamp, downloadURL) => 
+        this.db.collection('users').doc(this.auth.currentUser.uid).update({
              resumeUploadTimestamp: timestamp,
              resumeFilename: filename,
              resumeDownloadURL: downloadURL,
