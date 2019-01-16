@@ -46,16 +46,10 @@ class Firebase {
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password)
 
-    isEmailVerified = () =>
-        this.auth.currentUser.emailVerified
-
     // User
     user = uid => this.db.collection('users').doc(uid)
 
     // Firestore
-    validateMemberStatus = email =>
-        this.db.collection('membersList').doc(email).get()
-
     updateResumeFields = (filename, timestamp, downloadURL) => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
              resumeUploadTimestamp: timestamp,
