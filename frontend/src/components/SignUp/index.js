@@ -82,6 +82,7 @@ const INITIAL_STATE = {
     signupError: null,
     verifyEmailError: null,
     isSignUpButtonDisabled: false,
+    whitelistDialogOpen: false,
 }
 
 class SignUpPage extends React.Component {
@@ -165,10 +166,29 @@ class SignUpPage extends React.Component {
         })
     }
 
+    handleWhitelistDialogClose = () => {
+        this.setState({
+            whitelistDialogOpen: false,
+        })
+    }
+
     handleFailedSendVerificationEmailDialogClose = () => {
         this.setState({ failedSendVerificationEmailDialogOpen: false })
         this.props.firebase.doSignOut()
         this.props.history.push(ROUTES.SIGN_IN)
+    }
+
+    handleSubmitSignUp = event => {
+        this.setState({
+            whitelistDialogOpen: true
+        })
+
+        event.preventDefault()   
+    }
+
+    handleWhitelistConfirm = event => {
+        this.handleWhitelistDialogClose()
+        this.handleSignUp()
     }
 
     render() {
@@ -180,7 +200,7 @@ class SignUpPage extends React.Component {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <form className={this.props.classes.form} onSubmit={this.handleSignUp}>
+                    <form className={this.props.classes.form} onSubmit={this.handleSubmitSignUp}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
                             <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange.bind(this)} value={this.state.email} />
@@ -228,7 +248,7 @@ class SignUpPage extends React.Component {
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
                                 A confirmation email has been sent to your email address. You must verify your email before you can sign in.
-            </DialogContentText>
+                            </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={this.handleSuccessfulSignUpDialogClose} color="primary" autoFocus>
@@ -271,6 +291,27 @@ class SignUpPage extends React.Component {
                                 RESEND
                             </Button>
                             <Button onClick={this.handleFailedSendVerificationEmailDialogClose} color="primary" autoFocus>
+                                GOT IT
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    <Dialog
+                        open={this.state.whitelistDialogOpen}
+                        onClose={this.handleWhitelistDialogClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{"Welcome"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                This member portal is restricted for UCSD HKN members only. Accounts registered with emails not on our whitelist will be deleted automatically.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleWhitelistDialogClose} color="primary" autoFocus>
+                                Cancel
+                            </Button>
+                            <Button onClick={this.handleWhitelistConfirm} color="primary" autoFocus>
                                 GOT IT
                             </Button>
                         </DialogActions>
