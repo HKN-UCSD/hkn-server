@@ -46,7 +46,7 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing.unit,
-        width: '112px',
+        width: '116px',
         height: '80px',
     },
     form: {
