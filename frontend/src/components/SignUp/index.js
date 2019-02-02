@@ -42,8 +42,8 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing.unit,
-        width: '96px',
-        height: '64px',
+        width: '112px',
+        height: '80px',
     },
     form: {
         width: '100%',
@@ -196,7 +196,7 @@ class SignUpPage extends React.Component {
             <main className={this.props.classes.main}>
                 <CssBaseline />
                 <Paper className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-logo-black.png')} />
+                    <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-trident.png')} />
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
