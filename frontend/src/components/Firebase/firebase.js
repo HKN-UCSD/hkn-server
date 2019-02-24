@@ -19,8 +19,10 @@ class Firebase {
         app.initializeApp(config)
 
         this.auth = app.auth()
-        this.db = app.firestore()
         this.storage = app.storage()
+
+        this.db = app.firestore()
+        this.db.settings({timestampsInSnapshots: true})
     }
 
     // Auth API

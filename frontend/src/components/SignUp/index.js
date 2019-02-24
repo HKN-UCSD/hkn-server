@@ -235,7 +235,7 @@ class SignUpPage extends React.Component {
                     variant="caption"
                     gutterBottom
                 >
-                    <a className={this.props.classes.footerLink} href={"http://hkn.ucsd.edu"} target="_blank"> &copy; 2019 Eta Kappa Nu UCSD </a>
+                    <a className={this.props.classes.footerLink} href={"http://hkn.ucsd.edu"} target="_blank" rel="noopener noreferrer"> &copy; 2019 Eta Kappa Nu UCSD </a>
                 </Typography>
                 <div>
                     <Dialog
