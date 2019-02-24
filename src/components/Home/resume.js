@@ -46,10 +46,6 @@ const styles = theme => ({
         align: 'center',
         fontSize: '16px',
         marginTop: theme.spacing.unit,
-        whiteSpace: 'pre-wrap',
-        textAlign: 'center',
-
-
     },
     button: {
         margin: theme.spacing.unit,
@@ -119,6 +115,7 @@ class ResumeContent extends React.Component {
                     rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
                     timestamp: this.getTimestampString(data.resumeUploadTimestamp),
                     filename: data.resumeFilename,
+                    resumeDownloadURL: data.resumeDownloadURL,
                 })
                 
                 let path = 'users/'+uid+'/resume/'+fileName
@@ -132,7 +129,7 @@ class ResumeContent extends React.Component {
                     resumeDownloadURL: url,
                 })
             })
-            .catch(error => {console.log('ERROR:'+error)})
+            .catch(error => {})
     }
 
     getTimestampString = timestamp => {
@@ -189,13 +186,10 @@ class ResumeContent extends React.Component {
                 return this.props.firebase.uploadResume(resumeFile)
             })
             .then(snapshot => {
-                return snapshot.ref.getDownloadURL()
-            })
-            .then(downloadUrl => {
                 this.setState({
-                    resumeDownloadURL: downloadUrl,
+                    resumeDownloadURL: snapshot.downloadURL,
                 })
-                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, downloadUrl)
+                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
             })
             .then(() => {
                 if (this.state.uploaded && resumeFile.name !== this.state.filename) {
@@ -311,13 +305,17 @@ class ResumeContent extends React.Component {
         }
     }
 
+    onDocumentLoadSuccess = ({ numPages }) => {
+        this.setPages({ numPages })
+    }
+
     getResumeDisplayComponent = () => {
         if (this.state.uploaded) {
             return (<iframe 
                         frameBorder="0" 
                         src={this.state.resumeDownloadURL}
-                        width="100%"
-                        height="80%" 
+                        width="595px" 
+                        height="842px" 
                     />)
         } else {
             return (<PdfIcon className={this.props.classes.pdfIcon} color='disabled' />)
@@ -329,8 +327,8 @@ class ResumeContent extends React.Component {
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.contentWrapper}>
                     { this.getResumeDisplayComponent() }
-                    <Typography variant='body1' className={this.props.classes.description}>
-                        {this.state.uploaded ? this.state.filename + "\n" + this.state.timestamp : 'Oops, we can not find your resume'}
+                    <Typography variant='caption' className={this.props.classes.description}>
+                        {this.state.uploaded ? this.state.filename + ' ' + this.state.timestamp : 'Oops, we can not find your resume'}
                     </Typography>
                     <div className={this.props.classes.buttonsContainer}>
                         <Button

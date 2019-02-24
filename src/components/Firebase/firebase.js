@@ -20,10 +20,9 @@ class Firebase {
 
         this.auth = app.auth()
         this.storage = app.storage()
-        // console.log(this.storage)
 
         this.db = app.firestore()
-        // this.db.settings({timestampsInSnapshots: true})
+        this.db.settings({timestampsInSnapshots: true})
     }
 
     // Auth API
