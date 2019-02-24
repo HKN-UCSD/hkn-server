@@ -305,10 +305,6 @@ class ResumeContent extends React.Component {
         }
     }
 
-    onDocumentLoadSuccess = ({ numPages }) => {
-        this.setPages({ numPages })
-    }
-
     getResumeDisplayComponent = () => {
         if (this.state.uploaded) {
             return (<iframe 
