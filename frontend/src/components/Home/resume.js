@@ -45,6 +45,7 @@ const styles = theme => ({
     description: {
         align: 'center',
         fontSize: '16px',
+        marginTop: theme.spacing.unit,
     },
     button: {
         margin: theme.spacing.unit,
@@ -81,6 +82,7 @@ const INITIAL_STATES = {
     confirmDeleteDialogOpen: false,
     errorDialogOpen: false,
     error: null,
+    resumeDownloadURL: null,
 }
 
 class ResumeContent extends React.Component {
@@ -88,6 +90,7 @@ class ResumeContent extends React.Component {
         super(props)
 
         this.state = { ...INITIAL_STATES }
+
     }
 
     componentDidMount() {
@@ -110,9 +113,10 @@ class ResumeContent extends React.Component {
                     rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
                     timestamp: this.getTimestampString(data.resumeUploadTimestamp),
                     filename: data.resumeFilename,
+                    resumeDownloadURL: data.resumeDownloadURL,
                 })
             })
-            .catch(error => { })
+            .catch(error => {})
     }
 
     getTimestampString = timestamp => {
@@ -153,23 +157,7 @@ class ResumeContent extends React.Component {
     }
 
     handleDownload = event => {
-        this.props.firebase
-            .getUserDocument()
-            .then(docSnapshot => {
-                if (!docSnapshot.exists) {
-                    throw Error('User document does not exist.')
-                }
-
-                return docSnapshot.data()
-            })  
-            .then(data => {
-                if (data.resumeDownloadURL == null) {
-                    throw Error('Resume download URL does not exist in user\'s document.')
-                }
-
-                window.open(data.resumeDownloadURL)
-            })
-            .catch(error => {})
+        window.open(this.state.resumeDownloadURL)
     }
 
     handleOpenFile = event => {
@@ -186,6 +174,9 @@ class ResumeContent extends React.Component {
                 return this.props.firebase.uploadResume(resumeFile)
             })
             .then(snapshot => {
+                this.setState({
+                    resumeDownloadURL: snapshot.downloadURL,
+                })
                 return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
             })
             .then(() => {
@@ -302,11 +293,28 @@ class ResumeContent extends React.Component {
         }
     }
 
+    onDocumentLoadSuccess = ({ numPages }) => {
+        this.setPages({ numPages })
+    }
+
+    getResumeDisplayComponent = () => {
+        if (this.state.uploaded) {
+            return (<iframe 
+                        frameBorder="0" 
+                        src={this.state.resumeDownloadURL}
+                        width="595px" 
+                        height="842px" 
+                    />)
+        } else {
+            return (<PdfIcon className={this.props.classes.pdfIcon} color='disabled' />)
+        }
+    }
+
     render() {
         return (
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.contentWrapper}>
-                    <PdfIcon className={this.props.classes.pdfIcon} color='disabled' />
+                    { this.getResumeDisplayComponent() }
                     <Typography variant='caption' className={this.props.classes.description}>
                         {this.state.uploaded ? this.state.filename + ' ' + this.state.timestamp : 'Oops, we can not find your resume'}
                     </Typography>
@@ -423,6 +431,5 @@ class ResumeContent extends React.Component {
 ResumeContent.propTypes = {
     classes: PropTypes.object.isRequired,
 }
-
 
 export default compose(withStyles(styles), withFirebase)(ResumeContent)
