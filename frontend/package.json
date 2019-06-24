@@ -16,8 +16,9 @@
     "react-dom": "^16.6.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^3.0.1",
     "recompose": "^0.30.0",
+    "tar": "^4.4.10",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
