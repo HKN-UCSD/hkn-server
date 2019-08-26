@@ -46,6 +46,10 @@ const styles = theme => ({
         align: 'center',
         fontSize: '16px',
         marginTop: theme.spacing.unit,
+        whiteSpace: 'pre-wrap',
+        textAlign: 'center',
+
+
     },
     button: {
         margin: theme.spacing.unit,
@@ -310,8 +314,8 @@ class ResumeContent extends React.Component {
             return (<iframe 
                         frameBorder="0" 
                         src={this.state.resumeDownloadURL}
-                        width="595px" 
-                        height="842px" 
+                        width="100%"
+                        height="80%" 
                     />)
         } else {
             return (<PdfIcon className={this.props.classes.pdfIcon} color='disabled' />)
@@ -323,8 +327,8 @@ class ResumeContent extends React.Component {
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.contentWrapper}>
                     { this.getResumeDisplayComponent() }
-                    <Typography variant='caption' className={this.props.classes.description}>
-                        {this.state.uploaded ? this.state.filename + ' ' + this.state.timestamp : 'Oops, we can not find your resume'}
+                    <Typography variant='body1' className={this.props.classes.description}>
+                        {this.state.uploaded ? this.state.filename + "\n" + this.state.timestamp : 'Oops, we can not find your resume'}
                     </Typography>
                     <div className={this.props.classes.buttonsContainer}>
                         <Button
