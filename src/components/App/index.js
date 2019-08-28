@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from "react-router-dom"
-import 'typeface-roboto'
 import SignInPage from '../SignIn'
 import SignUpPage from '../SignUp'
 import HomePage from '../Home'
