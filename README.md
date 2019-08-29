@@ -2,7 +2,8 @@
 
 **Live**: [https://hkn.ucsd.edu/member-portal/](https://hkn.ucsd.edu/member-portal/)
 
-![image](https://user-images.githubusercontent.com/24837420/59990971-24023d80-95fa-11e9-94a5-cfd33a3dea64.png)
+![image](https://user-images.githubusercontent.com/24837420/63902605-29e01a80-c9bf-11e9-8c66-f03b396e119c.png)
+
 ![image](https://user-images.githubusercontent.com/24837420/63902411-5c3d4800-c9be-11e9-9b63-3d686490803a.png)
 
 A member portal for UCSD HKN members to submit their resume and log membership points.
