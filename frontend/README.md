@@ -4,7 +4,7 @@
 
 ![image](https://user-images.githubusercontent.com/24837420/63902605-29e01a80-c9bf-11e9-8c66-f03b396e119c.png)
 
-![image](https://user-images.githubusercontent.com/24837420/63902411-5c3d4800-c9be-11e9-9b63-3d686490803a.png)
+![image](https://user-images.githubusercontent.com/24837420/63902535-f2716e00-c9be-11e9-9995-4f02345d5183.png)
 
 A member portal for UCSD HKN members to submit their resume and log membership points.
 
@@ -15,15 +15,15 @@ A member portal for UCSD HKN members to submit their resume and log membership p
 - [Pre-reqs](#pre-reqs)
 - [Getting Started](#getting-started)
 - [Deploying the app](#deploying-the-app)
-  - [Prerequisites](#prerequisites)
-  - [Set up Firebase CLI](#set-up-firebase-cli)
-  - [Build the app](#build-the-app)
-  - [Deploy](#deploy)
+	- [Prerequisites](#prerequisites)
+	- [Set up Firebase CLI](#set-up-firebase-cli)
+	- [Build the app](#build-the-app)
+	- [Deploy](#deploy)
 - [Project Structure](#project-structure)
 - [Data Protection](#data-protection)
 - [Dependencies](#dependencies)
-  - [`dependencies`](#dependencies)
-  - [`devDependencies`](#devdependencies)
+	- [`dependencies`](#dependencies)
+	- [`devDependencies`](#devdependencies)
 - [License](#license)
 
 # Pre-reqs
