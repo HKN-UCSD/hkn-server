@@ -149,6 +149,7 @@ The full folder structure of this app is explained below:
 | .gitignore                   | Defines files to ignore when pushing commits |
 | CODEOWNERS                   | Defines the code owners who are responsible for code reviews |
 | LICENSE                      | License |
+| firebase.json                | Defines Firebase Hosting configuration | 
 | package-lock.json            | Automatically generated for any operations where npm modifies either the node_modules tree, or package.json |
 | package.json             | File that contains npm dependencies as well as build scripts)                          |
 
