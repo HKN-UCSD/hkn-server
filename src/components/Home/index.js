@@ -27,7 +27,7 @@ import ResumeContent from './resume'
 
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
-import EventsPage from '../Events/events';
+import FBPage from './fbpage';
 
 const drawerWidth = 240
 
@@ -148,8 +148,8 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.RESUME })
     }
 
-    handleEventsPage = event => {
-        this.setState({ currentContent: HOME_CONTENTS.EVENTS});
+    handleFBPage = event => {
+        this.setState({ currentContent: HOME_CONTENTS.FBPAGE});
     }
 
     handleProfile = event => {
@@ -167,8 +167,8 @@ class HomePage extends React.Component {
                 return <ResumeContent />
             // case HOME_CONTENTS.PROFILE:
             //     return <ProfileContent />
-            case HOME_CONTENTS.EVENTS:
-                return <EventsPage />
+            case HOME_CONTENTS.FBPAGE:
+                return <FBPage />
             default:
                 break
         }
@@ -233,7 +233,7 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     <List>
-                        <ListItem button onClick={this.handleEventsPage}>
+                        <ListItem button onClick={this.handleFBPage}>
                             <ListItemIcon>
                                 <EventIcon />
                             </ListItemIcon>
