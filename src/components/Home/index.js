@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
 import SignOutIcon from '@material-ui/icons/ExitToApp'
+import EventIcon from '@material-ui/icons/Event'
 // import ProfileIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -26,6 +27,7 @@ import ResumeContent from './resume'
 
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
+import FBPage from './fbpage';
 
 const drawerWidth = 240
 
@@ -146,6 +148,10 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.RESUME })
     }
 
+    handleFBPage = event => {
+        this.setState({ currentContent: HOME_CONTENTS.FBPAGE});
+    }
+
     handleProfile = event => {
         this.setState({ currentContent: HOME_CONTENTS.PROFILE })
     }
@@ -161,6 +167,8 @@ class HomePage extends React.Component {
                 return <ResumeContent />
             // case HOME_CONTENTS.PROFILE:
             //     return <ProfileContent />
+            case HOME_CONTENTS.FBPAGE:
+                return <FBPage />
             default:
                 break
         }
@@ -221,6 +229,15 @@ class HomePage extends React.Component {
                                 <AttachmentIcon />
                             </ListItemIcon>
                             <ListItemText primary="Resume" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem button onClick={this.handleFBPage}>
+                            <ListItemIcon>
+                                <EventIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Events" />
                         </ListItem>
                     </List>
                     <Divider />
