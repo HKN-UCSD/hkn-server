@@ -20,6 +20,8 @@ class Firebase {
 
         this.auth = app.auth()
         this.storage = app.storage()
+        console.log("this is storage!!")
+        console.log(this.storage)
 
         this.db = app.firestore()
         this.db.settings({timestampsInSnapshots: true})
@@ -52,7 +54,7 @@ class Firebase {
     user = uid => this.db.collection('users').doc(uid)
 
     // Firestore
-    updateResumeFields = (filename, timestamp, downloadURL) => 
+    updateResumeFields = (filename, timestamp, downloadURL) => {
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
              resumeUploadTimestamp: timestamp,
              resumeFilename: filename,
@@ -61,6 +63,7 @@ class Firebase {
     }
 
     getUserDocument = () => {
+        console.log(this.auth.currentUser.uid)
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
@@ -73,7 +76,7 @@ class Firebase {
         
     // Storage
     uploadResume = resumeFile => {
-        return this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFile.name).put(resumeFile)
+        return this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFile.name).put(resumeFile).snapshot
     }
 
     deleteResume = resumeFilename =>

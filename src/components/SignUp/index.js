@@ -187,8 +187,9 @@ class SignUpPage extends React.Component {
     }
 
     handleWhitelistConfirm = event => {
+
         this.handleWhitelistDialogClose()
-        this.handleSignUp()
+        this.handleSignUp(event)
     }
 
     render() {

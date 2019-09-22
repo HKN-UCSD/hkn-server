@@ -111,9 +111,6 @@ class ResumeContent extends React.Component {
                     throw Error('Resume data does not exist.')
                 }
                 
-                let uid = this.props.firebase.auth.currentUser.uid
-                let fileName = data.resumeFilename
-
                 this.setState({
                     uploaded: true,
                     rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
@@ -133,7 +130,7 @@ class ResumeContent extends React.Component {
                     resumeDownloadURL: url,
                 })
             })
-            .catch(error => {})
+            .catch(error => {console.log('ERROR:'+error)})
     }
 
     getTimestampString = timestamp => {
@@ -187,13 +184,17 @@ class ResumeContent extends React.Component {
                 if (!isCorrectSize) {
                     throw Error('File size must be less than or equal to 1 MB.')
                 }
+                console.log(resumeFile)
                 return this.props.firebase.uploadResume(resumeFile)
             })
             .then(snapshot => {
+                return snapshot.ref.getDownloadURL()
+            })
+            .then(downloadUrl => {
                 this.setState({
-                    resumeDownloadURL: snapshot.downloadURL,
+                    resumeDownloadURL: downloadUrl,
                 })
-                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
+                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, downloadUrl)
             })
             .then(() => {
                 if (this.state.uploaded && resumeFile.name !== this.state.filename) {
