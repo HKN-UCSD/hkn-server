@@ -9,7 +9,6 @@
     "classnames": "^2.2.6",
     "csv": "^5.1.2",
     "dotenv": "^6.2.0",
-    "eslint-plugin-react": "^7.14.3",
     "firebase": "^6.4.0",
     "npm-install-all": "^1.1.21",
     "npm-install-missing": "^0.1.4",
@@ -37,5 +36,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-plugin-react": "^7.14.3"
+  }
 }

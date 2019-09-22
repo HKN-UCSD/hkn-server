@@ -104,14 +104,13 @@ class ResumeContent extends React.Component {
                 if (!docSnapshot.exists) {
                     throw Error('User document does not exist.')
                 }
-
                 return docSnapshot.data()
             })
             .then(data => {
                 if (data.resumeUploadTimestamp == null || data.resumeFilename == null) {
                     throw Error('Resume data does not exist.')
                 }
-
+                
                 this.setState({
                     uploaded: true,
                     rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
@@ -120,7 +119,7 @@ class ResumeContent extends React.Component {
                     resumeDownloadURL: data.resumeDownloadURL,
                 })
             })
-            .catch(error => {})
+            .catch(error => {console.log('ERROR:'+error)})
     }
 
     getTimestampString = timestamp => {
@@ -140,16 +139,16 @@ class ResumeContent extends React.Component {
             (date.getSeconds() >= 10 ? date.getSeconds() : '0' + date.getSeconds())
     }
 
-    getRightButtionIcon = () => {
-        switch (this.state.rightButtonAction) {
-            case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
-                return <CloudDownloadIcon className={this.props.classes.rightIcon} />
-            case RIGHT_BUTTON_ACTIONS.UPLOAD:
-                return <CloudUploadIcon className={this.props.classes.rightIcon} />
-            default:
-                return null
-        }
-    }
+    // getRightButtionIcon = () => {
+    //     switch (this.state.rightButtonAction) {
+    //         case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
+    //             return <CloudDownloadIcon className={this.props.classes.rightIcon} />
+    //         case RIGHT_BUTTON_ACTIONS.UPLOAD:
+    //             return <CloudUploadIcon className={this.props.classes.rightIcon} />
+    //         default:
+    //             return null
+    //     }
+    // }
 
     validateFileSize = file =>
         new Promise((resolve, reject) => {
@@ -174,14 +173,17 @@ class ResumeContent extends React.Component {
                 if (!isCorrectSize) {
                     throw Error('File size must be less than or equal to 1 MB.')
                 }
-
+                console.log(resumeFile)
                 return this.props.firebase.uploadResume(resumeFile)
             })
             .then(snapshot => {
+                return snapshot.ref.getDownloadURL()
+            })
+            .then(downloadUrl => {
                 this.setState({
-                    resumeDownloadURL: snapshot.downloadURL,
+                    resumeDownloadURL: downloadUrl,
                 })
-                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, snapshot.downloadURL)
+                return this.props.firebase.updateResumeFields(resumeFile.name, timestamp, downloadUrl)
             })
             .then(() => {
                 if (this.state.uploaded && resumeFile.name !== this.state.filename) {
