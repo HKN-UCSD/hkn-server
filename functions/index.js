@@ -474,6 +474,7 @@ exports.onDeleteUser = functions.auth.user().onDelete((user) => {
     return db.collection('users').doc(user.uid).delete()
         .then(() => {
             console.log("Successfully removed user's data.");
+            return 0;
         })
         .catch(error => {
             console.log(error);
