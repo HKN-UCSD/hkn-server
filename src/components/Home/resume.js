@@ -111,12 +111,28 @@ class ResumeContent extends React.Component {
                     throw Error('Resume data does not exist.')
                 }
                 
+                let uid = this.props.firebase.auth.currentUser.uid
+                let fileName = data.resumeFilename
+
                 this.setState({
                     uploaded: true,
                     rightButtonAction: RIGHT_BUTTON_ACTIONS.DOWNLOAD,
                     timestamp: this.getTimestampString(data.resumeUploadTimestamp),
                     filename: data.resumeFilename,
-                    resumeDownloadURL: data.resumeDownloadURL,
+                })
+                
+                let path = 'users/'+uid+'/resume/'+fileName
+                
+                console.log(path)
+
+                let fileRef = this.props.firebase.storage.ref(path);
+
+                return fileRef.getDownloadURL()
+            })
+            .then(url => {
+                console.log(url)
+                this.setState({
+                    resumeDownloadURL: url,
                 })
                 
                 let path = 'users/'+uid+'/resume/'+fileName
@@ -184,7 +200,6 @@ class ResumeContent extends React.Component {
                 if (!isCorrectSize) {
                     throw Error('File size must be less than or equal to 1 MB.')
                 }
-                console.log(resumeFile)
                 return this.props.firebase.uploadResume(resumeFile)
             })
             .then(snapshot => {
