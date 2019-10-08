@@ -8,7 +8,6 @@
     "@material/layout-grid": "^0.41.0",
     "classnames": "^2.2.6",
     "dotenv": "^6.2.0",
-    "eslint-plugin-react": "^7.14.3",
     "firebase": "^6.4.0",
     "firebase-functions": "^3.2.0",
     "firebase-tools": "^7.3.0",
@@ -33,5 +32,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-plugin-react": "^7.14.3"
+  }
 }
