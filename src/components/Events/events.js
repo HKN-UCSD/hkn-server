@@ -3,8 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
-    width: 'auto',
+    width: "100%",
     display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -16,8 +18,14 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: theme.spacing.unit * 9,
-    display: 'flex',
-    flexDirection: 'column',
+    // display: 'flex',
+    // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    //   flexDirection: 'row',
+    // },
+    // [theme.breakpoints.down(theme.breakpoints.values.md)]: {
+    //   flexDirection: 'column',
+    // },
+    // flexDirection:'row',
     alignItems: 'center',
     height: "100vh",
   }
@@ -28,7 +36,7 @@ const INITIAL_STATE = {
   height: 1000
 }
 
-class FBPage extends React.Component {
+class EventsPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -65,8 +73,14 @@ class FBPage extends React.Component {
     }
 
     getPagePluginURL = () => {
-      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=timeline,events" +
-        "&width=" + this.state.width + "&height=" + this.state.height + "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId";
+      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events,timeline" +
+        "&width=" + this.state.width + "&height=" + this.state.height + 
+        "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId";
+    }
+
+
+    getCalendarPluginURL = () => {
+      return "https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles"
     }
 
     render() {
@@ -80,11 +94,23 @@ class FBPage extends React.Component {
               height={this.state.height}
               frameBorder="0"
               allow="encrypted-media"
+              overflow-x="visible"
             >
             </iframe>
+
+            <iframe 
+              title="hkn-google-cal"
+              className={this.props.classes.contentWrapper}
+              src={this.getCalendarPluginURL()}
+              width={this.state.width}
+              height={this.state.height}
+              frameBorder="0"
+              allow="encrypted-media"
+              >
+              </iframe> 
           </div>
         );
       }
 }
 
-export default withStyles(styles)(FBPage);
+export default withStyles(styles)(EventsPage);

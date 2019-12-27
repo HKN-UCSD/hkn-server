@@ -20,11 +20,10 @@ class Firebase {
 
         this.auth = app.auth()
         this.storage = app.storage()
-        console.log("this is storage!!")
-        console.log(this.storage)
+        // console.log(this.storage)
 
         this.db = app.firestore()
-        this.db.settings({timestampsInSnapshots: true})
+        // this.db.settings({timestampsInSnapshots: true})
     }
 
     // Auth API
@@ -63,7 +62,6 @@ class Firebase {
     }
 
     getUserDocument = () => {
-        console.log(this.auth.currentUser.uid)
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
@@ -82,6 +80,7 @@ class Firebase {
     deleteResume = resumeFilename =>
         this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFilename)
         .delete()
+    
 }
 
 export default Firebase
