@@ -122,15 +122,12 @@ class ResumeContent extends React.Component {
                 })
                 
                 let path = 'users/'+uid+'/resume/'+fileName
-                
-                console.log(path)
 
                 let fileRef = this.props.firebase.storage.ref(path);
 
                 return fileRef.getDownloadURL()
             })
             .then(url => {
-                console.log(url)
                 this.setState({
                     resumeDownloadURL: url,
                 })
