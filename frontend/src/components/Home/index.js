@@ -117,7 +117,10 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = { ...INITIAL_STATES }
+        this.state = { 
+            inducteePoints: [],
+            ...INITIAL_STATES
+        }
     }
 
     componentDidMount() {
@@ -130,6 +133,16 @@ class HomePage extends React.Component {
                 })
             }
         })
+        this.props.firebase.getInducteePoints()
+            .then(query => {
+                let pointsList = []
+                query.docs.forEach(doc => pointsList.push({
+                    name: doc.data().event_name,
+                    value: doc.data().value,
+                }))
+                return pointsList
+            })
+            .then(pointsList => this.setState({inducteePoints: pointsList}))
     }
 
     componentWillUnmount() {
@@ -258,6 +271,12 @@ class HomePage extends React.Component {
                 </Drawer>
                 <main className={this.props.classes.content}>
                     {this.getCurrentContent()}
+                    <div>
+                        <h2>Events | Points</h2>
+                        {this.state.inducteePoints.map((event, key) => {
+                            return <li key={key}>{event.name} | {event.value}</li>
+                        })}
+                    </div>
                 </main>
             </div>
         )

@@ -65,6 +65,11 @@ class Firebase {
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
+    getInducteePoints = () => {
+        const eventPoints = this.db.collection('pointReward')
+        return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
+    }
+
     removeResumeFields = () => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
             resumeFilename: firebase.firestore.FieldValue.delete(),
