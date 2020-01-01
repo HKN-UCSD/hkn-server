@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import EventIcon from '@material-ui/icons/Event'
+import LocalAtmIcon from '@material-ui/icons/LocalAtm'
 // import ProfileIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -28,6 +29,7 @@ import ResumeContent from './resume'
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
 import EventsPage from '../Events/events';
+import PointsPage from '../Points'
 
 const drawerWidth = 240
 
@@ -118,7 +120,6 @@ class HomePage extends React.Component {
         super(props)
 
         this.state = { 
-            inducteePoints: [],
             ...INITIAL_STATES
         }
     }
@@ -133,16 +134,6 @@ class HomePage extends React.Component {
                 })
             }
         })
-        this.props.firebase.getInducteePoints()
-            .then(query => {
-                let pointsList = []
-                query.docs.forEach(doc => pointsList.push({
-                    name: doc.data().event_name,
-                    value: doc.data().value,
-                }))
-                return pointsList
-            })
-            .then(pointsList => this.setState({inducteePoints: pointsList}))
     }
 
     componentWillUnmount() {
@@ -165,6 +156,10 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.EVENTS});
     }
 
+    handlePointsPage = event => {
+        this.setState({ currentContent: HOME_CONTENTS.POINTS })
+    }
+
     handleProfile = event => {
         this.setState({ currentContent: HOME_CONTENTS.PROFILE })
     }
@@ -180,6 +175,8 @@ class HomePage extends React.Component {
                 return <ResumeContent />
             // case HOME_CONTENTS.PROFILE:
             //     return <ProfileContent />
+            case HOME_CONTENTS.POINTS:
+                return <PointsPage />
             case HOME_CONTENTS.EVENTS:
                 return <EventsPage />
             default:
@@ -255,6 +252,15 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     <List>
+                        <ListItem button onClick={this.handlePointsPage}>
+                            <ListItemIcon>
+                                <LocalAtmIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Points" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
                         {/* <ListItem button onClick={this.handleProfile}>
                             <ListItemIcon>
                                 <ProfileIcon />
@@ -271,12 +277,6 @@ class HomePage extends React.Component {
                 </Drawer>
                 <main className={this.props.classes.content}>
                     {this.getCurrentContent()}
-                    <div>
-                        <h2>Events | Points</h2>
-                        {this.state.inducteePoints.map((event, key) => {
-                            return <li key={key}>{event.name} | {event.value}</li>
-                        })}
-                    </div>
                 </main>
             </div>
         )

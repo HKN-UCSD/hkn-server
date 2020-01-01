@@ -67,7 +67,9 @@ class Firebase {
 
     getInducteePoints = () => {
         const eventPoints = this.db.collection('pointReward')
-        return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
+        if(this.auth.currentUser){
+            return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
+        }
     }
 
     removeResumeFields = () => 
