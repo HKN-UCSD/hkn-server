@@ -65,7 +65,7 @@ class Firebase {
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
-    getInducteePoints = () => {
+    getPoints = () => {
         const eventPoints = this.db.collection('pointReward')
         if(this.auth.currentUser){
             return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()

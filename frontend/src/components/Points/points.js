@@ -28,27 +28,70 @@ const styles = theme => ({
 
 const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+const USER_ROLES = {
+  OFFICER: "RbQcVZL6tecYq5LYvA08",
+  INDUCTEE: "a1G5wSOZj20lDegYgZ7j",
+  MEMBER: "ubFvj44iC8VW9GMzw3Ve",
+}
+
+const POINT_TYPE = {
+  INDUCTION: "b85kyjLwub4Iwd15jwGy",
+  MEMBER: "cvLqo2kBI3ve81buqsTQ",
+}
+
 class PointsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { inducteePoints: [] };
+    this.state = {
+      userRole: "",
+      inducteePoints: [],
+      memberPoints: [],
+    };
   }
 
   componentDidMount() {
-    this.props.firebase.getInducteePoints()
+    this.props.firebase.getUserDocument()
+      .then(docSnapshot => {
+        if (!docSnapshot.exists) {
+          throw Error('User document does not exist.')
+        }
+        return docSnapshot.data()
+      })
+      .then(data => { this.setState({ userRole: data.role_id }) })
+
+    this.props.firebase.getPoints()
       .then(query => {
-        let pointsList = []
+        const pointsList = {
+          inducteePointsList: [],
+          memberPointsList: [],
+        }
         query.docs.forEach(doc => {
-          pointsList.push({
-            event_name: doc.data().event_name,
-            date: new Date(doc.data().created.seconds * 1000),
-            value: doc.data().value,
-          })
+          const data = doc.data();
+          if (data.pointrewardtype_id === POINT_TYPE.INDUCTION) {
+            pointsList.inducteePointsList.push({
+              event_name: data.event_name,
+              date: new Date(data.created.seconds * 1000),
+              value: data.value,
+              officer: data.officer_name,
+            })
+          } else {
+            pointsList.memberPointsList.push({
+              event_name: data.event_name,
+              date: new Date(data.created.seconds * 1000),
+              value: data.value,
+              officer: data.officer_name,
+            })
+          }
         })
         return pointsList
       })
-      .then(pointsList => this.setState({ inducteePoints: pointsList }))
+      .then(pointsList => {
+        this.setState({
+          inducteePoints: pointsList.inducteePointsList,
+          memberPoints: pointsList.memberPointsList,
+        })
+      })
   }
 
 
@@ -56,9 +99,14 @@ class PointsPage extends React.Component {
     return (
       <div className={this.props.classes.root}>
         <div className={this.props.classes.contentWrapper}>
-          <h2>Events | Date | Points</h2>
+          <h2>(Inductee) Events | Date | Officer | Points</h2>
           {this.state.inducteePoints.map((event, key) => {
-            return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.value}</li>
+            return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
+          })}
+
+          <h2>(Member) Events | Date | Officer | Points</h2>
+          {this.state.memberPoints.map((event, key) => {
+            return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
           })}
         </div>
       </div>
