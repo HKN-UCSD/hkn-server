@@ -3,6 +3,9 @@ import { withStyles } from '@material-ui/core/styles'
 import { withFirebase } from '../Firebase'
 import { compose } from 'recompose'
 
+import { USER_ROLES } from '../../constants/roles'
+import { POINT_TYPE } from '../../constants/pointtype'
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -27,17 +30,6 @@ const styles = theme => ({
 })
 
 const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-const USER_ROLES = {
-  OFFICER: "RbQcVZL6tecYq5LYvA08",
-  INDUCTEE: "a1G5wSOZj20lDegYgZ7j",
-  MEMBER: "ubFvj44iC8VW9GMzw3Ve",
-}
-
-const POINT_TYPE = {
-  INDUCTION: "b85kyjLwub4Iwd15jwGy",
-  MEMBER: "cvLqo2kBI3ve81buqsTQ",
-}
 
 class PointsPage extends React.Component {
   constructor(props) {
@@ -104,10 +96,13 @@ class PointsPage extends React.Component {
             return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
           })}
 
-          <h2>(Member) Events | Date | Officer | Points</h2>
-          {this.state.memberPoints.map((event, key) => {
-            return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
-          })}
+          {this.state.userRole === USER_ROLES.MEMBER || this.state.userRole === USER_ROLES.OFFICER ?
+            <div>
+              <h2>(Member) Events | Date | Officer | Points</h2>
+              {this.state.memberPoints.map((event, key) => {
+                return <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
+              })}
+            </div> : null}
         </div>
       </div>
     );
