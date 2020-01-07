@@ -73,7 +73,7 @@ class EventsPage extends React.Component {
     }
 
     getPagePluginURL = () => {
-      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events,timeline" +
+      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events" +
         "&width=" + this.state.width + "&height=" + this.state.height + 
         "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId";
     }
