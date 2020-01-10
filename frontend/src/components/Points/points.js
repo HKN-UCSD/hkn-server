@@ -143,14 +143,75 @@ class PointsPage extends React.Component {
           {this.state.userRole === USER_ROLES.MEMBER || this.state.userRole === USER_ROLES.OFFICER ?
             <div>
               <h2>Member Points</h2>
-              <Grid container spacing={16}>
-                {this.state.memberPoints.map((event, key) => {
-                  return <Grid item xs={3} key={key}>
+              <h3> Total Member Points: {this.state.totalPoints.member}</h3>
+
+              {this.state.memberPoints.length > 0 ?
+                <Grid container spacing={16}>
+                  {this.state.memberPoints.map((event, key) => {
+                    return <Grid item xs={3} key={key}>
+                      <Card className={this.props.classes.card}>
+                        <CardContent>
+                          <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
+                            Member Points
+                        </Typography>
+                          <Typography variant="h5" component="h2">
+                            {event.event_name}
+                          </Typography>
+                          <Typography className={this.props.classes.pos} color="textSecondary">
+                            {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
+                          </Typography>
+                          <Typography variant="body2" component="p">
+                            {`Officer: ${event.officer}`}
+                            <br />
+                            {`Points: ${event.value}`}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  })}
+                </Grid> : <div>None</div>}
+
+              <h3>Mentor Points</h3>
+              {this.state.memberMentorPoints.length > 0 ?
+                <Grid container spacing={16}>
+                  {this.state.memberMentorPoints.map((event, key) => {
+                    return <Card className={this.props.classes.card}>
+                      <CardContent>
+                        <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
+                          Mentor Points
+                          </Typography>
+                        <Typography variant="h5" component="h2">
+                          {event.event_name}
+                        </Typography>
+                        <Typography className={this.props.classes.pos} color="textSecondary">
+                          {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                          {`Officer: ${event.officer}`}
+                          <br />
+                          {`Points: ${event.value}`}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  })}
+                </Grid> : <div>None</div>}
+            </div> : null}
+
+          <br />
+          <Divider />
+
+          <h2>Inductee Points</h2>
+          <h3> Total Inductee Points: {this.state.totalPoints.induction}</h3>
+          {this.state.inducteePoints.length > 0 ?
+            <Grid container spacing={16}>
+              {this.state.inducteePoints.map((event, key) => {
+                return (
+                  <Grid item xs={3} key={key}>
                     <Card className={this.props.classes.card}>
                       <CardContent>
                         <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                          Member Point
-                        </Typography>
+                          Inductee Points
+                      </Typography>
                         <Typography variant="h5" component="h2">
                           {event.event_name}
                         </Typography>
@@ -165,95 +226,38 @@ class PointsPage extends React.Component {
                       </CardContent>
                     </Card>
                   </Grid>
-                })}
-              </Grid>
+                )
+              })}
+            </Grid> : <div>None</div>}
 
-              <h3>Mentor Points</h3>
-              <Grid container spacing={16}>
-                {this.state.memberMentorPoints.map((event, key) => {
-                  return <Card className={this.props.classes.card}>
-                    <CardContent>
-                      <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                        Mentor Point
-                      </Typography>
-                      <Typography variant="h5" component="h2">
-                        {event.event_name}
-                      </Typography>
-                      <Typography className={this.props.classes.pos} color="textSecondary">
-                        {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        {`Officer: ${event.officer}`}
-                        <br />
-                        {`Points: ${event.value}`}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                })}
-              </Grid>
-            </div> : null}
-          <h3> Total Member Points: {this.state.totalPoints.member}</h3>
-
-          <Divider />
-
-          <h2>Inductee Points</h2>
-          <Grid container spacing={16}>
-            {this.state.inducteePoints.map((event, key) => {
-              return (
-                <Grid item xs={3} key={key}>
-                  <Card className={this.props.classes.card}>
-                    <CardContent>
-                      <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                        Inductee Point
-                      </Typography>
-                      <Typography variant="h5" component="h2">
-                        {event.event_name}
-                      </Typography>
-                      <Typography className={this.props.classes.pos} color="textSecondary">
-                        {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        {`Officer: ${event.officer}`}
-                        <br />
-                        {`Points: ${event.value}`}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                // <li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
-              )
-            })}
-          </Grid>
           <h3>Mentor Points</h3>
-          <Grid container spacing={16}>
-            {this.state.inducteeMentorPoints.map((event, key) => {
-              return (
-                <Grid item xs={3} key={key}>
-                  <Card className={this.props.classes.card}>
-                    <CardContent>
-                      <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                        Mentor Point
+          {this.state.inducteeMentorPoints.length > 0 ?
+            <Grid container spacing={16}>
+              {this.state.inducteeMentorPoints.map((event, key) => {
+                return (
+                  <Grid item xs={3} key={key}>
+                    <Card className={this.props.classes.card}>
+                      <CardContent>
+                        <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
+                          Mentor Points
                       </Typography>
-                      <Typography variant="h5" component="h2">
-                        {event.event_name}
-                      </Typography>
-                      <Typography className={this.props.classes.pos} color="textSecondary">
-                        {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                      </Typography>
-                      <Typography variant="body2" component="p">
-                        {`Officer: ${event.officer}`}
-                        <br />
-                        {`Points: ${event.value}`}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                //<li key={key}>{event.event_name} | {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`} | {event.officer} | {event.value}</li>
-              )
-            })}
-          </Grid>
-
-          <h3> Total Inductee Points: {this.state.totalPoints.induction}</h3>
+                        <Typography variant="h5" component="h2">
+                          {event.event_name}
+                        </Typography>
+                        <Typography className={this.props.classes.pos} color="textSecondary">
+                          {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                          {`Officer: ${event.officer}`}
+                          <br />
+                          {`Points: ${event.value}`}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )
+              })}
+            </Grid> : <div>None</div>}
         </div>
       </div>
     );
