@@ -51,6 +51,8 @@ class PointsPage extends React.Component {
 
     this.state = {
       userRole: "",
+      mentorship: false,
+      professional: false,
       inducteePoints: [],
       inducteeMentorPoints: [],
       memberPoints: [],
@@ -70,7 +72,13 @@ class PointsPage extends React.Component {
         }
         return docSnapshot.data()
       })
-      .then(data => { this.setState({ userRole: data.role_id }) })
+      .then(data => {
+        this.setState({
+          userRole: data.role_id,
+          mentorship: data.mentorship,
+          professional: data.professional
+        })
+      })
 
     this.props.firebase.getPoints()
       .then(query => {
@@ -143,7 +151,9 @@ class PointsPage extends React.Component {
           {this.state.userRole === USER_ROLES.MEMBER || this.state.userRole === USER_ROLES.OFFICER ?
             <div>
               <h2>Member Points</h2>
-              <h3> Total Member Points: {this.state.totalPoints.member}</h3>
+              <Grid container spacing={24}>
+                <Grid item><h3>Total Member Points: {this.state.totalPoints.member}</h3></Grid>
+              </Grid>
 
               {this.state.memberPoints.length > 0 ?
                 <Grid container spacing={16}>
@@ -151,9 +161,6 @@ class PointsPage extends React.Component {
                     return <Grid item xs={3} key={key}>
                       <Card className={this.props.classes.card}>
                         <CardContent>
-                          <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                            Member Points
-                        </Typography>
                           <Typography variant="h5" component="h2">
                             {event.event_name}
                           </Typography>
@@ -177,9 +184,6 @@ class PointsPage extends React.Component {
                   {this.state.memberMentorPoints.map((event, key) => {
                     return <Card className={this.props.classes.card}>
                       <CardContent>
-                        <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                          Mentor Points
-                          </Typography>
                         <Typography variant="h5" component="h2">
                           {event.event_name}
                         </Typography>
@@ -195,13 +199,16 @@ class PointsPage extends React.Component {
                     </Card>
                   })}
                 </Grid> : <div>None</div>}
+              <br />
+              <Divider />
             </div> : null}
 
-          <br />
-          <Divider />
-
           <h2>Inductee Points</h2>
-          <h3> Total Inductee Points: {this.state.totalPoints.induction}</h3>
+          <Grid container spacing={24}>
+            <Grid item><h3>Total Inductee Points: {this.state.totalPoints.induction}</h3></Grid>
+            <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
+            <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
+          </Grid>
           {this.state.inducteePoints.length > 0 ?
             <Grid container spacing={16}>
               {this.state.inducteePoints.map((event, key) => {
@@ -209,9 +216,6 @@ class PointsPage extends React.Component {
                   <Grid item xs={3} key={key}>
                     <Card className={this.props.classes.card}>
                       <CardContent>
-                        <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                          Inductee Points
-                      </Typography>
                         <Typography variant="h5" component="h2">
                           {event.event_name}
                         </Typography>
@@ -238,9 +242,6 @@ class PointsPage extends React.Component {
                   <Grid item xs={3} key={key}>
                     <Card className={this.props.classes.card}>
                       <CardContent>
-                        <Typography className={this.props.classes.title} color="textSecondary" gutterBottom>
-                          Mentor Points
-                      </Typography>
                         <Typography variant="h5" component="h2">
                           {event.event_name}
                         </Typography>
