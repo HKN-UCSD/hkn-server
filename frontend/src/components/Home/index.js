@@ -201,7 +201,7 @@ class HomePage extends React.Component {
                             noWrap
                             className={this.props.classes.title}
                         >
-                            HKN Member Portal
+                            HKN Portal
                     </Typography>
                         {/* <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
@@ -237,7 +237,7 @@ class HomePage extends React.Component {
                             <ListItemIcon>
                                 <EventIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Events" />
+                            <ListItemText primary="Get Involved" />
                         </ListItem>
                     </List>
                     <Divider />
