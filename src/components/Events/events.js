@@ -1,5 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
+
+import EventButtons from './eventButtons';
 
 const styles = theme => ({
   root: {
@@ -33,7 +37,9 @@ const styles = theme => ({
 
 const INITIAL_STATE = {
   width: 500,
-  height: 1000
+  height: 1000,
+  userRole: "None",
+  buttons: null
 }
 
 class EventsPage extends React.Component {
@@ -42,6 +48,7 @@ class EventsPage extends React.Component {
 
         this.state = {...INITIAL_STATE};
         this.resizeFB = this.resizeFB.bind(this);
+        this.checkIfInductee();
     }
 
     componentDidMount() {
@@ -83,34 +90,81 @@ class EventsPage extends React.Component {
       return "https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles"
     }
 
+    queryCurrentUserRole() {
+        return this.props.firebase
+            .getUserDocument()
+            .then(docSnapshot => {
+                return docSnapshot.data()
+            })
+            .then(data => {
+                return data.role_id;
+            })
+            .then(roleID => {
+                this.setState({
+                    userRole: roleID
+                })
+            })
+            .catch(error => {console.log('ERROR:'+error)})
+    }
+
+    checkIfInductee() {
+        this.queryCurrentUserRole()
+            .then(() => {
+              this.props.firebase.db
+              .collection('roles')
+              .doc(this.state.userRole)
+              .get()
+              .then(docSnapshot => {
+                  return docSnapshot.data()
+              })
+              .then(data => {
+                  return data.value
+              })
+              .then(roleValue => {
+                  if(roleValue !== "Inductee") {
+                      this.setState({
+                          buttons: <EventButtons />
+                      })
+                  }
+              })
+              .catch(error => {console.log('ERROR:'+error)})
+            })
+    }
+
     render() {
         return (
-          <div className={this.props.classes.root}>
-            <iframe
-              title="hkn-ucsd-fb"
-              className={this.props.classes.contentWrapper}
-              src={this.getPagePluginURL()}
-              width={this.state.width}
-              height={this.state.height}
-              frameBorder="0"
-              allow="encrypted-media"
-              overflow-x="visible"
-            >
-            </iframe>
+          <div>
+            <div>
+              {this.state.buttons}
+            </div>
 
-            <iframe 
-              title="hkn-google-cal"
-              className={this.props.classes.contentWrapper}
-              src={this.getCalendarPluginURL()}
-              width={this.state.width}
-              height={this.state.height}
-              frameBorder="0"
-              allow="encrypted-media"
-              >
+            <div className={this.props.classes.root}>
+              <iframe
+                title="hkn-ucsd-fb"
+                className={this.props.classes.contentWrapper}
+                src={this.getPagePluginURL()}
+                width={this.state.width}
+                height={this.state.height}
+                frameBorder="0"
+                allow="encrypted-media"
+                overflow-x="visible"
+                >
+              </iframe>
+
+              <iframe 
+                title="hkn-google-cal"
+                className={this.props.classes.contentWrapper}
+                src={this.getCalendarPluginURL()}
+                width={this.state.width}
+                height={this.state.height}
+                frameBorder="0"
+                allow="encrypted-media"
+                >
               </iframe> 
+            </div>
           </div>
         );
       }
 }
 
-export default withStyles(styles)(EventsPage);
+export default compose(withStyles(styles), withFirebase)(EventsPage);
