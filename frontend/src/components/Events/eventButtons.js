@@ -36,7 +36,7 @@ class EventButtons extends React.Component {
                 size="large"
                 href="https://docs.google.com/forms/d/e/1FAIpQLSdRBwB-C7vY1803_Om3kiCJgzoMEam0-mmrGUdN1GIqFfKfYw/viewform"
                 target="_blank"
-                rel="noopene noreferrer"
+                rel="noopener noreferrer"
               >
                 Sign-Up Form
               </Button>
@@ -50,7 +50,7 @@ class EventButtons extends React.Component {
                 size="large"
                 href="https://docs.google.com/forms/d/e/1FAIpQLScLteJQRgfgxRoskQ17I1KElXoxatp_AZZg-kkgqAgc2HnBaA/closedform"
                 target="_blank"
-                rel="noopene noreferrer"
+                rel="noopener noreferrer"
               >
                 Sign-Up Form
               </Button>
