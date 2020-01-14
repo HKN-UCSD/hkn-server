@@ -67,11 +67,34 @@ class Firebase {
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
-    getPoints = () => {
-        const eventPoints = this.db.collection('pointReward')
-        if(this.auth.currentUser){
-            return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
-        }
+    getUserRoleID = () => {
+        return this.getUserDocument()
+                   .then(docSnapshot => {
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       return data.role_id
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    getRoleFromID = (roleID) => {
+        return this.db.collection('roles').doc(roleID).get()
+                   .then(docSnapshot => {
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       return data.value
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    queryCurrentUserRole = () => {
+        return this.getUserRoleID()
+               .then(roleID => {
+                   return this.getRoleFromID(roleID)
+               })
+               .catch(error => {console.log('ERROR: ' + error)})
     }
 
     removeResumeFields = () => 

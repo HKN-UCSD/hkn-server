@@ -38,7 +38,6 @@ const styles = theme => ({
 const INITIAL_STATE = {
   width: 500,
   height: 1000,
-  userRole: "None",
   buttons: null
 }
 
@@ -90,45 +89,16 @@ class EventsPage extends React.Component {
       return "https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles"
     }
 
-    queryCurrentUserRole() {
-        return this.props.firebase
-            .getUserDocument()
-            .then(docSnapshot => {
-                return docSnapshot.data()
-            })
-            .then(data => {
-                return data.role_id;
-            })
-            .then(roleID => {
-                this.setState({
-                    userRole: roleID
-                })
-            })
-            .catch(error => {console.log('ERROR:'+error)})
-    }
-
     checkIfInductee() {
-        this.queryCurrentUserRole()
-            .then(() => {
-              this.props.firebase.db
-              .collection('roles')
-              .doc(this.state.userRole)
-              .get()
-              .then(docSnapshot => {
-                  return docSnapshot.data()
-              })
-              .then(data => {
-                  return data.value
-              })
-              .then(roleValue => {
-                  if(roleValue !== "Inductee") {
-                      this.setState({
-                          buttons: <EventButtons />
-                      })
-                  }
-              })
-              .catch(error => {console.log('ERROR:'+error)})
-            })
+      this.props.firebase.queryCurrentUserRole()
+          .then(role => {
+              if(role !== "Inductee") {
+                  this.setState({
+                      buttons: <EventButtons/>
+                  })
+              }            
+          })
+          .catch(error => {console.log('ERROR: ' + error)})
     }
 
     render() {
