@@ -68,20 +68,35 @@ class Firebase {
     getUserRoleID = () => {
         return this.getUserDocument()
                    .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('User document does not exist.')
+                        }
+
                        return docSnapshot.data()
                    })
                    .then(data => {
+                        if(data.role_id == null) {
+                            throw Error('Role ID of user does not exist.')
+                        }
+
                        return data.role_id
                    })
-                   .catch(error => {console.log('ERROR: ' + error)})
+                   .catch(error => {console.log('ERROR:' + error)})
     }
 
     getRoleFromID = (roleID) => {
         return this.db.collection('roles').doc(roleID).get()
                    .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('Role document does not exist.')
+                        }
+
                        return docSnapshot.data()
                    })
                    .then(data => {
+                       if(data.value == null) {
+                           throw Error('Name of role does not exist.')
+                       }
                        return data.value
                    })
                    .catch(error => {console.log('ERROR: ' + error)})

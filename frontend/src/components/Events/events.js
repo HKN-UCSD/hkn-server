@@ -92,7 +92,7 @@ class EventsPage extends React.Component {
     checkIfInductee() {
       this.props.firebase.queryCurrentUserRole()
           .then(role => {
-              if(role !== "Inductee") {
+              if(role !== undefined && role !== "Inductee") {
                   this.setState({
                       buttons: <EventButtons/>
                   })
