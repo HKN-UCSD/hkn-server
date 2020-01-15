@@ -81,7 +81,7 @@ class Firebase {
 
                        return data.role_id
                    })
-                   .catch(error => {console.log('ERROR:' + error)})
+                   .catch(error => {console.log('ERROR: ' + error)})
     }
 
     getRoleFromID = (roleID) => {
@@ -105,6 +105,9 @@ class Firebase {
     queryCurrentUserRole = () => {
         return this.getUserRoleID()
                .then(roleID => {
+                   if(roleID === null || roleID === undefined) {
+                       throw Error("User does not have Role");
+                   }
                    return this.getRoleFromID(roleID)
                })
                .catch(error => {console.log('ERROR: ' + error)})
