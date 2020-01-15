@@ -240,7 +240,7 @@ class SignInPage extends React.Component {
                 <Paper className={this.props.classes.paper}>
                     <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-trident.png')} />
                     <Typography component="h1" variant="h5">
-                        Member Portal Login
+                        HKN Portal Login
                     </Typography>
                     <form className={this.props.classes.form} onSubmit={this.handleSignIn}>
                         <FormControl margin="normal" required fullWidth>
