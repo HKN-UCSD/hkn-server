@@ -1,5 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
+
+import EventButtons from './eventButtons';
 
 const styles = theme => ({
   root: {
@@ -33,7 +37,8 @@ const styles = theme => ({
 
 const INITIAL_STATE = {
   width: 500,
-  height: 1000
+  height: 1000,
+  buttons: null
 }
 
 class EventsPage extends React.Component {
@@ -42,6 +47,7 @@ class EventsPage extends React.Component {
 
         this.state = {...INITIAL_STATE};
         this.resizeFB = this.resizeFB.bind(this);
+        this.checkIfInductee();
     }
 
     componentDidMount() {
@@ -73,7 +79,7 @@ class EventsPage extends React.Component {
     }
 
     getPagePluginURL = () => {
-      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events,timeline" +
+      return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events" +
         "&width=" + this.state.width + "&height=" + this.state.height + 
         "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId";
     }
@@ -83,34 +89,52 @@ class EventsPage extends React.Component {
       return "https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles"
     }
 
+    checkIfInductee() {
+      this.props.firebase.queryCurrentUserRole()
+          .then(role => {
+              if(role !== undefined && role !== "Inductee") {
+                  this.setState({
+                      buttons: <EventButtons/>
+                  })
+              }            
+          })
+          .catch(error => {console.log('ERROR: ' + error)})
+    }
+
     render() {
         return (
-          <div className={this.props.classes.root}>
-            <iframe
-              title="hkn-ucsd-fb"
-              className={this.props.classes.contentWrapper}
-              src={this.getPagePluginURL()}
-              width={this.state.width}
-              height={this.state.height}
-              frameBorder="0"
-              allow="encrypted-media"
-              overflow-x="visible"
-            >
-            </iframe>
+          <div>
+            <div>
+              {this.state.buttons}
+            </div>
 
-            <iframe 
-              title="hkn-google-cal"
-              className={this.props.classes.contentWrapper}
-              src={this.getCalendarPluginURL()}
-              width={this.state.width}
-              height={this.state.height}
-              frameBorder="0"
-              allow="encrypted-media"
-              >
+            <div className={this.props.classes.root}>
+              <iframe
+                title="hkn-ucsd-fb"
+                className={this.props.classes.contentWrapper}
+                src={this.getPagePluginURL()}
+                width={this.state.width}
+                height={this.state.height}
+                frameBorder="0"
+                allow="encrypted-media"
+                overflow-x="visible"
+                >
+              </iframe>
+
+              <iframe 
+                title="hkn-google-cal"
+                className={this.props.classes.contentWrapper}
+                src={this.getCalendarPluginURL()}
+                width={this.state.width}
+                height={this.state.height}
+                frameBorder="0"
+                allow="encrypted-media"
+                >
               </iframe> 
+            </div>
           </div>
         );
       }
 }
 
-export default withStyles(styles)(EventsPage);
+export default compose(withStyles(styles), withFirebase)(EventsPage);

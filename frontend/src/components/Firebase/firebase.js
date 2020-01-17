@@ -71,6 +71,54 @@ class Firebase {
             return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
         }
     }
+    
+    getUserRoleID = () => {
+        return this.getUserDocument()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('User document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                        if(data.role_id == null) {
+                            throw Error('Role ID of user does not exist.')
+                        }
+
+                       return data.role_id
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    getRoleFromID = (roleID) => {
+        return this.db.collection('roles').doc(roleID).get()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('Role document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       if(data.value == null) {
+                           throw Error('Name of role does not exist.')
+                       }
+                       return data.value
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    queryCurrentUserRole = () => {
+        return this.getUserRoleID()
+               .then(roleID => {
+                   if(roleID === null || roleID === undefined) {
+                       throw Error("User does not have Role");
+                   }
+                   return this.getRoleFromID(roleID)
+               })
+               .catch(error => {console.log('ERROR: ' + error)})
+    }
 
     removeResumeFields = () => 
         this.db.collection('users').doc(this.auth.currentUser.uid).update({
