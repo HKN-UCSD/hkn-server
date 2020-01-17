@@ -53,6 +53,21 @@ class Firebase {
     // User
     user = uid => this.db.collection('users').doc(uid)
 
+    // get inductee users for total point list
+    getUsers = () => {
+        console.log("get info for all the inductee users")
+        //let inducteeId = this.db.collection('roles').where("rold_id", "==", "Inductee").get()
+          //  .then(docs => docs.map(doc=>doc.id)).then(docs => docs[0]);
+        
+        return this.db.collection('users').where("role_id", "==", "a1G5wSOZj20lDegYgZ7j").get()
+    }
+
+    // get events for queried user
+    getUserEvent = (userId) => {
+        console.log("get events for "+userId+" :")
+        return this.db.collection('pointReward').where("user_id", "==", userId).get()
+    }
+
     // Firestore
     updateResumeFields = (filename, timestamp, downloadURL) => {
         return this.db.collection('users').doc(this.auth.currentUser.uid).update({

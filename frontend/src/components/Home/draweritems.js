@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 export const MainDrawerItems = (
     <div>
@@ -30,6 +31,12 @@ export const SecondaryDrawerItems = (
                 <SignOutIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
+        </ListItem>
+        <ListItem button>
+            <ListItemIcon>
+                <ListAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Total Points" />
         </ListItem>
     </div>
 )

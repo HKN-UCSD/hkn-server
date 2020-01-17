@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import EventIcon from '@material-ui/icons/Event'
 // import ProfileIcon from '@material-ui/icons/AccountCircle'
@@ -28,6 +29,8 @@ import ResumeContent from './resume'
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
 import FBPage from './fbpage';
+
+import TotPoints from './totpoints';
 
 const drawerWidth = 240
 
@@ -156,6 +159,10 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.PROFILE })
     }
 
+    handleTotalPoint = event => {
+        this.setState({ currentContent: HOME_CONTENTS.TOTPOINT })
+    }
+
     handleLogout = () => {
         this.props.firebase
             .doSignOut()
@@ -169,6 +176,8 @@ class HomePage extends React.Component {
             //     return <ProfileContent />
             case HOME_CONTENTS.FBPAGE:
                 return <FBPage />
+            case HOME_CONTENTS.TOTPOINT:
+                return <TotPoints />
             default:
                 break
         }
@@ -238,6 +247,15 @@ class HomePage extends React.Component {
                                 <EventIcon />
                             </ListItemIcon>
                             <ListItemText primary="Events" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem button onClick={this.handleTotalPoint}>
+                            <ListItemIcon>
+                                <ListAltIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Total Points" />
                         </ListItem>
                     </List>
                     <Divider />
