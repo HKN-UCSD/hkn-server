@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import AttachmentIcon from '@material-ui/icons/Attachment'
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import EventIcon from '@material-ui/icons/Event'
 import LocalAtmIcon from '@material-ui/icons/LocalAtm'
@@ -30,6 +31,8 @@ import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
 import EventsPage from '../Events/events';
 import PointsPage from '../Points'
+
+import TotPoints from './totpoints';
 
 const drawerWidth = 240
 
@@ -164,6 +167,10 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.PROFILE })
     }
 
+    handleTotalPoint = event => {
+        this.setState({ currentContent: HOME_CONTENTS.TOTPOINT })
+    }
+
     handleLogout = () => {
         this.props.firebase
             .doSignOut()
@@ -175,10 +182,10 @@ class HomePage extends React.Component {
                 return <ResumeContent />
             // case HOME_CONTENTS.PROFILE:
             //     return <ProfileContent />
-            case HOME_CONTENTS.POINTS:
-                return <PointsPage />
-            case HOME_CONTENTS.EVENTS:
-                return <EventsPage />
+            case HOME_CONTENTS.FBPAGE:
+                return <FBPage />
+            case HOME_CONTENTS.TOTPOINT:
+                return <TotPoints />
             default:
                 break
         }
@@ -257,6 +264,15 @@ class HomePage extends React.Component {
                                 <LocalAtmIcon />
                             </ListItemIcon>
                             <ListItemText primary="Points" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem button onClick={this.handleTotalPoint}>
+                            <ListItemIcon>
+                                <ListAltIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Total Points" />
                         </ListItem>
                     </List>
                     <Divider />
