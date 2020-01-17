@@ -67,8 +67,6 @@ class PointsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.firebase.getEnumMap('pointRewardType')
-      .then((pointEnum) => { this.setState({ pointRewardTypes: pointEnum }) })
     this.props.firebase.getEnumMap('roles')
       .then((roleEnum) => { this.setState({ roles: roleEnum }) })
     this.props.firebase.getUserDocument()
@@ -86,70 +84,74 @@ class PointsPage extends React.Component {
         })
       })
 
-    this.props.firebase.getPoints()
-      .then(query => {
-        if (!query) {
-          throw Error('Point query failed')
-        }
-        const pointsList = {
-          inducteePointsList: [],
-          inducteeMentorList: [],
-          memberPointsList: [],
-          memberMentorList: [],
-          totals: {
-            induction: 0,
-            member: 0,
-          }
-        }
-        query.docs.forEach(doc => {
-          const data = doc.data();
-          if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
-            if (data.event_name.includes("Mentor")) {
-              pointsList.inducteeMentorList.push({
-                event_name: data.event_name,
-                date: new Date(data.created.seconds * 1000),
-                value: data.value,
-                officer: data.officer_name,
-              })
-            } else {
-              pointsList.inducteePointsList.push({
-                event_name: data.event_name,
-                date: new Date(data.created.seconds * 1000),
-                value: data.value,
-                officer: data.officer_name,
-              })
+    this.props.firebase.getEnumMap('pointRewardType')
+      .then((pointEnum) => { this.setState({ pointRewardTypes: pointEnum }) })
+      .then(
+        this.props.firebase.getPoints()
+          .then(query => {
+            if (!query) {
+              throw Error('Point query failed')
             }
-            pointsList.totals.induction++
-          } else {
-            if (data.event_name.includes("Mentor")) {
-              pointsList.memberMentorList.push({
-                event_name: data.event_name,
-                date: new Date(data.created.seconds * 1000),
-                value: data.value,
-                officer: data.officer_name,
-              })
-            } else {
-              pointsList.memberPointsList.push({
-                event_name: data.event_name,
-                date: new Date(data.created.seconds * 1000),
-                value: data.value,
-                officer: data.officer_name,
-              })
+            const pointsList = {
+              inducteePointsList: [],
+              inducteeMentorList: [],
+              memberPointsList: [],
+              memberMentorList: [],
+              totals: {
+                induction: 0,
+                member: 0,
+              }
             }
-            pointsList.totals.member++
-          }
-        })
-        return pointsList
-      })
-      .then(pointsList => {
-        this.setState({
-          inducteePoints: pointsList.inducteePointsList,
-          inducteeMentorPoints: pointsList.inducteeMentorList,
-          memberPoints: pointsList.memberPointsList,
-          memberMentorPoints: pointsList.memberMentorList,
-          totalPoints: pointsList.totals,
-        })
-      })
+            query.docs.forEach(doc => {
+              const data = doc.data();
+              if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
+                if (data.event_name.includes("Mentor")) {
+                  pointsList.inducteeMentorList.push({
+                    event_name: data.event_name,
+                    date: new Date(data.created.seconds * 1000),
+                    value: data.value,
+                    officer: data.officer_name,
+                  })
+                } else {
+                  pointsList.inducteePointsList.push({
+                    event_name: data.event_name,
+                    date: new Date(data.created.seconds * 1000),
+                    value: data.value,
+                    officer: data.officer_name,
+                  })
+                }
+                pointsList.totals.induction++
+              } else {
+                if (data.event_name.includes("Mentor")) {
+                  pointsList.memberMentorList.push({
+                    event_name: data.event_name,
+                    date: new Date(data.created.seconds * 1000),
+                    value: data.value,
+                    officer: data.officer_name,
+                  })
+                } else {
+                  pointsList.memberPointsList.push({
+                    event_name: data.event_name,
+                    date: new Date(data.created.seconds * 1000),
+                    value: data.value,
+                    officer: data.officer_name,
+                  })
+                }
+                pointsList.totals.member++
+              }
+            })
+            return pointsList
+          })
+          .then(pointsList => {
+            this.setState({
+              inducteePoints: pointsList.inducteePointsList,
+              inducteeMentorPoints: pointsList.inducteeMentorList,
+              memberPoints: pointsList.memberPointsList,
+              memberMentorPoints: pointsList.memberMentorList,
+              totalPoints: pointsList.totals,
+            })
+          })
+      )
   }
 
 
