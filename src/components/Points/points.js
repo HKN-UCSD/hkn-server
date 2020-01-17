@@ -82,6 +82,9 @@ class PointsPage extends React.Component {
 
     this.props.firebase.getPoints()
       .then(query => {
+        if(!query){
+          throw Error('Point query failed')
+        }
         const pointsList = {
           inducteePointsList: [],
           inducteeMentorList: [],
