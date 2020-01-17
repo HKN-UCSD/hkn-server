@@ -60,11 +60,17 @@ class PointsPage extends React.Component {
       totalPoints: {
         induction: 0,
         member: 0,
-      }
+      },
+      pointRewardTypes: {},
+      roles: {},
     };
   }
 
   componentDidMount() {
+    this.props.firebase.getEnumMap('pointRewardType')
+      .then((pointEnum) => { this.setState({ pointRewardTypes: pointEnum }) })
+    this.props.firebase.getEnumMap('roles')
+      .then((roleEnum) => { this.setState({ roles: roleEnum }) })
     this.props.firebase.getUserDocument()
       .then(docSnapshot => {
         if (!docSnapshot.exists) {
@@ -82,7 +88,7 @@ class PointsPage extends React.Component {
 
     this.props.firebase.getPoints()
       .then(query => {
-        if(!query){
+        if (!query) {
           throw Error('Point query failed')
         }
         const pointsList = {
@@ -97,7 +103,7 @@ class PointsPage extends React.Component {
         }
         query.docs.forEach(doc => {
           const data = doc.data();
-          if (data.pointrewardtype_id === POINT_TYPE.INDUCTION) {
+          if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
             if (data.event_name.includes("Mentor")) {
               pointsList.inducteeMentorList.push({
                 event_name: data.event_name,
@@ -151,7 +157,7 @@ class PointsPage extends React.Component {
     return (
       <div className={this.props.classes.root}>
         <div className={this.props.classes.contentWrapper}>
-          {this.state.userRole === USER_ROLES.MEMBER || this.state.userRole === USER_ROLES.OFFICER ?
+          {this.state.userRole === this.state.roles[USER_ROLES.MEMBER] || this.state.userRole === this.state.roles[USER_ROLES.OFFICER] ?
             <div>
               <h2>Member Points</h2>
               <Grid container spacing={24}>
