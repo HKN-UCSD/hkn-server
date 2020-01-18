@@ -28,7 +28,7 @@ import ResumeContent from './resume'
 
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
-import FBPage from './fbpage';
+import EventsPage from '../Events/events';
 
 import TotPoints from './totpoints';
 
@@ -123,7 +123,7 @@ class HomePage extends React.Component {
         super(props)
 
         this.state = { ...INITIAL_STATES}
-        this.checkIfOfficer();
+        
         //this.checkIfOfficer = this.checkIfOfficer.bind(this);
     }
 
@@ -134,8 +134,9 @@ class HomePage extends React.Component {
             } else {
                 console.log("authUser: "+authUser.id)
                 this.setState({
-                    currentContent: HOME_CONTENTS.RESUME,
+                    currentContent: HOME_CONTENTS.EVENTS,
                 })
+                this.checkIfOfficer();
             }
         })
     }
@@ -156,8 +157,8 @@ class HomePage extends React.Component {
         this.setState({ currentContent: HOME_CONTENTS.RESUME })
     }
 
-    handleFBPage = event => {
-        this.setState({ currentContent: HOME_CONTENTS.FBPAGE});
+    handleEventsPage = event => {
+        this.setState({ currentContent: HOME_CONTENTS.EVENTS});
     }
 
     handleProfile = event => {
@@ -179,10 +180,12 @@ class HomePage extends React.Component {
                 return <ResumeContent />
             // case HOME_CONTENTS.PROFILE:
             //     return <ProfileContent />
-            case HOME_CONTENTS.FBPAGE:
-                return <FBPage />
+            //case HOME_CONTENTS.FBPAGE:
+            //    return <FBPage />
             case HOME_CONTENTS.TOTPOINT:
                 return <TotPoints />
+            case HOME_CONTENTS.EVENTS:
+                return <EventsPage />
             default:
                 break
         }
@@ -236,7 +239,7 @@ class HomePage extends React.Component {
                             noWrap
                             className={this.props.classes.title}
                         >
-                            Member Portal
+                            HKN Portal
                     </Typography>
                         {/* <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
@@ -268,11 +271,11 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     <List>
-                        <ListItem button onClick={this.handleFBPage}>
+                        <ListItem button onClick={this.handleEventsPage}>
                             <ListItemIcon>
                                 <EventIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Events" />
+                            <ListItemText primary="Get Involved" />
                         </ListItem>
                     </List>
                     <Divider />

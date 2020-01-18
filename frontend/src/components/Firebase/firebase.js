@@ -20,11 +20,10 @@ class Firebase {
 
         this.auth = app.auth()
         this.storage = app.storage()
-        console.log("this is storage!!")
-        console.log(this.storage)
+        // console.log(this.storage)
 
         this.db = app.firestore()
-        this.db.settings({timestampsInSnapshots: true})
+        // this.db.settings({timestampsInSnapshots: true})
     }
 
     // Auth API
@@ -136,8 +135,55 @@ class Firebase {
     }
 
     getUserDocument = () => {
-        console.log(this.auth.currentUser.uid)
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
+    }
+
+    getUserRoleID = () => {
+        return this.getUserDocument()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('User document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                        if(data.role_id == null) {
+                            throw Error('Role ID of user does not exist.')
+                        }
+
+                       return data.role_id
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    getRoleFromID = (roleID) => {
+        return this.db.collection('roles').doc(roleID).get()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('Role document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       if(data.value == null) {
+                           throw Error('Name of role does not exist.')
+                       }
+                       return data.value
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    queryCurrentUserRole = () => {
+        return this.getUserRoleID()
+               .then(roleID => {
+                   if(roleID === null || roleID === undefined) {
+                       throw Error("User does not have Role");
+                   }
+                   return this.getRoleFromID(roleID)
+               })
+               .catch(error => {console.log('ERROR: ' + error)})
     }
 
     removeResumeFields = () => 
@@ -155,6 +201,7 @@ class Firebase {
     deleteResume = resumeFilename =>
         this.storage.ref().child('users').child(this.auth.currentUser.uid).child('resume').child(resumeFilename)
         .delete()
+    
 }
 
 export default Firebase
