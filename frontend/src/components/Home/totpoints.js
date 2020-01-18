@@ -170,13 +170,13 @@ class totPoints extends React.Component {
         let currentComponent = this;
         let users = [];
 
-        this.props.firebase.getUsers().then(function(querySnapshot){
+        this.props.firebase.getInducteesInfo().then(function(querySnapshot){
             querySnapshot.forEach(function(doc) {
                 console.log("user id is *******  "+doc.id)
                 users.push({
                     userId: doc.id,
                     email: doc.data().email,
-                    tot_point: doc.data().points,
+                    tot_point: doc.data().induction_points,
                     mt_point: doc.data().mentorship.toString(),
                     event_list: [],
                     officer_list: doc.data().officer_signs,
