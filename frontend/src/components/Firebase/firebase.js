@@ -69,10 +69,56 @@ class Firebase {
              if(!docSnapshot.docs.length) {
                  throw Error('Role '+role+' does not exist.')
              }
-            console.log("docSnashot.id: "+docSnapshot.docs[0].id)
+            console.log("**docSnashot.id: "+docSnapshot.docs[0].id)
             return docSnapshot.docs[0].id
         })
     }
+
+    getRoleFromID = (roleID) => {
+        return this.db.collection('roles').doc(roleID).get()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('Role document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       if(data.value == null) {
+                           throw Error('Name of role does not exist.')
+                       }
+                       return data.value
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    getUserRoleID = () => {
+        return this.getUserDocument()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('User document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                        if(data.role_id == null) {
+                            throw Error('Role ID of user does not exist.')
+                        }
+                        console.log("**Role Id for current user: "+data.role_id)
+                       return data.role_id
+                   })
+                   .catch(error => {console.log('ERROR:' + error)})
+    }
+
+    queryCurrentUserRole = () => {
+        return this.getUserRoleID()
+               .then(roleID => {
+                   return this.getRoleFromID(roleID)
+               })
+               .catch(error => {console.log('ERROR: ' + error)})
+    }
+
 
     // get events for queried user
     getUserEvent = (userId) => {
