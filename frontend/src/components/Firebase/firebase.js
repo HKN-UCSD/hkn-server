@@ -65,6 +65,27 @@ class Firebase {
         return this.db.collection('users').doc(this.auth.currentUser.uid).get()
     }
 
+    getPoints = () => {
+        const eventPoints = this.db.collection('pointReward')
+        if(this.auth.currentUser){
+            return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
+        }
+    }
+    
+    getEnumMap = (collection) =>{
+        return this.db.collection(collection).get()
+            .then((query) =>{
+                if(!query){
+                    throw Error('Enum Map query failed')
+                }
+                let enumMap = {}
+                query.docs.forEach((doc) => {
+                    enumMap[doc.get('value')] = doc.id
+                })
+                return enumMap
+            })
+    }
+
     getUserRoleID = () => {
         return this.getUserDocument()
                    .then(docSnapshot => {
