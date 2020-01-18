@@ -54,12 +54,24 @@ class Firebase {
     user = uid => this.db.collection('users').doc(uid)
 
     // get inductee users for total point list
-    getUsers = () => {
+    getInducteesInfo = () => {
         console.log("get info for all the inductee users")
-        //let inducteeId = this.db.collection('roles').where("rold_id", "==", "Inductee").get()
-          //  .then(docs => docs.map(doc=>doc.id)).then(docs => docs[0]);
         
-        return this.db.collection('users').where("role_id", "==", "a1G5wSOZj20lDegYgZ7j").get()
+        return this.getIdFromRoles("Inductee").then(data =>{
+            return this.db.collection('users').where("role_id", "==", data).get()})
+        //return this.db.collection('users').where("role_id", "==", "a1G5wSOZj20lDegYgZ7j").get()
+    }
+
+    getIdFromRoles = (role) => {
+        return this.db.collection('roles').where("value","==",role).get()
+        .then(docSnapshot => {
+            console.log("len(docSnapshot): "+docSnapshot.docs.length)
+             if(!docSnapshot.docs.length) {
+                 throw Error('Role '+role+' does not exist.')
+             }
+            console.log("docSnashot.id: "+docSnapshot.docs[0].id)
+            return docSnapshot.docs[0].id
+        })
     }
 
     // get events for queried user
