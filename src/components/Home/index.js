@@ -116,15 +116,17 @@ const styles = theme => ({
 const INITIAL_STATES = {
     isDrawerOpen: false,
     currentContent: '',
+    isOfficer: false,
+    isInductee: true,
 }
 
 class HomePage extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = { 
-            ...INITIAL_STATES
-        }
+        this.state = { ...INITIAL_STATES}
+        this.checkIfOfficer();
+        //this.checkIfOfficer = this.checkIfOfficer.bind(this);
     }
 
     componentDidMount() {
@@ -132,6 +134,7 @@ class HomePage extends React.Component {
             if (!authUser) {
                 this.props.history.push(ROUTES.SIGN_IN)
             } else {
+                console.log("authUser: "+authUser.id)
                 this.setState({
                     currentContent: HOME_CONTENTS.EVENTS,
                 })
@@ -191,7 +194,28 @@ class HomePage extends React.Component {
         }
     }
 
+    checkIfOfficer = () => {
+        this.props.firebase.queryCurrentUserRole()
+          .then(role => {
+              console.log("+++"+role)
+              if(role === "Officer") {
+                  console.log("I am here")
+                  this.setState({
+                      isOfficer: true
+                  })
+              }            
+          })
+          .catch(error => {console.log('ERROR: ' + error)})
+        // if(this.props.firebase.getUserRoleID() === this.props.firebase.getIdFromRoles("Officer"))
+        // {
+        //     console.log("I am here")
+        //     this.setState({isOfficer: true})
+        // }
+    }
+
     render() {
+        //this.checkIfOfficer();
+        console.log("isOfficer: "+this.state.isOfficer)
         return (
             <div className={this.props.classes.root}>
                 <CssBaseline />
@@ -267,14 +291,16 @@ class HomePage extends React.Component {
                         </ListItem>
                     </List>
                     <Divider />
-                    <List>
+                    {this.state.isOfficer?
+                    (<List>
                         <ListItem button onClick={this.handleTotalPoint}>
                             <ListItemIcon>
                                 <ListAltIcon />
                             </ListItemIcon>
                             <ListItemText primary="Total Points" />
                         </ListItem>
-                    </List>
+                    </List>)
+                    :null}   
                     <Divider />
                     <List>
                         {/* <ListItem button onClick={this.handleProfile}>
