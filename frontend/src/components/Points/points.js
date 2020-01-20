@@ -2,14 +2,13 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { withFirebase } from '../Firebase'
 import { compose } from 'recompose'
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
 import { USER_ROLES } from '../../constants/roles'
 import { POINT_TYPE } from '../../constants/pointtype'
+
+import PointDisplay from './point_display'
 
 const styles = theme => ({
   root: {
@@ -43,8 +42,6 @@ const styles = theme => ({
   },
 })
 
-const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
 class PointsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -63,6 +60,7 @@ class PointsPage extends React.Component {
       },
       pointRewardTypes: {},
       roles: {},
+      finished: false
     };
   }
 
@@ -120,7 +118,7 @@ class PointsPage extends React.Component {
                     officer: data.officer_name,
                   })
                 }
-                pointsList.totals.induction++
+                pointsList.totals.induction += data.value
               } else {
                 if (data.event_name.includes("Mentor")) {
                   pointsList.memberMentorList.push({
@@ -137,7 +135,7 @@ class PointsPage extends React.Component {
                     officer: data.officer_name,
                   })
                 }
-                pointsList.totals.member++
+                pointsList.totals.member += data.value
               }
             })
             return pointsList
@@ -151,7 +149,7 @@ class PointsPage extends React.Component {
               totalPoints: pointsList.totals,
             })
           })
-      )
+      ).then(this.setState({ finished: true }))
   }
 
 
@@ -165,54 +163,15 @@ class PointsPage extends React.Component {
               <Grid container spacing={24}>
                 <Grid item><h3>Total Member Points: {this.state.totalPoints.member}</h3></Grid>
               </Grid>
-
-              {this.state.memberPoints.length > 0 ?
-                <Grid container spacing={16}>
-                  {this.state.memberPoints.map((event, key) => {
-                    return <Grid item xs={3} key={key}>
-                      <Card className={this.props.classes.card}>
-                        <CardContent>
-                          <Typography variant="h5" component="h2">
-                            {event.event_name}
-                          </Typography>
-                          <Typography className={this.props.classes.pos} color="textSecondary">
-                            {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                          </Typography>
-                          <Typography variant="body2" component="p">
-                            {`Officer: ${event.officer}`}
-                            <br />
-                            {`Points: ${event.value}`}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  })}
-                </Grid> : <div>None</div>}
+              <PointDisplay points={this.state.memberPoints} />
 
               <h3>Mentor Points</h3>
-              {this.state.memberMentorPoints.length > 0 ?
-                <Grid container spacing={16}>
-                  {this.state.memberMentorPoints.map((event, key) => {
-                    return <Card className={this.props.classes.card}>
-                      <CardContent>
-                        <Typography variant="h5" component="h2">
-                          {event.event_name}
-                        </Typography>
-                        <Typography className={this.props.classes.pos} color="textSecondary">
-                          {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                          {`Officer: ${event.officer}`}
-                          <br />
-                          {`Points: ${event.value}`}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  })}
-                </Grid> : <div>None</div>}
+              <PointDisplay points={this.state.memberMentorPoints} />
+
               <br />
               <Divider />
             </div> : null}
+
 
           <h2>Inductee Points</h2>
           <Grid container spacing={24}>
@@ -220,56 +179,11 @@ class PointsPage extends React.Component {
             <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
             <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
           </Grid>
-          {this.state.inducteePoints.length > 0 ?
-            <Grid container spacing={16}>
-              {this.state.inducteePoints.map((event, key) => {
-                return (
-                  <Grid item xs={3} key={key}>
-                    <Card className={this.props.classes.card}>
-                      <CardContent>
-                        <Typography variant="h5" component="h2">
-                          {event.event_name}
-                        </Typography>
-                        <Typography className={this.props.classes.pos} color="textSecondary">
-                          {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                          {`Officer: ${event.officer}`}
-                          <br />
-                          {`Points: ${event.value}`}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                )
-              })}
-            </Grid> : <div>None</div>}
+          <PointDisplay points={this.state.inducteePoints} />
 
           <h3>Mentor Points</h3>
-          {this.state.inducteeMentorPoints.length > 0 ?
-            <Grid container spacing={16}>
-              {this.state.inducteeMentorPoints.map((event, key) => {
-                return (
-                  <Grid item xs={3} key={key}>
-                    <Card className={this.props.classes.card}>
-                      <CardContent>
-                        <Typography variant="h5" component="h2">
-                          {event.event_name}
-                        </Typography>
-                        <Typography className={this.props.classes.pos} color="textSecondary">
-                          {`${months_arr[event.date.getMonth()]} ${event.date.getDate()}, ${event.date.getFullYear()}`}
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                          {`Officer: ${event.officer}`}
-                          <br />
-                          {`Points: ${event.value}`}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                )
-              })}
-            </Grid> : <div>None</div>}
+          <PointDisplay points={this.state.inducteeMentorPoints} />
+
         </div>
       </div>
     );
