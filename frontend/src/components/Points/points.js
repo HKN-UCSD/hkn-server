@@ -31,15 +31,6 @@ const styles = theme => ({
     alignItems: 'center',
     height: "100vh",
   },
-  card: {
-    minWidth: 275,
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
 })
 
 class PointsPage extends React.Component {
@@ -60,8 +51,16 @@ class PointsPage extends React.Component {
       },
       pointRewardTypes: {},
       roles: {},
-      finished: false
     };
+  }
+
+  addDetails = (list, data) => {
+    list.push({
+      event_name: data.event_name,
+      date: new Date(data.created.seconds * 1000),
+      value: data.value,
+      officer: data.officer_name,
+    })
   }
 
   componentDidMount() {
@@ -104,36 +103,16 @@ class PointsPage extends React.Component {
               const data = doc.data();
               if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
                 if (data.event_name.includes("Mentor")) {
-                  pointsList.inducteeMentorList.push({
-                    event_name: data.event_name,
-                    date: new Date(data.created.seconds * 1000),
-                    value: data.value,
-                    officer: data.officer_name,
-                  })
+                  this.addDetails(pointsList.inducteeMentorList, data)
                 } else {
-                  pointsList.inducteePointsList.push({
-                    event_name: data.event_name,
-                    date: new Date(data.created.seconds * 1000),
-                    value: data.value,
-                    officer: data.officer_name,
-                  })
+                  this.addDetails(pointsList.inducteePointsList, data)
                 }
                 pointsList.totals.induction += data.value
               } else {
                 if (data.event_name.includes("Mentor")) {
-                  pointsList.memberMentorList.push({
-                    event_name: data.event_name,
-                    date: new Date(data.created.seconds * 1000),
-                    value: data.value,
-                    officer: data.officer_name,
-                  })
+                  this.addDetails(pointsList.memberMentorList, data)
                 } else {
-                  pointsList.memberPointsList.push({
-                    event_name: data.event_name,
-                    date: new Date(data.created.seconds * 1000),
-                    value: data.value,
-                    officer: data.officer_name,
-                  })
+                  this.addDetails(pointsList.memberPointsList, data)
                 }
                 pointsList.totals.member += data.value
               }
@@ -149,7 +128,7 @@ class PointsPage extends React.Component {
               totalPoints: pointsList.totals,
             })
           })
-      ).then(this.setState({ finished: true }))
+      )
   }
 
 
