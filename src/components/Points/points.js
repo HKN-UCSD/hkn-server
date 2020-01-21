@@ -33,25 +33,27 @@ const styles = theme => ({
   },
 })
 
+const INITIAL_STATES = {
+  userRole: "",
+  mentorship: false,
+  professional: false,
+  inducteePoints: [],
+  inducteeMentorPoints: [],
+  memberPoints: [],
+  memberMentorPoints: [],
+  totalPoints: {
+    induction: 0,
+    member: 0,
+  },
+  pointRewardTypes: {},
+  roles: {},
+};
+
 class PointsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      userRole: "",
-      mentorship: false,
-      professional: false,
-      inducteePoints: [],
-      inducteeMentorPoints: [],
-      memberPoints: [],
-      memberMentorPoints: [],
-      totalPoints: {
-        induction: 0,
-        member: 0,
-      },
-      pointRewardTypes: {},
-      roles: {},
-    };
+    this.state = { ...INITIAL_STATES };
   }
 
   addDetails = (list, data) => {
@@ -66,6 +68,7 @@ class PointsPage extends React.Component {
   componentDidMount() {
     this.props.firebase.getEnumMap('roles')
       .then((roleEnum) => { this.setState({ roles: roleEnum }) })
+
     this.props.firebase.getUserDocument()
       .then(docSnapshot => {
         if (!docSnapshot.exists) {
@@ -82,12 +85,17 @@ class PointsPage extends React.Component {
       })
 
     this.props.firebase.getEnumMap('pointRewardType')
-      .then((pointEnum) => { this.setState({ pointRewardTypes: pointEnum }) })
+      .then((pointEnum) => {
+        if(pointEnum && pointEnum.name && pointEnum.message && pointEnum.stack) {
+          throw Error("Point types unavailable");
+        }
+        this.setState({ pointRewardTypes: pointEnum }) 
+      })
       .then(
         this.props.firebase.getPoints()
-          .then(query => {
-            if (!query) {
-              throw Error('Point query failed')
+          .then(snapshot => {
+            if (!snapshot) {
+              throw Error('Points query failed')
             }
             const pointsList = {
               inducteePointsList: [],
@@ -99,7 +107,7 @@ class PointsPage extends React.Component {
                 member: 0,
               }
             }
-            query.docs.forEach(doc => {
+            snapshot.docs.forEach(doc => {
               const data = doc.data();
               if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
                 if (data.event_name.includes("Mentor")) {
@@ -128,7 +136,9 @@ class PointsPage extends React.Component {
               totalPoints: pointsList.totals,
             })
           })
+          .catch(err => console.log(err))
       )
+      .catch(err => console.log(err));
   }
 
 

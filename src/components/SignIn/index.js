@@ -171,17 +171,23 @@ class SignInPage extends React.Component {
 
     handleResendVerificationEmail = event => {
         this.props.firebase
-            .doSendVerificationEmail()
-            .then(() => {
-                this.handleVerifyEmailDialogClose()
-            })
-            .catch(error => {
-                this.setState({
-                    verifyEmailError: error,
-                    emailVerificationDialogOpen: false,
-                    failedSendVerificationEmailDialogOpen: true,
-                })
-            })
+            .doSignInWithEmailAndPassword(this.state.email, this.state.password, this.state.checked)
+            .then( () =>
+                this.props.firebase
+                    .doSendVerificationEmail()
+                    .then(() => {
+                        this.handleVerifyEmailDialogClose()
+                    })
+                    .catch(error => {
+                        this.props.firebase.doSignOut();
+                        this.setState({
+                            verifyEmailError: error,
+                            emailVerificationDialogOpen: false,
+                            failedSendVerificationEmailDialogOpen: true,
+                        })
+                    })
+            )
+            
     }
 
     handleCheckRemember = event => {
@@ -237,24 +243,36 @@ class SignInPage extends React.Component {
         return (
             <main className={this.props.classes.main}>
                 <CssBaseline />
+
+                {/* Main Sign In Form */}
                 <Paper className={this.props.classes.paper}>
                     <Avatar className={this.props.classes.avatar} src={require('../../images/hkn-trident.png')} />
                     <Typography component="h1" variant="h5">
                         HKN Portal Login
                     </Typography>
+
+                    {/* Sign In Form */}
                     <form className={this.props.classes.form} onSubmit={this.handleSignIn}>
+
+                        {/* Email Field */}
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
                             <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange.bind(this)} value={this.state.email} />
                         </FormControl>
+                        
+                        {/* Password Field */}
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handlePasswordChange.bind(this)} value={this.state.password} />
                         </FormControl>
+
+                        {/* Remember Me Check Box */}
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" onChange={this.handleCheckRemember.bind(this)} checked={this.state.checked} />}
                             label="Remember me"
                         />
+
+                        {/* Forgot Password button */}
                         <Button
                             size="small"
                             variant="text"
@@ -262,6 +280,8 @@ class SignInPage extends React.Component {
                             className={this.props.classes.forgotPassword}>
                             Forgot password?
                         </Button>
+
+                        {/* Sign In Button */}
                         <Button
                             type="submit"
                             fullWidth
@@ -273,19 +293,32 @@ class SignInPage extends React.Component {
                         </Button>
                     </form>
                 </Paper>
+                
+                {/* Create an account - SIGN UP */}
                 <div className={this.props.classes.signupFooter}>
                     <Typography component="p" style={{ display: 'inline-block' }}>
                         Don't have an account?  <Link to={ROUTES.SIGN_UP} className={this.props.classes.signupLink}>Sign up</Link>
                     </Typography>
                 </div>
+                
+                {/* Footer Element */}
                 <Typography
                     className={this.props.classes.footer}
                     variant="caption"
                     gutterBottom
                 >
-                    <a className={this.props.classes.footerLink} href={"http://hkn.ucsd.edu"} target="_blank" rel="noopener noreferrer"> &copy; 2019 Eta Kappa Nu UCSD </a>
+                    <a  className={this.props.classes.footerLink}
+                        href={"http://hkn.ucsd.edu"}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                             &copy; 2019 Eta Kappa Nu UCSD
+                    </a>
                 </Typography>
+                
+                {/* Failure and Success Dialogues */}
                 <div>
+                    
+                    {/* Failed Sign In */}
                     <Dialog
                         open={this.state.failedSignInDialogOpen}
                         onClose={this.handleFailedSignInDialogClose}
@@ -301,9 +334,11 @@ class SignInPage extends React.Component {
                         <DialogActions>
                             <Button onClick={this.handleFailedSignInDialogClose} color="primary" autoFocus>
                                 GOT IT
-                        </Button>
+                            </Button>
                         </DialogActions>
                     </Dialog>
+                    
+                    {/* Verify Email before Sign In */}
                     <Dialog
                         open={this.state.verifyEmailDialogOpen}
                         onClose={this.handleVerifyEmailDialogClose}
@@ -325,6 +360,8 @@ class SignInPage extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    
+                    {/* Failed to send Verification Email */}
                     <Dialog
                         open={this.state.failedSendVerificationEmailDialogOpen}
                         onClose={this.handleFailedSendVerificationEmailDialogClose}
@@ -334,7 +371,9 @@ class SignInPage extends React.Component {
                         <DialogTitle id="alert-dialog-title">{"Error"}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                                {this.state.verifyEmailError ? this.state.verifyEmailError.message + 'You can click RESEND below to resend the verification email. If this issue persists, please contact a HKN officer.' : ''}
+                                {this.state.verifyEmailError ? 
+                                    this.state.verifyEmailError.message + 'You can click RESEND below to resend the verification email.'
+                                    + 'If this issue persists, please contact a HKN officer.' : ''}
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
@@ -346,6 +385,8 @@ class SignInPage extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    
+                    {/* Forgot Password Unsuccessful */}
                     <Dialog
                         open={this.state.failedForgotPasswordConfirmDialogOpen}
                         onClose={this.handleFailedForgotPasswordConfirmDialogClose}
@@ -364,6 +405,8 @@ class SignInPage extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    
+                    {/* Forgot Password Success */}
                     <Dialog
                         open={this.state.successfulForgotPasswordConfirmDialogOpen}
                         onClose={this.handleSuccessfulForgotPasswordConfirmDialogClose}
@@ -382,6 +425,8 @@ class SignInPage extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
+                    
+                    {/* Forgot Password Prompt */}
                     <Dialog
                         open={this.state.forgotPasswordDialogOpen}
                         onClose={this.handleForgotPasswordDialogClose}
