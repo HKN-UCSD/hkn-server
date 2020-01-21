@@ -74,16 +74,17 @@ class Firebase {
     
     getEnumMap = (collection) =>{
         return this.db.collection(collection).get()
-            .then((query) =>{
-                if(!query){
+            .then((snapshot) =>{
+                if(!snapshot){
                     throw Error('Enum Map query failed')
                 }
                 let enumMap = {}
-                query.docs.forEach((doc) => {
+                snapshot.docs.forEach((doc) => {
                     enumMap[doc.get('value')] = doc.id
                 })
-                return enumMap
+                return enumMap  
             })
+            .catch(err => err);
     }
 
     getUserRoleID = () => {
