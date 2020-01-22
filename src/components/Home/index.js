@@ -134,7 +134,7 @@ class HomePage extends React.Component {
             if (!authUser) {
                 this.props.history.push(ROUTES.SIGN_IN)
             } else {
-                console.log("authUser: "+authUser.id)
+                // console.log("authUser: "+authUser.uid)
                 this.setState({
                     currentContent: HOME_CONTENTS.EVENTS,
                 })
@@ -197,9 +197,9 @@ class HomePage extends React.Component {
     checkIfOfficer = () => {
         this.props.firebase.queryCurrentUserRole()
           .then(role => {
-              console.log("+++"+role)
+            //   console.log("+++"+role)
               if(role === "Officer") {
-                  console.log("I am here")
+                //   console.log("I am here")
                   this.setState({
                       isOfficer: true
                   })
@@ -215,7 +215,7 @@ class HomePage extends React.Component {
 
     render() {
         //this.checkIfOfficer();
-        console.log("isOfficer: "+this.state.isOfficer)
+        // console.log("isOfficer: "+this.state.isOfficer)
         return (
             <div className={this.props.classes.root}>
                 <CssBaseline />

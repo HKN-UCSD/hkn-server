@@ -65,6 +65,13 @@ const columns = [
       format: value => value.toLocaleString(),
     },
     {
+        id: 'pf_point',
+        label: 'Professional\u00a0Points',
+        minWidth: 170,
+        align: 'right',
+        format: value => value.toLocaleString(),
+      },
+    {
       id: 'event_list',
       label: 'List\u00a0of\u00a0Events',
       minWidth: 200,
@@ -76,8 +83,7 @@ const columns = [
     },
   ];
 
-
-class totPoints extends React.Component {
+class TotPoints extends React.Component {
     constructor(props)
     {
         super(props);
@@ -110,19 +116,18 @@ class totPoints extends React.Component {
 
     //check for event data, get event data and pass in event data to show popover
     handleRowClick = (event, user) => {
-        
-        console.log("handle row click, prepare the events to show...")
+        // console.log("handle row click, prepare the events to show...")
         let users = this.state.users;
         let index = this.state.users.findIndex(item => item.userId === user.userId)
-        console.log("row of current user: "+index)
+        // console.log("row of current user: "+index)
         let buffer = this.state.users[index].event_list;
-        console.log("buffer: "+buffer)
-        this.setState({anchorE1:event.currentTarget})
+        // console.log("buffer: "+buffer)
+        // this.setState({anchorE1:event.currentTarget})
             
         //users[index].anchorE1 = event.currentTarget
-        console.log("users[index].event_list:" + users[index].event_list)
+        // console.log("users[index].event_list:" + users[index].event_list)
 
-        console.log("if user is updated"+users[index].updated)
+        // console.log("if user is updated: "+users[index].updated)
             if(users[index].updated===false)
             {
                 this.props.firebase.getUserEvent(user.userId).then((querySnapshot)=>{
@@ -135,21 +140,21 @@ class totPoints extends React.Component {
                         //     doc.data().event_name
                         // );
                     });
-                    this.setState({users:users})
-                    this.setState({searchUsers: users})
-                    console.log("after query.....buffer: "+buffer)
+                    // this.setState({users:users})
+                    // this.setState({searchUsers: this.state.searchUsers})
+                    // console.log("after query.....buffer: "+buffer)
                    
-                    this.setState({buffer: buffer})
+                    this.setState({anchorE1:event.currentTarget, buffer: buffer})
+                    users[index].updated = true
                 })
                 .catch(function(error)
                 {
                     console.log("Error getting docs: ", error);
                 });
-                users[index].updated = true
             }
             else {
-                console.log("after query.....buffer: "+buffer)
-                this.setState({buffer: buffer})
+                // console.log("after query.....buffer: "+buffer)
+                this.setState({anchorE1:event.currentTarget, buffer: buffer})
             }
     }
 
@@ -162,7 +167,6 @@ class totPoints extends React.Component {
         // console.log("users[index].anchorE1: "+Boolean(users[index].anchorE1))
         // this.setState({users: users})
         // this.setState({searchUsers: users})
-        this.setState({buffer: []})
         this.setState({anchorE1:null})
     };
 
@@ -172,14 +176,21 @@ class totPoints extends React.Component {
 
         this.props.firebase.getInducteesInfo().then(function(querySnapshot){
             querySnapshot.forEach(function(doc) {
-                console.log("user id is *******  "+doc.id)
+                // console.log("user id is *******  "+doc.id)
+
+                var docPoints = doc.data().induction_points;
+                var docMtPts = doc.data().mentorship;
+                var docPfPts = doc.data().professional;
+                var docOfficers = doc.data().officer_signs;
+
                 users.push({
                     userId: doc.id,
                     email: doc.data().email,
-                    tot_point: doc.data().induction_points,
-                    mt_point: doc.data().mentorship.toString(),
+                    tot_point: (docPoints) ? docPoints : 0,
+                    mt_point: (docMtPts) ? "Complete" : "Incomplete",
+                    pf_point: (docPfPts) ? "Complete" : "Incomplete",
                     event_list: [],
-                    officer_list: doc.data().officer_signs,
+                    officer_list: (docOfficers) ? docOfficers : [],
                     updated: false,
                     anchorE1: null,
                 });
@@ -209,69 +220,44 @@ class totPoints extends React.Component {
     };
 
     handleEmailClick (e) {
-        let users = this.state.users;
-        let text = this.state.searchEmailStr;
-        if(e.option === '') {
-            this.setState({searchEmailStr: ''});
-            if (text !== "") {
-                return 
-            }
-            else {
-                this.setState({searchUsers: users});
-            }
-        }
-        else {
-            let dataList = this.state.users.filter(item => {
-                if (e.option.trim() !== "") { 
-                    if (!item['email'] || item['email'].toUpperCase().indexOf(e.option.toUpperCase()) === -1) {
-                        return false
-                    }
+        let dataList = this.state.users;
+        
+        let searchStr = e.option.trim();
+
+        dataList = dataList.filter(item => {
+            if (searchStr !== "") { 
+                if (!item['email'] || item['email'].toUpperCase().indexOf(searchStr.toUpperCase()) === -1) {
+                    return false
                 }
-                if (text !== "") {
-                    if (!item['email'] || item['email'].toUpperCase().indexOf(text.toUpperCase()) === -1) {
-                        return false
-                    }
-                }
-                return true
-            })
-            this.setState({searchUsers: dataList});
-            this.setState({searchEmailStr: e.option})
-        }
+            }
+            return true
+        });
+
+        this.setState({
+            searchUsers: dataList,
+            searchEmailStr: searchStr
+        })
     }
 
 
     handleEmailChange = (e) => {
-        let users = this.state.users;
-        let text = this.state.searchEmailStr;
+        let dataList = this.state.users;
         
-        console.log("e.target.value = "+e.target.value);
-        console.log("text = "+text);
-        if(e.target.value === '') {
-            // if (text !== "") {
-            //     return 
-            // }
-            // else {
-            //     this.setState({searchUsers: users});
-            // }
-            this.setState({searchUsers: users});
-        }
-        else {
-            let dataList = this.state.users.filter(item => {
-                if (e.target.value.trim() !== "") { 
-                    if (!item['email'] || item['email'].toUpperCase().indexOf(e.target.value.toUpperCase()) === -1) {
-                        return false
-                    }
+        let searchStr = e.target.value.trim();
+
+        dataList = dataList.filter(item => {
+            if (searchStr !== "") { 
+                if (!item['email'] || item['email'].toUpperCase().indexOf(searchStr.toUpperCase()) === -1) {
+                    return false
                 }
-                if (text !== "") {
-                    if (!item['email'] || item['email'].toUpperCase().indexOf(text.toUpperCase()) === -1) {
-                        return false
-                    }
-                }
-                return true
-            });
-            this.setState({searchUsers: dataList});
-            this.setState({searchEmailStr: e.target.value})
-        }
+            }
+            return true
+        });
+
+        this.setState({
+            searchUsers: dataList,
+            searchEmailStr: searchStr
+        })
     }
 
 
@@ -281,7 +267,7 @@ class totPoints extends React.Component {
         let buffer = this.state.buffer;
         return(
             <Paper className={this.props.classes.root}> 
-                <div style={{ width: 300 }}>
+                <div style={{ width: 300, margin: "10px" }}>
                 <Autocomplete
                     freeSolo
                     id="free-solo-2-demo"
@@ -293,15 +279,15 @@ class totPoints extends React.Component {
                         </React.Fragment>
                     )}
                     renderInput={params => (
-                    <TextField
-                        {...params}
-                        label="Search Email"
-                        margin="normal"
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{ ...params.InputProps, type: 'search' }}
-                        onChange={this.handleEmailChange}
-                    />
+                        <TextField
+                            {...params}
+                            label="Search Email"
+                            margin="normal"
+                            variant="outlined"
+                            fullWidth
+                            InputProps={{ ...params.InputProps, type: 'search' }}
+                            onChange={this.handleEmailChange}
+                        />
                     )}
                 />
                 </div>
@@ -309,7 +295,7 @@ class totPoints extends React.Component {
                     <Popover
                         open={Boolean(this.state.anchorE1)}
                         anchorEl={this.state.anchorEl}
-                        onClose={()=>this.handleClose()}
+                        onClose={() => this.handleClose()}
                         anchorOrigin={{
                             vertical: 'center',
                             horizontal: 'center',
@@ -319,9 +305,11 @@ class totPoints extends React.Component {
                             horizontal: 'center',
                         }}
                     >
-                    <Typography>{buffer.map((number) =>
-                        <li>{number}</li>
-                        )}
+                    <Typography style={ {margin: "20px" } }> { "List of events attended: " } </Typography>
+                    <Typography style={ {margin: "20px" } }> { (buffer.length > 0) ?
+                        buffer.map((number) =>
+                            <li>{number}</li>
+                        ) : "Inductee hasn't attended any events"}
                     </Typography>
                     </Popover>
                 </div>
@@ -363,9 +351,9 @@ class totPoints extends React.Component {
                                                 </ExpansionPanelSummary>
                                                 <ExpansionPanelDetails>
                                                     <Typography>
-                                                        {value.map((number) =>
-                                                        <li>{number}</li>
-                                                        )}
+                                                        {value.length > 0 ? value.map((number) =>
+                                                            <li>{number}</li>
+                                                        ) : "No Officer Check-offs available"}
                                                     </Typography>
                                                 </ExpansionPanelDetails>
                                             </ExpansionPanel>
@@ -402,8 +390,8 @@ class totPoints extends React.Component {
     }
 }
 
-totPoints.propTypes = {
+TotPoints.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default compose(withStyles(styles), withFirebase)(totPoints)
+export default compose(withStyles(styles), withFirebase)(TotPoints)
