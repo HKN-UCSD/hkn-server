@@ -52,6 +52,79 @@ class Firebase {
     // User
     user = uid => this.db.collection('users').doc(uid)
 
+    // get inductee users for total point list
+    getInducteesInfo = () => {
+        // console.log("get info for all the inductee users")
+        
+        return this.getIdFromRoles("Inductee").then(data =>{
+            return this.db.collection('users').where("role_id", "==", data).get()})
+        //return this.db.collection('users').where("role_id", "==", "a1G5wSOZj20lDegYgZ7j").get()
+    }
+
+    getIdFromRoles = (role) => {
+        return this.db.collection('roles').where("value","==",role).get()
+        .then(docSnapshot => {
+            // console.log("len(docSnapshot): "+docSnapshot.docs.length)
+             if(docSnapshot.docs.empty) {
+                 throw Error('Role '+role+' does not exist.')
+             }
+            // console.log("**docSnashot.id: "+docSnapshot.docs[0].id)
+            return docSnapshot.docs[0].id
+        })
+    }
+
+    getRoleFromID = (roleID) => {
+        return this.db.collection('roles').doc(roleID).get()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('Role document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                       if(!data.value) {
+                           throw Error('Name of role does not exist.')
+                       }
+                       return data.value
+                   })
+                   .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+    getUserRoleID = () => {
+        return this.getUserDocument()
+                   .then(docSnapshot => {
+                        if(!docSnapshot.exists) {
+                            throw Error('User document does not exist.')
+                        }
+
+                       return docSnapshot.data()
+                   })
+                   .then(data => {
+                        if(!data.role_id) {
+                            throw Error('Role ID of user does not exist.')
+                        }
+                        // console.log("**Role Id for current user: "+data.role_id)
+                       return data.role_id
+                   })
+                   .catch(error => {console.log('ERROR:' + error)})
+    }
+
+    queryCurrentUserRole = () => {
+        return this.getUserRoleID()
+               .then(roleID => {
+                   return this.getRoleFromID(roleID)
+               })
+               .catch(error => {console.log('ERROR: ' + error)})
+    }
+
+
+    // get events for queried user
+    getUserEvent = (userId) => {
+        // console.log("get events for "+userId+" :")
+        return this.db.collection('pointReward').where("user_id", "==", userId).get()
+    }
+
     // Firestore
     updateResumeFields = (filename, timestamp, downloadURL) => {
         return this.db.collection('users').doc(this.auth.currentUser.uid).update({
@@ -97,7 +170,7 @@ class Firebase {
                        return docSnapshot.data()
                    })
                    .then(data => {
-                        if(data.role_id == null) {
+                        if(!data.role_id) {
                             throw Error('Role ID of user does not exist.')
                         }
 
@@ -116,7 +189,7 @@ class Firebase {
                        return docSnapshot.data()
                    })
                    .then(data => {
-                       if(data.value == null) {
+                       if(!data.value) {
                            throw Error('Name of role does not exist.')
                        }
                        return data.value
