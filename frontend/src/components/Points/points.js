@@ -148,31 +148,33 @@ class PointsPage extends React.Component {
         <div className={this.props.classes.contentWrapper}>
           {this.state.userRole === this.state.roles[USER_ROLES.MEMBER] || this.state.userRole === this.state.roles[USER_ROLES.OFFICER] ?
             <div>
-              <h2>Member Points</h2>
-              <Grid container spacing={24}>
-                <Grid item><h3>Total Member Points: {this.state.totalPoints.member}</h3></Grid>
-              </Grid>
-              <PointDisplay points={this.state.memberPoints} />
+              <div style={{margin:"20px"}}>
+                <h2>Member Points</h2>
+                <Grid container justify="space-between">
+                  <Grid item><h3>Total Member Points: {this.state.totalPoints.member}</h3></Grid>
+                </Grid>
+                <PointDisplay points={this.state.memberPoints} />
 
-              <h3>Mentor Points</h3>
-              <PointDisplay points={this.state.memberMentorPoints} />
+                <h3>Mentor Points</h3>
+                <PointDisplay points={this.state.memberMentorPoints} />
 
-              <br />
+                <br />
+              </div>
               <Divider />
             </div> : null}
 
+          <div style={{margin:"20px"}}>
+            <h2>Inductee Points</h2>
+            <Grid container justify="space-between">
+              <Grid item><h3>Total Inductee Points: {this.state.totalPoints.induction}</h3></Grid>
+              <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
+              <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
+            </Grid>
+            <PointDisplay points={this.state.inducteePoints} />
 
-          <h2>Inductee Points</h2>
-          <Grid container spacing={24}>
-            <Grid item><h3>Total Inductee Points: {this.state.totalPoints.induction}</h3></Grid>
-            <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
-            <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
-          </Grid>
-          <PointDisplay points={this.state.inducteePoints} />
-
-          <h3>Mentor Points</h3>
-          <PointDisplay points={this.state.inducteeMentorPoints} />
-
+            <h3>Mentor Points</h3>
+            <PointDisplay points={this.state.inducteeMentorPoints} />
+          </div>
         </div>
       </div>
     );
