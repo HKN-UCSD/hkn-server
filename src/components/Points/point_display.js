@@ -43,7 +43,7 @@ class PointDisplay extends React.Component {
       <div>
         {this.state.points.length > 0 ?
           <div>
-            <Grid container spacing={16}>
+            <Grid container spacing={2}>
               {this.state.points.map((event, key) => {
                 return <Grid item xs={3} key={key}>
                   <Card className={this.props.classes.card}>
