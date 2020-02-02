@@ -68,6 +68,7 @@ class PointsPage extends React.Component {
   componentDidMount() {
     this.props.firebase.getEnumMap('roles')
       .then((roleEnum) => { this.setState({ roles: roleEnum }) })
+      .catch(err => console.log(err))
 
     this.props.firebase.getUserDocument()
       .then(docSnapshot => {
@@ -83,15 +84,17 @@ class PointsPage extends React.Component {
           professional: data.professional
         })
       })
+      .catch(err => console.log(err))
 
     this.props.firebase.getEnumMap('pointRewardType')
       .then((pointEnum) => {
         if(pointEnum && pointEnum.name && pointEnum.message && pointEnum.stack) {
+          console.log(pointEnum);
           throw Error("Point types unavailable");
         }
         this.setState({ pointRewardTypes: pointEnum }) 
       })
-      .then(
+      .then(() => {
         this.props.firebase.getPoints()
           .then(snapshot => {
             if (!snapshot) {
@@ -137,7 +140,7 @@ class PointsPage extends React.Component {
             })
           })
           .catch(err => console.log(err))
-      )
+      })
       .catch(err => console.log(err));
   }
 

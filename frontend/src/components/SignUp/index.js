@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import Paper from '@material-ui/core/Paper'
@@ -79,9 +80,10 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     confirmPassword: '',
+    samePassword: true,
     signupError: null,
     verifyEmailError: null,
-    isSignUpButtonDisabled: false,
+    isSignUpButtonDisabled: true,
     whitelistDialogOpen: false,
 }
 
@@ -92,10 +94,28 @@ class SignUpPage extends React.Component {
         this.state = { ...INITIAL_STATE }
     }
 
-    validatePasswords = (password, confirmPassword) =>
+    validatePasswords = (password, confirmPassword) => {
+        if(password !== confirmPassword) {
+            this.setState({
+                samePassword: false,
+                isSignUpButtonDisabled: true
+            });
+        }
+        else {
+            this.setState({
+                samePassword: true,
+                isSignUpButtonDisabled: false
+            });
+        }
+
+        if(password.length === 0) {
+            this.setState({ isSignUpButtonDisabled: true})
+        }
+
         new Promise((resolve, reject) => {
             resolve(password === confirmPassword)
         })
+    }
 
     handleSignUp = async event => {
         const { email, password, confirmPassword } = this.state
@@ -104,7 +124,7 @@ class SignUpPage extends React.Component {
             isSignUpButtonDisabled: true,
         })
 
-        this.props.firebase.doCreateUserWithEmailAndPassword(email, password)
+        this.props.firebase.doCreateUserWithEmailAndPassword(email.trim().toLowerCase(), password)
             .then(authUser => {
                 this.sendVerificationEmail()
                 this.props.firebase.doSignOut()
@@ -145,10 +165,12 @@ class SignUpPage extends React.Component {
     }
 
     handlePasswordChange = event => {
+        this.validatePasswords(event.target.value, this.state.confirmPassword);
         this.setState({ password: event.target.value })
     }
 
     handleConfirmPasswordChange = event => {
+        this.validatePasswords(this.state.password, event.target.value);
         this.setState({ confirmPassword: event.target.value })
     }
 
@@ -204,15 +226,34 @@ class SignUpPage extends React.Component {
                     <form className={this.props.classes.form} onSubmit={this.handleSubmitSignUp}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange.bind(this)} value={this.state.email} />
+                            <Input 
+                                id="email" 
+                                name="email"
+                                autoComplete="email"
+                                autoFocus 
+                                onChange={this.handleEmailChange.bind(this)} value={this.state.email} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handlePasswordChange.bind(this)} value={this.state.password} />
+                            <Input
+                                name="password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={this.handlePasswordChange.bind(this)} value={this.state.password} />
                         </FormControl>
-                        <FormControl margin="normal" required fullWidth>
+                        <FormControl margin="normal" required fullWidth error={!this.state.samePassword}>
                             <InputLabel htmlFor="password">Confirm Password</InputLabel>
-                            <Input id="password" type="password" name="password" autoComplete="current-password" onChange={this.handleConfirmPasswordChange.bind(this)} value={this.state.confirmPassword} />
+                            <Input
+                                id="password" 
+                                type="password"
+                                name="password"
+                                autoComplete="current-password"
+                                onChange={this.handleConfirmPasswordChange.bind(this)} value={this.state.confirmPassword} />
+                            {
+                                (this.state.samePassword) ? "" :
+                                <FormHelperText >Password Mismatch!</FormHelperText>
+                            }
                         </FormControl>
                         <Button
                             type="submit"

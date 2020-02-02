@@ -123,6 +123,7 @@ class Firebase {
     getUserEvent = (userId) => {
         // console.log("get events for "+userId+" :")
         return this.db.collection('pointReward').where("user_id", "==", userId).get()
+                    .catch((err) => {throw Error("Points Query failed.");});
     }
 
     // Firestore
@@ -142,6 +143,10 @@ class Firebase {
         const eventPoints = this.db.collection('pointReward')
         if(this.auth.currentUser){
             return eventPoints.where("user_id", "==", this.auth.currentUser.uid).get()
+                    .catch((err) => {throw Error("Points Query failed.");});
+        }
+        else {
+            throw Error("Points Query failed.");
         }
     }
     
@@ -157,7 +162,7 @@ class Firebase {
                 })
                 return enumMap  
             })
-            .catch(err => err);
+            .catch(err => {throw Error('Enum Map query failed')});
     }
 
     getUserRoleID = () => {
