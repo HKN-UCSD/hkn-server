@@ -4,6 +4,7 @@ import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 
 import EventButtons from './eventButtons';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
   root: {
@@ -31,7 +32,7 @@ const styles = theme => ({
     // },
     // flexDirection:'row',
     alignItems: 'center',
-    height: "100vh",
+    // height: "100vh",
   }
 })
 
@@ -104,10 +105,15 @@ class EventsPage extends React.Component {
     render() {
         return (
           <div>
-            <div>
+            <div style={{margin: '20px'}}>
               {this.state.buttons}
             </div>
 
+            <div className={this.props.classes.contentWrapper}>
+              <Divider />
+              <h1 style={{textAlign: 'center'}}>Upcoming Events</h1>
+              <Divider />
+            </div>
             <div className={this.props.classes.root}>
               <iframe
                 title="hkn-ucsd-fb"

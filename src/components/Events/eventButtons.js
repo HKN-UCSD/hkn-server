@@ -43,12 +43,26 @@ class EventButtons extends React.Component {
             </div>
              
             <div className={this.props.classes.eventButtonsDiv}>
-              <h2 className={this.props.classes.h2}>HKN MENTORSHIP PROGRAM</h2>
+              <h2 className={this.props.classes.h2}>HKN VOLUNTEER PROGRAM</h2>
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
-                href="https://docs.google.com/forms/d/e/1FAIpQLScLteJQRgfgxRoskQ17I1KElXoxatp_AZZg-kkgqAgc2HnBaA/closedform"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeqMbwiwA9Ip5wcwxwmalSc_z4S4No4MUZoVdTPltmGRxBP2A/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Log Points Form
+              </Button>
+            </div>
+
+            <div className={this.props.classes.eventButtonsDiv}>
+              <h2 className={this.props.classes.h2}>HKN BUDDY PROGRAM</h2>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                href="https://docs.google.com/forms/d/e/1FAIpQLScWsLIXMPY_jwpU3qXkWahOkYug8y03g3fthYJnz_94CmpRGQ/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
               >
