@@ -50,36 +50,43 @@ const styles = theme => ({
 
 
 const columns = [
-    { id: 'email', label: 'Inductee Email', minWidth: 170 },
+    { id: 'email',
+      label: 'Inductee\u00a0Email',
+      minWidth: 170,
+      align: 'left',
+      format: value => value.toLocaleString()
+    },
     { id: 'tot_point', 
       label: 'Total\u00a0Points', 
       minWidth: 170,
-      align: 'right',
+      align: 'center',
       format: value => value.toLocaleString() 
     },
     {
       id: 'mt_point',
       label: 'Mentorship\u00a0Points',
       minWidth: 170,
-      align: 'right',
+      align: 'center',
       format: value => value.toLocaleString(),
     },
     {
         id: 'pf_point',
         label: 'Professional\u00a0Points',
         minWidth: 170,
-        align: 'right',
+        align: 'center',
         format: value => value.toLocaleString(),
       },
     {
       id: 'event_list',
       label: 'List\u00a0of\u00a0Events',
       minWidth: 200,
+      align: 'center',
     },
     {
       id: 'officer_list',
       label: 'List\u00a0of\u00a0Officers',
       minWidth: 200,
+      align: 'center',
     },
   ];
 
@@ -314,7 +321,7 @@ class TotPoints extends React.Component {
                     </Popover>
                 </div>
                 <div>
-                <Table stickyHeader aria-label="sticky table">
+                <Table stickyHeader size={'small'} aria-label="sticky table">
                     <TableHead>
                     <TableRow>
                         {columns.map(column => (

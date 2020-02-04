@@ -27,6 +27,8 @@ import { compose } from 'recompose'
 import { withFirebase } from '../Firebase'
 import ResumeContent from './resume'
 
+import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
+
 import * as ROUTES from '../../constants/routes'
 import * as HOME_CONTENTS from '../../constants/home'
 import EventsPage from '../Events/events';
@@ -288,20 +290,23 @@ class HomePage extends React.Component {
                     </List>
                     <Divider />
                     {this.state.isOfficer?
-                    (<List>
-                        <ListItem button onClick={this.handleTotalPoint}>
-                            <ListItemIcon>
-                                <ListAltIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Total Points" />
-                        </ListItem>
-                    </List>)
+                    (<div>
+                        <List>
+                            <ListItem button onClick={this.handleTotalPoint}>
+                                <ListItemIcon>
+                                    <ListAltIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Total Points" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                    </div>)
                     :null}   
-                    <Divider />
                     <List>
                         <ListItem button onClick={this.handlePointsPage}>
                             <ListItemIcon>
-                                <LocalAtmIcon />
+                                {/* <LocalAtmIcon /> */}
+                                <AssessmentOutlinedIcon />
                             </ListItemIcon>
                             <ListItemText primary="Points" />
                         </ListItem>
