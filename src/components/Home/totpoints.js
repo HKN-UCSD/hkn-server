@@ -382,7 +382,7 @@ class TotPoints extends React.Component {
                 </Table>
                 
                 <TablePagination
-                    rowsPerPageOptions={[2, 5, 10]}
+                    rowsPerPageOptions={[2, 5, 10, 20]}
                     component="div"
                     count={this.state.searchUsers.length}
                     rowsPerPage={this.state.rowsPerPage}
