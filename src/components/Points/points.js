@@ -168,7 +168,7 @@ class PointsPage extends React.Component {
 
           <div style={{margin:"20px"}}>
             <h2>Inductee Points</h2>
-            <Grid container justify="space-between">
+            <Grid container justify="space-between" spacing={3}>
               <Grid item><h3>Total Inductee Points: {this.state.totalPoints.induction}</h3></Grid>
               <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
               <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
