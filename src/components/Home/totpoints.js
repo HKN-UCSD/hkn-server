@@ -86,7 +86,7 @@ const columns = [
       id: 'officer_list',
       label: 'List\u00a0of\u00a0Officers',
       minWidth: 200,
-      align: 'center',
+      align: 'left',
     },
   ];
 
@@ -123,6 +123,8 @@ class TotPoints extends React.Component {
 
     //check for event data, get event data and pass in event data to show popover
     handleRowClick = (event, user) => {
+        // console.log("Event object is: ")
+        // console.log(event)
         // console.log("handle row click, prepare the events to show...")
         let users = this.state.users;
         let index = this.state.users.findIndex(item => item.userId === user.userId)
@@ -137,6 +139,8 @@ class TotPoints extends React.Component {
         // console.log("if user is updated: "+users[index].updated)
             if(users[index].updated===false)
             {
+                // console.log("before query.....buffer: ")
+                // console.log(user.event_list)
                 this.props.firebase.getUserEvent(user.userId).then((querySnapshot)=>{
                     querySnapshot.forEach(function(doc){
                         //console.log("event name: "+doc.data().event_name);
@@ -149,9 +153,13 @@ class TotPoints extends React.Component {
                     });
                     // this.setState({users:users})
                     // this.setState({searchUsers: this.state.searchUsers})
-                    // console.log("after query.....buffer: "+buffer)
+                    return user.event_list;
+                })
+                .then( (eventList) => {
+                    // console.log("after query.....buffer: ")
+                    // console.log(eventList)
                    
-                    this.setState({anchorE1:event.currentTarget, buffer: buffer})
+                    this.setState({anchorE1:event.currentTarget, buffer: eventList})
                     users[index].updated = true
                 })
                 .catch(function(error)
@@ -174,7 +182,7 @@ class TotPoints extends React.Component {
         // console.log("users[index].anchorE1: "+Boolean(users[index].anchorE1))
         // this.setState({users: users})
         // this.setState({searchUsers: users})
-        this.setState({anchorE1:null})
+        this.setState({anchorE1:null, buffer: []})
     };
 
     componentDidMount(){
@@ -300,8 +308,8 @@ class TotPoints extends React.Component {
                 </div>
                 <div>
                     <Popover
-                        open={Boolean(this.state.anchorE1)}
-                        anchorEl={this.state.anchorEl}
+                        open={this.state.buffer.length != 0}
+                        // anchorEl={this.state.anchorEl}
                         onClose={() => this.handleClose()}
                         anchorOrigin={{
                             vertical: 'center',
