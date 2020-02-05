@@ -14,7 +14,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment'
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import SignOutIcon from '@material-ui/icons/ExitToApp'
 import EventIcon from '@material-ui/icons/Event'
-import LocalAtmIcon from '@material-ui/icons/LocalAtm'
+// import LocalAtmIcon from '@material-ui/icons/LocalAtm'
 // import ProfileIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
