@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   card: {
-    minWidth: 275,
+    minWidth: 200,
   },
   title: {
     fontSize: 14,
@@ -45,7 +45,7 @@ class PointDisplay extends React.Component {
           <div>
             <Grid container spacing={2}>
               {this.state.points.map((event, key) => {
-                return <Grid item xs={3} key={key}>
+                return <Grid item xs={12} sm={6} md={4} lg={3} key={key}>
                   <Card className={this.props.classes.card}>
                     <CardContent>
                       <Typography variant="h5" component="h2">
