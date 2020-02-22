@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames'
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import AttachmentIcon from '@material-ui/icons/Attachment'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-import SignOutIcon from '@material-ui/icons/ExitToApp'
-import EventIcon from '@material-ui/icons/Event'
+import SignOutIcon from '@material-ui/icons/ExitToApp';
+import EventIcon from '@material-ui/icons/Event';
 // import LocalAtmIcon from '@material-ui/icons/LocalAtm'
 // import ProfileIcon from '@material-ui/icons/AccountCircle'
 import Typography from '@material-ui/core/Typography';
@@ -23,320 +23,330 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
-import { compose } from 'recompose'
-import { withFirebase } from '../Firebase'
-import ResumeContent from './resume'
-
+import { compose } from 'recompose';
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
+import { withFirebase } from '../Firebase';
+import ResumeContent from './resume';
 
-import * as ROUTES from '../../constants/routes'
-import * as HOME_CONTENTS from '../../constants/home'
+import * as ROUTES from '../../constants/routes';
+import * as HOME_CONTENTS from '../../constants/home';
 import EventsPage from '../Events/events';
-import PointsPage from '../Points'
+import PointsPage from '../Points';
 
 import TotPoints from './totpoints';
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 const styles = theme => ({
-    root: {
-        display: 'flex',
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24,
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9,
     },
-    toolbar: {
-        paddingRight: 24,
-    },
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginLeft: 12,
-        marginRight: 36,
-    },
-    menuButtonHidden: {
-        display: 'none',
-    },
-    title: {
-        flexGrow: 1,
-    },
-    drawerPaper: {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerPaperClose: {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing.unit * 7,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing.unit * 9,
-        },
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing.unit * 3,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    chartContainer: {
-        marginLeft: -22,
-    },
-    tableContainer: {
-        height: 320,
-    },
-    h5: {
-        marginBottom: theme.spacing.unit * 2,
-    },
-})
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  chartContainer: {
+    marginLeft: -22,
+  },
+  tableContainer: {
+    height: 320,
+  },
+  h5: {
+    marginBottom: theme.spacing.unit * 2,
+  },
+});
 
 const INITIAL_STATES = {
-    isDrawerOpen: false,
-    currentContent: '',
-    isOfficer: false,
-    isInductee: true,
-}
+  isDrawerOpen: false,
+  currentContent: '',
+  isOfficer: false,
+  isInductee: true,
+};
 
 class HomePage extends React.Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
 
-        this.state = { ...INITIAL_STATES}
-        
-        //this.checkIfOfficer = this.checkIfOfficer.bind(this);
+    this.state = { ...INITIAL_STATES };
+
+    // this.checkIfOfficer = this.checkIfOfficer.bind(this);
+  }
+
+  componentDidMount() {
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      if (!authUser) {
+        this.props.history.push(ROUTES.SIGN_IN);
+      } else {
+        // console.log("authUser: "+authUser.uid)
+        this.setState({
+          currentContent: HOME_CONTENTS.EVENTS,
+        });
+        this.checkIfOfficer();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.listener();
+  }
+
+  handleDrawerOpen = () => {
+    this.setState({ isDrawerOpen: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ isDrawerOpen: false });
+  };
+
+  handleResume = event => {
+    this.setState({ currentContent: HOME_CONTENTS.RESUME });
+  };
+
+  handleEventsPage = event => {
+    this.setState({ currentContent: HOME_CONTENTS.EVENTS });
+  };
+
+  handlePointsPage = event => {
+    this.setState({ currentContent: HOME_CONTENTS.POINTS });
+  };
+
+  handleProfile = event => {
+    this.setState({ currentContent: HOME_CONTENTS.PROFILE });
+  };
+
+  handleTotalPoint = event => {
+    this.setState({ currentContent: HOME_CONTENTS.TOTPOINT });
+  };
+
+  handleLogout = () => {
+    this.props.firebase.doSignOut();
+  };
+
+  getCurrentContent = () => {
+    switch (this.state.currentContent) {
+      case HOME_CONTENTS.RESUME:
+        return <ResumeContent />;
+      // case HOME_CONTENTS.PROFILE:
+      //     return <ProfileContent />
+      case HOME_CONTENTS.POINTS:
+        return <PointsPage />;
+      // case HOME_CONTENTS.FBPAGE:
+      //    return <FBPage />
+      case HOME_CONTENTS.TOTPOINT:
+        return <TotPoints />;
+      case HOME_CONTENTS.EVENTS:
+        return <EventsPage />;
+      default:
+        break;
     }
+  };
 
-    componentDidMount() {
-        this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-            if (!authUser) {
-                this.props.history.push(ROUTES.SIGN_IN)
-            } else {
-                // console.log("authUser: "+authUser.uid)
-                this.setState({
-                    currentContent: HOME_CONTENTS.EVENTS,
-                })
-                this.checkIfOfficer();
-            }
-        })
-    }
-
-    componentWillUnmount() {
-        this.listener()
-    }
-
-    handleDrawerOpen = () => {
-        this.setState({ isDrawerOpen: true })
-    }
-
-    handleDrawerClose = () => {
-        this.setState({ isDrawerOpen: false })
-    }
-
-    handleResume = event => {
-        this.setState({ currentContent: HOME_CONTENTS.RESUME })
-    }
-
-    handleEventsPage = event => {
-        this.setState({ currentContent: HOME_CONTENTS.EVENTS});
-    }
-
-    handlePointsPage = event => {
-        this.setState({ currentContent: HOME_CONTENTS.POINTS })
-    }
-
-    handleProfile = event => {
-        this.setState({ currentContent: HOME_CONTENTS.PROFILE })
-    }
-
-    handleTotalPoint = event => {
-        this.setState({ currentContent: HOME_CONTENTS.TOTPOINT })
-    }
-
-    handleLogout = () => {
-        this.props.firebase
-            .doSignOut()
-    }
-
-    getCurrentContent = () => {
-        switch(this.state.currentContent) {
-            case HOME_CONTENTS.RESUME:
-                return <ResumeContent />
-            // case HOME_CONTENTS.PROFILE:
-            //     return <ProfileContent />
-            case HOME_CONTENTS.POINTS:
-                return <PointsPage />
-            //case HOME_CONTENTS.FBPAGE:
-            //    return <FBPage />
-            case HOME_CONTENTS.TOTPOINT:
-                return <TotPoints />
-            case HOME_CONTENTS.EVENTS:
-                return <EventsPage />
-            default:
-                break
+  checkIfOfficer = () => {
+    this.props.firebase
+      .queryCurrentUserRole()
+      .then(role => {
+        //   console.log("+++"+role)
+        if (role === 'Officer') {
+          //   console.log("I am here")
+          this.setState({
+            isOfficer: true,
+          });
         }
-    }
+      })
+      .catch(error => {
+        console.log(`ERROR: ${error}`);
+      });
+    // if(this.props.firebase.getUserRoleID() === this.props.firebase.getIdFromRoles("Officer"))
+    // {
+    //     console.log("I am here")
+    //     this.setState({isOfficer: true})
+    // }
+  };
 
-    checkIfOfficer = () => {
-        this.props.firebase.queryCurrentUserRole()
-          .then(role => {
-            //   console.log("+++"+role)
-              if(role === "Officer") {
-                //   console.log("I am here")
-                  this.setState({
-                      isOfficer: true
-                  })
-              }            
-          })
-          .catch(error => {console.log('ERROR: ' + error)})
-        // if(this.props.firebase.getUserRoleID() === this.props.firebase.getIdFromRoles("Officer"))
-        // {
-        //     console.log("I am here")
-        //     this.setState({isOfficer: true})
-        // }
-    }
-
-    render() {
-        //this.checkIfOfficer();
-        // console.log("isOfficer: "+this.state.isOfficer)
-        return (
-            <div className={this.props.classes.root}>
-                <CssBaseline />
-                <AppBar
-                    position="absolute"
-                    className={classNames(this.props.classes.appBar, this.state.isDrawerOpen && this.props.classes.appBarShift)}
-                >
-                    <Toolbar disableGutters={!this.state.isDrawerOpen} className={this.props.classes.toolbar}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="Open drawer"
-                            onClick={this.handleDrawerOpen}
-                            className={classNames(
-                                this.props.classes.menuButton,
-                                this.state.isDrawerOpen && this.props.classes.menuButtonHidden,
-                            )}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography
-                            component="h1"
-                            variant="h6"
-                            color="inherit"
-                            noWrap
-                            className={this.props.classes.title}
-                        >
-                            HKN Portal
-                    </Typography>
-                        {/* <IconButton color="inherit">
+  render() {
+    // this.checkIfOfficer();
+    // console.log("isOfficer: "+this.state.isOfficer)
+    return (
+      <div className={this.props.classes.root}>
+        <CssBaseline />
+        <AppBar
+          position='absolute'
+          className={classNames(
+            this.props.classes.appBar,
+            this.state.isDrawerOpen && this.props.classes.appBarShift
+          )}
+        >
+          <Toolbar
+            disableGutters={!this.state.isDrawerOpen}
+            className={this.props.classes.toolbar}
+          >
+            <IconButton
+              color='inherit'
+              aria-label='Open drawer'
+              onClick={this.handleDrawerOpen}
+              className={classNames(
+                this.props.classes.menuButton,
+                this.state.isDrawerOpen && this.props.classes.menuButtonHidden
+              )}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              component='h1'
+              variant='h6'
+              color='inherit'
+              noWrap
+              className={this.props.classes.title}
+            >
+              HKN Portal
+            </Typography>
+            {/* <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton> */}
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="permanent"
-                    classes={{
-                        paper: classNames(this.props.classes.drawerPaper, !this.state.isDrawerOpen && this.props.classes.drawerPaperClose),
-                    }}
-                    open={this.state.isDrawerOpen}
-                >
-                    <div className={this.props.classes.toolbarIcon}>
-                        <IconButton onClick={this.handleDrawerClose}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </div>
-                    <Divider />
-                    <List>
-                        <ListItem button onClick={this.handleResume}>
-                            <ListItemIcon>
-                                <AttachmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Resume" />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List>
-                        <ListItem button onClick={this.handleEventsPage}>
-                            <ListItemIcon>
-                                <EventIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Get Involved" />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    {this.state.isOfficer?
-                    (<div>
-                        <List>
-                            <ListItem button onClick={this.handleTotalPoint}>
-                                <ListItemIcon>
-                                    <ListAltIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Total Points" />
-                            </ListItem>
-                        </List>
-                        <Divider />
-                    </div>)
-                    :null}   
-                    <List>
-                        <ListItem button onClick={this.handlePointsPage}>
-                            <ListItemIcon>
-                                {/* <LocalAtmIcon /> */}
-                                <AssessmentOutlinedIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Points" />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List>
-                        {/* <ListItem button onClick={this.handleProfile}>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant='permanent'
+          classes={{
+            paper: classNames(
+              this.props.classes.drawerPaper,
+              !this.state.isDrawerOpen && this.props.classes.drawerPaperClose
+            ),
+          }}
+          open={this.state.isDrawerOpen}
+        >
+          <div className={this.props.classes.toolbarIcon}>
+            <IconButton onClick={this.handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            <ListItem button onClick={this.handleResume}>
+              <ListItemIcon>
+                <AttachmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Resume' />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button onClick={this.handleEventsPage}>
+              <ListItemIcon>
+                <EventIcon />
+              </ListItemIcon>
+              <ListItemText primary='Get Involved' />
+            </ListItem>
+          </List>
+          <Divider />
+          {this.state.isOfficer ? (
+            <div>
+              <List>
+                <ListItem button onClick={this.handleTotalPoint}>
+                  <ListItemIcon>
+                    <ListAltIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Total Points' />
+                </ListItem>
+              </List>
+              <Divider />
+            </div>
+          ) : null}
+          <List>
+            <ListItem button onClick={this.handlePointsPage}>
+              <ListItemIcon>
+                {/* <LocalAtmIcon /> */}
+                <AssessmentOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary='Points' />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            {/* <ListItem button onClick={this.handleProfile}>
                             <ListItemIcon>
                                 <ProfileIcon />
                             </ListItemIcon>
                             <ListItemText primary="Profile" />
                         </ListItem> */}
-                        <ListItem button onClick={this.handleLogout}>
-                            <ListItemIcon>
-                                <SignOutIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Logout" />
-                        </ListItem>
-                    </List>
-                </Drawer>
-                <main className={this.props.classes.content}>
-                    {this.getCurrentContent()}
-                </main>
-            </div>
-        )
-    }
+            <ListItem button onClick={this.handleLogout}>
+              <ListItemIcon>
+                <SignOutIcon />
+              </ListItemIcon>
+              <ListItemText primary='Logout' />
+            </ListItem>
+          </List>
+        </Drawer>
+        <main className={this.props.classes.content}>
+          {this.getCurrentContent()}
+        </main>
+      </div>
+    );
+  }
 }
 
 HomePage.propTypes = {
-    classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired,
+};
 
-export default compose(withStyles(styles), withFirebase)(HomePage)
+export default compose(withStyles(styles), withFirebase)(HomePage);
