@@ -1,5 +1,5 @@
 export const USER_ROLES = {
-  OFFICER: "Officer",
-  INDUCTEE: "Inductee",
-  MEMBER: "Member",
-}
+  OFFICER: 'Officer',
+  INDUCTEE: 'Inductee',
+  MEMBER: 'Member',
+};

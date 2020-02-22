@@ -1,2 +1,3 @@
-import PointsPage from './points'
-export default PointsPage
+import PointsPage from './points';
+
+export default PointsPage;

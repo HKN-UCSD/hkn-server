@@ -1,18 +1,18 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { withFirebase } from '../Firebase'
-import { compose } from 'recompose'
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'recompose';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import { withFirebase } from '../Firebase';
 
-import { USER_ROLES } from '../../constants/roles'
-import { POINT_TYPE } from '../../constants/pointtype'
+import { USER_ROLES } from '../../constants/roles';
+import { POINT_TYPE } from '../../constants/pointtype';
 
-import PointDisplay from './point_display'
+import PointDisplay from './point_display';
 
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -29,12 +29,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 9,
 
     alignItems: 'center',
-    height: "100vh",
+    height: '100vh',
   },
-})
+});
 
 const INITIAL_STATES = {
-  userRole: "",
+  userRole: '',
   mentorship: false,
   professional: false,
   inducteePoints: [],
@@ -62,43 +62,54 @@ class PointsPage extends React.Component {
       date: new Date(data.created.seconds * 1000),
       value: data.value,
       officer: data.officer_name,
-    })
-  }
+    });
+  };
 
   componentDidMount() {
-    this.props.firebase.getEnumMap('roles')
-      .then((roleEnum) => { this.setState({ roles: roleEnum }) })
-      .catch(err => console.log(err))
+    this.props.firebase
+      .getEnumMap('roles')
+      .then(roleEnum => {
+        this.setState({ roles: roleEnum });
+      })
+      .catch(err => console.log(err));
 
-    this.props.firebase.getUserDocument()
+    this.props.firebase
+      .getUserDocument()
       .then(docSnapshot => {
         if (!docSnapshot.exists) {
-          throw Error('User document does not exist.')
+          throw Error('User document does not exist.');
         }
-        return docSnapshot.data()
+        return docSnapshot.data();
       })
       .then(data => {
         this.setState({
           userRole: data.role_id,
           mentorship: data.mentorship,
-          professional: data.professional
-        })
+          professional: data.professional,
+        });
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
 
-    this.props.firebase.getEnumMap('pointRewardType')
-      .then((pointEnum) => {
-        if(pointEnum && pointEnum.name && pointEnum.message && pointEnum.stack) {
+    this.props.firebase
+      .getEnumMap('pointRewardType')
+      .then(pointEnum => {
+        if (
+          pointEnum &&
+          pointEnum.name &&
+          pointEnum.message &&
+          pointEnum.stack
+        ) {
           console.log(pointEnum);
-          throw Error("Point types unavailable");
+          throw Error('Point types unavailable');
         }
-        this.setState({ pointRewardTypes: pointEnum }) 
+        this.setState({ pointRewardTypes: pointEnum });
       })
       .then(() => {
-        this.props.firebase.getPoints()
+        this.props.firebase
+          .getPoints()
           .then(snapshot => {
             if (!snapshot) {
-              throw Error('Points query failed')
+              throw Error('Points query failed');
             }
             const pointsList = {
               inducteePointsList: [],
@@ -108,27 +119,30 @@ class PointsPage extends React.Component {
               totals: {
                 induction: 0,
                 member: 0,
-              }
-            }
+              },
+            };
             snapshot.docs.forEach(doc => {
               const data = doc.data();
-              if (data.pointrewardtype_id === this.state.pointRewardTypes[POINT_TYPE.INDUCTION]) {
-                if (data.event_name.includes("Mentor")) {
-                  this.addDetails(pointsList.inducteeMentorList, data)
+              if (
+                data.pointrewardtype_id ===
+                this.state.pointRewardTypes[POINT_TYPE.INDUCTION]
+              ) {
+                if (data.event_name.includes('Mentor')) {
+                  this.addDetails(pointsList.inducteeMentorList, data);
                 } else {
-                  this.addDetails(pointsList.inducteePointsList, data)
+                  this.addDetails(pointsList.inducteePointsList, data);
                 }
-                pointsList.totals.induction += data.value
+                pointsList.totals.induction += data.value;
               } else {
-                if (data.event_name.includes("Mentor")) {
-                  this.addDetails(pointsList.memberMentorList, data)
+                if (data.event_name.includes('Mentor')) {
+                  this.addDetails(pointsList.memberMentorList, data);
                 } else {
-                  this.addDetails(pointsList.memberPointsList, data)
+                  this.addDetails(pointsList.memberPointsList, data);
                 }
-                pointsList.totals.member += data.value
+                pointsList.totals.member += data.value;
               }
-            })
-            return pointsList
+            });
+            return pointsList;
           })
           .then(pointsList => {
             this.setState({
@@ -137,24 +151,28 @@ class PointsPage extends React.Component {
               memberPoints: pointsList.memberPointsList,
               memberMentorPoints: pointsList.memberMentorList,
               totalPoints: pointsList.totals,
-            })
+            });
           })
-          .catch(err => console.log(err))
+          .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
   }
-
 
   render() {
     return (
       <div className={this.props.classes.root}>
         <div className={this.props.classes.contentWrapper}>
-          {this.state.userRole === this.state.roles[USER_ROLES.MEMBER] || this.state.userRole === this.state.roles[USER_ROLES.OFFICER] ?
+          {this.state.userRole === this.state.roles[USER_ROLES.MEMBER] ||
+          this.state.userRole === this.state.roles[USER_ROLES.OFFICER] ? (
             <div>
-              <div style={{margin:"20px"}}>
+              <div style={{ margin: '20px' }}>
                 <h2>Member Points</h2>
-                <Grid container justify="space-between">
-                  <Grid item><h3>Total Member Points: {this.state.totalPoints.member}</h3></Grid>
+                <Grid container justify='space-between'>
+                  <Grid item>
+                    <h3>
+                      Total Member Points: {this.state.totalPoints.member}
+                    </h3>
+                  </Grid>
                 </Grid>
                 <PointDisplay points={this.state.memberPoints} />
 
@@ -164,14 +182,29 @@ class PointsPage extends React.Component {
                 <br />
               </div>
               <Divider />
-            </div> : null}
+            </div>
+          ) : null}
 
-          <div style={{margin:"20px"}}>
+          <div style={{ margin: '20px' }}>
             <h2>Inductee Points</h2>
-            <Grid container justify="space-between" spacing={3}>
-              <Grid item><h3>Total Inductee Points: {this.state.totalPoints.induction}</h3></Grid>
-              <Grid item><h3>Mentor Point: {this.state.mentorship ? `Complete` : `Incomplete`}</h3></Grid>
-              <Grid item><h3>Professional Requirement: {this.state.professional ? `Complete` : `Incomplete`}</h3></Grid>
+            <Grid container justify='space-between' spacing={3}>
+              <Grid item>
+                <h3>
+                  Total Inductee Points: {this.state.totalPoints.induction}
+                </h3>
+              </Grid>
+              <Grid item>
+                <h3>
+                  Mentor Point:{' '}
+                  {this.state.mentorship ? `Complete` : `Incomplete`}
+                </h3>
+              </Grid>
+              <Grid item>
+                <h3>
+                  Professional Requirement:{' '}
+                  {this.state.professional ? `Complete` : `Incomplete`}
+                </h3>
+              </Grid>
             </Grid>
             <PointDisplay points={this.state.inducteePoints} />
 
@@ -184,4 +217,4 @@ class PointsPage extends React.Component {
   }
 }
 
-export default compose(withStyles(styles), withFirebase)(PointsPage)
+export default compose(withStyles(styles), withFirebase)(PointsPage);
