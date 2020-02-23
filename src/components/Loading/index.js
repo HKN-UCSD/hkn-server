@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/LinearProgress';
+import { LinearProgress as CircularProgress } from '@material-ui/core';
 
 const styles = theme => ({
   progress: {

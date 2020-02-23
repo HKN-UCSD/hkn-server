@@ -4,5 +4,5 @@ const POINT_TYPE = {
 };
 
 module.exports = {
-  POINT_TYPE
-}
+  POINT_TYPE,
+};

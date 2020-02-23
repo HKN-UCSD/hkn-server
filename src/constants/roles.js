@@ -5,5 +5,5 @@ const USER_ROLES = {
 };
 
 module.exports = {
-  USER_ROLES
-}
+  USER_ROLES,
+};
