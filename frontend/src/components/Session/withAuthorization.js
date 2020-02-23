@@ -6,12 +6,14 @@ import AuthUserContext from './context';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+// eslint-disable-next-line no-unused-vars
 const withAuthorization = condition => Component => props => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
-      this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      const { firebase, history } = this.props;
+      this.listener = firebase.auth.onAuthStateChanged(authUser => {
         if (!condition(authUser)) {
-          this.props.history.push(ROUTES.SIGN_IN);
+          history.push(ROUTES.SIGN_IN);
         }
       });
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
@@ -96,7 +95,8 @@ class ResumeContent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.firebase
+    const { firebase } = this.props;
+    firebase
       .getUserDocument()
       .then(docSnapshot => {
         if (!docSnapshot.exists) {
@@ -109,7 +109,7 @@ class ResumeContent extends React.Component {
           throw Error('Resume data does not exist.');
         }
 
-        const { uid } = this.props.firebase.auth.currentUser;
+        const { uid } = firebase.auth.currentUser;
         const fileName = data.resumeFilename;
 
         this.setState({
@@ -121,7 +121,7 @@ class ResumeContent extends React.Component {
 
         const path = `users/${uid}/resume/${fileName}`;
 
-        const fileRef = this.props.firebase.storage.ref(path);
+        const fileRef = firebase.storage.ref(path);
 
         return fileRef.getDownloadURL();
       })
@@ -161,32 +161,29 @@ class ResumeContent extends React.Component {
     }:${date.getSeconds() >= 10 ? date.getSeconds() : `0${date.getSeconds()}`}`;
   };
 
-  // getRightButtionIcon = () => {
-  //     switch (this.state.rightButtonAction) {
-  //         case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
-  //             return <CloudDownloadIcon className={this.props.classes.rightIcon} />
-  //         case RIGHT_BUTTON_ACTIONS.UPLOAD:
-  //             return <CloudUploadIcon className={this.props.classes.rightIcon} />
-  //         default:
-  //             return null
-  //     }
-  // }
-
   validateFileSize = file =>
-    new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-unused-vars
+    new Promise((resolve, _ignore) => {
       resolve(file.size <= 1 * 1024 * 1024);
     });
 
-  handleUpload = event => {
+  handleUpload = () => {
     this.fileInput.click();
   };
 
-  handleDownload = event => {
-    window.open(this.state.resumeDownloadURL);
+  setFileInput = input => {
+    this.fileInput = input;
+  };
+
+  handleDownload = () => {
+    const { resumeDownloadURL } = this.state;
+    window.open(resumeDownloadURL);
   };
 
   handleOpenFile = event => {
     const resumeFile = this.fileInput.files[0];
+    const { firebase } = this.props;
+    const { uploaded, filename } = this.state;
 
     const timestamp = new Date().getTime();
 
@@ -195,7 +192,7 @@ class ResumeContent extends React.Component {
         if (!isCorrectSize) {
           throw Error('File size must be less than or equal to 1 MB.');
         }
-        return this.props.firebase.uploadResume(resumeFile);
+        return firebase.uploadResume(resumeFile);
       })
       .then(snapshot => {
         return snapshot.ref.getDownloadURL();
@@ -204,16 +201,17 @@ class ResumeContent extends React.Component {
         this.setState({
           resumeDownloadURL: downloadUrl,
         });
-        return this.props.firebase.updateResumeFields(
+        return firebase.updateResumeFields(
           resumeFile.name,
           timestamp,
           downloadUrl
         );
       })
       .then(() => {
-        if (this.state.uploaded && resumeFile.name !== this.state.filename) {
-          return this.props.firebase.deleteResume(this.state.filename);
+        if (uploaded && resumeFile.name !== filename) {
+          return firebase.deleteResume(filename);
         }
+        return null;
       })
       .then(() => {
         this.setState({
@@ -225,14 +223,15 @@ class ResumeContent extends React.Component {
         });
       })
       .catch(error => {
+        let localError = error;
         if (error.code === 'storage/unauthorized') {
-          error = Error(
+          localError = Error(
             'Please make sure the uploaded file is .pdf file and less than or equal to 1 MB.'
           );
         }
 
         this.setState({
-          error,
+          error: localError,
           errorDialogOpen: true,
         });
       });
@@ -240,27 +239,30 @@ class ResumeContent extends React.Component {
     event.preventDefault();
   };
 
-  handleSuccessfulUploadDialogClose = event => {
+  handleSuccessfulUploadDialogClose = () => {
     this.setState({
       successfulUploadDialogOpen: false,
     });
   };
 
-  handleErrorDialogClose = event => {
+  handleErrorDialogClose = () => {
     this.setState({ errorDialogOpen: false });
   };
 
-  handleDelete = event => {
+  handleDelete = () => {
     this.setState({
       confirmDeleteDialogOpen: true,
     });
   };
 
-  handleConfirmDelete = event => {
-    this.props.firebase
-      .deleteResume(this.state.filename)
+  handleConfirmDelete = () => {
+    const { firebase } = this.props;
+    const { filename } = this.state;
+
+    firebase
+      .deleteResume(filename)
       .then(() => {
-        return this.props.firebase.removeResumeFields();
+        return firebase.removeResumeFields();
       })
       .then(() => {
         this.setState({
@@ -277,13 +279,13 @@ class ResumeContent extends React.Component {
       });
   };
 
-  handleConfirmDeleteDialogClose = event => {
+  handleConfirmDeleteDialogClose = () => {
     this.setState({
       confirmDeleteDialogOpen: false,
     });
   };
 
-  handleSuccessfulDeleteDialogClose = event => {
+  handleSuccessfulDeleteDialogClose = () => {
     this.setState({
       successfulDeleteDialogOpen: false,
       filename: '',
@@ -294,31 +296,34 @@ class ResumeContent extends React.Component {
   };
 
   getRightButton = () => {
-    switch (this.state.rightButtonAction) {
+    const { rightButtonAction, uploaded } = this.state;
+    const { classes } = this.props;
+
+    switch (rightButtonAction) {
       case RIGHT_BUTTON_ACTIONS.DOWNLOAD:
         return (
           <Button
             variant='contained'
-            color={this.state.uploaded ? 'default' : 'disabled'}
-            className={this.props.classes.button}
+            color={uploaded ? 'default' : 'disabled'}
+            className={classes.button}
             onClick={this.handleDownload}
-            disabled={!this.state.uploaded}
+            disabled={!uploaded}
           >
             DOWNLOAD
-            <CloudDownloadIcon className={this.props.classes.rightIcon} />
+            <CloudDownloadIcon className={classes.rightIcon} />
           </Button>
         );
       case RIGHT_BUTTON_ACTIONS.UPLOAD:
         return (
           <Button
             variant='contained'
-            color={this.state.uploaded ? 'disabled' : 'primary'}
-            className={this.props.classes.button}
+            color={uploaded ? 'disabled' : 'primary'}
+            className={classes.button}
             onClick={this.handleUpload}
-            disabled={this.state.uploaded}
+            disabled={uploaded}
           >
             UPLOAD
-            <CloudUploadIcon className={this.props.classes.rightIcon} />
+            <CloudUploadIcon className={classes.rightIcon} />
           </Button>
         );
       default:
@@ -327,56 +332,67 @@ class ResumeContent extends React.Component {
   };
 
   getResumeDisplayComponent = () => {
-    if (this.state.uploaded) {
+    const { uploaded, resumeDownloadURL } = this.state;
+    const { classes } = this.props;
+    if (uploaded) {
       return (
         <iframe
+          title='resume_display'
           frameBorder='0'
-          src={this.state.resumeDownloadURL}
+          src={resumeDownloadURL}
           width='100%'
           height='80%'
         />
       );
     }
-    return <PdfIcon className={this.props.classes.pdfIcon} color='disabled' />;
+    return <PdfIcon className={classes.pdfIcon} color='disabled' />;
   };
 
   render() {
+    const {
+      uploaded,
+      filename,
+      timestamp,
+      successfulUploadDialogOpen,
+      successfulDeleteDialogOpen,
+      confirmDeleteDialogOpen,
+      errorDialogOpen,
+      error,
+    } = this.state;
+    const { classes } = this.props;
     return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.contentWrapper}>
+      <div className={classes.root}>
+        <div className={classes.contentWrapper}>
           {this.getResumeDisplayComponent()}
-          <Typography
-            variant='body1'
-            className={this.props.classes.description}
-          >
-            {this.state.uploaded
-              ? `${this.state.filename}\n${this.state.timestamp}`
+          <Typography variant='body1' className={classes.description}>
+            {uploaded
+              ? `${filename}\n${timestamp}`
               : 'Oops, we can not find your resume'}
           </Typography>
-          <div className={this.props.classes.buttonsContainer}>
+          <div className={classes.buttonsContainer}>
             <Button
-              disabled={!this.state.uploaded}
+              disabled={!uploaded}
               variant='contained'
               color='secondary'
-              className={this.props.classes.button}
+              className={classes.button}
               onClick={this.handleDelete}
             >
               DELETE
-              <DeleteIcon className={this.props.classes.rightIcon} />
+              <DeleteIcon className={classes.rightIcon} />
             </Button>
             {this.getRightButton()}
           </div>
         </div>
         <div>
           <input
-            ref={input => (this.fileInput = input)}
+            ref={input => this.setFileInput(input)}
             accept='application/pdf'
             type='file'
-            className={this.props.classes.fileInput}
+            className={classes.fileInput}
             onChange={this.handleOpenFile}
           />
           <Dialog
-            open={this.state.successfulUploadDialogOpen}
+            open={successfulUploadDialogOpen}
             onClose={this.handleSuccessfulUploadDialogClose}
             aria-labelledby='alert-dialog-title'
           >
@@ -396,14 +412,14 @@ class ResumeContent extends React.Component {
             </DialogActions>
           </Dialog>
           <Dialog
-            open={this.state.errorDialogOpen}
+            open={errorDialogOpen}
             onClose={this.errorUploadDialogClose}
             aria-labelledby='alert-dialog-title'
           >
             <DialogTitle id='alert-dialog-title'>Error</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-descrption'>
-                {this.state.error ? this.state.error.message : ''}
+                {error ? error.message : ''}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -413,7 +429,7 @@ class ResumeContent extends React.Component {
             </DialogActions>
           </Dialog>
           <Dialog
-            open={this.state.successfulUploadDialogOpen}
+            open={successfulUploadDialogOpen}
             onClose={this.handleSuccessfulUploadDialogClose}
             aria-labelledby='alert-dialog-title'
           >
@@ -433,14 +449,14 @@ class ResumeContent extends React.Component {
             </DialogActions>
           </Dialog>
           <Dialog
-            open={this.state.confirmDeleteDialogOpen}
+            open={confirmDeleteDialogOpen}
             onClose={this.handleConfirmDeleteDialogClose}
             aria-labelledby='alert-dialog-title'
           >
             <DialogTitle id='alert-dialog-title'>Confirm</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-descrption'>
-                {`Are you sure you would like to delete ${this.state.filename}?`}
+                {`Are you sure you would like to delete ${filename}?`}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -456,7 +472,7 @@ class ResumeContent extends React.Component {
             </DialogActions>
           </Dialog>
           <Dialog
-            open={this.state.successfulDeleteDialogOpen}
+            open={successfulDeleteDialogOpen}
             onClose={this.handleSuccessfulDeleteDialogClose}
             aria-labelledby='alert-dialog-title'
           >
@@ -480,9 +496,5 @@ class ResumeContent extends React.Component {
     );
   }
 }
-
-ResumeContent.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default compose(withStyles(styles), withFirebase)(ResumeContent);

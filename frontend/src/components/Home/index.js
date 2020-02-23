@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -131,9 +130,10 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+    const { firebase, history } = this.props;
+    this.listener = firebase.auth.onAuthStateChanged(authUser => {
       if (!authUser) {
-        this.props.history.push(ROUTES.SIGN_IN);
+        history.push(ROUTES.SIGN_IN);
       } else {
         // console.log("authUser: "+authUser.uid)
         this.setState({
@@ -156,56 +156,53 @@ class HomePage extends React.Component {
     this.setState({ isDrawerOpen: false });
   };
 
-  handleResume = event => {
+  handleResume = () => {
     this.setState({ currentContent: HOME_CONTENTS.RESUME });
   };
 
-  handleEventsPage = event => {
+  handleEventsPage = () => {
     this.setState({ currentContent: HOME_CONTENTS.EVENTS });
   };
 
-  handlePointsPage = event => {
+  handlePointsPage = () => {
     this.setState({ currentContent: HOME_CONTENTS.POINTS });
   };
 
-  handleProfile = event => {
+  handleProfile = () => {
     this.setState({ currentContent: HOME_CONTENTS.PROFILE });
   };
 
-  handleTotalPoint = event => {
+  handleTotalPoint = () => {
     this.setState({ currentContent: HOME_CONTENTS.TOTPOINT });
   };
 
   handleLogout = () => {
-    this.props.firebase.doSignOut();
+    const { firebase } = this.props;
+    firebase.doSignOut();
   };
 
   getCurrentContent = () => {
-    switch (this.state.currentContent) {
+    const { currentContent } = this.state;
+    switch (currentContent) {
       case HOME_CONTENTS.RESUME:
         return <ResumeContent />;
-      // case HOME_CONTENTS.PROFILE:
-      //     return <ProfileContent />
       case HOME_CONTENTS.POINTS:
         return <PointsPage />;
-      // case HOME_CONTENTS.FBPAGE:
-      //    return <FBPage />
       case HOME_CONTENTS.TOTPOINT:
         return <TotPoints />;
       case HOME_CONTENTS.EVENTS:
         return <EventsPage />;
       default:
-        break;
+        return null;
     }
   };
 
   checkIfOfficer = () => {
-    this.props.firebase
+    const { firebase } = this.props;
+    firebase
       .queryCurrentUserRole()
       .then(role => {
-        //   console.log("+++"+role)
         if (role === 'Officer') {
-          //   console.log("I am here")
           this.setState({
             isOfficer: true,
           });
@@ -214,37 +211,30 @@ class HomePage extends React.Component {
       .catch(error => {
         console.log(`ERROR: ${error}`);
       });
-    // if(this.props.firebase.getUserRoleID() === this.props.firebase.getIdFromRoles("Officer"))
-    // {
-    //     console.log("I am here")
-    //     this.setState({isOfficer: true})
-    // }
   };
 
   render() {
-    // this.checkIfOfficer();
-    // console.log("isOfficer: "+this.state.isOfficer)
+    const { classes } = this.props;
+    const { isDrawerOpen, isOfficer } = this.state;
+
     return (
-      <div className={this.props.classes.root}>
+      <div className={classes.root}>
         <CssBaseline />
         <AppBar
           position='absolute'
           className={classNames(
-            this.props.classes.appBar,
-            this.state.isDrawerOpen && this.props.classes.appBarShift
+            classes.appBar,
+            isDrawerOpen && classes.appBarShift
           )}
         >
-          <Toolbar
-            disableGutters={!this.state.isDrawerOpen}
-            className={this.props.classes.toolbar}
-          >
+          <Toolbar disableGutters={!isDrawerOpen} className={classes.toolbar}>
             <IconButton
               color='inherit'
               aria-label='Open drawer'
               onClick={this.handleDrawerOpen}
               className={classNames(
-                this.props.classes.menuButton,
-                this.state.isDrawerOpen && this.props.classes.menuButtonHidden
+                classes.menuButton,
+                isDrawerOpen && classes.menuButtonHidden
               )}
             >
               <MenuIcon />
@@ -254,28 +244,23 @@ class HomePage extends React.Component {
               variant='h6'
               color='inherit'
               noWrap
-              className={this.props.classes.title}
+              className={classes.title}
             >
               HKN Portal
             </Typography>
-            {/* <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton> */}
           </Toolbar>
         </AppBar>
         <Drawer
           variant='permanent'
           classes={{
             paper: classNames(
-              this.props.classes.drawerPaper,
-              !this.state.isDrawerOpen && this.props.classes.drawerPaperClose
+              classes.drawerPaper,
+              !isDrawerOpen && classes.drawerPaperClose
             ),
           }}
-          open={this.state.isDrawerOpen}
+          open={isDrawerOpen}
         >
-          <div className={this.props.classes.toolbarIcon}>
+          <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
               <ChevronLeftIcon />
             </IconButton>
@@ -299,7 +284,7 @@ class HomePage extends React.Component {
             </ListItem>
           </List>
           <Divider />
-          {this.state.isOfficer ? (
+          {isOfficer ? (
             <div>
               <List>
                 <ListItem button onClick={this.handleTotalPoint}>
@@ -315,7 +300,6 @@ class HomePage extends React.Component {
           <List>
             <ListItem button onClick={this.handlePointsPage}>
               <ListItemIcon>
-                {/* <LocalAtmIcon /> */}
                 <AssessmentOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary='Points' />
@@ -323,12 +307,6 @@ class HomePage extends React.Component {
           </List>
           <Divider />
           <List>
-            {/* <ListItem button onClick={this.handleProfile}>
-                            <ListItemIcon>
-                                <ProfileIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Profile" />
-                        </ListItem> */}
             <ListItem button onClick={this.handleLogout}>
               <ListItemIcon>
                 <SignOutIcon />
@@ -337,16 +315,10 @@ class HomePage extends React.Component {
             </ListItem>
           </List>
         </Drawer>
-        <main className={this.props.classes.content}>
-          {this.getCurrentContent()}
-        </main>
+        <main className={classes.content}>{this.getCurrentContent()}</main>
       </div>
     );
   }
 }
-
-HomePage.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default compose(withStyles(styles), withFirebase)(HomePage);
