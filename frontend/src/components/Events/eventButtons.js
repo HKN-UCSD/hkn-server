@@ -33,62 +33,62 @@ const styles = theme => ({
   },
 });
 
-class EventButtons extends React.Component {
-  render() {
-    return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.eventButtonsDiv}>
-          <h2 className={this.props.classes.h2}>HKN STAFF PROGRAM</h2>
-          <div className={this.props.classes.buttonRow}>
-            <Button
-              className={this.props.classes.button}
-              variant='contained'
-              color='primary'
-              size='large'
-              href='https://docs.google.com/forms/d/e/1FAIpQLSdRBwB-C7vY1803_Om3kiCJgzoMEam0-mmrGUdN1GIqFfKfYw/viewform'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Sign-Up Form
+const EventButtons = (props) => {
+  const { classes } = props;
+  return (
+    <div className={classes.root}>
+      <div className={classes.eventButtonsDiv}>
+        <h2 className={classes.h2}>HKN STAFF PROGRAM</h2>
+        <div className={classes.buttonRow}>
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='primary'
+            size='large'
+            href='https://docs.google.com/forms/d/e/1FAIpQLSdRBwB-C7vY1803_Om3kiCJgzoMEam0-mmrGUdN1GIqFfKfYw/viewform'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Sign-Up Form
             </Button>
-            <Button
-              className={this.props.classes.button}
-              variant='contained'
-              color='primary'
-              size='large'
-              href='https://docs.google.com/forms/d/e/1FAIpQLSeqMbwiwA9Ip5wcwxwmalSc_z4S4No4MUZoVdTPltmGRxBP2A/viewform'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Log Points Form
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='primary'
+            size='large'
+            href='https://docs.google.com/forms/d/e/1FAIpQLSeqMbwiwA9Ip5wcwxwmalSc_z4S4No4MUZoVdTPltmGRxBP2A/viewform'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Log Points Form
             </Button>
-          </div>
         </div>
+      </div>
 
-        {/* <div className={this.props.classes.eventButtonsDiv}>
+      {/* <div className={this.props.classes.eventButtonsDiv}>
               <h2 className={this.props.classes.h2}>HKN VOLUNTEER PROGRAM</h2>
               
             </div> */}
 
-        <div className={this.props.classes.eventButtonsDiv}>
-          <h2 className={this.props.classes.h2}>HKN BUDDY PROGRAM</h2>
-          <div className={this.props.classes.buttonRow}>
-            <Button
-              className={this.props.classes.button}
-              variant='contained'
-              color='primary'
-              size='large'
-              href='https://docs.google.com/forms/d/e/1FAIpQLScWsLIXMPY_jwpU3qXkWahOkYug8y03g3fthYJnz_94CmpRGQ/viewform'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Sign-Up Form
+      <div className={classes.eventButtonsDiv}>
+        <h2 className={classes.h2}>HKN BUDDY PROGRAM</h2>
+        <div className={classes.buttonRow}>
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='primary'
+            size='large'
+            href='https://docs.google.com/forms/d/e/1FAIpQLScWsLIXMPY_jwpU3qXkWahOkYug8y03g3fthYJnz_94CmpRGQ/viewform'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Sign-Up Form
             </Button>
-          </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+
 }
 
 export default withStyles(styles)(EventButtons);

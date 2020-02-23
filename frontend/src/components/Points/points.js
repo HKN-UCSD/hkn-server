@@ -56,24 +56,16 @@ class PointsPage extends React.Component {
     this.state = { ...INITIAL_STATES };
   }
 
-  addDetails = (list, data) => {
-    list.push({
-      event_name: data.event_name,
-      date: new Date(data.created.seconds * 1000),
-      value: data.value,
-      officer: data.officer_name,
-    });
-  };
-
   componentDidMount() {
-    this.props.firebase
+    const { firebase } = this.props
+    firebase
       .getEnumMap('roles')
       .then(roleEnum => {
         this.setState({ roles: roleEnum });
       })
       .catch(err => console.log(err));
 
-    this.props.firebase
+    firebase
       .getUserDocument()
       .then(docSnapshot => {
         if (!docSnapshot.exists) {
@@ -90,7 +82,7 @@ class PointsPage extends React.Component {
       })
       .catch(err => console.log(err));
 
-    this.props.firebase
+    firebase
       .getEnumMap('pointRewardType')
       .then(pointEnum => {
         if (
@@ -105,7 +97,8 @@ class PointsPage extends React.Component {
         this.setState({ pointRewardTypes: pointEnum });
       })
       .then(() => {
-        this.props.firebase
+        const { pointRewardTypes } = this.state
+        firebase
           .getPoints()
           .then(snapshot => {
             if (!snapshot) {
@@ -125,7 +118,7 @@ class PointsPage extends React.Component {
               const data = doc.data();
               if (
                 data.pointrewardtype_id ===
-                this.state.pointRewardTypes[POINT_TYPE.INDUCTION]
+                pointRewardTypes[POINT_TYPE.INDUCTION]
               ) {
                 if (data.event_name.includes('Mentor')) {
                   this.addDetails(pointsList.inducteeMentorList, data);
@@ -158,58 +151,69 @@ class PointsPage extends React.Component {
       .catch(err => console.log(err));
   }
 
+  addDetails = (list, data) => {
+    list.push({
+      event_name: data.event_name,
+      date: new Date(data.created.seconds * 1000),
+      value: data.value,
+      officer: data.officer_name,
+    });
+  };
+
   render() {
+    const { classes } = this.props
+    const { userRole, roles, totalPoints, memberPoints, memberMentorPoints, mentorship, professional, inducteePoints, inducteeMentorPoints } = this.state
     return (
-      <div className={this.props.classes.root}>
-        <div className={this.props.classes.contentWrapper}>
-          {this.state.userRole === this.state.roles[USER_ROLES.MEMBER] ||
-          this.state.userRole === this.state.roles[USER_ROLES.OFFICER] ? (
-            <div>
-              <div style={{ margin: '20px' }}>
-                <h2>Member Points</h2>
-                <Grid container justify='space-between'>
-                  <Grid item>
-                    <h3>
-                      Total Member Points: {this.state.totalPoints.member}
-                    </h3>
+      <div className={classes.root}>
+        <div className={classes.contentWrapper}>
+          {userRole === roles[USER_ROLES.MEMBER] ||
+            userRole === roles[USER_ROLES.OFFICER] ? (
+              <div>
+                <div style={{ margin: '20px' }}>
+                  <h2>Member Points</h2>
+                  <Grid container justify='space-between'>
+                    <Grid item>
+                      <h3>
+                        Total Member Points: {totalPoints.member}
+                      </h3>
+                    </Grid>
                   </Grid>
-                </Grid>
-                <PointDisplay points={this.state.memberPoints} />
+                  <PointDisplay points={memberPoints} />
 
-                <h3>Mentor Points</h3>
-                <PointDisplay points={this.state.memberMentorPoints} />
+                  <h3>Mentor Points</h3>
+                  <PointDisplay points={memberMentorPoints} />
 
-                <br />
+                  <br />
+                </div>
+                <Divider />
               </div>
-              <Divider />
-            </div>
-          ) : null}
+            ) : null}
 
           <div style={{ margin: '20px' }}>
             <h2>Inductee Points</h2>
             <Grid container justify='space-between' spacing={3}>
               <Grid item>
                 <h3>
-                  Total Inductee Points: {this.state.totalPoints.induction}
+                  Total Inductee Points: {totalPoints.induction}
                 </h3>
               </Grid>
               <Grid item>
                 <h3>
                   Mentor Point:{' '}
-                  {this.state.mentorship ? `Complete` : `Incomplete`}
+                  {mentorship ? `Complete` : `Incomplete`}
                 </h3>
               </Grid>
               <Grid item>
                 <h3>
                   Professional Requirement:{' '}
-                  {this.state.professional ? `Complete` : `Incomplete`}
+                  {professional ? `Complete` : `Incomplete`}
                 </h3>
               </Grid>
             </Grid>
-            <PointDisplay points={this.state.inducteePoints} />
+            <PointDisplay points={inducteePoints} />
 
             <h3>Mentor Points</h3>
-            <PointDisplay points={this.state.inducteeMentorPoints} />
+            <PointDisplay points={inducteeMentorPoints} />
           </div>
         </div>
       </div>

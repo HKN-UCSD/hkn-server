@@ -1,14 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import moment from 'moment';
 
-//minWidth was changed due to minWidth being too large
-//before, it would start overlapping before the breakpoints changed so I had to make it smaller
-const styles = theme => ({
+const styles = () => ({
   card: {
     minWidth: 200,
   },
@@ -20,21 +20,6 @@ const styles = theme => ({
   },
 });
 
-const months_arr = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
-
 class PointDisplay extends React.Component {
   constructor(props) {
     super(props);
@@ -44,36 +29,48 @@ class PointDisplay extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.state.points !== this.props.points) {
+  componentDidUpdate(prevProps) {
+    this.updatePoints(prevProps);
+  }
+
+  updatePoints(prevProps) {
+    const { points } = this.props;
+    if (prevProps.points !== points) {
       this.setState({
-        points: this.props.points,
+        points,
       });
     }
   }
   // componentWillReceiveProps(newProps) { this.setState(newProps); }
 
   render() {
+    const { points } = this.state;
+    const { classes } = this.props;
     return (
       <div>
-        {this.state.points.length > 0 ? (
+        {points.length > 0 ? (
           <div>
             <Grid container spacing={2}>
-              {this.state.points.map((event, key) => {
+              {points.map(event => {
                 return (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={key}>
-                    <Card className={this.props.classes.card}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={event.event_name}
+                  >
+                    <Card className={classes.card}>
                       <CardContent>
                         <Typography variant='h5' component='h2'>
                           {event.event_name}
                         </Typography>
                         <Typography
-                          className={this.props.classes.pos}
+                          className={classes.pos}
                           color='textSecondary'
                         >
-                          {`${
-                            months_arr[event.date.getMonth()]
-                          } ${event.date.getDate()}, ${event.date.getFullYear()}`}
+                          {moment(event.date).format('LL')}
                         </Typography>
                         <Typography variant='body2' component='p'>
                           {`Officer: ${event.officer}`}
@@ -94,8 +91,9 @@ class PointDisplay extends React.Component {
     );
   }
 }
-<<<<<<< HEAD
-export default compose(withStyles(styles))(PointDisplay)
-=======
+
+PointDisplay.propTypes = {
+  points: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
 export default compose(withStyles(styles))(PointDisplay);
->>>>>>> Linted + Prettiered
