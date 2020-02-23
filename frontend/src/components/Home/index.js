@@ -1,29 +1,29 @@
 import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import EventIcon from '@material-ui/icons/Event';
-// import LocalAtmIcon from '@material-ui/icons/LocalAtm'
-// import ProfileIcon from '@material-ui/icons/AccountCircle'
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 // import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { compose } from 'recompose';
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
+import {
+  CssBaseline,
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Divider,
+  IconButton,
+} from '@material-ui/core';
 import { withFirebase } from '../Firebase';
 import ResumeContent from './resume';
 
@@ -33,6 +33,7 @@ import EventsPage from '../Events/events';
 import PointsPage from '../Points';
 
 import TotPoints from './totpoints';
+
 
 const drawerWidth = 240;
 

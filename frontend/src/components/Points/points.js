@@ -1,8 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
+import { Grid, Divider } from '@material-ui/core';
 import { withFirebase } from '../Firebase';
 
 import { USER_ROLES } from '../../constants/roles';
@@ -57,7 +56,7 @@ class PointsPage extends React.Component {
   }
 
   componentDidMount() {
-    const { firebase } = this.props
+    const { firebase } = this.props;
     firebase
       .getEnumMap('roles')
       .then(roleEnum => {
@@ -97,7 +96,7 @@ class PointsPage extends React.Component {
         this.setState({ pointRewardTypes: pointEnum });
       })
       .then(() => {
-        const { pointRewardTypes } = this.state
+        const { pointRewardTypes } = this.state;
         firebase
           .getPoints()
           .then(snapshot => {
@@ -161,47 +160,50 @@ class PointsPage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props
-    const { userRole, roles, totalPoints, memberPoints, memberMentorPoints, mentorship, professional, inducteePoints, inducteeMentorPoints } = this.state
+    const { classes } = this.props;
+    const {
+      userRole,
+      roles,
+      totalPoints,
+      memberPoints,
+      memberMentorPoints,
+      mentorship,
+      professional,
+      inducteePoints,
+      inducteeMentorPoints,
+    } = this.state;
     return (
       <div className={classes.root}>
         <div className={classes.contentWrapper}>
           {userRole === roles[USER_ROLES.MEMBER] ||
-            userRole === roles[USER_ROLES.OFFICER] ? (
-              <div>
-                <div style={{ margin: '20px' }}>
-                  <h2>Member Points</h2>
-                  <Grid container justify='space-between'>
-                    <Grid item>
-                      <h3>
-                        Total Member Points: {totalPoints.member}
-                      </h3>
-                    </Grid>
+          userRole === roles[USER_ROLES.OFFICER] ? (
+            <div>
+              <div style={{ margin: '20px' }}>
+                <h2>Member Points</h2>
+                <Grid container justify='space-between'>
+                  <Grid item>
+                    <h3>Total Member Points: {totalPoints.member}</h3>
                   </Grid>
-                  <PointDisplay points={memberPoints} />
+                </Grid>
+                <PointDisplay points={memberPoints} />
 
-                  <h3>Mentor Points</h3>
-                  <PointDisplay points={memberMentorPoints} />
+                <h3>Mentor Points</h3>
+                <PointDisplay points={memberMentorPoints} />
 
-                  <br />
-                </div>
-                <Divider />
+                <br />
               </div>
-            ) : null}
+              <Divider />
+            </div>
+          ) : null}
 
           <div style={{ margin: '20px' }}>
             <h2>Inductee Points</h2>
             <Grid container justify='space-between' spacing={3}>
               <Grid item>
-                <h3>
-                  Total Inductee Points: {totalPoints.induction}
-                </h3>
+                <h3>Total Inductee Points: {totalPoints.induction}</h3>
               </Grid>
               <Grid item>
-                <h3>
-                  Mentor Point:{' '}
-                  {mentorship ? `Complete` : `Incomplete`}
-                </h3>
+                <h3>Mentor Point: {mentorship ? `Complete` : `Incomplete`}</h3>
               </Grid>
               <Grid item>
                 <h3>
