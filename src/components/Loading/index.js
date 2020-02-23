@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/LinearProgress';
 
@@ -9,10 +8,17 @@ const styles = theme => ({
   },
 });
 
+const INITIAL_STATES = {
+  completed: 0,
+};
+
 class Loading extends React.Component {
-  state = {
-    completed: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...INITIAL_STATES,
+    };
+  }
 
   componentDidMount() {
     this.timer = setInterval(this.progress, 20);
@@ -29,20 +35,17 @@ class Loading extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { completed } = this.state;
     return (
       <div>
         <CircularProgress
           className={classes.progress}
           variant='determinate'
-          value={this.state.completed}
+          value={completed}
         />
       </div>
     );
   }
 }
-
-Loading.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Loading);
