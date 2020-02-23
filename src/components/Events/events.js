@@ -79,10 +79,9 @@ class EventsPage extends React.Component {
   };
 
   getPagePluginURL = () => {
+    const { width, height } = this.state;
     return `${'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events' +
-      '&width='}${this.state.width}&height=${
-      this.state.height
-    }&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId`;
+      '&width='}${width}&height=${height}&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId`;
   };
 
   getCalendarPluginURL = () => {
@@ -90,7 +89,8 @@ class EventsPage extends React.Component {
   };
 
   checkIfInductee() {
-    this.props.firebase
+    const { firebase } = this.props;
+    firebase
       .queryCurrentUserRole()
       .then(role => {
         if (role !== undefined && role !== 'Inductee') {
@@ -105,22 +105,24 @@ class EventsPage extends React.Component {
   }
 
   render() {
+    const { buttons, width, height } = this.state;
+    const { classes } = this.props;
     return (
       <div>
-        <div style={{ margin: '20px' }}>{this.state.buttons}</div>
+        <div style={{ margin: '20px' }}>{buttons}</div>
 
-        <div className={this.props.classes.contentWrapper}>
+        <div className={classes.contentWrapper}>
           <Divider />
           <h1 style={{ textAlign: 'center' }}>Upcoming Events</h1>
           <Divider />
         </div>
-        <div className={this.props.classes.root}>
+        <div className={classes.root}>
           <iframe
             title='hkn-ucsd-fb'
-            className={this.props.classes.contentWrapper}
+            className={classes.contentWrapper}
             src={this.getPagePluginURL()}
-            width={this.state.width}
-            height={this.state.height}
+            width={width}
+            height={height}
             frameBorder='0'
             allow='encrypted-media'
             overflow-x='visible'
@@ -128,10 +130,10 @@ class EventsPage extends React.Component {
 
           <iframe
             title='hkn-google-cal'
-            className={this.props.classes.contentWrapper}
+            className={classes.contentWrapper}
             src={this.getCalendarPluginURL()}
-            width={this.state.width}
-            height={this.state.height}
+            width={width}
+            height={height}
             frameBorder='0'
             allow='encrypted-media'
           />

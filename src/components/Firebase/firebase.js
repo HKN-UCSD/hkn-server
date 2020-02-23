@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+// eslint-disable-next-line
 import firebase from '@firebase/app';
 
 // Initialize Firebase
@@ -143,7 +144,7 @@ class Firebase {
       .collection('pointReward')
       .where('user_id', '==', userId)
       .get()
-      .catch(err => {
+      .catch(() => {
         throw Error('Points Query failed.');
       });
   };
@@ -173,7 +174,7 @@ class Firebase {
       return eventPoints
         .where('user_id', '==', this.auth.currentUser.uid)
         .get()
-        .catch(err => {
+        .catch(() => {
           throw Error('Points Query failed.');
         });
     }
@@ -195,7 +196,7 @@ class Firebase {
         });
         return enumMap;
       })
-      .catch(err => {
+      .catch(() => {
         throw Error('Enum Map query failed');
       });
   };

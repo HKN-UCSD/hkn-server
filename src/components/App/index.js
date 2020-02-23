@@ -21,6 +21,23 @@ class App extends React.Component {
     this.state = { ...INITIAL_STATES };
   }
 
+  componentDidMount() {
+    const { firebase } = this.props;
+    this.listener = firebase.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          authUser: user,
+          isLoading: false,
+        });
+      } else {
+        this.setState({
+          authUser: null,
+          isLoading: false,
+        });
+      }
+    });
+  }
+
   render() {
     const { authUser, isLoading } = this.state;
 
@@ -39,24 +56,6 @@ class App extends React.Component {
         </BrowserRouter>
       </AuthUserContext.Provider>
     );
-  }
-
-  componentDidMount() {
-    this.listener = this.props.firebase.auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          authUser: user,
-          authenticated: true,
-          isLoading: false,
-        });
-      } else {
-        this.setState({
-          authUser: null,
-          authenticated: false,
-          isLoading: false,
-        });
-      }
-    });
   }
 }
 
