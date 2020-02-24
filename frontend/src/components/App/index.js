@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import SignInPage from '../SignIn';
 import SignUpPage from '../SignUp';
 import HomePage from '../Home';
@@ -12,6 +13,25 @@ import { withFirebase } from '../../services/Firebase';
 const INITIAL_STATES = {
   authUser: null,
   isLoading: true,
+};
+
+const PrivateRoute = withFirebase(
+  ({ firebase, component: Component, ...otherProps }) => (
+    <Route
+      {...otherProps}
+      render={props =>
+        firebase.auth.currentUser ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={ROUTES.SIGN_IN} />
+        )
+      }
+    />
+  )
+);
+
+PrivateRoute.propTypes = {
+  component: PropTypes.objectOf(React.Component).isRequired,
 };
 
 class App extends React.Component {
@@ -51,7 +71,7 @@ class App extends React.Component {
           <Switch>
             <Route path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route path={ROUTES.HOME} component={HomePage} />
+            <PrivateRoute path={ROUTES.HOME} component={HomePage} />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
