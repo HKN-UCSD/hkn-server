@@ -15,6 +15,9 @@ const INITIAL_STATES = {
   isLoading: true,
 };
 
+// PrivateRoute can be used just like a normal Route from react-router-dom
+// With a PrivateRoute, if the user is not logged in then they will be
+// automatically redirected to the Sign In Page
 const PrivateRoute = withFirebase(
   ({ firebase, component: Component, ...otherProps }) => (
     <Route
