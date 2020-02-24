@@ -27,7 +27,6 @@ import {
 import { withFirebase } from '../../services/Firebase';
 import ResumeContent from './resume';
 
-import * as ROUTES from '../../constants/routes';
 import * as HOME_CONTENTS from '../../constants/home';
 import EventsPage from '../Events/events';
 import PointsPage from '../Points';
@@ -125,27 +124,13 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = { ...INITIAL_STATES };
-
-    // this.checkIfOfficer = this.checkIfOfficer.bind(this);
   }
 
   componentDidMount() {
-    const { firebase, history } = this.props;
-    this.listener = firebase.auth.onAuthStateChanged(authUser => {
-      if (!authUser) {
-        history.push(ROUTES.SIGN_IN);
-      } else {
-        // console.log("authUser: "+authUser.uid)
-        this.setState({
-          currentContent: HOME_CONTENTS.EVENTS,
-        });
-        this.checkIfOfficer();
-      }
+    this.setState({
+      currentContent: HOME_CONTENTS.EVENTS,
     });
-  }
-
-  componentWillUnmount() {
-    this.listener();
+    this.checkIfOfficer();
   }
 
   handleDrawerOpen = () => {
