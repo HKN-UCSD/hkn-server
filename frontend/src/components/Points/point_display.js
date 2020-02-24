@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import { Card, CardContent, Typography } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { Card, CardContent, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
 
 const styles = () => ({
