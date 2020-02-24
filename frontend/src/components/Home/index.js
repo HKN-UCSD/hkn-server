@@ -24,7 +24,7 @@ import {
   Divider,
   IconButton,
 } from '@material-ui/core';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../services/Firebase';
 import ResumeContent from './resume';
 
 import * as ROUTES from '../../constants/routes';
@@ -33,7 +33,6 @@ import EventsPage from '../Events/events';
 import PointsPage from '../Points';
 
 import TotPoints from './totpoints';
-
 
 const drawerWidth = 240;
 

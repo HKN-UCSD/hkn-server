@@ -2,9 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Divider } from '@material-ui/core';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../services/Firebase';
 import EventButtons from './eventButtons';
-
 
 const styles = theme => ({
   root: {

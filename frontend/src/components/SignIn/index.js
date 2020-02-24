@@ -25,8 +25,7 @@ import {
 import * as ROUTES from '../../constants/routes';
 import * as LOGO_URL from '../../images/hkn-trident.png';
 
-import { withFirebase } from '../Firebase';
-
+import { withFirebase } from '../../services/Firebase';
 
 const styles = theme => ({
   main: {

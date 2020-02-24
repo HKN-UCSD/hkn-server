@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Grid, Divider } from '@material-ui/core';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../services/Firebase';
 
 import { USER_ROLES } from '../../constants/roles';
 import { POINT_TYPE } from '../../constants/pointtype';

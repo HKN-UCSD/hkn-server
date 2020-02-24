@@ -20,10 +20,9 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as LOGO_URL from '../../images/hkn-trident.png';
-
 
 const styles = theme => ({
   main: {

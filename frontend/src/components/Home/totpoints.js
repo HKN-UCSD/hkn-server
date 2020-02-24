@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../services/Firebase';
 
 import {
   Paper,

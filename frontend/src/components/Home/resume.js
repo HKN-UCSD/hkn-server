@@ -16,8 +16,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
-import { withFirebase } from '../Firebase';
-
+import { withFirebase } from '../../services/Firebase';
 
 const styles = theme => ({
   root: {
