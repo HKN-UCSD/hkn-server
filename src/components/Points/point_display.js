@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
+//minWidth was changed due to minWidth being too large
+//before, it would start overlapping before the breakpoints changed so I had to make it smaller
 const styles = theme => ({
   card: {
     minWidth: 200,
