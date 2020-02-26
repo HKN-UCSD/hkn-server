@@ -144,6 +144,9 @@ class Firebase {
       .collection('pointReward')
       .where('user_id', '==', userId)
       .get()
+      .then(querySnapshot => {
+        return querySnapshot.docs.map(doc => doc.data());
+      })
       .catch(() => {
         throw Error('Points Query failed.');
       });
