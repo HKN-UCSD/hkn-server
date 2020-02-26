@@ -31,7 +31,7 @@ import * as HOME_CONTENTS from '../../constants/home';
 import EventsPage from '../Events/events';
 import PointsPage from '../Points';
 
-import TotPoints from './totpoints';
+import TotalPoints from './TotalPoints';
 
 const drawerWidth = 240;
 
@@ -174,7 +174,8 @@ class HomePage extends React.Component {
       case HOME_CONTENTS.POINTS:
         return <PointsPage />;
       case HOME_CONTENTS.TOTPOINT:
-        return <TotPoints />;
+        // return <TotPoints />;
+        return <TotalPoints />;
       case HOME_CONTENTS.EVENTS:
         return <EventsPage />;
       default:
