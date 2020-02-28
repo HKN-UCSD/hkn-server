@@ -24,6 +24,10 @@ class Firebase {
     // console.log(this.storage)
 
     this.db = app.firestore();
+    this.db.enablePersistence().catch(err => {
+      console.log(err);
+      // Just don't cache. Catching error to ensure that it doesn't propagate out.
+    });
     // this.db.settings({timestampsInSnapshots: true})
   }
 
