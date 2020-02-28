@@ -87,7 +87,7 @@ const INITIAL_STATES = {
   resumeDownloadURL: null,
 };
 
-class ResumeContent extends React.Component {
+class ResumePage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -497,4 +497,4 @@ class ResumeContent extends React.Component {
   }
 }
 
-export default compose(withStyles(styles), withFirebase)(ResumeContent);
+export default compose(withStyles(styles), withFirebase)(ResumePage);

@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import SignInPage from '../SignIn';
-import SignUpPage from '../SignUp';
-import PointsPage from '../Points';
-import TotalPoints from '../Home/TotalPoints';
-import Loading from '../Loading';
-import ResumeContent from '../Home/resume';
-import EventsPage from '../Events/events';
-import NavBar from '../NavBar';
+import SignInPage from '../SignInPage';
+import SignUpPage from '../SignUpPage';
+import PointsPage from '../PointsPage';
+import InducteePointsPage from '../InducteePointsPage';
+import ResumePage from '../ResumePage';
+import EventsPage from '../EventsPage';
+
+import Loading from '../../components/Loading';
+import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
 import { AuthUserContext } from '../../contexts';
 
@@ -101,13 +102,13 @@ class App extends React.Component {
               exact
               nav
               path={ROUTES.RESUME}
-              component={ResumeContent}
+              component={ResumePage}
             />
             <PrivateRoute
               exact
               nav
               path={ROUTES.INDUCTEES}
-              component={TotalPoints}
+              component={InducteePointsPage}
             />
           </Switch>
         </BrowserRouter>
