@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '../Table';
+import Table from '../../components/Table';
 import PointDetail from './PointDetail';
 
 import { withFirebase } from '../../services/Firebase';
@@ -33,7 +33,7 @@ const columns = [
   },
 ];
 
-class TotalPoints extends React.Component {
+class InducteePoints extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,4 +95,4 @@ class TotalPoints extends React.Component {
   }
 }
 
-export default compose(withStyles(styles), withFirebase)(TotalPoints);
+export default compose(withStyles(styles), withFirebase)(InducteePoints);

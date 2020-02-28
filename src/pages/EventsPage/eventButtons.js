@@ -33,7 +33,7 @@ const styles = theme => ({
   },
 });
 
-const EventButtons = (props) => {
+const EventButtons = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -50,7 +50,7 @@ const EventButtons = (props) => {
             rel='noopener noreferrer'
           >
             Sign-Up Form
-            </Button>
+          </Button>
           <Button
             className={classes.button}
             variant='contained'
@@ -61,7 +61,7 @@ const EventButtons = (props) => {
             rel='noopener noreferrer'
           >
             Log Points Form
-            </Button>
+          </Button>
         </div>
       </div>
 
@@ -83,12 +83,11 @@ const EventButtons = (props) => {
             rel='noopener noreferrer'
           >
             Sign-Up Form
-            </Button>
+          </Button>
         </div>
       </div>
     </div>
   );
-
-}
+};
 
 export default withStyles(styles)(EventButtons);
