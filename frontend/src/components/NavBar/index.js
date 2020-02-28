@@ -63,6 +63,14 @@ class NavBar extends React.Component {
       });
   };
 
+  handleDrawerOpen = () => {
+    this.setState({ isDrawerOpen: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ isDrawerOpen: false });
+  };
+
   render() {
     const { classes, children, firebase } = this.props;
     const { isDrawerOpen, isOfficer } = this.state;
