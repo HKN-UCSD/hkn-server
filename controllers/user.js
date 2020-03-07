@@ -2,7 +2,12 @@ import admin from 'firebase-admin';
 
 export const addClaim = async (req, res) => {
   const { uid } = req.params;
-  const { token, claim } = req.body;
+  // const { token, claim } = req.body;
+
+  res.status(200).send({
+    success: true,
+  });
+  return;
 
   const requesterClaims = null;
   try {
