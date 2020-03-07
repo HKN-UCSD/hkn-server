@@ -3,10 +3,15 @@ import admin from 'firebase-admin';
 import Config from '../config.js';
 import UserRouter from '../routes/user.js';
 
-admin.initializeApp(Config.FirebaseConfig);
+console.log(Config.FirebaseConfig);
+
+admin.initializeApp({
+  credential: admin.credential.cert(Config.FirebaseConfig),
+  databaseURL: Config.FirebaseURL,
+});
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

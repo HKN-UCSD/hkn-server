@@ -2,21 +2,24 @@ import admin from 'firebase-admin';
 
 export const addClaim = async (req, res) => {
   const { uid } = req.params;
-  // const { token, claim } = req.body;
+  const { token } = req.body;
 
-  res.status(200).send({
-    success: true,
-  });
-  return;
-
-  const requesterClaims = null;
+  let requesterClaims = null;
   try {
     requesterClaims = await admin.auth().verifyIdToken(token);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       error: 'Missing ID Token',
+      err,
     });
+    return;
   }
+  res.status(200).send({
+    token,
+    requesterClaims,
+  });
+  return;
 
   // check if caller has officer token
   if (!('officer' in requesterClaims) || !requesterClaims.Officer) {
