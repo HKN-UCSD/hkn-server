@@ -8,11 +8,15 @@
     "@material-ui/lab": "^4.0.0-alpha.39",
     "@material/layout-grid": "^0.41.0",
     "classnames": "^2.2.6",
+    "date-fns": "^2.10.0",
     "dotenv": "^6.2.0",
     "firebase": "^6.4.0",
     "firebase-functions": "^3.2.0",
     "firebase-tools": "^7.3.0",
+    "material-table": "^1.57.2",
     "material-ui": "^0.20.2",
+    "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router": "^4.3.1",
@@ -21,10 +25,11 @@
     "recompose": "^0.30.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ignore-path .gitignore --fix ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,6 +41,25 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint-plugin-react": "^7.14.3"
+    "@material-ui/codemod": "^4.5.0",
+    "customize-cra": "^0.9.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-react": "^7.18.3",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "react-app-rewired": "^2.1.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

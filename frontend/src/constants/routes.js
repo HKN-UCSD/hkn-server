@@ -1,4 +1,8 @@
 // export const LANDING = '/'
-export const SIGN_UP = '/signup'
-export const SIGN_IN = '/login'
-export const HOME = '/'
+export const SIGN_UP = '/signup';
+export const SIGN_IN = '/login';
+export const HOME = '/';
+export const EVENTS = '/events';
+export const POINTS = '/points';
+export const RESUME = '/resume';
+export const INDUCTEES = '/inductees';
