@@ -15,11 +15,6 @@ import { AuthUserContext } from '../../contexts';
 
 import { withFirebase } from '../../services/Firebase';
 
-const INITIAL_STATES = {
-  authUser: null,
-  isLoading: true,
-};
-
 // PrivateRoute can be used just like a normal Route from react-router-dom
 // With a PrivateRoute, if the user is not logged in then they will be
 // automatically redirected to the Sign In Page
@@ -52,6 +47,11 @@ PrivateRoute.propTypes = {
 
 PrivateRoute.defaultProps = {
   nav: false,
+};
+
+const INITIAL_STATES = {
+  authUser: null,
+  isLoading: true,
 };
 
 class App extends React.Component {
