@@ -18,6 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', UserRouter);
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log('API is running on port 3000.');
 });
