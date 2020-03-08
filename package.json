@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "HKN's Server",
   "main": "src/index.js",
+  "engines": {
+    "node": "13.x"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
