@@ -33,6 +33,7 @@ import SignOutIcon from '@material-ui/icons/ExitToApp';
 import EventIcon from '@material-ui/icons/Event';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import HomeIcon from '@material-ui/icons/Home';
 
 import styles from './styles';
 import { withFirebase } from '../../services/Firebase';
@@ -143,6 +144,15 @@ class NavBar extends React.Component {
           </div>
           <Divider />
           <List>
+            <ListItem button component={Link} to={ROUTES.CALENDAR}>
+              <ListItemIcon>
+                <EventIcon />
+              </ListItemIcon>
+              <ListItemText primary='Calendar' />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
             <ListItem button component={Link} to={ROUTES.RESUME}>
               <ListItemIcon>
                 <AttachmentIcon />
@@ -154,7 +164,7 @@ class NavBar extends React.Component {
           <List>
             <ListItem button component={Link} to={ROUTES.HOME}>
               <ListItemIcon>
-                <EventIcon />
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary='Get Involved' />
             </ListItem>

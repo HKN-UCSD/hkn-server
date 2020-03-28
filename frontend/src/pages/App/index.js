@@ -110,6 +110,12 @@ class App extends React.Component {
               path={ROUTES.INDUCTEES}
               component={InducteePointsPage}
             />
+            <PrivateRoute
+              exact
+              nav
+              path={ROUTES.CALENDAR}
+              component={ResumePage}
+            />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
