@@ -92,6 +92,12 @@ class App extends React.Component {
               path={ROUTES.CALENDAR}
               component={CalendarPage}
             />
+            <PrivateRoute
+              exact
+              nav
+              path={ROUTES.CALENDAR}
+              component={ResumePage}
+            />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
