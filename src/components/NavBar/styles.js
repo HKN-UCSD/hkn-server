@@ -67,12 +67,6 @@ const styles = theme => ({
     overflow: 'auto',
     backgroundColor: theme.palette.background.default,
   },
-  chartContainer: {
-    marginLeft: -22,
-  },
-  tableContainer: {
-    height: 320,
-  },
   h5: {
     marginBottom: theme.spacing(2),
   },
