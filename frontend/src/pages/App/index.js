@@ -7,6 +7,7 @@ import PointsPage from '../PointsPage';
 import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
+import CalendarPage from '../CalendarPage';
 
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
@@ -114,7 +115,7 @@ class App extends React.Component {
               exact
               nav
               path={ROUTES.CALENDAR}
-              component={ResumePage}
+              component={CalendarPage}
             />
           </Switch>
         </BrowserRouter>
