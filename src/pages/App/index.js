@@ -102,7 +102,7 @@ class App extends React.Component {
               exact
               nav
               path={ROUTES.CALENDAR}
-              component={ResumePage}
+              component={CalendarPage}
             />
           </Switch>
         </BrowserRouter>
