@@ -2,6 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { compose } from 'recompose';
 
@@ -35,12 +41,14 @@ import * as ROUTES from '../../constants/routes';
 const INITIAL_STATES = {
   isDrawerOpen: false,
   isOfficer: false,
+  open: false,
 };
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATES };
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   componentDidMount() {
@@ -71,9 +79,21 @@ class NavBar extends React.Component {
     this.setState({ isDrawerOpen: false });
   };
 
+  handleLogOut = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
   render() {
     const { classes, children, firebase } = this.props;
-    const { isDrawerOpen, isOfficer } = this.state;
+    const { isDrawerOpen, isOfficer, open } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -164,13 +184,35 @@ class NavBar extends React.Component {
           </List>
           <Divider />
           <List>
-            <ListItem button onClick={firebase.doSignOut}>
+            <ListItem button onClick={this.handleLogOut}>
               <ListItemIcon>
                 <SignOutIcon />
               </ListItemIcon>
               <ListItemText primary='Logout' />
             </ListItem>
           </List>
+
+          <Dialog
+            open={open}
+            onClose={this.handleClose}
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
+          >
+            <DialogTitle id='alert-dialog-title'>LogOut?</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                Are you sure you want to log out?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={firebase.doSignOut} color='primary'>
+                Yes
+              </Button>
+              <Button onClick={this.handleClose} color='primary' autoFocus>
+                No
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Drawer>
         <main className={classes.content}>{children}</main>
       </div>
