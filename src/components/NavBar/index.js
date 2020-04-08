@@ -2,12 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { compose } from 'recompose';
 
@@ -24,6 +18,12 @@ import {
   Typography,
   Divider,
   IconButton,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
@@ -41,14 +41,13 @@ import * as ROUTES from '../../constants/routes';
 const INITIAL_STATES = {
   isDrawerOpen: false,
   isOfficer: false,
-  open: false,
+  isConfirmationModalOpen: false,
 };
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATES };
-    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   componentDidMount() {
@@ -81,19 +80,19 @@ class NavBar extends React.Component {
 
   handleLogOut = () => {
     this.setState({
-      open: true,
+      isConfirmationModalOpen: true,
     });
   };
 
   handleClose = () => {
     this.setState({
-      open: false,
+      isConfirmationModalOpen: false,
     });
   };
 
   render() {
     const { classes, children, firebase } = this.props;
-    const { isDrawerOpen, isOfficer, open } = this.state;
+    const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -193,12 +192,12 @@ class NavBar extends React.Component {
           </List>
 
           <Dialog
-            open={open}
+            open={isConfirmationModalOpen}
             onClose={this.handleClose}
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
-            <DialogTitle id='alert-dialog-title'>LogOut?</DialogTitle>
+            <DialogTitle id='alert-dialog-title'>Log Out?</DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-description'>
                 Are you sure you want to log out?
