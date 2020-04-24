@@ -35,8 +35,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import styles from './styles';
-import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
+
+import { queryCurrentUserRole } from '../../services/user';
+import { doSignOut } from '../../services/auth';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,
@@ -55,9 +57,7 @@ class NavBar extends React.Component {
   }
 
   checkIfOfficer = () => {
-    const { firebase } = this.props;
-    firebase
-      .queryCurrentUserRole()
+    queryCurrentUserRole()
       .then(role => {
         if (role === 'Officer') {
           this.setState({
@@ -66,7 +66,7 @@ class NavBar extends React.Component {
         }
       })
       .catch(error => {
-        console.log(`ERROR: ${error}`);
+        throw Error(`ERROR: ${error}`);
       });
   };
 
@@ -91,8 +91,9 @@ class NavBar extends React.Component {
   };
 
   render() {
-    const { classes, children, firebase } = this.props;
+    const { classes, children } = this.props;
     const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
+
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -204,7 +205,7 @@ class NavBar extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={firebase.doSignOut} color='primary'>
+              <Button onClick={doSignOut} color='primary'>
                 Yes
               </Button>
               <Button onClick={this.handleClose} color='primary' autoFocus>
@@ -223,4 +224,4 @@ NavBar.propTypes = {
   children: PropTypes.objectOf(React.Component).isRequired,
 };
 
-export default compose(withStyles(styles), withFirebase)(NavBar);
+export default compose(withStyles(styles))(NavBar);
