@@ -20,9 +20,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
-import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as LOGO_URL from '../../images/hkn-trident.png';
+
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignOut,
+  doSendVerificationEmail,
+} from '../../services/auth';
 
 const styles = theme => ({
   main: {
@@ -117,17 +122,15 @@ class SignUpPage extends React.Component {
 
   handleSignUp = async event => {
     const { email, password } = this.state;
-    const { firebase } = this.props;
 
     this.setState({
       isSignUpButtonDisabled: true,
     });
 
-    firebase
-      .doCreateUserWithEmailAndPassword(email.trim().toLowerCase(), password)
+    doCreateUserWithEmailAndPassword(email.trim().toLowerCase(), password)
       .then(() => {
         this.sendVerificationEmail();
-        firebase.doSignOut();
+        doSignOut();
       })
       .catch(error => {
         this.setState({
@@ -145,9 +148,7 @@ class SignUpPage extends React.Component {
   };
 
   sendVerificationEmail = () => {
-    const { firebase } = this.props;
-    firebase
-      .doSendVerificationEmail()
+    doSendVerificationEmail()
       .then(() => {
         this.setState({ successfulSignUpDialogOpen: true });
       })
@@ -178,9 +179,9 @@ class SignUpPage extends React.Component {
   };
 
   handleSuccessfulSignUpDialogClose = () => {
-    const { firebase, history } = this.props;
+    const { history } = this.props;
     this.setState({ ...INITIAL_STATE });
-    firebase.doSignOut();
+    doSignOut();
     history.push(ROUTES.SIGN_IN);
   };
 
@@ -201,8 +202,8 @@ class SignUpPage extends React.Component {
 
   handleFailedSendVerificationEmailDialogClose = () => {
     this.setState({ failedSendVerificationEmailDialogOpen: false });
-    const { firebase, history } = this.props;
-    firebase.doSignOut();
+    const { history } = this.props;
+    doSignOut();
     history.push(ROUTES.SIGN_IN);
   };
 
@@ -430,8 +431,4 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default compose(
-  withRouter,
-  withStyles(styles),
-  withFirebase
-)(SignUpPage);
+export default compose(withRouter, withStyles(styles))(SignUpPage);

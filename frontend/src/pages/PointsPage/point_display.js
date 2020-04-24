@@ -90,7 +90,7 @@ class PointDisplay extends React.Component {
 }
 
 PointDisplay.propTypes = {
-  points: PropTypes.arrayOf(PropTypes.number).isRequired,
+  points: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default compose(withStyles(styles))(PointDisplay);
