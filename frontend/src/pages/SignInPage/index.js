@@ -1,5 +1,6 @@
 import React from 'react';
-
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import { Link, withRouter } from 'react-router-dom';
@@ -25,7 +26,12 @@ import {
 import * as ROUTES from '../../constants/routes';
 import * as LOGO_URL from '../../images/hkn-trident.png';
 
-import { withFirebase } from '../../services/Firebase';
+import {
+  doSignInWithEmailAndPassword,
+  doSignOut,
+  doSendVerificationEmail,
+  doPasswordReset,
+} from '../../services/auth';
 
 const styles = theme => ({
   main: {
@@ -111,8 +117,8 @@ class SignInPage extends React.Component {
   }
 
   componentDidMount() {
-    const { firebase, history } = this.props;
-    this.listener = firebase.auth.onAuthStateChanged(authUser => {
+    const { history } = this.props;
+    this.listener = firebase.auth().onAuthStateChanged(authUser => {
       if (authUser && authUser.isEmailVerified) {
         history.push(ROUTES.HOME);
       }
@@ -125,15 +131,14 @@ class SignInPage extends React.Component {
 
   handleSignIn = event => {
     const { email, password, checked } = this.state;
-    const { firebase, history } = this.props;
+    const { history } = this.props;
 
-    firebase
-      .doSignInWithEmailAndPassword(email, password, checked)
+    doSignInWithEmailAndPassword(email, password, checked)
       .then(() => {
-        if (firebase.auth.currentUser.emailVerified) {
+        if (firebase.auth().currentUser.emailVerified) {
           history.push(ROUTES.HOME);
         } else {
-          firebase.doSignOut();
+          doSignOut();
 
           this.setState({
             verifyEmailDialogOpen: true,
@@ -170,24 +175,21 @@ class SignInPage extends React.Component {
   };
 
   handleVerifyEmailDialogClose = () => {
-    const { firebase } = this.props;
     this.setState({
       verifyEmailDialogOpen: false,
     });
-    firebase.doSignOut();
+    doSignOut();
   };
 
   handleResendVerificationEmail = () => {
-    const { firebase } = this.props;
     const { email, password, checked } = this.state;
-    firebase.doSignInWithEmailAndPassword(email, password, checked).then(() =>
-      firebase
-        .doSendVerificationEmail()
+    doSignInWithEmailAndPassword(email, password, checked).then(() =>
+      doSendVerificationEmail()
         .then(() => {
           this.handleVerifyEmailDialogClose();
         })
         .catch(error => {
-          firebase.doSignOut();
+          doSignOut();
           this.setState({
             verifyEmailError: error,
             failedSendVerificationEmailDialogOpen: true,
@@ -207,11 +209,9 @@ class SignInPage extends React.Component {
   };
 
   handleForgotPasswordConfirm = () => {
-    const { firebase } = this.props;
     const { forgotPasswordEmail } = this.state;
 
-    firebase
-      .doPasswordReset(forgotPasswordEmail)
+    doPasswordReset(forgotPasswordEmail)
       .then(() => {
         this.setState({
           successfulForgotPasswordConfirmDialogOpen: true,
@@ -543,8 +543,4 @@ class SignInPage extends React.Component {
   }
 }
 
-export default compose(
-  withStyles(styles),
-  withFirebase,
-  withRouter
-)(SignInPage);
+export default compose(withStyles(styles), withRouter)(SignInPage);
