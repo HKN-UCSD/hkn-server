@@ -16,7 +16,6 @@ import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
 import AuthUserContext from '../../contexts';
-import EventEdit from '../EventEditPage/event_edit';
 
 // PrivateRoute can be used just like a normal Route from react-router-dom
 // With a PrivateRoute, if the user is not logged in then they will be
