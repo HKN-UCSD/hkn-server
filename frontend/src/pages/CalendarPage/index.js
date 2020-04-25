@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Container } from '@material-ui/core';
+import { Grid, Paper, Container, Button } from '@material-ui/core';
 
 import Calendar from '../../components/Calendar';
 import EventCard from '../../components/EventCard';
+import EventList from '../../components/EventList';
 
 import styles from './styles';
 
@@ -14,7 +15,9 @@ class CalendarPage extends React.Component {
     this.state = {
       events: [],
       selectedEvent: null,
+      calendarView: true,
     };
+    this.toggleView = this.toggleView.bind(this);
   }
 
   componentDidMount() {
@@ -41,13 +44,21 @@ class CalendarPage extends React.Component {
     this.setState({ events: calendarEvents });
   }
 
+  toggleView() {
+    this.setState(prevState => ({ calendarView: !prevState.calendarView }));
+  }
+
   render() {
-    const { selectedEvent, events } = this.state;
+    const { selectedEvent, events, calendarView } = this.state;
     const { classes } = this.props;
-    return (
+
+    return calendarView ? (
       <Grid className={classes.root} container spacing={1}>
         <Grid item xs>
           <Paper>
+            <Button onClick={this.toggleView} style={{ marginLeft: '1200px' }}>
+              List View
+            </Button>
             <Calendar
               events={events}
               handleEventClick={event =>
@@ -64,6 +75,25 @@ class CalendarPage extends React.Component {
           </Grid>
         )}
       </Grid>
+    ) : (
+      <div>
+        <Grid className={classes.root} container spacing={1}>
+          <Grid item xs>
+            <Paper>
+              <Button
+                onClick={this.toggleView}
+                style={{ marginLeft: '1200px' }}
+              >
+                Calendar View
+              </Button>
+
+              <div>
+                <EventList />
+              </div>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
