@@ -8,20 +8,21 @@ import styles from './styles';
 
 const columns = [
   { title: 'Event Name', field: 'name' },
-  { title: 'Time', field: 'time' },
+  { title: 'start Time', field: 'stime' },
+  { title: 'end Time', field: 'etime' },
 ];
 
-const users = [
+const events = [
   { name: 'event1', time: '1/1' },
   { name: 'event2', time: '1/2' },
 ];
 
 function EventList() {
   return (
-    <div style={{ marginTop: '50px' }}>
+    <div style={{ marginTop: '0px' }}>
       <Table
         columns={columns}
-        data={users}
+        data={events}
         title='Events'
         // detailPanel={data => {
         //   return <div />;
