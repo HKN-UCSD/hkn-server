@@ -9,6 +9,8 @@ import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 
+import EventDetails from '../../components/EventDetails';
+
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
@@ -24,7 +26,8 @@ const PrivateRoute = withFirebase(
   ({ firebase, nav, component: Component, ...otherProps }) => (
     <Route
       {...otherProps}
-      render={props => {
+      render={props =>
+      {
         if (firebase.auth.currentUser) {
           if (nav) {
             return (
@@ -55,16 +58,20 @@ const INITIAL_STATES = {
   isLoading: true,
 };
 
-class App extends React.Component {
-  constructor(props) {
+class App extends React.Component
+{
+  constructor(props)
+  {
     super(props);
 
     this.state = { ...INITIAL_STATES };
   }
 
-  componentDidMount() {
+  componentDidMount()
+  {
     const { firebase } = this.props;
-    this.listener = firebase.auth.onAuthStateChanged(user => {
+    this.listener = firebase.auth.onAuthStateChanged(user =>
+    {
       if (user) {
         this.setState({
           authUser: user,
@@ -79,7 +86,8 @@ class App extends React.Component {
     });
   }
 
-  render() {
+  render()
+  {
     const { authUser, isLoading } = this.state;
 
     if (isLoading) {
@@ -116,6 +124,12 @@ class App extends React.Component {
               nav
               path={ROUTES.CALENDAR}
               component={CalendarPage}
+            />
+            <PrivateRoute
+              exact
+              nav
+              path="/event/:id"
+              component={EventDetails}
             />
           </Switch>
         </BrowserRouter>
