@@ -12,6 +12,8 @@ import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 
+import EventDetails from '../../components/EventDetails';
+
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
@@ -22,17 +24,21 @@ import EventEditPage from '../EventEditPage';
 // With a PrivateRoute, if the user is not logged in then they will be
 // automatically redirected to the Sign In Page
 // If the nav prop is true, then the component will be rendered with a navbar.
-const PrivateRoute = ({ nav, component: Component, ...otherProps }) => (
-  <Route
-    {...otherProps}
-    render={props => {
-      if (firebase.auth().currentUser) {
-        if (nav) {
-          return (
-            <NavBar>
-              <Component {...props} />
-            </NavBar>
-          );
+const PrivateRoute = withFirebase(
+  ({ firebase, nav, component: Component, ...otherProps }) => (
+    <Route
+      {...otherProps}
+      render={props =>
+      {
+        if (firebase.auth.currentUser) {
+          if (nav) {
+            return (
+              <NavBar>
+                <Component {...props} />
+              </NavBar>
+            );
+          }
+          return <Component {...props} />;
         }
         return <Component {...props} />;
       }
@@ -56,15 +62,20 @@ const INITIAL_STATES = {
   isLoading: true,
 };
 
-class App extends React.Component {
-  constructor(props) {
+class App extends React.Component
+{
+  constructor(props)
+  {
     super(props);
 
     this.state = { ...INITIAL_STATES };
   }
 
-  componentDidMount() {
-    this.listener = firebase.auth().onAuthStateChanged(user => {
+  componentDidMount()
+  {
+    const { firebase } = this.props;
+    this.listener = firebase.auth.onAuthStateChanged(user =>
+    {
       if (user) {
         const tokenResult = await user.getIdTokenResult();
         const { claims } = tokenResult;
@@ -84,8 +95,9 @@ class App extends React.Component {
     });
   }
 
-  render() {
-    const { authUserClaims, isLoading } = this.state;
+  render()
+  {
+    const { authUser, isLoading } = this.state;
 
     if (isLoading) {
       return <Loading />;
@@ -122,7 +134,12 @@ class App extends React.Component {
               path={ROUTES.CALENDAR}
               component={InducteePermissions(CalendarPage)}
             />
-            <Route exact path={ROUTES.EVENT_EDIT} component={EventEditPage} />
+            <PrivateRoute
+              exact
+              nav
+              path="/event/:id"
+              component={EventDetails}
+            />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>

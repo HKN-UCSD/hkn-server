@@ -1,11 +1,12 @@
 import React from 'react';
-import {
-  Button,
+import
+{
   Typography,
   Box,
   Card,
   CardHeader,
   CardContent,
+  Button
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
@@ -16,7 +17,10 @@ import moment from 'moment';
 
 import styles from './styles';
 
-function EventCard({ event, classes }) {
+import { Link } from 'react-router-dom';
+
+function EventCard({ event, classes })
+{
   return (
     <>
       {event && (
@@ -35,20 +39,20 @@ function EventCard({ event, classes }) {
             <Button
               variant='outlined'
               color='primary'
+              to={{
+                pathname: `/events/${event.id}`,
+                state: {
+                  eventInfo: event
+                }
+              }}
               component={Link}
-              // to={`/event/${event.id}`}
-
-              // Following is what would go in the Link component of EventDetails component
-              // to={{
-              //   pathname: `/events/${event.id}/edit/`,
-              //   state: { ...event },
-              // }}
             >
-              More
+              See More
             </Button>
           </CardContent>
         </Card>
-      )}
+      )
+      }
     </>
   );
 }

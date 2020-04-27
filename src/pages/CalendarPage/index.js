@@ -10,8 +10,10 @@ import EventCard from '../../components/EventCard';
 
 import styles from './styles';
 
-class CalendarPage extends React.Component {
-  constructor(props) {
+class CalendarPage extends React.Component
+{
+  constructor(props)
+  {
     super(props);
     this.state = {
       events: [],
@@ -19,7 +21,8 @@ class CalendarPage extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount()
+  {
     const calendarEvents = [
       {
         id: 'qO8nJ50tCO57hptbxNZa',
@@ -48,7 +51,8 @@ class CalendarPage extends React.Component {
     this.setState({ events: calendarEvents });
   }
 
-  render() {
+  render()
+  {
     const { selectedEvent, events } = this.state;
     const { classes } = this.props;
     return (
