@@ -3,7 +3,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 7,
+    marginTop: theme.spacing(7),
   },
   card: {
     width: '450px',
