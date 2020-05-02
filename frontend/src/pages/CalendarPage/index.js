@@ -15,9 +15,9 @@ class CalendarPage extends React.Component {
     this.state = {
       events: [],
       selectedEvent: null,
-      calendarView: true,
+      view: 'calendar',
     };
-    this.toggleView = this.toggleView.bind(this);
+    // this.toggleView = this.toggleView.bind(this);
   }
 
   componentDidMount() {
@@ -45,26 +45,40 @@ class CalendarPage extends React.Component {
   }
 
   toggleView() {
-    this.setState(prevState => ({ calendarView: !prevState.calendarView }));
+    this.setState(prevState => ({
+      view: prevState.view === 'calendar' ? ' list' : 'calendar',
+    }));
   }
 
   render() {
-    const { selectedEvent, events, calendarView } = this.state;
+    const { selectedEvent, events, view } = this.state;
     const { classes } = this.props;
 
-    return calendarView ? (
+    return (
       <Grid className={classes.root} container spacing={1}>
         <Grid item xs>
+          <Button
+            onClick={() => {
+              this.toggleView();
+            }}
+            style={{
+              display: 'flex',
+              marginLeft: 'auto',
+            }}
+          >
+            {view === 'calendar' ? 'list View' : 'calendar view'}
+          </Button>
           <Paper>
-            <Button onClick={this.toggleView} style={{ marginLeft: '1200px' }}>
-              List View
-            </Button>
-            <Calendar
-              events={events}
-              handleEventClick={event =>
-                this.setState({ selectedEvent: event })
-              }
-            />
+            {view === 'calendar' ? (
+              <Calendar
+                events={events}
+                handleEventClick={event =>
+                  this.setState({ selectedEvent: event })
+                }
+              />
+            ) : (
+              <EventList />
+            )}
           </Paper>
         </Grid>
         {selectedEvent && (
@@ -75,25 +89,6 @@ class CalendarPage extends React.Component {
           </Grid>
         )}
       </Grid>
-    ) : (
-      <div>
-        <Grid className={classes.root} container spacing={1}>
-          <Grid item xs>
-            <Paper>
-              <Button
-                onClick={this.toggleView}
-                style={{ marginLeft: '1200px' }}
-              >
-                Calendar View
-              </Button>
-
-              <div>
-                <EventList />
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
     );
   }
 }
