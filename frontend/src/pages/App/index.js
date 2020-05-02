@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import SignInPage from '../SignInPage';
 import SignUpPage from '../SignUpPage';
@@ -12,33 +15,29 @@ import CalendarPage from '../CalendarPage';
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
-import { AuthUserContext } from '../../contexts';
-
-import { withFirebase } from '../../services/Firebase';
+import AuthUserContext from '../../contexts';
 
 // PrivateRoute can be used just like a normal Route from react-router-dom
 // With a PrivateRoute, if the user is not logged in then they will be
 // automatically redirected to the Sign In Page
 // If the nav prop is true, then the component will be rendered with a navbar.
-const PrivateRoute = withFirebase(
-  ({ firebase, nav, component: Component, ...otherProps }) => (
-    <Route
-      {...otherProps}
-      render={props => {
-        if (firebase.auth.currentUser) {
-          if (nav) {
-            return (
-              <NavBar>
-                <Component {...props} />
-              </NavBar>
-            );
-          }
-          return <Component {...props} />;
+const PrivateRoute = ({ nav, component: Component, ...otherProps }) => (
+  <Route
+    {...otherProps}
+    render={props => {
+      if (firebase.auth().currentUser) {
+        if (nav) {
+          return (
+            <NavBar>
+              <Component {...props} />
+            </NavBar>
+          );
         }
-        return <Redirect to={ROUTES.SIGN_IN} />;
-      }}
-    />
-  )
+        return <Component {...props} />;
+      }
+      return <Redirect to={ROUTES.SIGN_IN} />;
+    }}
+  />
 );
 
 PrivateRoute.propTypes = {
@@ -63,8 +62,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { firebase } = this.props;
-    this.listener = firebase.auth.onAuthStateChanged(user => {
+    this.listener = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({
           authUser: user,
@@ -124,4 +122,4 @@ class App extends React.Component {
   }
 }
 
-export default withFirebase(App);
+export default App;
