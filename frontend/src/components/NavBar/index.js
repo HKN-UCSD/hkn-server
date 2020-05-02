@@ -37,7 +37,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import styles from './styles';
 import * as ROUTES from '../../constants/routes';
 
-import { queryCurrentUserRole } from '../../services/user';
+import { AuthUserContext } from '../../contexts';
+import { isOfficer as checkIsOfficer } from '../../services/claims';
 import { doSignOut } from '../../services/auth';
 
 const INITIAL_STATES = {
@@ -57,17 +58,10 @@ class NavBar extends React.Component {
   }
 
   checkIfOfficer = () => {
-    queryCurrentUserRole()
-      .then(role => {
-        if (role === 'Officer') {
-          this.setState({
-            isOfficer: true,
-          });
-        }
-      })
-      .catch(error => {
-        throw Error(`ERROR: ${error}`);
-      });
+    const userClaims = this.context;
+    this.setState({
+      isOfficer: checkIsOfficer(userClaims),
+    });
   };
 
   handleDrawerOpen = () => {
@@ -219,6 +213,8 @@ class NavBar extends React.Component {
     );
   }
 }
+
+NavBar.contextType = AuthUserContext;
 
 NavBar.propTypes = {
   children: PropTypes.objectOf(React.Component).isRequired,

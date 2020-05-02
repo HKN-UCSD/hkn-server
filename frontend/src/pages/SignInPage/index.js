@@ -31,7 +31,9 @@ import {
   doSignOut,
   doSendVerificationEmail,
   doPasswordReset,
+  getCurrentUserClaims,
 } from '../../services/auth';
+import { ClaimsSingleton } from '../../services/claims';
 
 const styles = theme => ({
   main: {
@@ -134,6 +136,12 @@ class SignInPage extends React.Component {
     const { history } = this.props;
 
     doSignInWithEmailAndPassword(email, password, checked)
+      .then(() => {
+        return getCurrentUserClaims();
+      })
+      .then(claims => {
+        return ClaimsSingleton.setClaims(claims);
+      })
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {
           history.push(ROUTES.HOME);
