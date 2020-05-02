@@ -132,6 +132,11 @@ class App extends React.Component {
               path='/event/edit'
               render={props => <EventEdit {...props} />}
             />
+            <Route
+              exact
+              path='/event/edit'
+              render={props => <EventEdit {...props} />}
+            />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
