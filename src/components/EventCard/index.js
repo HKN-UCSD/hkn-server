@@ -1,11 +1,13 @@
 import React from 'react';
 import {
+  Button,
   Typography,
   Box,
   Card,
   CardHeader,
   CardContent,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -30,14 +32,15 @@ function EventCard({ event, classes }) {
               <RoomIcon color='disabled' />
               <Typography color='textSecondary'>{event.venue}</Typography>
             </Box>
-            {/* <Button
+            <Button
               variant='outlined'
               color='primary'
               component={Link}
-              to={`/event/${event.id}`}
+              // to={`/event/${event.id}`}
+              to={{ pathname: '/event/edit/', state: { ...event } }}
             >
               More
-            </Button> */}
+            </Button>
           </CardContent>
         </Card>
       )}
