@@ -86,29 +86,10 @@ class App extends React.Component {
               path={ROUTES.INDUCTEES}
               component={OfficerPermissions(InducteePointsPage)}
             />
-            <PrivateRoute
+            <Route
               exact
-              nav
               path={ROUTES.CALENDAR}
-              component={CalendarPage}
-            />
-            <PrivateRoute
-              exact
-              nav
-              path={ROUTES.CALENDAR}
-              component={CalendarPage}
-            />
-            <PrivateRoute
-              exact
-              nav
-              path={ROUTES.CALENDAR}
-              component={CalendarPage}
-            />
-            <PrivateRoute
-              exact
-              nav
-              path={ROUTES.CALENDAR}
-              component={CalendarPage}
+              component={InducteePermissions(CalendarPage)}
             />
           </Switch>
         </BrowserRouter>
