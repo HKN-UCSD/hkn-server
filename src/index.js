@@ -18,13 +18,6 @@ const config = {
 };
 
 firebase.initializeApp(config);
-firebase
-  .firestore()
-  .enablePersistence()
-  .catch(err => {
-    throw Error(`Firestore enable persistence failed: ${err}`);
-    // Just don't cache. Catching error to ensure that it doesn't propagate out.
-  });
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
