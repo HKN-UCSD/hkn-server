@@ -19,7 +19,7 @@ const hasClaim = claim => userClaims => {
   return userClaims.includes(claim);
 };
 
-// These functions take in the current user claims as an object
+// These functions take in the current user claims as an array
 const isOfficer = hasClaim('Officer');
 const isInductee = hasClaim('Inductee');
 const isMember = hasClaim('Member');
