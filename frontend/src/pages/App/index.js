@@ -128,7 +128,7 @@ class App extends React.Component
             <PrivateRoute
               exact
               nav
-              path="/events/:id"
+              path={ROUTES.EVENT_DETAILS}
               component={EventDetails}
             />
           </Switch>
