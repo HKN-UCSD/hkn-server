@@ -2,12 +2,15 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Grid, Divider } from '@material-ui/core';
-import { withFirebase } from '../../services/Firebase';
 
 import { USER_ROLES } from '../../constants/roles';
 import { POINT_TYPE } from '../../constants/pointtype';
 
 import PointDisplay from './point_display';
+
+import { getUserDocument } from '../../services/user';
+import getEnumMap from '../../services/general';
+import { getPoints } from '../../services/events';
 
 const styles = theme => ({
   root: {
@@ -56,22 +59,13 @@ class PointsPage extends React.Component {
   }
 
   componentDidMount() {
-    const { firebase } = this.props;
-    firebase
-      .getEnumMap('roles')
+    getEnumMap('roles')
       .then(roleEnum => {
         this.setState({ roles: roleEnum });
       })
       .catch(err => console.log(err));
 
-    firebase
-      .getUserDocument()
-      .then(docSnapshot => {
-        if (!docSnapshot.exists) {
-          throw Error('User document does not exist.');
-        }
-        return docSnapshot.data();
-      })
+    getUserDocument()
       .then(data => {
         this.setState({
           userRole: data.role_id,
@@ -81,8 +75,7 @@ class PointsPage extends React.Component {
       })
       .catch(err => console.log(err));
 
-    firebase
-      .getEnumMap('pointRewardType')
+    getEnumMap('pointRewardType')
       .then(pointEnum => {
         if (
           pointEnum &&
@@ -97,12 +90,8 @@ class PointsPage extends React.Component {
       })
       .then(() => {
         const { pointRewardTypes } = this.state;
-        firebase
-          .getPoints()
-          .then(snapshot => {
-            if (!snapshot) {
-              throw Error('Points query failed');
-            }
+        getPoints()
+          .then(pointDetails => {
             const pointsList = {
               inducteePointsList: [],
               inducteeMentorList: [],
@@ -113,8 +102,7 @@ class PointsPage extends React.Component {
                 member: 0,
               },
             };
-            snapshot.docs.forEach(doc => {
-              const data = doc.data();
+            pointDetails.forEach(data => {
               if (
                 data.pointrewardtype_id ===
                 pointRewardTypes[POINT_TYPE.INDUCTION]
@@ -145,9 +133,13 @@ class PointsPage extends React.Component {
               totalPoints: pointsList.totals,
             });
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            throw Error(`Update points list state error: ${err}`);
+          });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        throw Error(`Points List error: ${err}`);
+      });
   }
 
   addDetails = (list, data) => {
@@ -223,4 +215,4 @@ class PointsPage extends React.Component {
   }
 }
 
-export default compose(withStyles(styles), withFirebase)(PointsPage);
+export default compose(withStyles(styles))(PointsPage);

@@ -36,8 +36,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HomeIcon from '@material-ui/icons/Home';
 
 import styles from './styles';
-import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
+
+import { AuthUserContext } from '../../contexts';
+import { isOfficer as checkIsOfficer } from '../../services/claims';
+import { doSignOut } from '../../services/auth';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,
@@ -56,19 +59,10 @@ class NavBar extends React.Component {
   }
 
   checkIfOfficer = () => {
-    const { firebase } = this.props;
-    firebase
-      .queryCurrentUserRole()
-      .then(role => {
-        if (role === 'Officer') {
-          this.setState({
-            isOfficer: true,
-          });
-        }
-      })
-      .catch(error => {
-        console.log(`ERROR: ${error}`);
-      });
+    const userClaims = this.context;
+    this.setState({
+      isOfficer: checkIsOfficer(userClaims),
+    });
   };
 
   handleDrawerOpen = () => {
@@ -92,8 +86,9 @@ class NavBar extends React.Component {
   };
 
   render() {
-    const { classes, children, firebase } = this.props;
+    const { classes, children } = this.props;
     const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
+
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -214,7 +209,7 @@ class NavBar extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={firebase.doSignOut} color='primary'>
+              <Button onClick={doSignOut} color='primary'>
                 Yes
               </Button>
               <Button onClick={this.handleClose} color='primary' autoFocus>
@@ -229,8 +224,10 @@ class NavBar extends React.Component {
   }
 }
 
+NavBar.contextType = AuthUserContext;
+
 NavBar.propTypes = {
   children: PropTypes.objectOf(React.Component).isRequired,
 };
 
-export default compose(withStyles(styles), withFirebase)(NavBar);
+export default compose(withStyles(styles))(NavBar);
