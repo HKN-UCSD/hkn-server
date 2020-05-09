@@ -3,30 +3,49 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Table from '../Table';
 import styles from './styles';
 
 const columns = [
-  { title: 'Event Name', field: 'name' },
-  { title: 'start Time', field: 'stime' },
-  { title: 'end Time', field: 'etime' },
+  { title: 'Event Name', field: 'title' },
+  { title: 'start Time', field: 'startDate' },
+  { title: 'end Time', field: 'endDate' },
 ];
 
-const events = [
-  { name: 'event1', time: '1/1' },
-  { name: 'event2', time: '1/2' },
-];
+function EventList({ events, handleEventClick }) {
+  // show up an event Card which clicked by passing callback
 
-function EventList() {
+  const listEvents = [];
+  for (let i = 0; i < events.length; i += 1) {
+    const listEvent = {
+      title: events[i].title,
+      startDate: moment(events[i].startDate).format(
+        'dddd, MMMM Do YYYY, h:mm:ss a'
+      ),
+      endDate: moment(events[i].endDate).format(
+        'dddd, MMMM Do YYYY, h:mm:ss a'
+      ),
+    };
+    listEvents.push(listEvent);
+  }
+
   return (
     <div style={{ marginTop: '0px' }}>
       <Table
         columns={columns}
-        data={events}
+        data={listEvents}
         title='Events'
-        // detailPanel={data => {
-        //   return <div />;
-        // }}
+        actions={[
+          {
+            // hidden: true,
+            icon: '',
+            tooltip: 'see more',
+            onClick: (event, rowData) => {
+              handleEventClick(rowData);
+            },
+          },
+        ]}
         options={{ filtering: true }}
       />
     </div>
@@ -34,13 +53,16 @@ function EventList() {
 }
 
 EventList.propTypes = {
-  event: PropTypes.shape({
-    startDate: PropTypes.string.isRequired,
-    endDate: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    venue: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      venue: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  handleEventClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(EventList);
