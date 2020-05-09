@@ -17,7 +17,6 @@ class CalendarPage extends React.Component {
       selectedEvent: null,
       view: 'calendar',
     };
-    // this.toggleView = this.toggleView.bind(this);
   }
 
   componentDidMount() {
@@ -56,18 +55,17 @@ class CalendarPage extends React.Component {
 
     return (
       <Grid className={classes.root} container spacing={1}>
-        <Grid item xs>
+        <Grid container justify='flex-end'>
           <Button
             onClick={() => {
               this.toggleView();
             }}
-            style={{
-              display: 'flex',
-              marginLeft: 'auto',
-            }}
           >
             {view === 'calendar' ? 'list View' : 'calendar view'}
           </Button>
+        </Grid>
+
+        <Grid item xs>
           <Paper>
             {view === 'calendar' ? (
               <Calendar
@@ -77,7 +75,12 @@ class CalendarPage extends React.Component {
                 }
               />
             ) : (
-              <EventList />
+              <EventList
+                events={events}
+                handleEventClick={event =>
+                  this.setState({ selectedEvent: event })
+                }
+              />
             )}
           </Paper>
         </Grid>
