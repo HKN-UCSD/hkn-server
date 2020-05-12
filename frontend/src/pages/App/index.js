@@ -10,8 +10,7 @@ import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
-
-import EventDetails from '../../components/EventDetails';
+import EventDetailsPage from '../EventDetailsPage';
 
 import Loading from '../../components/Loading';
 import
@@ -99,11 +98,10 @@ class App extends React.Component
               path={ROUTES.CALENDAR}
               component={InducteePermissions(CalendarPage)}
             />
-            <PrivateRoute
+            <Route
               exact
-              nav
               path={ROUTES.EVENT_DETAILS}
-              component={EventDetails}
+              component={InducteePermissions(EventDetailsPage)}
             />
           </Switch>
         </BrowserRouter>

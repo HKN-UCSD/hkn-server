@@ -16,22 +16,30 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import * as ROUTES from '../../constants/routes';
 
-function EventDetails(props)
+function EventDetailsComponent(props)
 {
-  let { classes } = props;
-  let { eventInfo } = props.location.state;
-  let { title, venue, startDate, endDate, description } = eventInfo;
+  let { classes, eventInfo } = props;
+  let { endDate, hosts, location, name, startDate, tags, urls } = eventInfo;
+  let { fb, canva, rsvp, signin } = urls;
 
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader title={title} />
+        <CardHeader title={name} />
         <CardContent>
           <Typography>
-            <Typography>Location: {venue}</Typography>
+            <Typography>Location: {location}</Typography>
             <Typography>Start date: {moment(startDate).format('LLL')}</Typography>
             <Typography>End date: {moment(endDate).format('LLL')}</Typography>
-            <Typography>Description: {description}</Typography>
+            <Typography>Tags: {tags}</Typography>
+            <Typography>Hosts: {hosts}</Typography>
+            <Typography>
+              URLs:
+              <Typography>fb: {fb}</Typography>
+              <Typography>canva: {canva}</Typography>
+              <Typography>rsvp: {rsvp}</Typography>
+              <Typography>signin: {signin}</Typography>
+            </Typography>
           </Typography>
         </CardContent>
       </Card>
@@ -49,8 +57,8 @@ function EventDetails(props)
   );
 }
 
-EventDetails.propTypes = {
+EventDetailsComponent.propTypes = {
   eventInfo: PropTypes.object
 };
 
-export default withStyles(styles)(EventDetails);
+export default withStyles(styles)(EventDetailsComponent);
