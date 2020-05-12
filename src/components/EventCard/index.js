@@ -19,6 +19,8 @@ import styles from './styles';
 
 import { Link } from 'react-router-dom';
 
+//${event.id}
+
 function EventCard({ event, classes })
 {
   return (
@@ -39,12 +41,7 @@ function EventCard({ event, classes })
             <Button
               variant='outlined'
               color='primary'
-              to={{
-                pathname: `/events/${event.id}`,
-                state: {
-                  eventInfo: event
-                }
-              }}
+              to='/events/0J5MkFLWWIM1f50X3D6J'
               component={Link}
             >
               See More
