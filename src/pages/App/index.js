@@ -11,7 +11,7 @@ import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
-import EventDetailsPage from '../EventDetailsPage';
+import TestPage from '../TestPage';
 
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
@@ -108,12 +108,9 @@ class App extends React.Component
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route
-              exact
-              path={ROUTES.HOME}
-              component={InducteePermissions(EventsPage)}
-            />
-            <Route
+            <Route exact path={ROUTES.TEST} component={TestPage} />
+            <PrivateRoute exact nav path={ROUTES.HOME} component={EventsPage} />
+            <PrivateRoute
               exact
               path={ROUTES.POINTS}
               component={InducteePermissions(PointsPage)}
