@@ -10,6 +10,8 @@ import
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
+import Links from '../../components/EventDetails';
+
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -33,13 +35,7 @@ function EventDetailsComponent(props)
             <Typography>End date: {moment(endDate).format('LLL')}</Typography>
             <Typography>Tags: {tags}</Typography>
             <Typography>Hosts: {hosts}</Typography>
-            <Typography>
-              URLs:
-              <Typography>fb: {fb}</Typography>
-              <Typography>canva: {canva}</Typography>
-              <Typography>rsvp: {rsvp}</Typography>
-              <Typography>signin: {signin}</Typography>
-            </Typography>
+            <Links fb={fb} canva={canva} rsvp={rsvp} signin={signin} />
           </Typography>
         </CardContent>
       </Card>

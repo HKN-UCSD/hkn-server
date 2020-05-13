@@ -23,6 +23,7 @@ class EventDetailsPage extends React.Component
       .then(eventObj =>
       {
         this.setState({ eventInfo: eventObj });
+        console.log(this.state.eventInfo)
       })
       .catch(err =>
       {
