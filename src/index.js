@@ -11,13 +11,13 @@ admin.initializeApp({
 });
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || port;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', UserRouter);
 
-app.listen(process.env.PORT || port, () => {
-  console.log('API is running on port 3000.');
+app.listen(port, () => {
+  console.log('API is running on port %s.', port);
 });
