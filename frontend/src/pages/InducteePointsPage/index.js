@@ -17,10 +17,9 @@ const INITIAL_STATE = {
   isOfficer: null,
 };
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 9,
   },
 });
 

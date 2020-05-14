@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -16,7 +16,6 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 9,
   },
   buttonRow: {
     display: 'flex',
