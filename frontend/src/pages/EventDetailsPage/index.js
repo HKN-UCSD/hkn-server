@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Loading from '../../components/Loading';
+
 import EventDetailsComponent from '../../components/EventDetails';
 import { getEventById } from '../../services/events';
 
@@ -23,7 +25,6 @@ class EventDetailsPage extends React.Component
       .then(eventObj =>
       {
         this.setState({ eventInfo: eventObj });
-        console.log(this.state.eventInfo)
       })
       .catch(err =>
       {
@@ -33,7 +34,7 @@ class EventDetailsPage extends React.Component
 
   render()
   {
-    const EventDetails = (this.state.eventInfo === null) ? <div></div> : <EventDetailsComponent eventInfo={this.state.eventInfo} />
+    const EventDetails = (this.state.eventInfo === null) ? <Loading /> : <EventDetailsComponent eventInfo={this.state.eventInfo} />
 
     return (
       EventDetails
