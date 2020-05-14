@@ -28,15 +28,15 @@ const getRoleFromID = roleID => {
     });
 };
 
-const getUserDocument = () => {
+const getUserDocument = uid => {
   return firebase
     .firestore()
     .collection('users')
-    .doc(firebase.auth().currentUser.uid)
+    .doc(uid)
     .get()
     .then(snapshot => {
       return {
-        uid: firebase.auth().currentUser.uid,
+        uid,
         ...snapshot.data(),
       };
     })
@@ -45,8 +45,12 @@ const getUserDocument = () => {
     });
 };
 
+const getCurrentUserDocument = () => {
+  return getUserDocument(firebase.auth().currentUser.uid);
+};
+
 const getUserRoleID = () => {
-  return getUserDocument()
+  return getCurrentUserDocument()
     .then(data => {
       if (!data.role_id) {
         throw Error('Role ID of user does not exist.');
@@ -69,4 +73,9 @@ const queryCurrentUserRole = () => {
     });
 };
 
-export { getRoleFromID, getUserDocument, getUserRoleID, queryCurrentUserRole };
+export {
+  getRoleFromID,
+  getCurrentUserDocument,
+  getUserRoleID,
+  queryCurrentUserRole,
+};

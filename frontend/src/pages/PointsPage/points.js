@@ -8,7 +8,7 @@ import { POINT_TYPE } from '../../constants/pointtype';
 
 import PointDisplay from './point_display';
 
-import { getUserDocument } from '../../services/user';
+import { getCurrentUserDocument } from '../../services/user';
 import getEnumMap from '../../services/general';
 import { getPoints } from '../../services/events';
 
@@ -64,7 +64,7 @@ class PointsPage extends React.Component {
       })
       .catch(err => console.log(err));
 
-    getUserDocument()
+    getCurrentUserDocument()
       .then(data => {
         this.setState({
           userRole: data.role_id,
