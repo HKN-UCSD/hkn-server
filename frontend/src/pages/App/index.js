@@ -40,7 +40,7 @@ class App extends React.Component {
         const { claims } = tokenResult;
 
         this.setState({
-          authUserClaims: Object.keys(claims),
+          authUserClaims: claims,
           isLoading: false,
         });
       } else {
