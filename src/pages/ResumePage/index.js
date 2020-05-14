@@ -42,7 +42,6 @@ const styles = theme => ({
     fontSize: '200px',
   },
   contentWrapper: {
-    marginTop: theme.spacing.unit * 6,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
