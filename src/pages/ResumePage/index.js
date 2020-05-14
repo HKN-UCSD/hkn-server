@@ -17,7 +17,7 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-import { getUserDocument } from '../../services/user';
+import { getCurrentUserDocument } from '../../services/user';
 import {
   getDownload,
   uploadResume,
@@ -102,7 +102,7 @@ class ResumePage extends React.Component {
   }
 
   componentDidMount() {
-    getUserDocument()
+    getCurrentUserDocument()
       .then(data => {
         if (data.resumeUploadTimestamp == null || data.resumeFilename == null) {
           throw Error('Resume data does not exist.');
