@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
@@ -12,18 +15,18 @@ function DeleteEditButtons(props)
     <div className={classes.root}>
       <Button
         className={classes.delete}
-        variant='outlined'
-        color='primary'
+        variant='contained'
+        color='secondary'
       >
-        Delete
+        <DeleteIcon /> Delete
       </Button>
 
       <Button
         className={classes.edit}
-        variant='outlined'
+        variant='contained'
         color='primary'
       >
-        Edit
+        <EditIcon /> Edit
       </Button>
     </div>
   );

@@ -8,24 +8,11 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: '25px',
     backgroundColor: 'white',
   },
   topRow: {
     display: 'flex',
     flexDirection: 'row',
-  },
-  hostLocTime: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  host: {
-    marginRight: '20px',
-  },
-  locTime: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginLeft: '20px',
   },
   titleTag: {
     width: '300px',
@@ -34,8 +21,31 @@ const styles = theme => ({
     marginRight: '100px',
     marginBottom: '10px',
   },
+  hostLocTime: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: '10px',
+  },
+  hosts: {
+    width: '258px',
+    wordWrap: 'break-word',
+    marginRight: '10px',
+  },
   hostName: {
-    textIndent: '10px'
+    marginBottom: '5px',
+  },
+  locTime: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '10px',
+  },
+  descURL: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: '10px',
+  },
+  desc: {
+    marginLeft: '20px',
   },
   calendarButton: {
     marginTop: '25px',

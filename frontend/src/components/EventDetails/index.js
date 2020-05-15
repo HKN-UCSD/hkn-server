@@ -3,6 +3,7 @@ import
 {
   Typography,
   Container,
+  Card,
   Button
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 import Links from './Links';
 import Tags from '../Tags';
-import DeleteEditButtons from './DeleteEditButtons';
+import DeleteEditButtons from '../DeleteEditButtons';
 
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -36,34 +37,58 @@ function EventDetailsComponent(props)
 
   return (
     <div className={classes.root}>
-      <Container
-        className={classes.container}
-        maxWidth='sm'
-      >
-        <div className={classes.topRow}>
-          <Typography
-            className={classes.titleTag}
-            variant='h4'
-          >
-            {name}
-            <Tags tags={tags} />
-          </Typography>
+      <Card>
+        <Container
+          className={classes.container}
+          maxWidth='sm'
+        >
+          <div className={classes.topRow}>
+            <Typography
+              className={classes.titleTag}
+              variant='h4'
+            >
+              {name}
+              <Tags tags={tags} />
+            </Typography>
 
-          <DeleteEditButtons />
-        </div>
+            <DeleteEditButtons />
+          </div>
 
-        <div className={classes.hostLocTime}>
-          <Typography variant='h6'>
-            Hosts: {hosts.map(host => <Typography className={classes.hostName}>{host}</Typography>)}
-          </Typography>
+          <div className={classes.hostLocTime}>
+            <Typography
+              className={classes.hosts}
+              variant='h6'
+            >
+              Hosts: {hosts.map(host => <Typography className={classes.hostName}>{host}</Typography>)}
+            </Typography>
 
-          <div className={classes.locTime}>
-            <Typography variant='h6'>
-              Location: <Typography>{location}</Typography>
+            <div className={classes.locTime}>
+              <Typography variant='h6'>
+                Location: <Typography>{location}</Typography>
+              </Typography>
+
+              <Typography variant='h6'>
+                Start Time: <Typography>{moment(startDate).format('LLL')}</Typography>
+              </Typography>
+
+              <Typography variant='h6'>
+                End Time: <Typography>{moment(endDate).format('LLL')}</Typography>
+              </Typography>
+            </div>
+          </div>
+
+          <div className={classes.descURL}>
+            <Links urls={urls} />
+
+            <Typography
+              className={classes.desc}
+              variant='h6'
+            >
+              Description: <Typography>{description}</Typography>
             </Typography>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </Card>
 
       <Button
         className={classes.calendarButton}
