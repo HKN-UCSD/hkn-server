@@ -14,14 +14,12 @@ import
 const styles = theme => ({
   root: {
     backgroundColor: grey[200],
-    width: 200,
-    height: 250,
   },
   title: {
     backgroundColor: grey[400],
   },
   list_item_text: {
-    fontSize: '20px',
+    fontSize: '16px',
   }
 });
 
@@ -33,7 +31,7 @@ function Links(props)
   // .map for list
   return (
     <div className={classes.root}>
-      <Typography variant="h3" className={classes.title} align="center">
+      <Typography variant="h6" className={classes.title} align="center">
         Links
         </Typography>
 
