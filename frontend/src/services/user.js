@@ -76,6 +76,7 @@ const queryCurrentUserRole = () => {
 export {
   getRoleFromID,
   getCurrentUserDocument,
+  getUserDocument,
   getUserRoleID,
   queryCurrentUserRole,
 };
