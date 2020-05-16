@@ -16,7 +16,7 @@ import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import * as ROUTES from '../../constants/routes';
 import AuthUserContext from '../../contexts';
-import EventEdit from '../CalendarPage/event_edit';
+import EventEdit from '../EventEditPage/event_edit';
 
 // PrivateRoute can be used just like a normal Route from react-router-dom
 // With a PrivateRoute, if the user is not logged in then they will be
@@ -116,10 +116,10 @@ class App extends React.Component {
               path={ROUTES.CALENDAR}
               component={CalendarPage}
             />
-            <Route
+            <PrivateRoute
               exact
-              path='/event/edit'
-              render={props => <EventEdit {...props} />}
+              path={ROUTES.EVENT_EDIT}
+              component={EventEdit}
             />
           </Switch>
         </BrowserRouter>
