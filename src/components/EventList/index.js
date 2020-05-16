@@ -9,8 +9,8 @@ import styles from './styles';
 
 const columns = [
   { title: 'Event Name', field: 'title' },
-  { title: 'start Time', field: 'startDate' },
-  { title: 'end Time', field: 'endDate' },
+  { title: 'start Time', field: 'startDateString' },
+  { title: 'end Time', field: 'endDateString' },
 ];
 
 function EventList({ events, handleEventClick }) {
@@ -19,13 +19,17 @@ function EventList({ events, handleEventClick }) {
   const listEvents = [];
   for (let i = 0; i < events.length; i += 1) {
     const listEvent = {
+      id: events[i].id,
       title: events[i].title,
-      startDate: moment(events[i].startDate).format(
+      startDateString: moment(events[i].startDate).format(
         'dddd, MMMM Do YYYY, h:mm:ss a'
       ),
-      endDate: moment(events[i].endDate).format(
+      endDateString: moment(events[i].endDate).format(
         'dddd, MMMM Do YYYY, h:mm:ss a'
       ),
+      venue: events[i].venue,
+      startDate: events[i].startDate,
+      endDate: events[i].endDate,
     };
     listEvents.push(listEvent);
   }
@@ -36,16 +40,7 @@ function EventList({ events, handleEventClick }) {
         columns={columns}
         data={listEvents}
         title='Events'
-        actions={[
-          {
-            // hidden: true,
-            icon: '',
-            tooltip: 'see more',
-            onClick: (event, rowData) => {
-              handleEventClick(rowData);
-            },
-          },
-        ]}
+        onRowClick={(event, rowData) => handleEventClick(rowData)}
         options={{ filtering: true }}
       />
     </div>

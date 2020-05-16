@@ -11,7 +11,6 @@ import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
-import EventList from '../../components/EventList';
 
 import Loading from '../../components/Loading';
 import {
@@ -141,7 +140,6 @@ class App extends React.Component {
               path={ROUTES.EVENT_DETAILS}
               component={OfficerRoutingPermission(EventDetailsPage)}
             />
-            <PrivateRoute exact nav path='/eventList' component={EventList} />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
