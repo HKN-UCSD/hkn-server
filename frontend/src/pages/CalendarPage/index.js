@@ -3,6 +3,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Container, Button } from '@material-ui/core';
 
+import * as firebase from 'firebase/app';
 import Calendar from '../../components/Calendar';
 import EventCard from '../../components/EventCard';
 import EventList from '../../components/EventList';
@@ -20,27 +21,49 @@ class CalendarPage extends React.Component {
   }
 
   componentDidMount() {
-    const calendarEvents = [
-      {
-        id: 'qO8nJ50tCO57hptbxNZa',
-        title: 'Enhanced multi-tasking model',
-        description:
-          'Pressure someone institution fund account part. Entire couple develop main.\nMeeting sea school me policy beautiful well. Agent ground so majority care born blood.',
-        venue: 'Lindsey Rapids',
-        startDate: '2020-03-29T01:30:49+00:00',
-        endDate: '2020-03-29T02:30:49+00:00',
-      },
-      {
-        id: 'mRaXeYuSCMmqMOngDl7B',
-        title: 'Customizable bottom-line help-desk',
-        description:
-          'Reason clear rest the lay. Customer fill change.\nCampaign member we notice include investment. Near they order particularly western life. Reflect bed offer dinner top Mr of her.',
-        venue: 'Frazier Station',
-        startDate: '2020-03-30T21:04:26+00:00',
-        endDate: '2020-03-30T22:04:26+00:00',
-      },
-    ];
-    this.setState({ events: calendarEvents });
+    const calendarEvents = [];
+    firebase
+      .firestore()
+      .collection('events')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const newEvent = doc.data();
+          newEvent.id = doc.id;
+
+          // NOTE: temporarily using fake ISO time string
+          newEvent.startDate = '2020-05-16T01:30:49+00:00';
+          newEvent.endDate = '2020-05-16T02:30:49+00:00';
+
+          newEvent.title = newEvent.name;
+          newEvent.venue = newEvent.location;
+          calendarEvents.push(newEvent);
+        });
+
+        this.setState({ events: calendarEvents });
+      });
+    // const calendarEvents = [
+    //   {
+    //     id: 'qO8nJ50tCO57hptbxNZa',
+    //     title: 'Enhanced multi-tasking model',
+    //     description:
+    //       'Pressure someone institution fund account part. Entire couple develop main.\nMeeting sea school me policy beautiful well. Agent ground so majority care born blood.',
+    //     venue: 'Lindsey Rapids',
+    //     startDate: '2020-05-16T01:30:49+00:00',
+    //     endDate: '2020-05-16T02:30:49+00:00',
+    //   },
+    //   {
+    //     id: 'mRaXeYuSCMmqMOngDl7B',
+    //     title: 'Customizable bottom-line help-desk',
+    //     description:
+    //       'Reason clear rest the lay. Customer fill change.\nCampaign member we notice include investment. Near they order particularly western life. Reflect bed offer dinner top Mr of her.',
+    //     venue: 'Frazier Station',
+    //     startDate: '2020-03-30T21:04:26+00:00',
+    //     endDate: '2020-03-30T22:04:26+00:00',
+    //   },
+    // ];
+
+    // this.setState({ events: calendarEvents });
   }
 
   toggleView() {
@@ -70,16 +93,28 @@ class CalendarPage extends React.Component {
             {view === 'calendar' ? (
               <Calendar
                 events={events}
-                handleEventClick={event =>
-                  this.setState({ selectedEvent: event })
-                }
+                handleEventClick={event => {
+                  if (selectedEvent != null && event.id === selectedEvent.id) {
+                    this.setState({
+                      selectedEvent: null,
+                    });
+                  } else {
+                    this.setState({ selectedEvent: event });
+                  }
+                }}
               />
             ) : (
               <EventList
                 events={events}
-                handleEventClick={event =>
-                  this.setState({ selectedEvent: event })
-                }
+                handleEventClick={event => {
+                  if (selectedEvent != null && event.id === selectedEvent.id) {
+                    this.setState({
+                      selectedEvent: null,
+                    });
+                  } else {
+                    this.setState({ selectedEvent: event });
+                  }
+                }}
               />
             )}
           </Paper>
