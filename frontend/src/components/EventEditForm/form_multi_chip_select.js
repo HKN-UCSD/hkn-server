@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MultiChipSelect from '../../components/MultiChipSelect';
+import MultiChipSelect from '../MultiChipSelect';
 
 const FormikMultiChipSelect = ({
   field: { name, value },
