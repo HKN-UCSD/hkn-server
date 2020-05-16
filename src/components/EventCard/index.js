@@ -37,10 +37,12 @@ function EventCard({ event, classes }) {
               color='primary'
               component={Link}
               // to={`/event/${event.id}`}
-              to={{
-                pathname: `/events/${event.id}/edit/`,
-                state: { ...event },
-              }}
+
+              // Following is what would go in the Link component of EventDetails component
+              // to={{
+              //   pathname: `/events/${event.id}/edit/`,
+              //   state: { ...event },
+              // }}
             >
               More
             </Button>
