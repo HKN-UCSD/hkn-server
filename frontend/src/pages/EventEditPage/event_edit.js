@@ -13,104 +13,17 @@ import * as Yup from 'yup';
 import moment from 'moment';
 
 import { getEventDetails, setEventDetails } from '../../services/events';
-import MultiChipSelect from '../../components/MultiChipSelect';
+import FormikMultiChipSelect from './form_multi_chip_select';
 import EVENT_TAGS from '../../constants/eventTags';
-
-const styles = () => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  topPanel: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  bottomPanel: {
-    width: '80%',
-  },
-  left: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginRight: '50px',
-  },
-  dateField: {
-    margin: '15px',
-    width: '40%',
-  },
-  field: {
-    margin: '15px',
-  },
-  dates: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  urls: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  controls: {
-    margin: '20px',
-  },
-});
+import styles from './styles';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),
-  // startDateTime: Yup.string()
-  //   .required('Required'),
-  // endDateTime: Yup.string()
-  //   .required('Required'),
-  // .test('is-greater', 'end time should be greater', (value) => {
-  //   const start = Yup.ref('startDate');
-  //   console.log(start);
-  //   return moment(value, "HH:mm").isAfter(moment(start, "HH:mm"));
-  // }),
   hosts: Yup.string().required('Required'),
   location: Yup.string().required('Required'),
+  tags: Yup.array(),
+  description: Yup.string(),
 });
-
-const FormikMultiChipSelect = ({
-  field: { name, value },
-  form: { setFieldValue },
-  ...props
-}) => {
-  const { label, className, selections } = props;
-  return (
-    <div className={className}>
-      <MultiChipSelect
-        label={label}
-        selections={selections}
-        value={value}
-        onChange={e => setFieldValue(name, e.target.value)}
-      />
-    </div>
-  );
-};
-
-FormikMultiChipSelect.propTypes = {
-  field: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.array,
-  }).isRequired,
-  form: PropTypes.shape({
-    setFieldValue: PropTypes.func.isRequired,
-  }).isRequired,
-  label: PropTypes.string,
-  className: PropTypes.string,
-  selections: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-FormikMultiChipSelect.defaultProps = {
-  label: '',
-  className: '',
-};
 
 class EventEdit extends React.Component {
   constructor(props) {
@@ -142,7 +55,8 @@ class EventEdit extends React.Component {
     const { eventId, initialValues, loading } = this.state;
 
     const onCancel = () => {
-      history.goBack();
+      // history.push(`/event/${eventId}`); // Waiting for event detail page
+      history.goBack(); // TODO Remove!
     };
 
     if (loading) {
@@ -162,7 +76,8 @@ class EventEdit extends React.Component {
             };
             setEventDetails(eventId, submission).then(() => {
               setSubmitting(false);
-              history.goBack();
+              // history.push(`/event/${eventId}`); // Waiting for event detail page
+              history.goBack(); // TODO Remove!
             });
           }}
         >
@@ -259,6 +174,7 @@ class EventEdit extends React.Component {
 
                 <div className={classes.controls}>
                   <Button
+                    className={classes.button}
                     variant='contained'
                     color='primary'
                     disabled={isSubmitting}
@@ -268,6 +184,7 @@ class EventEdit extends React.Component {
                   </Button>
 
                   <Button
+                    className={classes.button}
                     variant='contained'
                     color='secondary'
                     disabled={isSubmitting}
@@ -284,6 +201,7 @@ class EventEdit extends React.Component {
     );
   }
 }
+
 EventEdit.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
