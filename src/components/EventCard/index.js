@@ -37,7 +37,10 @@ function EventCard({ event, classes }) {
               color='primary'
               component={Link}
               // to={`/event/${event.id}`}
-              to={{ pathname: '/event/edit/', state: { ...event } }}
+              to={{
+                pathname: `/events/${event.id}/edit/`,
+                state: { ...event },
+              }}
             >
               More
             </Button>
