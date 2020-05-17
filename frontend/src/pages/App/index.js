@@ -9,6 +9,7 @@ import PointsPage from '../PointsPage';
 import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
+import CalendarPage from '../CalendarPage';
 
 import Loading from '../../components/Loading';
 import {
@@ -38,6 +39,7 @@ class App extends React.Component {
         const tokenResult = await user.getIdTokenResult();
         const { claims } = tokenResult;
 
+        ClaimsSingleton.setClaims(claims);
         this.setState({
           authUserClaims: Object.keys(claims),
           isLoading: false,
@@ -84,6 +86,11 @@ class App extends React.Component {
               exact
               path={ROUTES.INDUCTEES}
               component={OfficerPermissions(InducteePointsPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.CALENDAR}
+              component={InducteePermissions(CalendarPage)}
             />
           </Switch>
         </BrowserRouter>

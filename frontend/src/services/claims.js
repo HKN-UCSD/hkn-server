@@ -20,8 +20,8 @@ const hasClaim = claim => userClaims => {
 };
 
 // These functions take in the current user claims as an array
-const isOfficer = hasClaim('Officer');
-const isInductee = hasClaim('Inductee');
-const isMember = hasClaim('Member');
+const isOfficer = hasClaim('officer');
+const isInductee = hasClaim('inductee');
+const isMember = hasClaim('member');
 
 export { ClaimsSingleton, isOfficer, isInductee, isMember };
