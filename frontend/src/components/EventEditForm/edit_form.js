@@ -163,7 +163,9 @@ const EventEditForm = props => {
 EventEditForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
-  initialValues: PropTypes.objectOf(PropTypes.object).isRequired,
+  initialValues: PropTypes.objectOf(
+    PropTypes.oneOfType(PropTypes.object, PropTypes.string)
+  ).isRequired,
 };
 
 export default withStyles(styles)(EventEditForm);
