@@ -1,10 +1,5 @@
 const styles = () => ({
-  root: {
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
   left: {
-    flexDirection: 'column',
     marginRight: '50px',
   },
   dateField: {
@@ -14,14 +9,8 @@ const styles = () => ({
   field: {
     margin: '15px',
   },
-  dates: {
-    flexWrap: 'wrap',
-  },
   urls: {
     display: 'flex',
-    flexDirection: 'column',
-  },
-  details: {
     flexDirection: 'column',
   },
   button: {
