@@ -21,9 +21,9 @@ class EventEditPage extends React.Component {
 
     getEventDetails(eventId).then(event => {
       const initialValues = {
+        ...event,
         startDate: moment(event.startDate).toDate(),
         endDate: moment(event.endDate).toDate(),
-        ...event,
       };
       this.setState({ initialValues, formLoading: false });
     });
@@ -41,9 +41,9 @@ class EventEditPage extends React.Component {
 
     const handleSubmit = (values, setSubmitting) => {
       const submission = {
+        ...values,
         startDate: values.startDate.toString(),
         endDate: values.endDate.toString(),
-        ...values,
       };
       setEventDetails(eventId, submission).then(() => {
         setSubmitting(false);

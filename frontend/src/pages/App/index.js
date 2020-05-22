@@ -92,11 +92,7 @@ class App extends React.Component {
               path={ROUTES.CALENDAR}
               component={InducteePermissions(CalendarPage)}
             />
-            <Route
-              exact
-              path={ROUTES.EVENT_EDIT}
-              component={OfficerPermissions(EventEditPage)}
-            />
+            <Route exact path={ROUTES.EVENT_EDIT} component={EventEditPage} />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>

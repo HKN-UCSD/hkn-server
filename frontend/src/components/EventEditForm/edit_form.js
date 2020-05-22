@@ -4,19 +4,20 @@ import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Button, LinearProgress } from '@material-ui/core';
+import { Button, LinearProgress, Grid } from '@material-ui/core';
 import { DateTimePicker } from 'formik-material-ui-pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import * as Yup from 'yup';
 
+import FormikChipListInput from './form_chip_list_input';
 import FormikMultiChipSelect from './form_multi_chip_select';
 import EVENT_TAGS from '../../constants/eventTags';
 import styles from './styles';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),
-  hosts: Yup.string().required('Required'),
+  hosts: Yup.array().required('Required'),
   location: Yup.string().required('Required'),
   tags: Yup.array(),
   description: Yup.string(),
@@ -36,10 +37,10 @@ const EventEditForm = props => {
       >
         {({ submitForm, isSubmitting }) => (
           <Form>
-            <div className={classes.root}>
-              <div className={classes.topPanel}>
-                <div className={classes.left}>
-                  <div className={classes.dates}>
+            <Grid className={classes.root} container>
+              <Grid container>
+                <Grid className={classes.left} item xs={6}>
+                  <Grid className={classes.dates}>
                     <Field
                       className={classes.dateField}
                       component={DateTimePicker}
@@ -53,9 +54,9 @@ const EventEditForm = props => {
                       name='endDate'
                       label='End Date'
                     />
-                  </div>
+                  </Grid>
 
-                  <div className={classes.details}>
+                  <Grid className={classes.details}>
                     <Field
                       className={classes.field}
                       name='name'
@@ -68,8 +69,7 @@ const EventEditForm = props => {
                     <Field
                       className={classes.field}
                       name='hosts'
-                      type='text'
-                      component={TextField}
+                      component={FormikChipListInput}
                       fullWidth
                       label='Hosts'
                     />
@@ -91,10 +91,10 @@ const EventEditForm = props => {
                       fullWidth
                       label='Tags'
                     />
-                  </div>
-                </div>
+                  </Grid>
+                </Grid>
 
-                <div className={classes.urls}>
+                <Grid className={classes.urls}>
                   {Object.keys(initialValues.urls).map(url => {
                     return (
                       <Field
@@ -107,10 +107,10 @@ const EventEditForm = props => {
                       />
                     );
                   })}
-                </div>
-              </div>
+                </Grid>
+              </Grid>
 
-              <div className={classes.bottomPanel}>
+              <Grid item xs={10}>
                 <Field
                   className={classes.field}
                   name='description'
@@ -121,11 +121,11 @@ const EventEditForm = props => {
                   rows={4}
                   label='Description'
                 />
-              </div>
+              </Grid>
 
               {isSubmitting && <LinearProgress />}
 
-              <div className={classes.controls}>
+              <Grid container spacing={2}>
                 <Button
                   className={classes.button}
                   variant='contained'
@@ -145,8 +145,8 @@ const EventEditForm = props => {
                 >
                   Cancel
                 </Button>
-              </div>
-            </div>
+              </Grid>
+            </Grid>
           </Form>
         )}
       </Formik>
