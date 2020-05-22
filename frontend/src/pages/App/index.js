@@ -40,6 +40,7 @@ class App extends React.Component {
         const tokenResult = await user.getIdTokenResult();
         const { claims } = tokenResult;
 
+        ClaimsSingleton.setClaims(claims);
         this.setState({
           authUserClaims: Object.keys(claims),
           isLoading: false,

@@ -1,10 +1,10 @@
 import Authorization from './Authorization';
 
-export const OfficerPermissions = Authorization(['Admin', 'Officer']);
-export const MemberPermissions = Authorization(['Admin', 'Officer', 'Member']);
+export const OfficerPermissions = Authorization(['admin', 'officer']);
+export const MemberPermissions = Authorization(['admin', 'officer', 'member']);
 export const InducteePermissions = Authorization([
-  'Admin',
-  'Officer',
-  'Member',
-  'Inductee',
+  'admin',
+  'officer',
+  'member',
+  'inductee',
 ]);

@@ -7,6 +7,7 @@ The idea is that as a team, we can develop individual components and jam them to
 
 ## Steps
 
+In general, branching off master is fine.
 Branch off events branch.
 
 ```bash
