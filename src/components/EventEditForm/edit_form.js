@@ -37,10 +37,16 @@ const EventEditForm = props => {
       >
         {({ submitForm, isSubmitting }) => (
           <Form>
-            <Grid className={classes.root} container>
+            <Grid container direction='column' wrap='wrap'>
               <Grid container>
-                <Grid className={classes.left} item xs={6}>
-                  <Grid className={classes.dates}>
+                <Grid
+                  container
+                  className={classes.left}
+                  direction='column'
+                  item
+                  xs={6}
+                >
+                  <Grid container className={classes.dates} wrap='wrap'>
                     <Field
                       className={classes.dateField}
                       component={DateTimePicker}
@@ -56,7 +62,7 @@ const EventEditForm = props => {
                     />
                   </Grid>
 
-                  <Grid className={classes.details}>
+                  <Grid container direction='column'>
                     <Field
                       className={classes.field}
                       name='name'
@@ -125,7 +131,7 @@ const EventEditForm = props => {
 
               {isSubmitting && <LinearProgress />}
 
-              <Grid container spacing={2}>
+              <Grid container>
                 <Button
                   className={classes.button}
                   variant='contained'
