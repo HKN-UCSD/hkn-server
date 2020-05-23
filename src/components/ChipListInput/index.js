@@ -115,6 +115,7 @@ class ChipListInput extends React.Component {
                 }
               }}
               InputProps={{
+                // InputProps is correctly capitalized, material ui is jank
                 endAdornment: (
                   <InputAdornment position='end'>
                     <IconButton onClick={() => this.addSelection()}>
@@ -139,7 +140,7 @@ ChipListInput.propTypes = {
 
 ChipListInput.defaultProps = {
   label: '',
-  onChange: () => {},
+  onChange: null,
 };
 
 export default withStyles(styles)(ChipListInput);
