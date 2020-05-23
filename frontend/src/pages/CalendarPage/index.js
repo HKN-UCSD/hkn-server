@@ -3,10 +3,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Container, Button } from '@material-ui/core';
 
-import * as firebase from 'firebase/app';
 import Calendar from '../../components/Calendar';
 import EventCard from '../../components/EventCard';
 import EventList from '../../components/EventList';
+import { getAllEvents } from '../../services/events';
 
 import styles from './styles';
 
@@ -21,27 +21,23 @@ class CalendarPage extends React.Component {
   }
 
   componentDidMount() {
-    const calendarEvents = [];
-    firebase
-      .firestore()
-      .collection('events')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const newEvent = doc.data();
-          newEvent.id = doc.id;
+    getAllEvents().then(events => {
+      const calendarEvents = [];
+      events.forEach(newEventParam => {
+        // make a copy of the event
+        const newEvent = Object.assign(newEventParam);
 
-          // NOTE: temporarily using fake ISO time string
-          newEvent.startDate = '2020-05-16T01:30:49+00:00';
-          newEvent.endDate = '2020-05-16T02:30:49+00:00';
+        // NOTE: temporarily using fake ISO time string
+        newEvent.startDate = '2020-05-16T01:30:49+00:00';
+        newEvent.endDate = '2020-05-16T02:30:49+00:00';
 
-          newEvent.title = newEvent.name;
-          newEvent.venue = newEvent.location;
-          calendarEvents.push(newEvent);
-        });
-
-        this.setState({ events: calendarEvents });
+        newEvent.title = newEvent.name;
+        newEvent.venue = newEvent.location;
+        calendarEvents.push(newEvent);
       });
+      this.setState({ events: calendarEvents });
+    });
+
     // const calendarEvents = [
     //   {
     //     id: 'qO8nJ50tCO57hptbxNZa',
