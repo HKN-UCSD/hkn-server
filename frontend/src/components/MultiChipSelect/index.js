@@ -63,7 +63,7 @@ MultiChipSelect.propTypes = {
 MultiChipSelect.defaultProps = {
   label: '',
   value: [],
-  onChange: () => {},
+  onChange: null,
 };
 
 export default MultiChipSelect;
