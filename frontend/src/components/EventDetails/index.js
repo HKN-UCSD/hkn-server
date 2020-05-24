@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Links from './Links';
 import Tags from '../Tags';
 import DeleteEditButtons from '../DeleteEditButtons';
-import { OfficerPermissionsForRender } from '../../HOCs/RoleBasedRenderPermission';
+import { OfficerRenderPermission } from '../../HOCs/RenderByContextPerm';
 
 import styles from './styles';
 import * as ROUTES from '../../constants/routes';
@@ -40,7 +40,7 @@ function EventDetailsComponent(props) {
             </Grid>
 
             <Grid xs={4}>
-              {OfficerPermissionsForRender(DeleteEditButtons)({ eventId })}
+              {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
             </Grid>
           </Grid>
 
