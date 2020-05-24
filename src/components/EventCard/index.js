@@ -1,12 +1,11 @@
 import React from 'react';
-import
-{
+import {
   Typography,
   Box,
   Card,
   CardHeader,
   CardContent,
-  Button
+  Button,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
@@ -15,14 +14,12 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { Link } from 'react-router-dom';
 import styles from './styles';
 
-import { Link } from 'react-router-dom';
+// ${event.id}
 
-//${event.id}
-
-function EventCard({ event, classes })
-{
+function EventCard({ event, classes }) {
   return (
     <>
       {event && (
@@ -41,15 +38,14 @@ function EventCard({ event, classes })
             <Button
               variant='outlined'
               color='primary'
-              to='/events/ZksP8nckODQQbxz7MJAG'
+              to='/events/AC1JODn8d4TVO9qV3zzY'
               component={Link}
             >
               See More
             </Button>
           </CardContent>
         </Card>
-      )
-      }
+      )}
     </>
   );
 }
