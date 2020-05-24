@@ -14,7 +14,11 @@ import CalendarPage from '../CalendarPage';
 import TestPage from '../TestPage';
 
 import Loading from '../../components/Loading';
-import NavBar from '../../components/NavBar';
+import {
+  OfficerPermissions,
+  InducteePermissions,
+} from '../../HOCs/Permissions';
+import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
 import AuthUserContext from '../../contexts';
 import EventEditPage from '../EventEditPage';
@@ -55,26 +59,26 @@ PrivateRoute.defaultProps = {
   nav: false,
 };
 
+import {
+  InducteeRoutingPermission,
+  OfficerRoutingPermission,
+} from '../../HOCs/RoutingByContextPerm';
+
 const INITIAL_STATES = {
   authUser: null,
   authUserClaims: null,
   isLoading: true,
 };
 
-class App extends React.Component
-{
-  constructor(props)
-  {
+class App extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATES };
   }
 
-  componentDidMount()
-  {
-    const { firebase } = this.props;
-    this.listener = firebase.auth.onAuthStateChanged(user =>
-    {
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         const tokenResult = await user.getIdTokenResult();
         const { claims } = tokenResult;
@@ -94,9 +98,8 @@ class App extends React.Component
     });
   }
 
-  render()
-  {
-    const { authUser, isLoading } = this.state;
+  render() {
+    const { authUserClaims, isLoading } = this.state;
 
     if (isLoading) {
       return <Loading />;
@@ -108,32 +111,35 @@ class App extends React.Component
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route exact path={ROUTES.TEST} component={TestPage} />
-            <PrivateRoute exact nav path={ROUTES.HOME} component={EventsPage} />
-            <PrivateRoute
+            <Route
+              exact
+              path={ROUTES.HOME}
+              component={InducteeRoutingPermission(EventsPage)}
+            />
+            <Route
               exact
               path={ROUTES.POINTS}
-              component={InducteePermissions(PointsPage)}
+              component={InducteeRoutingPermission(PointsPage)}
             />
             <Route
               exact
               path={ROUTES.RESUME}
-              component={InducteePermissions(ResumePage)}
+              component={InducteeRoutingPermission(ResumePage)}
             />
             <Route
               exact
               path={ROUTES.INDUCTEES}
-              component={OfficerPermissions(InducteePointsPage)}
+              component={OfficerRoutingPermission(InducteePointsPage)}
             />
             <Route
               exact
               path={ROUTES.CALENDAR}
-              component={InducteePermissions(CalendarPage)}
+              component={InducteeRoutingPermission(CalendarPage)}
             />
             <Route
               exact
               path={ROUTES.EVENT_DETAILS}
-              component={InducteePermissions(EventDetailsPage)}
+              component={OfficerRoutingPermission(EventDetailsPage)}
             />
           </Switch>
         </BrowserRouter>
