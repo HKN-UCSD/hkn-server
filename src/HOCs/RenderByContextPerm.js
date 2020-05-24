@@ -3,13 +3,10 @@ import RenderByContextAuth from './RenderByContextAuth';
 /**
  * Use these functions like this:
  *
- * OfficerRenderPermission( NameOfTheComponentToRender )( { a, b, c, ... } )
- * MemberRenderPermission( NameOfTheComponentToRender )( { a, b, c, ... } )
- * InducteeRenderPermission( NameOfTheComponentToRender )( { a, b, c, ... } )
- *
- * where { a, b, c, ... } are represented by Javascript as
- * { "a": a, "b": b, "c": c, ... } and { a, b, c, ... } are things you want
- * to pass down to NameOfTheComponentToRender as props.
+ * Given any <Component {...props} />, use these permission wrappers like this:
+ *     OfficerRenderPermission(Component)({...props})
+ *     MemberRenderPermission(Component)({...props})
+ *     InducteeRenderPermission(Component)({...props})
  */
 export const OfficerRenderPermission = RenderByContextAuth([
   'admin',

@@ -31,7 +31,7 @@ class EventDetailsPage extends React.Component {
         this.setState({ eventInfo: eventObj });
       })
       .catch(err => {
-        throw Error(err);
+        console.log(err);
       });
   }
 

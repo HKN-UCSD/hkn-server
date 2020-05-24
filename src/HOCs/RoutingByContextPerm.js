@@ -3,13 +3,12 @@ import RoutingByContextAuth from './RoutingByContextAuth';
 /**
  * Use these functions like this:
  *
- * OfficerRoutingPermission( NameOfTheComponentToRouteTo )( { a, b, c, ... } )
- * MemberRoutingPermission( NameOfTheComponentToRouteTo )( { a, b, c, ... } )
- * InducteeRoutingPermission( NameOfTheComponentToRouteTo )( { a, b, c, ... } )
- *
- * where { a, b, c, ... } are represented by Javascript as
- * { "a": a, "b": b, "c": c, ... } and { a, b, c, ... } are things you want
- * to pass down to NameOfTheComponentToRouteTo as props.
+ * Given any <ComponentToRoute {...props}>, use these permission wrappers like this in App.js:
+ *     <Route exact path={<path>} component={OfficerRoutingPermission(ComponentToRoute)} />
+ *     <Route exact path={<path>} component={MemberRoutingPermission(ComponentToRoute)} />
+ *     <Route exact path={<path>} component={InducteeRoutingPermission(ComponentToRoute)} />
+ * Note that the component prop is to be like that, other props are up to the person using these
+ * wrappers
  */
 export const OfficerRoutingPermission = RoutingByContextAuth([
   'admin',
