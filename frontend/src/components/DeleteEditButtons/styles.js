@@ -1,6 +1,5 @@
 const styles = theme => ({
   root: {
-    height: '37px',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

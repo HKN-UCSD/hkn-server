@@ -6,28 +6,17 @@ const styles = theme => ({
     marginTop: theme.spacing(9),
   },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
     backgroundColor: 'white',
   },
-  topRow: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
   titleTag: {
-    width: '300px',
-    wordWrap: 'break-word',
     marginTop: '10px',
-    marginRight: '100px',
     marginBottom: '10px',
   },
   hostLocTime: {
-    display: 'flex',
-    flexDirection: 'row',
+    marginTop: '10px',
     marginBottom: '10px',
   },
   hosts: {
-    width: '258px',
     wordWrap: 'break-word',
     marginRight: '10px',
   },
@@ -35,13 +24,10 @@ const styles = theme => ({
     marginBottom: '5px',
   },
   locTime: {
-    display: 'flex',
-    flexDirection: 'column',
     marginLeft: '10px',
   },
   descURL: {
-    display: 'flex',
-    flexDirection: 'row',
+    marginTop: '10px',
     marginBottom: '10px',
   },
   desc: {
@@ -49,7 +35,7 @@ const styles = theme => ({
   },
   calendarButton: {
     marginTop: '25px',
-  }
+  },
 });
 
 export default styles;
