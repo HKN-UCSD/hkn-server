@@ -31,15 +31,15 @@ function EventDetailsComponent(props) {
     <div className={classes.root}>
       <Card>
         <Container className={classes.container} maxWidth='sm'>
-          <Grid container direction='row' xs={12}>
-            <Grid className={classes.titleTag} xs={8}>
-              <Typography variant='h4'>
+          <Grid container direction='row' justify='space-between'>
+            <Grid className={classes.titleTag} item xs={7}>
+              <Typography className={classes.title} variant='h4'>
                 {name}
                 <Tags tags={tags} />
               </Typography>
             </Grid>
 
-            <Grid xs={4}>
+            <Grid item xs={4}>
               {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
             </Grid>
           </Grid>
@@ -48,9 +48,9 @@ function EventDetailsComponent(props) {
             className={classes.hostLocTime}
             container
             direction='row'
-            xs={12}
+            spacing={4}
           >
-            <Grid xs={6}>
+            <Grid item xs={6}>
               <Typography className={classes.hosts} variant='h6'>
                 Hosts:{' '}
                 {hosts.map(host => (
@@ -59,7 +59,7 @@ function EventDetailsComponent(props) {
               </Typography>
             </Grid>
 
-            <Grid container direction='column' xs={6}>
+            <Grid item xs={6}>
               <Typography variant='h6'>
                 Location: <Typography>{location}</Typography>
               </Typography>
@@ -80,13 +80,18 @@ function EventDetailsComponent(props) {
             </Grid>
           </Grid>
 
-          <Grid className={classes.descURL} container direction='row' xs={12}>
-            <Grid xs={3}>
+          <Grid
+            className={classes.descURL}
+            container
+            direction='row'
+            spacing={4}
+          >
+            <Grid item xs={3}>
               <Links urls={urls} />
             </Grid>
 
-            <Grid xs={9}>
-              <Typography className={classes.desc} variant='h6'>
+            <Grid item xs={9}>
+              <Typography variant='h6'>
                 Description: <Typography>{description}</Typography>
               </Typography>
             </Grid>
@@ -109,8 +114,14 @@ function EventDetailsComponent(props) {
 
 EventDetailsComponent.propTypes = {
   eventInfo: PropTypes.shape({
-    startDate: PropTypes.string.isRequired,
-    endDate: PropTypes.string.isRequired,
+    startDate: PropTypes.shape({
+      nanoseconds: PropTypes.number.isRequired,
+      seconds: PropTypes.number.isRequired,
+    }),
+    endDate: PropTypes.shape({
+      nanoseconds: PropTypes.number.isRequired,
+      seconds: PropTypes.number.isRequired,
+    }),
     hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

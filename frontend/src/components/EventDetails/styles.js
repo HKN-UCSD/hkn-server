@@ -3,7 +3,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing(9),
+    marginTop: theme.spacing(8),
   },
   container: {
     backgroundColor: 'white',
@@ -12,13 +12,15 @@ const styles = theme => ({
     marginTop: '10px',
     marginBottom: '10px',
   },
+  title: {
+    wordWrap: 'break-word',
+  },
   hostLocTime: {
     marginTop: '10px',
     marginBottom: '10px',
   },
   hosts: {
     wordWrap: 'break-word',
-    marginRight: '10px',
   },
   hostName: {
     marginBottom: '5px',
@@ -30,11 +32,9 @@ const styles = theme => ({
     marginTop: '10px',
     marginBottom: '10px',
   },
-  desc: {
-    marginLeft: '20px',
-  },
   calendarButton: {
     marginTop: '25px',
+    marginBottom: '25px',
   },
 });
 

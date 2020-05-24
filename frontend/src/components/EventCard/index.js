@@ -37,7 +37,7 @@ function EventCard({ event, classes }) {
             <Button
               variant='outlined'
               color='primary'
-              to='/events/AC1JODn8d4TVO9qV3zzY'
+              to='/events/9AfJFBiIRrFec1fDBNoR'
               component={Link}
             >
               See More
