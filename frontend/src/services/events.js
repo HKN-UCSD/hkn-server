@@ -35,4 +35,32 @@ const getPoints = () => {
   throw Error('Points Query failed, userId invalid');
 };
 
-export { getUserEvent, getPoints };
+const getEventById = eventId => {
+  return firebase
+    .firestore()
+    .collection('events')
+    .doc(eventId)
+    .get()
+    .then(documentSnapshot => {
+      return documentSnapshot.data();
+    })
+    .catch(() => {
+      throw Error('Query for event by ID has failed.');
+    });
+};
+
+const deleteEventById = eventId => {
+  return firebase
+    .firestore()
+    .collection('events')
+    .doc(eventId)
+    .delete()
+    .then(res => {
+      return res;
+    })
+    .catch(() => {
+      throw Error('Deletion of event by ID has failed.');
+    });
+};
+
+export { getUserEvent, getPoints, getEventById, deleteEventById };
