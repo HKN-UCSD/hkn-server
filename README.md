@@ -90,9 +90,11 @@ Example output:
 
 ## Update Claim API
 
-Used to update the user. This is slightly different than custom claims, as it includes emailVerified, email, etc. See the output of View Claim API. 
+Used to update the user. This is slightly different than custom claims, 
+as it includes emailVerified, email, etc. See the output of View Claim API. 
 
 Usage: Universal code & insert below in TODO
 ```python
-res = requests.post("http://localhost:{port}/api/user/uid/view-claim", {"email": ""})
+answer = {"token": "", "email": "", "claims": "{ : , : }"}
+res = requests.post("http://localhost:{port}/api/user/uid/update-claim", json = answer)
 ```
