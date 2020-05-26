@@ -76,7 +76,7 @@ res = requests.post("http://localhost:{port}/api/user/uid/view-claim", {"email":
 ```
 
 Example output:
-```json
+```
 {'uid': '',
   'email': '',
   'emailVerified': True,
