@@ -1,39 +1,22 @@
 import admin from 'firebase-admin';
 
-export const addClaim = async (req, res, next) => {
+/* 
+  Cloud function that adds a role for a user.
+  { token, email, role } = req.body 
+  Prereqs:
+    1. Caller must be an officer in auth and Officer in docs
+    2. User specified by 'email' must have a doc and be in auth
+    3. Role must be in the database (case-sensitive)
+*/
+export const addRole = async (req, res, next) => {
   const OFFICER = "Officer";
-  const { token } = req.body;
+  const { token, email, role } = req.body;
 
-  // get requesterClaims from token
-  let requesterClaims = null;
-  try {
-    requesterClaims = await admin.auth().verifyIdToken(token);
-  } catch (err) {
-    return next(new Error('Invalid ID Token'));
-  }
-
-  // hardcoded requestClaims for testing
-  /*let requesterClaims = {
-    'Officer': true,
-    'iss': 'https://securetoken.google.com/hkn-member-portal-dev',
-    'aud': 'hkn-member-portal-dev',
-    'auth_time': 1585537672,
-    'user_id': 'CihJl3CrWE0FxO1FYyNI',
-    'sub': 'CihJl3CrWE0FxO1FYyNI',
-    'iat': 1585537672,
-    'exp': 1585541272,
-    'email': 'test@test.com',
-    'email_verified': true,
-    'firebase': {
-      'identities': { 'email': ['test@test.com'] },
-      'sign_in_provider': 'password'
-    },
-    'uid': 'CihJl3CrWE0FxO1FYyNI'
-  };*/
+  let requesterClaims = await checkToken(token, next);
 
   // check if caller has officer token
-  if (!(OFFICER in requesterClaims) || !requesterClaims.Officer) {
-    return next(new Error('Unauthorized Action: Only admins can add claims.'));
+  if (!(OFFICER in requesterClaims) || !requesterClaims.officer) {
+    return next(new Error('Unauthorized Action: Only admins can add roles.'));
   }
 
   // get officer id from db
@@ -54,20 +37,11 @@ export const addClaim = async (req, res, next) => {
 
   // check if caller doc has role of officer
   if (user_doc.get('role_id') !== officer_id) {
-    return next(new Error('Unauthorized Action: Only admins in database can add claims.'));
+    return next(new Error('Unauthorized Action: Only admins in database can add roles.'));
   }
 
   // verified caller, find user
-  const { email } = req.body;
-  const { role } = req.body;
-
-  // check if user exists in auth
-  let user = null;
-  try {
-    user = await admin.auth().getUserByEmail(email);
-  } catch (err) {
-    return next(new Error('Not Found: Could not find email in auth.'));
-  }
+  let user = await getUser(email, next);
 
   // get newRole_id from db
   const new_role_id = await getIdFromRoles(role);
@@ -86,12 +60,9 @@ export const addClaim = async (req, res, next) => {
     return next(new Error('Not Found: Could not find user in database.'));
   }
 
-  // set claim for role
-  await addCustomUserClaims(user.uid, { [role]: true });
-
-  // check custom claims
-  let claims = (await admin.auth().getUser(user.uid)).customClaims;
-  return res.status(200).json({ success: claims });
+  // set claim for role and return
+  await addCustomUserClaims(user, { [role]: true });
+  return res.status(200).json({ success: user.customClaims });
 };
 
 /* Get ID of role from database */
@@ -109,11 +80,124 @@ function getIdFromRoles(role) {
     });
 }
 
-/* Add custom claims.
-Ex usage: await addCustomUserClaims(user_uid, {field1: true, field2: "field2"});
+/* 
+  Cloud function that adds claims for a user.
+  { token, email, claims } = req.body -> temporarily token is replaced with email of caller
+  Prereqs:
+    1. Caller must be an officer in claims
+    2. User specified by 'email' must be in auth
 */
-async function addCustomUserClaims(uid, claims) {
-  const user = await admin.auth().getUser(uid);
+export const addClaim = async (req, res, next) => {
+  const { token, email, claims } = req.body;
+
+  // Check that caller is an officer
+  const requesterClaims = await checkToken(token, next);
+  if (!('officer' in requesterClaims) || !requesterClaims.officer) {
+    return next(new Error('Unauthorized Action: Only admins can add claims.'));
+  }
+
+  // Add claims
+  const user = await getUser(email, next);
+  await addCustomUserClaims(user, claims);
+  return res.status(200).json({ success: user.customClaims });
+}
+
+/* 
+  Cloud function that removes claims for a user.
+  { token, email, claims } = req.body -> temporarily token is replaced with email of caller
+  Prereqs:
+    1. Caller must be an officer in claims
+    2. User specified by 'email' must be in auth
+*/
+export const removeClaim = async (req, res, next) => {
+  const { token, email, claims } = req.body;
+
+  // Check that caller is an officer
+  const requesterClaims = await checkToken(token, next);
+  if (!('officer' in requesterClaims) || !requesterClaims.officer) {
+    return next(new Error('Unauthorized Action: Only admins can delete claims.'));
+  }
+
+  // Remove claims
+  const user = await getUser(email, next);
+  await removeCustomUserClaims(user, claims);
+  return res.status(200).json({ success: user.customClaims });
+}
+
+/* 
+  Cloud function that gets claims for a specified user.
+  { email } = req.body
+  Prereqs:
+    1. User specified by 'email' must be in auth
+*/
+export const viewClaim = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await getUser(email, next);
+  return res.status(200).json({ success: user });
+}
+
+/* 
+  Updates the auto created claims within a person's token, such as email_verified.
+  { email, claims } = req.body
+  Prereqs:
+    1. User specified by 'email' must be in auth
+*/
+export const updateClaim = async (req, res, next) => {
+  const { email, claims } = req.body;
+  const user = await getUser(email, next);
+  await admin.auth().updateUser(user.uid, claims);
+  return res.status(200).json({ success: user.customClaims });
+}
+
+/*
+  Checks that token exists. Otherwise, error.
+*/
+async function checkToken(token, next) {
+  /*let requesterClaims = null;
+  try {
+    requesterClaims = await admin.auth().verifyIdToken(token);
+  } catch (err) {
+    return next(new Error('Invalid ID Token'));
+  }*/
+
+  // hardcoded requestClaims for testing
+  let requesterClaims = {
+    'Officer': true,
+    'officer': true,
+    'iss': 'https://securetoken.google.com/hkn-member-portal-dev',
+    'aud': 'hkn-member-portal-dev',
+    'auth_time': 1585537672,
+    'user_id': 'CihJl3CrWE0FxO1FYyNI',
+    'sub': 'CihJl3CrWE0FxO1FYyNI',
+    'iat': 1585537672,
+    'exp': 1585541272,
+    'email': 'test@test.com',
+    'email_verified': true,
+    'firebase': {
+      'identities': { 'email': ['test@test.com'] },
+      'sign_in_provider': 'password'
+    },
+    'uid': 'CihJl3CrWE0FxO1FYyNI'
+  };
+
+  return requesterClaims;
+}
+
+/* Helper function that gets the user from email in auth. */
+async function getUser(email, next) {
+  let user = null;
+  try {
+    user = await admin.auth().getUserByEmail(email);
+  } catch (err) {
+    return next(new Error('Not Found: Could not find email in auth.'));
+  }
+  return user;
+}
+
+/* Add custom claims.
+Ex usage: await addCustomUserClaims(user, {field1: true, field2: "field2"});
+*/
+async function addCustomUserClaims(user, claims) {
   let updated_claims = user.customClaims || {};
 
   for (let property in claims) {
@@ -121,14 +205,13 @@ async function addCustomUserClaims(uid, claims) {
       updated_claims[property] = claims[property];
     }
   }
-  await admin.auth().setCustomUserClaims(uid, updated_claims)
+  await admin.auth().setCustomUserClaims(user.uid, updated_claims)
 }
 
 /* Remove fields/properties from a custom claim.
-Ex usage: await removeCustomUserClaims(user_uid, ["field1", "Inductee"]);
+Ex usage: await removeCustomUserClaims(user, ["field1", "Inductee"]);
 */
-async function removeCustomUserClaims(uid, claims) {
-  const user = await admin.auth().getUser(uid);
+async function removeCustomUserClaims(user, claims) {
   let updated_claims = {};
 
   for (let property in user.customClaims) {
@@ -137,5 +220,5 @@ async function removeCustomUserClaims(uid, claims) {
     }
   }
 
-  await admin.auth().setCustomUserClaims(uid, updated_claims)
+  await admin.auth().setCustomUserClaims(user.uid, updated_claims)
 }
