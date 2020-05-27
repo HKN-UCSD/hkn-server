@@ -30,7 +30,7 @@ import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import styles from './styles';
-import { GetOfficerTabs, GetInducteeTabs } from './tabs';
+import { OfficerTabs, InducteeTabs } from './tabs';
 
 import { AuthUserContext } from '../../contexts';
 import { isOfficer as checkIsOfficer } from '../../services/claims';
@@ -77,12 +77,7 @@ class NavBar extends React.Component {
     const { classes, children } = this.props;
     const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
 
-    const userClaims = this.context;
-
-    const tabs = isOfficer
-      ? GetOfficerTabs(userClaims.user_id)
-      : GetInducteeTabs(userClaims.user_id);
-
+    const tabs = isOfficer ? OfficerTabs : InducteeTabs;
     const tabComponents = tabs.map(tab => (
       <ListItem button component={Link} to={tab.route} key={tab.route}>
         <ListItemIcon>{tab.icon}</ListItemIcon>
