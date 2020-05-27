@@ -27,9 +27,9 @@ class CalendarPage extends React.Component {
         // make a copy of the event
         const newEvent = Object.assign(newEventParam);
 
-        // NOTE: temporarily using fake ISO time string
-        newEvent.startDate = '2020-05-16T01:30:49+00:00';
-        newEvent.endDate = '2020-05-16T02:30:49+00:00';
+        // convert timestamp object to ISO time string
+        newEvent.startDate = newEvent.startDate.toDate().toISOString();
+        newEvent.endDate = newEvent.endDate.toDate().toISOString();
 
         newEvent.title = newEvent.name;
         newEvent.venue = newEvent.location;
