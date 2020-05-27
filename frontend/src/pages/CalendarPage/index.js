@@ -21,6 +21,7 @@ class CalendarPage extends React.Component {
   }
 
   componentDidMount() {
+
     getAllEvents().then(events => {
       const calendarEvents = [];
       events.forEach(newEventParam => {
@@ -66,6 +67,7 @@ class CalendarPage extends React.Component {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
     }));
+
   }
 
   render() {
