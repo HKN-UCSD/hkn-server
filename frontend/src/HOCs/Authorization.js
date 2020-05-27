@@ -21,7 +21,6 @@ const Authorization = allowedRoles => WrappedComponent => props => {
       }
     }
   }
-
   return <Redirect to={ROUTES.SIGN_IN} />;
 };
 
