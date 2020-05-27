@@ -9,14 +9,14 @@ let claims = {};
 
 const ClaimsSingleton = {
   setClaims: newClaims => {
-    claims = newClaims;
+    claims = Object.keys(newClaims);
   },
   getClaims: () => claims,
 };
 Object.freeze(ClaimsSingleton);
 
 const hasClaim = claim => userClaims => {
-  return Object.keys(userClaims).includes(claim);
+  return userClaims.includes(claim);
 };
 
 // These functions take in the current user claims as an array
