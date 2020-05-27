@@ -41,7 +41,7 @@ class App extends React.Component {
 
         ClaimsSingleton.setClaims(claims);
         this.setState({
-          authUserClaims: claims,
+          authUserClaims: Object.keys(claims),
           isLoading: false,
         });
       } else {
