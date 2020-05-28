@@ -17,8 +17,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './styles';
 
-// ${event.id}
-
 function EventCard({ event, classes }) {
   return (
     <>
@@ -38,7 +36,7 @@ function EventCard({ event, classes }) {
             <Button
               variant='outlined'
               color='primary'
-              to='/events/9AfJFBiIRrFec1fDBNoR'
+              to={`/events/${event.id}`}
               component={Link}
             >
               See More
