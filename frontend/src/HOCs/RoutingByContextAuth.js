@@ -10,7 +10,7 @@ const RoutingByContextAuth = allowedRoles => WrappedComponent => props => {
     <AuthUserContext.Consumer>
       {userClaims => {
         if (userClaims != null) {
-          for (let i = 0; i < userClaims.length; i++) {
+          for (let i = 0; i < userClaims.length; i += 1) {
             if (allowedRoles.includes(userClaims[i])) {
               return (
                 <NavBar>

@@ -1,9 +1,8 @@
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing(8),
   },
   container: {
     backgroundColor: 'white',
