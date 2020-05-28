@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
-
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Table from '../Table';
-import styles from './styles';
 
 const columns = [
   { title: 'Event Name', field: 'title' },
@@ -28,22 +25,20 @@ function EventList({ events, handleEventClick }) {
         'dddd, MMMM Do YYYY, h:mm:ss a'
       ),
       venue: events[i].venue,
-      startDate: events[i].startDate,
-      endDate: events[i].endDate,
+      // startDate: events[i].startDate,
+      // endDate: events[i].endDate,
     };
     listEvents.push(listEvent);
   }
 
   return (
-    <div style={{ marginTop: '0px' }}>
-      <Table
-        columns={columns}
-        data={listEvents}
-        title='Events'
-        onRowClick={(event, rowData) => handleEventClick(rowData)}
-        options={{ filtering: true }}
-      />
-    </div>
+    <Table
+      columns={columns}
+      data={listEvents}
+      title='Events'
+      onRowClick={(event, rowData) => handleEventClick(rowData)}
+      options={{ filtering: true }}
+    />
   );
 }
 
@@ -60,4 +55,4 @@ EventList.propTypes = {
   handleEventClick: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(EventList);
+export default EventList;

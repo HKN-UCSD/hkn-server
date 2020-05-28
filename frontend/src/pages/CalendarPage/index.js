@@ -21,7 +21,6 @@ class CalendarPage extends React.Component {
   }
 
   componentDidMount() {
-
     getAllEvents().then(events => {
       const calendarEvents = [];
       events.forEach(newEventParam => {
@@ -67,7 +66,17 @@ class CalendarPage extends React.Component {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
     }));
+  }
 
+  toggleEventClick(event) {
+    const { selectedEvent } = this.state;
+    if (selectedEvent != null && event.id === selectedEvent.id) {
+      this.setState({
+        selectedEvent: null,
+      });
+    } else {
+      this.setState({ selectedEvent: event });
+    }
   }
 
   render() {
@@ -91,28 +100,12 @@ class CalendarPage extends React.Component {
             {view === 'calendar' ? (
               <Calendar
                 events={events}
-                handleEventClick={event => {
-                  if (selectedEvent != null && event.id === selectedEvent.id) {
-                    this.setState({
-                      selectedEvent: null,
-                    });
-                  } else {
-                    this.setState({ selectedEvent: event });
-                  }
-                }}
+                handleEventClick={event => this.toggleEventClick(event)}
               />
             ) : (
               <EventList
                 events={events}
-                handleEventClick={event => {
-                  if (selectedEvent != null && event.id === selectedEvent.id) {
-                    this.setState({
-                      selectedEvent: null,
-                    });
-                  } else {
-                    this.setState({ selectedEvent: event });
-                  }
-                }}
+                handleEventClick={event => this.toggleEventClick(event)}
               />
             )}
           </Paper>
