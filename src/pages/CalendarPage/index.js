@@ -68,6 +68,17 @@ class CalendarPage extends React.Component {
     }));
   }
 
+  toggleEventClick(event) {
+    const { selectedEvent } = this.state;
+    if (selectedEvent != null && event.id === selectedEvent.id) {
+      this.setState({
+        selectedEvent: null,
+      });
+    } else {
+      this.setState({ selectedEvent: event });
+    }
+  }
+
   render() {
     const { selectedEvent, events, view } = this.state;
     const { classes } = this.props;
@@ -89,28 +100,12 @@ class CalendarPage extends React.Component {
             {view === 'calendar' ? (
               <Calendar
                 events={events}
-                handleEventClick={event => {
-                  if (selectedEvent != null && event.id === selectedEvent.id) {
-                    this.setState({
-                      selectedEvent: null,
-                    });
-                  } else {
-                    this.setState({ selectedEvent: event });
-                  }
-                }}
+                handleEventClick={event => this.toggleEventClick(event)}
               />
             ) : (
               <EventList
                 events={events}
-                handleEventClick={event => {
-                  if (selectedEvent != null && event.id === selectedEvent.id) {
-                    this.setState({
-                      selectedEvent: null,
-                    });
-                  } else {
-                    this.setState({ selectedEvent: event });
-                  }
-                }}
+                handleEventClick={event => this.toggleEventClick(event)}
               />
             )}
           </Paper>
