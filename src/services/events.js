@@ -57,4 +57,19 @@ const setEventDetails = (eventId, eventDetails) => {
     .set(eventDetails);
 };
 
-export { getUserEvent, getPoints, getEventDetails, setEventDetails };
+const timestampToDate = timestamp => {
+  return timestamp.toDate();
+};
+
+const dateToTimestamp = date => {
+  return firebase.firestore.Timestamp.fromDate(date);
+};
+
+export {
+  getUserEvent,
+  getPoints,
+  getEventDetails,
+  setEventDetails,
+  timestampToDate,
+  dateToTimestamp,
+};
