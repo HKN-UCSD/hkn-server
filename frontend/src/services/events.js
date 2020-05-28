@@ -35,7 +35,7 @@ const getPoints = () => {
   throw Error('Points Query failed, userId invalid');
 };
 
-const getEventDetails = eventId => {
+const getEventById = eventId => {
   return firebase
     .firestore()
     .collection('events')
@@ -65,10 +65,25 @@ const dateToTimestamp = date => {
   return firebase.firestore.Timestamp.fromDate(date);
 };
 
+const deleteEventById = eventId => {
+  return firebase
+    .firestore()
+    .collection('events')
+    .doc(eventId)
+    .delete()
+    .then(res => {
+      return res;
+    })
+    .catch(() => {
+      throw Error('Deletion of event by ID has failed.');
+    });
+};
+
 export {
   getUserEvent,
   getPoints,
-  getEventDetails,
+  getEventById,
+  deleteEventById,
   setEventDetails,
   timestampToDate,
   dateToTimestamp,

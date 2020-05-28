@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import {
-  getEventDetails,
+  getEventById,
   setEventDetails,
   timestampToDate,
   dateToTimestamp,
@@ -24,7 +24,7 @@ class EventEditPage extends React.Component {
   componentDidMount() {
     const { eventId } = this.state;
 
-    getEventDetails(eventId).then(event => {
+    getEventById(eventId).then(event => {
       const initialValues = {
         ...event,
         startDate: timestampToDate(event.startDate),
@@ -40,8 +40,7 @@ class EventEditPage extends React.Component {
     const { eventId, initialValues, formLoading } = this.state;
 
     const handleCancel = () => {
-      // history.push(`/event/${eventId}`); // Waiting for event detail page
-      history.goBack(); // TODO Remove!
+      history.push(`/events/${eventId}`);
     };
 
     const handleSubmit = (values, setSubmitting) => {
@@ -52,8 +51,7 @@ class EventEditPage extends React.Component {
       };
       setEventDetails(eventId, submission).then(() => {
         setSubmitting(false);
-        // history.push(`/event/${eventId}`); // Waiting for event detail page
-        history.goBack(); // TODO Remove!
+        history.push(`/events/${eventId}`);
       });
     };
 
@@ -62,13 +60,13 @@ class EventEditPage extends React.Component {
         {formLoading ? (
           <div />
         ) : (
-          <EventEditForm
-            handleSubmit={handleSubmit}
-            handleCancel={handleCancel}
-            eventId={eventId}
-            initialValues={initialValues}
-          />
-        )}
+            <EventEditForm
+              handleSubmit={handleSubmit}
+              handleCancel={handleCancel}
+              eventId={eventId}
+              initialValues={initialValues}
+            />
+          )}
       </div>
     );
   }
