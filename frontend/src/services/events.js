@@ -35,6 +35,19 @@ const getPoints = () => {
   throw Error('Points Query failed, userId invalid');
 };
 
+// get all the events
+const getAllEvents = () => {
+  return firebase
+    .firestore()
+    .collection('events')
+    .get()
+    .then(querySnapshot => {
+      return querySnapshot.docs.map(doc => {
+        return { id: doc.id, ...doc.data() };
+      });
+    });
+};
+
 const getEventById = eventId => {
   return firebase
     .firestore()
@@ -87,4 +100,5 @@ export {
   setEventDetails,
   timestampToDate,
   dateToTimestamp,
+  getAllEvents,
 };

@@ -41,6 +41,17 @@ class MultiChipSelect extends React.Component {
               ))}
             </div>
           )}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: 'bottom',
+              horizontal: 'left',
+            },
+            transformOrigin: {
+              vertical: 'top',
+              horizontal: 'left',
+            },
+            getContentAnchorEl: null,
+          }}
         >
           {selections.map(select => (
             <MenuItem key={select} value={select}>

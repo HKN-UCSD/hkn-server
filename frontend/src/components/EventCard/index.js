@@ -37,15 +37,15 @@ function EventCard({ event, classes }) {
             <Button
               variant='outlined'
               color='primary'
-              to='/events/9AfJFBiIRrFec1fDBNoR'
+              to={`/events/${event.id}`}
               component={Link}
-            // to={`/event/${event.id}`}
+              // to={`/event/${event.id}`}
 
-            // Following is what would go in the Link component of EventDetails component
-            // to={{
-            //   pathname: `/events/${event.id}/edit/`,
-            //   state: { ...event },
-            // }}
+              // Following is what would go in the Link component of EventDetails component
+              // to={{
+              //   pathname: `/events/${event.id}/edit/`,
+              //   state: { ...event },
+              // }}
             >
               More
             </Button>
