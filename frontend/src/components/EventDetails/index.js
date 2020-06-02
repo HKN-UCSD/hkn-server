@@ -117,10 +117,12 @@ EventDetailsComponent.propTypes = {
     startDate: PropTypes.shape({
       nanoseconds: PropTypes.number.isRequired,
       seconds: PropTypes.number.isRequired,
+      toDate: PropTypes.func.isRequired,
     }),
     endDate: PropTypes.shape({
       nanoseconds: PropTypes.number.isRequired,
       seconds: PropTypes.number.isRequired,
+      toDate: PropTypes.func.isRequired,
     }),
     hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     location: PropTypes.string.isRequired,
