@@ -1,51 +1,35 @@
 version: 2.1
+orbs:
+  node: circleci/node@2.0.2
 jobs:
-  run_lint_prettier:
+  lint:
     docker:
-      - image: circleci/node:12.14.0
+      - image: circleci/node:12.13.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
-      - run: npm install --prefix backend
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
       - save_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
+          key: package-cache-{{checksum "package.json"}}
           paths:
-            - backend/node_modules
-      - run:
-          command: |
-            npm run --prefix backend lint
-            cd backend; npx prettier --check ./src/**/*.ts
-  run_build:
+            - node_modules
+      - run: npm run lint
+  test:
     docker:
-      - image: circleci/node:12.14.0
+      - image: circleci/node:12.13.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
-      - run: npm install --prefix backend
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
       - save_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
+          key: package-cache-{{checksum "package.json"}}
           paths:
-            - backend/node_modules
-      - run: npm run --prefix backend build:no-check
-  run_test:
-    docker:
-      - image: circleci/node:12.14.0
-    steps:
-      - checkout
-      - restore_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
-      - run: npm install --prefix backend
-      - save_cache:
-          key: package-cache-{{checksum "backend/package.json"}}
-          paths:
-            - backend/node_modules
-      - run: npm run --prefix backend test
-
+            - node_modules
+      - run: npm run test
 workflows:
-  lint_and_build:
+  lint_and_test:
     jobs:
-      - run_lint_prettier
-      - run_build
-      - run_test
+      - lint
+      - test
