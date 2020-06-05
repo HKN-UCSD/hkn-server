@@ -1,5 +1,7 @@
 # HKN Member Portal
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a3579e7f-2f69-426b-8a0a-01c5059e5f86/deploy-status)](https://app.netlify.com/sites/hkn-portal-staging/deploys)
+
 A member portal for UCSD HKN members to submit their resume and log membership points.
 
 ![image](https://user-images.githubusercontent.com/24837420/63902605-29e01a80-c9bf-11e9-8c66-f03b396e119c.png)
