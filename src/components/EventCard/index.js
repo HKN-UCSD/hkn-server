@@ -7,7 +7,6 @@ import {
   CardContent,
   Button,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 
