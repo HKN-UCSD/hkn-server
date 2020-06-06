@@ -16,8 +16,6 @@ import moment from 'moment';
 
 import styles from './styles';
 
-// ${event.id}
-
 function EventCard({ event, classes }) {
   return (
     <>
