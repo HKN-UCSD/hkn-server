@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-  Button,
   Typography,
   Box,
   Card,
   CardHeader,
   CardContent,
+  Button,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { Link } from 'react-router-dom';
 import styles from './styles';
 
 function EventCard({ event, classes }) {
@@ -37,15 +37,8 @@ function EventCard({ event, classes }) {
               color='primary'
               to={`/events/${event.id}`}
               component={Link}
-              // to={`/event/${event.id}`}
-
-              // Following is what would go in the Link component of EventDetails component
-              // to={{
-              //   pathname: `/events/${event.id}/edit/`,
-              //   state: { ...event },
-              // }}
             >
-              More
+              See More
             </Button>
           </CardContent>
         </Card>
