@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import { Request, Response, NextFunction } from 'express';
 
 /* 
   Cloud function that adds a role for a user.
@@ -8,11 +9,15 @@ import admin from 'firebase-admin';
     2. User specified by 'email' must have a doc and be in auth
     3. Role must be in the database (case-sensitive)
 */
-export const addRole = async (req, res, next) => {
-  const OFFICER = "Officer";
+export const addRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const OFFICER = 'Officer';
   const { token, email, role } = req.body;
 
-  let requesterClaims = await checkToken(token, next);
+  const requesterClaims = await checkToken();
 
   // check if caller has officer token
   if (!(OFFICER in requesterClaims) || !requesterClaims.officer) {
@@ -37,11 +42,13 @@ export const addRole = async (req, res, next) => {
 
   // check if caller doc has role of officer
   if (user_doc.get('role_id') !== officer_id) {
-    return next(new Error('Unauthorized Action: Only admins in database can add roles.'));
+    return next(
+      new Error('Unauthorized Action: Only admins in database can add roles.')
+    );
   }
 
   // verified caller, find user
-  let user = await getUser(email, next);
+  const user = await getUser(email, next);
 
   // get newRole_id from db
   const new_role_id = await getIdFromRoles(role);
@@ -62,11 +69,11 @@ export const addRole = async (req, res, next) => {
 
   // set claim for role and return
   await addCustomUserClaims(user, { [role]: true });
-  return res.status(200).json({ success: user.customClaims });
+  res.status(200).json({ success: user.customClaims });
 };
 
 /* Get ID of role from database */
-function getIdFromRoles(role) {
+function getIdFromRoles(role: string) {
   return admin
     .firestore()
     .collection('roles')
@@ -87,11 +94,15 @@ function getIdFromRoles(role) {
     1. Caller must be an officer in claims
     2. User specified by 'email' must be in auth
 */
-export const addClaim = async (req, res, next) => {
-  const { token, email, claims } = req.body;
+export const addClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { email, claims } = req.body;
 
   // Check that caller is an officer
-  const requesterClaims = await checkToken(token, next);
+  const requesterClaims = await checkToken();
   if (!('officer' in requesterClaims) || !requesterClaims.officer) {
     return next(new Error('Unauthorized Action: Only admins can add claims.'));
   }
@@ -99,8 +110,8 @@ export const addClaim = async (req, res, next) => {
   // Add claims
   const user = await getUser(email, next);
   await addCustomUserClaims(user, claims);
-  return res.status(200).json({ success: user.customClaims });
-}
+  res.status(200).json({ success: user.customClaims });
+};
 
 /* 
   Cloud function that removes claims for a user.
@@ -109,20 +120,26 @@ export const addClaim = async (req, res, next) => {
     1. Caller must be an officer in claims
     2. User specified by 'email' must be in auth
 */
-export const removeClaim = async (req, res, next) => {
+export const removeClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { token, email, claims } = req.body;
 
   // Check that caller is an officer
-  const requesterClaims = await checkToken(token, next);
+  const requesterClaims = await checkToken();
   if (!('officer' in requesterClaims) || !requesterClaims.officer) {
-    return next(new Error('Unauthorized Action: Only admins can delete claims.'));
+    return next(
+      new Error('Unauthorized Action: Only admins can delete claims.')
+    );
   }
 
   // Remove claims
   const user = await getUser(email, next);
   await removeCustomUserClaims(user, claims);
-  return res.status(200).json({ success: user.customClaims });
-}
+  res.status(200).json({ success: user.customClaims });
+};
 
 /* 
   Cloud function that gets claims for a specified user.
@@ -130,11 +147,15 @@ export const removeClaim = async (req, res, next) => {
   Prereqs:
     1. User specified by 'email' must be in auth
 */
-export const viewClaim = async (req, res, next) => {
+export const viewClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { email } = req.body;
   const user = await getUser(email, next);
-  return res.status(200).json({ success: user });
-}
+  res.status(200).json({ success: user });
+};
 
 /* 
   Updates the auto created claims within a person's token, such as email_verified.
@@ -142,17 +163,22 @@ export const viewClaim = async (req, res, next) => {
   Prereqs:
     1. User specified by 'email' must be in auth
 */
-export const updateClaim = async (req, res, next) => {
+export const updateClaim = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { email, claims } = req.body;
   const user = await getUser(email, next);
   await admin.auth().updateUser(user.uid, claims);
-  return res.status(200).json({ success: user.customClaims });
-}
+  res.status(200).json({ success: user.customClaims });
+};
 
 /*
   Checks that token exists. Otherwise, error.
 */
-async function checkToken(token, next) {
+// async function checkToken(token: string, next: NextFunction) {
+async function checkToken() {
   /*let requesterClaims = null;
   try {
     requesterClaims = await admin.auth().verifyIdToken(token);
@@ -161,35 +187,39 @@ async function checkToken(token, next) {
   }*/
 
   // hardcoded requestClaims for testing
-  let requesterClaims = {
-    'Officer': true,
-    'officer': true,
-    'iss': 'https://securetoken.google.com/hkn-member-portal-dev',
-    'aud': 'hkn-member-portal-dev',
-    'auth_time': 1585537672,
-    'user_id': 'CihJl3CrWE0FxO1FYyNI',
-    'sub': 'CihJl3CrWE0FxO1FYyNI',
-    'iat': 1585537672,
-    'exp': 1585541272,
-    'email': 'test@test.com',
-    'email_verified': true,
-    'firebase': {
-      'identities': { 'email': ['test@test.com'] },
-      'sign_in_provider': 'password'
+  const requesterClaims = {
+    Officer: true,
+    officer: true,
+    iss: 'https://securetoken.google.com/hkn-member-portal-dev',
+    aud: 'hkn-member-portal-dev',
+    auth_time: 1585537672,
+    user_id: 'CihJl3CrWE0FxO1FYyNI',
+    sub: 'CihJl3CrWE0FxO1FYyNI',
+    iat: 1585537672,
+    exp: 1585541272,
+    email: 'test@test.com',
+    email_verified: true,
+    firebase: {
+      identities: { email: ['test@test.com'] },
+      sign_in_provider: 'password',
     },
-    'uid': 'CihJl3CrWE0FxO1FYyNI'
+    uid: 'CihJl3CrWE0FxO1FYyNI',
   };
 
   return requesterClaims;
 }
 
 /* Helper function that gets the user from email in auth. */
-async function getUser(email, next) {
+async function getUser(
+  email: string,
+  next: NextFunction
+): Promise<admin.auth.UserRecord> {
   let user = null;
   try {
     user = await admin.auth().getUserByEmail(email);
   } catch (err) {
-    return next(new Error('Not Found: Could not find email in auth.'));
+    next(new Error('Not Found: Could not find email in auth.'));
+    return null;
   }
   return user;
 }
@@ -197,28 +227,39 @@ async function getUser(email, next) {
 /* Add custom claims.
 Ex usage: await addCustomUserClaims(user, {field1: true, field2: "field2"});
 */
-async function addCustomUserClaims(user, claims) {
-  let updated_claims = user.customClaims || {};
+async function addCustomUserClaims(
+  user: admin.auth.UserRecord,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  claims: any
+): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updated_claims: any = user.customClaims || {};
 
-  for (let property in claims) {
+  for (const property in claims) {
     if (Object.prototype.hasOwnProperty.call(claims, property)) {
       updated_claims[property] = claims[property];
     }
   }
-  await admin.auth().setCustomUserClaims(user.uid, updated_claims)
+  await admin.auth().setCustomUserClaims(user.uid, updated_claims);
 }
 
 /* Remove fields/properties from a custom claim.
 Ex usage: await removeCustomUserClaims(user, ["field1", "Inductee"]);
 */
-async function removeCustomUserClaims(user, claims) {
-  let updated_claims = {};
+async function removeCustomUserClaims(
+  user: admin.auth.UserRecord,
+  claims: string[]
+) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updated_claims: any = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const customClaims: any = user.customClaims;
 
-  for (let property in user.customClaims) {
-    if (!(claims.includes(property))) {
-      updated_claims[property] = user.customClaims[property];
+  for (const property in customClaims) {
+    if (!claims.includes(property)) {
+      updated_claims[property] = customClaims[property];
     }
   }
 
-  await admin.auth().setCustomUserClaims(user.uid, updated_claims)
+  await admin.auth().setCustomUserClaims(user.uid, updated_claims);
 }

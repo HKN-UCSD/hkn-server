@@ -1,5 +1,6 @@
 class User {
-  constructor(uid) {
+  uid: string;
+  constructor(uid: string) {
     this.uid = uid;
   }
 }
