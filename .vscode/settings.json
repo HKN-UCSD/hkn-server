@@ -10,6 +10,10 @@
     "editor.tabSize": 2,
     "editor.formatOnSave": true
   },
+  "[typescript]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
   "[javascriptreact]": {
     "editor.tabSize": 2,
     "editor.formatOnSave": true
