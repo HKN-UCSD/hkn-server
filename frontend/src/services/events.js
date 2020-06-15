@@ -42,11 +42,11 @@ const getAllEvents = () => {
     .collection('events')
     .get()
     .then(querySnapshot => {
-      return querySnapshot.docs.map(doc => doc.data());
+      return querySnapshot.docs.map(doc => {
+        return { id: doc.id, ...doc.data() };
+      });
     });
 };
-
-
 
 const getEventById = eventId => {
   return firebase
@@ -54,12 +54,45 @@ const getEventById = eventId => {
     .collection('events')
     .doc(eventId)
     .get()
-    .then(documentSnapshot => {
-      return documentSnapshot.data();
+    .then(querySnapshot => {
+      let currentData = querySnapshot.data();
+      let { startDate, endDate } = currentData;
+
+      let convertedStartDate = timestampToDate(startDate);
+      let convertedEndDate = timestampToDate(endDate);
+
+      currentData.startDate = convertedStartDate;
+      currentData.endDate = convertedEndDate;
+
+      return currentData;
     })
     .catch(() => {
-      throw Error('Query for event by ID has failed.');
+      throw Error('Event Detail Query failed.');
     });
+};
+
+const setEventDetails = (eventId, eventDetails) => {
+  let { startDate, endDate } = eventDetails;
+
+  let convertedStartDate = dateToTimestamp(startDate);
+  let convertedEndDate = dateToTimestamp(endDate);
+
+  eventDetails.startDate = convertedStartDate;
+  eventDetails.endDate = convertedEndDate;
+
+  return firebase
+    .firestore()
+    .collection('events')
+    .doc(eventId)
+    .set(eventDetails);
+};
+
+const timestampToDate = timestamp => {
+  return timestamp.toDate();
+};
+
+const dateToTimestamp = date => {
+  return firebase.firestore.Timestamp.fromDate(date);
 };
 
 const deleteEventById = eventId => {
@@ -76,5 +109,11 @@ const deleteEventById = eventId => {
     });
 };
 
-export { getUserEvent, getPoints, getEventById, deleteEventById, getAllEvents };
-
+export {
+  getUserEvent,
+  getPoints,
+  getEventById,
+  deleteEventById,
+  setEventDetails,
+  getAllEvents,
+};

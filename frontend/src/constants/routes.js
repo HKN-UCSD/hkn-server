@@ -7,5 +7,6 @@ export const EVENTS = '/events';
 export const POINTS = '/points';
 export const RESUME = '/resume';
 export const INDUCTEES = '/inductees';
+export const EVENT_EDIT = '/events/:eventId/edit';
 export const EVENT_DETAILS = '/events/:id';
 export const TEST = '/test';

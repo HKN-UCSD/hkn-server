@@ -10,13 +10,10 @@ import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
+import EventEditPage from '../EventEditPage';
 import EventDetailsPage from '../EventDetailsPage';
 
 import Loading from '../../components/Loading';
-import {
-  OfficerPermissions,
-  InducteePermissions,
-} from '../../HOCs/Permissions';
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
 import { ClaimsSingleton } from '../../services/claims';
@@ -102,6 +99,11 @@ class App extends React.Component {
               exact
               path={ROUTES.EVENT_DETAILS}
               component={OfficerRoutingPermission(EventDetailsPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_EDIT}
+              component={OfficerRoutingPermission(EventEditPage)}
             />
           </Switch>
         </BrowserRouter>

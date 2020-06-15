@@ -1,0 +1,40 @@
+version: 2.1
+orbs:
+  node: circleci/node@2.0.2
+  cypress: cypress-io/cypress@1.24.0
+jobs:
+  lint:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
+      - save_cache:
+          key: package-cache-{{checksum "package.json"}}
+          paths:
+            - node_modules
+      - run: npm run lint
+  test:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
+      - save_cache:
+          key: package-cache-{{checksum "package.json"}}
+          paths:
+            - node_modules
+      - run: npm run test
+workflows:
+  lint_and_test:
+    jobs:
+      - lint
+      - cypress/run:
+          executor: cypress/base-12-14-0
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+      - test
