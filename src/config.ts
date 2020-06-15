@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
-
 // Load env vars using dotenv only if in development mode.
 if (process.env.NODE_ENV === 'development') {
+  import dotenv from 'dotenv';
   dotenv.config();
 }
 
