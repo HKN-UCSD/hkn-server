@@ -48,6 +48,16 @@ const getAllEvents = () => {
     });
 };
 
+// From Firebase's timestamp to Date object for getting events
+const timestampToDate = timestamp => {
+  return timestamp.toDate();
+};
+
+// From Date object to Firebase's timestamp for updating events
+const dateToTimestamp = date => {
+  return firebase.firestore.Timestamp.fromDate(date);
+};
+
 const getEventById = eventId => {
   return firebase
     .firestore()
@@ -55,11 +65,11 @@ const getEventById = eventId => {
     .doc(eventId)
     .get()
     .then(querySnapshot => {
-      let currentData = querySnapshot.data();
-      let { startDate, endDate } = currentData;
+      const currentData = querySnapshot.data();
+      const { startDate, endDate } = currentData;
 
-      let convertedStartDate = timestampToDate(startDate);
-      let convertedEndDate = timestampToDate(endDate);
+      const convertedStartDate = timestampToDate(startDate);
+      const convertedEndDate = timestampToDate(endDate);
 
       currentData.startDate = convertedStartDate;
       currentData.endDate = convertedEndDate;
@@ -72,27 +82,20 @@ const getEventById = eventId => {
 };
 
 const setEventDetails = (eventId, eventDetails) => {
-  let { startDate, endDate } = eventDetails;
+  const incomingEventDetails = eventDetails;
+  const { startDate, endDate } = incomingEventDetails;
 
-  let convertedStartDate = dateToTimestamp(startDate);
-  let convertedEndDate = dateToTimestamp(endDate);
+  const convertedStartDate = dateToTimestamp(startDate);
+  const convertedEndDate = dateToTimestamp(endDate);
 
-  eventDetails.startDate = convertedStartDate;
-  eventDetails.endDate = convertedEndDate;
+  incomingEventDetails.startDate = convertedStartDate;
+  incomingEventDetails.endDate = convertedEndDate;
 
   return firebase
     .firestore()
     .collection('events')
     .doc(eventId)
-    .set(eventDetails);
-};
-
-const timestampToDate = timestamp => {
-  return timestamp.toDate();
-};
-
-const dateToTimestamp = date => {
-  return firebase.firestore.Timestamp.fromDate(date);
+    .set(incomingEventDetails);
 };
 
 const deleteEventById = eventId => {
