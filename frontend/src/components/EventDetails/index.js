@@ -66,16 +66,12 @@ function EventDetailsComponent(props) {
 
               <Typography variant='h6'>
                 Start Time:{' '}
-                <Typography>
-                  {moment(startDate.toDate()).format('LLL')}
-                </Typography>
+                <Typography>{moment(startDate).format('LLL')}</Typography>
               </Typography>
 
               <Typography variant='h6'>
                 End Time:{' '}
-                <Typography>
-                  {moment(endDate.toDate()).format('LLL')}
-                </Typography>
+                <Typography>{moment(endDate).format('LLL')}</Typography>
               </Typography>
             </Grid>
           </Grid>
@@ -114,16 +110,8 @@ function EventDetailsComponent(props) {
 
 EventDetailsComponent.propTypes = {
   eventInfo: PropTypes.shape({
-    startDate: PropTypes.shape({
-      nanoseconds: PropTypes.number.isRequired,
-      seconds: PropTypes.number.isRequired,
-      toDate: PropTypes.func.isRequired,
-    }),
-    endDate: PropTypes.shape({
-      nanoseconds: PropTypes.number.isRequired,
-      seconds: PropTypes.number.isRequired,
-      toDate: PropTypes.func.isRequired,
-    }),
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
     hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

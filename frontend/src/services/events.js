@@ -55,7 +55,16 @@ const getEventById = eventId => {
     .doc(eventId)
     .get()
     .then(querySnapshot => {
-      return querySnapshot.data();
+      let currentData = querySnapshot.data();
+      let { startDate, endDate } = currentData;
+
+      let convertedStartDate = timestampToDate(startDate);
+      let convertedEndDate = timestampToDate(endDate);
+
+      currentData.startDate = convertedStartDate;
+      currentData.endDate = convertedEndDate;
+
+      return currentData;
     })
     .catch(() => {
       throw Error('Event Detail Query failed.');
@@ -63,6 +72,14 @@ const getEventById = eventId => {
 };
 
 const setEventDetails = (eventId, eventDetails) => {
+  let { startDate, endDate } = eventDetails;
+
+  let convertedStartDate = dateToTimestamp(startDate);
+  let convertedEndDate = dateToTimestamp(endDate);
+
+  eventDetails.startDate = convertedStartDate;
+  eventDetails.endDate = convertedEndDate;
+
   return firebase
     .firestore()
     .collection('events')
@@ -98,7 +115,5 @@ export {
   getEventById,
   deleteEventById,
   setEventDetails,
-  timestampToDate,
-  dateToTimestamp,
   getAllEvents,
 };
