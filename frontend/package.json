@@ -36,7 +36,8 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
+    "cypress": "npx cypress run",
     "eject": "react-scripts eject",
     "lint": "eslint --ignore-path .gitignore --fix ."
   },

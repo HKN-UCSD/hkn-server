@@ -1,17 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-import
-{
+import {
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Typography,
   Link,
 } from '@material-ui/core';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     backgroundColor: grey[200],
   },
@@ -20,45 +20,65 @@ const styles = theme => ({
   },
   list_item_text: {
     fontSize: '16px',
-  }
+  },
 });
 
-function Links(props)
-{
-  let { classes, urls } = props;
-  let { fb, canva, rsvp, signin } = urls;
+function Links(props) {
+  const { classes, urls } = props;
+  const { fb, canva, rsvp, signin } = urls;
 
   // .map for list
   return (
     <div className={classes.root}>
-      <Typography variant="h6" className={classes.title} align="center">
+      <Typography variant='h6' className={classes.title} align='center'>
         Links
-        </Typography>
+      </Typography>
 
       <List dense={1}>
         <ListItem className={classes.list_item}>
           <Link href={rsvp}>
-            <ListItemText classes={{ primary: classes.list_item_text }} primary="RSVP" />
+            <ListItemText
+              classes={{ primary: classes.list_item_text }}
+              primary='RSVP'
+            />
           </Link>
         </ListItem>
         <ListItem className={classes.list_item}>
           <Link href={signin}>
-            <ListItemText classes={{ primary: classes.list_item_text }} primary="Sign In" />
+            <ListItemText
+              classes={{ primary: classes.list_item_text }}
+              primary='Sign In'
+            />
           </Link>
         </ListItem>
         <ListItem className={classes.list_item}>
           <Link href={canva}>
-            <ListItemText classes={{ primary: classes.list_item_text }} primary="Canva" />
+            <ListItemText
+              classes={{ primary: classes.list_item_text }}
+              primary='Canva'
+            />
           </Link>
         </ListItem>
         <ListItem className={classes.list_item}>
           <Link href={fb}>
-            <ListItemText classes={{ primary: classes.list_item_text }} primary="Facebook" />
+            <ListItemText
+              classes={{ primary: classes.list_item_text }}
+              primary='Facebook'
+            />
           </Link>
         </ListItem>
       </List>
     </div>
   );
 }
+
+Links.propTypes = {
+  urls: PropTypes.shape({
+    fb: PropTypes.string.isRequired,
+    canva: PropTypes.string.isRequired,
+    rsvp: PropTypes.string.isRequired,
+    signin: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default withStyles(styles)(Links);

@@ -29,5 +29,6 @@
       2,
       { "ignore": ["firebase", "classes", "history", "children"] }
     ]
-  }
+  },
+  "ignorePatterns": ["cypress"]
 }

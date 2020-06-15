@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+// / <reference types="cypress" />
 
 context('Network Requests', () => {
   beforeEach(() => {
@@ -165,7 +165,7 @@ context('Network Requests', () => {
   it('cy.route() - route responses to matching requests', () => {
     // https://on.cypress.io/route
 
-    let message = 'whoa, this comment does not exist';
+    const message = 'whoa, this comment does not exist';
 
     cy.server();
 

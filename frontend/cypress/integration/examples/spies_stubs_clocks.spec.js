@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+// / <reference types="cypress" />
 
 context('Spies, Stubs, and Clock', () => {
   it('cy.spy() - wrap a method in a spy', () => {
