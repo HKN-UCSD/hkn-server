@@ -2,12 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import {
-  getEventDetails,
-  setEventDetails,
-  timestampToDate,
-  dateToTimestamp,
-} from '../../services/events';
+import { getEventById, setEventDetails } from '../../services/events';
 import EventEditForm from '../../components/EventEditForm';
 
 class EventEditPage extends React.Component {
@@ -27,8 +22,8 @@ class EventEditPage extends React.Component {
     getEventDetails(eventId).then(event => {
       const initialValues = {
         ...event,
-        startDate: timestampToDate(event.startDate),
-        endDate: timestampToDate(event.endDate),
+        startDate: event.startDate,
+        endDate: event.endDate,
       };
       this.setState({ initialValues, formLoading: false });
     });
@@ -47,8 +42,8 @@ class EventEditPage extends React.Component {
     const handleSubmit = (values, setSubmitting) => {
       const submission = {
         ...values,
-        startDate: dateToTimestamp(moment(values.startDate).toDate()),
-        endDate: dateToTimestamp(moment(values.endDate).toDate()),
+        startDate: moment(values.startDate).toDate(),
+        endDate: moment(values.endDate).toDate(),
       };
       setEventDetails(eventId, submission).then(() => {
         setSubmitting(false);
