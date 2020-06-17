@@ -1,9 +1,8 @@
 // / <reference types="Cypress" />
 
 describe('Inductee Sign In', function() {
-  it('Logs in and views points.', function() {
+  it('Logs in and views resume page.', function() {
     cy.visit('http://localhost:3000', {
-      // Rememver to clear session storage before every run to clear firebase auth's cache!
       onBeforeLoad: win => {
         win.sessionStorage.clear();
       },
@@ -23,6 +22,6 @@ describe('Inductee Sign In', function() {
 
     cy.url().should('include', '/');
 
-    cy.get('a[href="/points"]').click();
+    cy.get('a[href="/resume"]').click();
   });
 });

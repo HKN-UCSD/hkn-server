@@ -13,10 +13,10 @@ describe('Inductee Sign In', function() {
 
     // Get an input, type into it and verify that the value has been updated
     cy.get('#email')
-      .type('gypang@ucsd.edu')
-      .should('have.value', 'gypang@ucsd.edu');
+      .type('ttgilles@ucsd.edu')
+      .should('have.value', 'ttgilles@ucsd.edu');
 
-    cy.get('#password').type('hkn-password');
+    cy.get('#password').type('ID3spiseUu@1234');
 
     cy.contains('Sign in').click();
 
