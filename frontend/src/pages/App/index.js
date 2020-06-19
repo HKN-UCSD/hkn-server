@@ -10,15 +10,18 @@ import InducteePointsPage from '../InducteePointsPage';
 import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
+import EventEditPage from '../EventEditPage';
+import EventDetailsPage from '../EventDetailsPage';
 
 import Loading from '../../components/Loading';
-import {
-  OfficerPermissions,
-  InducteePermissions,
-} from '../../HOCs/Permissions';
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
 import { ClaimsSingleton } from '../../services/claims';
+
+import {
+  InducteeRoutingPermission,
+  OfficerRoutingPermission,
+} from '../../HOCs/RoutingByContextPerm';
 
 const INITIAL_STATES = {
   authUser: null,
@@ -70,27 +73,37 @@ class App extends React.Component {
             <Route
               exact
               path={ROUTES.HOME}
-              component={InducteePermissions(EventsPage)}
+              component={InducteeRoutingPermission(EventsPage)}
             />
             <Route
               exact
               path={ROUTES.POINTS}
-              component={InducteePermissions(PointsPage)}
+              component={InducteeRoutingPermission(PointsPage)}
             />
             <Route
               exact
               path={ROUTES.RESUME}
-              component={InducteePermissions(ResumePage)}
+              component={InducteeRoutingPermission(ResumePage)}
             />
             <Route
               exact
               path={ROUTES.INDUCTEES}
-              component={OfficerPermissions(InducteePointsPage)}
+              component={OfficerRoutingPermission(InducteePointsPage)}
             />
             <Route
               exact
               path={ROUTES.CALENDAR}
-              component={InducteePermissions(CalendarPage)}
+              component={InducteeRoutingPermission(CalendarPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_DETAILS}
+              component={OfficerRoutingPermission(EventDetailsPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_EDIT}
+              component={OfficerRoutingPermission(EventEditPage)}
             />
           </Switch>
         </BrowserRouter>

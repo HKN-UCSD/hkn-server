@@ -5,6 +5,7 @@ import {
   Card,
   CardHeader,
   CardContent,
+  Button,
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import { Link } from 'react-router-dom';
 import styles from './styles';
 
 function EventCard({ event, classes }) {
@@ -30,14 +32,14 @@ function EventCard({ event, classes }) {
               <RoomIcon color='disabled' />
               <Typography color='textSecondary'>{event.venue}</Typography>
             </Box>
-            {/* <Button
+            <Button
               variant='outlined'
               color='primary'
+              to={`/events/${event.id}`}
               component={Link}
-              to={`/event/${event.id}`}
             >
-              More
-            </Button> */}
+              See More
+            </Button>
           </CardContent>
         </Card>
       )}

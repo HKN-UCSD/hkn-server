@@ -1,7 +1,6 @@
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 7,
   },
 });
 

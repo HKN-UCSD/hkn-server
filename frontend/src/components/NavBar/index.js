@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -24,19 +23,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Hidden,
 } from '@material-ui/core';
 
-import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
-import AttachmentIcon from '@material-ui/icons/Attachment';
-import ListAltIcon from '@material-ui/icons/ListAlt';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
-import EventIcon from '@material-ui/icons/Event';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import HomeIcon from '@material-ui/icons/Home';
 
 import styles from './styles';
-import * as ROUTES from '../../constants/routes';
+import { OfficerTabs, InducteeTabs } from './tabs';
 
 import { AuthUserContext } from '../../contexts';
 import { isOfficer as checkIsOfficer } from '../../services/claims';
@@ -55,22 +49,16 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    this.checkIfOfficer();
-  }
-
-  checkIfOfficer = () => {
     const userClaims = this.context;
     this.setState({
       isOfficer: checkIsOfficer(userClaims),
     });
-  };
+  }
 
-  handleDrawerOpen = () => {
-    this.setState({ isDrawerOpen: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ isDrawerOpen: false });
+  handleDrawerToggle = () => {
+    this.setState(prevState => ({
+      isDrawerOpen: !prevState.isDrawerOpen,
+    }));
   };
 
   handleLogOut = () => {
@@ -89,25 +77,61 @@ class NavBar extends React.Component {
     const { classes, children } = this.props;
     const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
 
+    const tabs = isOfficer ? OfficerTabs : InducteeTabs;
+    const tabComponents = tabs.map(tab => (
+      <ListItem button component={Link} to={tab.route} key={tab.route}>
+        <ListItemIcon>{tab.icon}</ListItemIcon>
+        <ListItemText primary={tab.text} />
+      </ListItem>
+    ));
+
+    const drawer = (
+      <>
+        <List>{tabComponents}</List>
+        <Divider />
+        <List>
+          <ListItem button onClick={this.handleLogOut}>
+            <ListItemIcon>
+              <SignOutIcon />
+            </ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
+        </List>
+
+        <Dialog
+          open={isConfirmationModalOpen}
+          onClose={this.handleClose}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <DialogTitle id='alert-dialog-title'>Log Out?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-description'>
+              Are you sure you want to log out?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={doSignOut} color='primary'>
+              Yes
+            </Button>
+            <Button onClick={this.handleClose} color='primary' autoFocus>
+              No
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar
-          position='absolute'
-          className={classNames(
-            classes.appBar,
-            isDrawerOpen && classes.appBarShift
-          )}
-        >
-          <Toolbar disableGutters={!isDrawerOpen} className={classes.toolbar}>
+        <AppBar position='fixed' className={classes.appBar}>
+          <Toolbar disableGutters>
             <IconButton
               color='inherit'
               aria-label='Open drawer'
-              onClick={this.handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                isDrawerOpen && classes.menuButtonHidden
-              )}
+              onClick={this.handleDrawerToggle}
+              className={classes.menuButton}
             >
               <MenuIcon />
             </IconButton>
@@ -122,103 +146,38 @@ class NavBar extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Drawer
-          variant='permanent'
-          classes={{
-            paper: classNames(
-              classes.drawerPaper,
-              !isDrawerOpen && classes.drawerPaperClose
-            ),
-          }}
-          open={isDrawerOpen}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List>
-            <ListItem button component={Link} to={ROUTES.CALENDAR}>
-              <ListItemIcon>
-                <EventIcon />
-              </ListItemIcon>
-              <ListItemText primary='Calendar' />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button component={Link} to={ROUTES.RESUME}>
-              <ListItemIcon>
-                <AttachmentIcon />
-              </ListItemIcon>
-              <ListItemText primary='Resume' />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button component={Link} to={ROUTES.HOME}>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary='Get Involved' />
-            </ListItem>
-          </List>
-          <Divider />
-          {isOfficer ? (
-            <div>
-              <List>
-                <ListItem button component={Link} to={ROUTES.INDUCTEES}>
-                  <ListItemIcon>
-                    <ListAltIcon />
-                  </ListItemIcon>
-                  <ListItemText primary='Total Points' />
-                </ListItem>
-              </List>
-              <Divider />
-            </div>
-          ) : null}
-          <List>
-            <ListItem button component={Link} to={ROUTES.POINTS}>
-              <ListItemIcon>
-                <AssessmentOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary='Points' />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem button onClick={this.handleLogOut}>
-              <ListItemIcon>
-                <SignOutIcon />
-              </ListItemIcon>
-              <ListItemText primary='Logout' />
-            </ListItem>
-          </List>
-
-          <Dialog
-            open={isConfirmationModalOpen}
-            onClose={this.handleClose}
-            aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'
-          >
-            <DialogTitle id='alert-dialog-title'>Log Out?</DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-description'>
-                Are you sure you want to log out?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={doSignOut} color='primary'>
-                Yes
-              </Button>
-              <Button onClick={this.handleClose} color='primary' autoFocus>
-                No
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Drawer>
-        <main className={classes.content}>{children}</main>
+        <nav className={classes.drawer}>
+          <Hidden mdUp implementation='css'>
+            <Drawer
+              container={window.document.body}
+              variant='temporary'
+              anchor='left'
+              open={isDrawerOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation='css'>
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant='permanent'
+              open
+            >
+              <Toolbar />
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <Toolbar />
+          {children}
+        </main>
       </div>
     );
   }
