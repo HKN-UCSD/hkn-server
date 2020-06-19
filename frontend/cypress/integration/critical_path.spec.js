@@ -3,6 +3,7 @@
 describe('Inductee Sign In', function() {
   it('Logs in and views points.', function() {
     cy.visit('http://localhost:3000', {
+      // Rememver to clear session storage before every run to clear firebase auth's cache!
       onBeforeLoad: win => {
         win.sessionStorage.clear();
       },
@@ -13,10 +14,10 @@ describe('Inductee Sign In', function() {
 
     // Get an input, type into it and verify that the value has been updated
     cy.get('#email')
-      .type('ttgilles@ucsd.edu')
-      .should('have.value', 'ttgilles@ucsd.edu');
+      .type(Cypress.env('EMAIL'))
+      .should('have.value', Cypress.env('EMAIL'));
 
-    cy.get('#password').type('ID3spiseUu@1234');
+    cy.get('#password').type(Cypress.env('PASSWORD'));
 
     cy.contains('Sign in').click();
 
