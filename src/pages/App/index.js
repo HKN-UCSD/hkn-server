@@ -14,6 +14,8 @@ import CalendarPage from '../CalendarPage';
 
 import SignUpPageNew from '../SignUpPageNew';
 
+import SignUpPageNew from '../SignUpPageNew';
+
 import Loading from '../../components/Loading';
 import {
   OfficerPermissions,
