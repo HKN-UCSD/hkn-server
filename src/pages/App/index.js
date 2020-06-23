@@ -12,6 +12,8 @@ import ResumePage from '../ResumePage';
 import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 
+import SignUpPageNew from '../SignUpPageNew';
+
 import Loading from '../../components/Loading';
 import {
   OfficerPermissions,
@@ -110,6 +112,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+            <Route exact path={ROUTES.NEW_SIGN_UP} component={SignUpPageNew} />
             <Route
               exact
               path={ROUTES.HOME}

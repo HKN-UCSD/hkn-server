@@ -8,3 +8,5 @@ export const POINTS = '/points';
 export const RESUME = '/resume';
 export const INDUCTEES = '/inductees';
 export const TEST = '/test';
+
+export const NEW_SIGN_UP = '/newsignup';
