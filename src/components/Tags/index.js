@@ -12,7 +12,7 @@ function Tags({ classes, tags }) {
   return (
     <div className={classes.root}>
       {tags.map(tag => (
-        <Chip label={tag} className={classes.tag} />
+        <Chip key={tag} label={tag} className={classes.tag} />
       ))}
     </div>
   );

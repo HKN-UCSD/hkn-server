@@ -54,7 +54,9 @@ function EventDetailsComponent(props) {
               <Typography className={classes.hosts} variant='h6'>
                 Hosts:{' '}
                 {hosts.map(host => (
-                  <Typography className={classes.hostName}>{host}</Typography>
+                  <Typography key={host} className={classes.hostName}>
+                    {host}
+                  </Typography>
                 ))}
               </Typography>
             </Grid>
@@ -110,8 +112,8 @@ function EventDetailsComponent(props) {
 
 EventDetailsComponent.propTypes = {
   eventInfo: PropTypes.shape({
-    startDate: PropTypes.string.isRequired,
-    endDate: PropTypes.string.isRequired,
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
     hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

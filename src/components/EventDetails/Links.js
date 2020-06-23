@@ -34,7 +34,7 @@ function Links(props) {
         Links
       </Typography>
 
-      <List dense={1}>
+      <List dense>
         <ListItem className={classes.list_item}>
           <Link href={rsvp}>
             <ListItemText
