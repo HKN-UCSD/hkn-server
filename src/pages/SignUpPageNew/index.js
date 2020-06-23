@@ -19,8 +19,6 @@ class SignUpPage extends React.Component {
     super(props);
 
     this.state = { ...INITIAL_STATE };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit = (values, setSubmitting) => {
