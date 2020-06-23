@@ -94,7 +94,7 @@ const SignUpForm = props => {
                 <Field
                   component={TextField}
                   name='firstname'
-                  label='First name *'
+                  label='First Name'
                 />
               </Grid>
 
