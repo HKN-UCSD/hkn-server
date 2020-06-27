@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 
 import { Avatar, Button, Card } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,7 +22,6 @@ class SignUpPage extends React.Component {
   handleSubmit = (values, setSubmitting) => {
     const signUpSubmission = {
       ...values,
-      gradYear: moment().year(values.gradYear),
     };
 
     console.log(JSON.stringify(signUpSubmission));
