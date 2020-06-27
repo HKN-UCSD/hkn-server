@@ -6,8 +6,8 @@ import Table from '../Table';
 
 const columns = [
   { title: 'Event Name', field: 'title' },
-  { title: 'start Time', field: 'startDateString' },
-  { title: 'end Time', field: 'endDateString' },
+  { title: 'Start Time', field: 'startDateString' },
+  { title: 'End Time', field: 'endDateString' },
 ];
 
 function EventList({ events, handleEventClick }) {
