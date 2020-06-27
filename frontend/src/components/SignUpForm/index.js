@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { Button, Grid, LinearProgress, MenuItem } from '@material-ui/core';
+import { Button, Grid, LinearProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from 'formik-material-ui';
 
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
-import ELIGIBLE_MAJORS from '../../constants/eligibleMajors';
 import styles from './styles';
+import MajorDropdown from '../Dropdowns/MajorDropdown';
+import YearDropdown from '../Dropdowns/YearDropdown';
 
 const MIN_GRAD_YEAR = 2005;
 const MAX_GRAD_YEAR = moment().year() + 4;
@@ -45,29 +46,6 @@ const INITIAL_INPUT_BOX_VALUES = {
   lastname: '',
   major: '',
   gradYear: '',
-};
-
-const graduationYearDropdownChoices = () => {
-  const yearChoices = [];
-
-  for (let year = 0; year <= MAX_GRAD_YEAR - MIN_GRAD_YEAR; year += 1) {
-    yearChoices.push(year + MIN_GRAD_YEAR);
-  }
-
-  return yearChoices;
-};
-
-const createFullMajorTitle = (department, major) => {
-  let fullMajorTitle = '';
-
-  if (ELIGIBLE_MAJORS[department][major] === 'Computer Engineering') {
-    if (department === 'CSE')
-      fullMajorTitle = `${ELIGIBLE_MAJORS[department][major]} - CSE`;
-    else if (department === 'ECE')
-      fullMajorTitle = `${ELIGIBLE_MAJORS[department][major]} - ECE`;
-  } else fullMajorTitle = ELIGIBLE_MAJORS[department][major];
-
-  return fullMajorTitle;
 };
 
 const SignUpForm = props => {
@@ -140,40 +118,22 @@ const SignUpForm = props => {
             >
               <Grid item xs={8}>
                 <Field
-                  component={TextField}
-                  select
+                  component={MajorDropdown}
                   fullWidth
                   name='major'
                   label='Major'
-                >
-                  {Object.keys(ELIGIBLE_MAJORS).map(department =>
-                    Object.keys(ELIGIBLE_MAJORS[department]).map(major => {
-                      const fullMajorTitle = createFullMajorTitle(
-                        department,
-                        major
-                      );
-                      return (
-                        <MenuItem value={fullMajorTitle}>
-                          {fullMajorTitle}
-                        </MenuItem>
-                      );
-                    })
-                  )}
-                </Field>
+                />
               </Grid>
 
               <Grid item xs={4}>
                 <Field
-                  component={TextField}
-                  select
+                  component={YearDropdown}
+                  minyear={MIN_GRAD_YEAR}
+                  maxyear={MAX_GRAD_YEAR}
                   fullWidth
                   name='gradYear'
                   label='Grad Year'
-                >
-                  {graduationYearDropdownChoices().map(year => (
-                    <MenuItem value={year}>{year}</MenuItem>
-                  ))}
-                </Field>
+                />
               </Grid>
             </Grid>
 
