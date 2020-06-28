@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 const PW_MIN_LENGTH = 4;
 
-const VALIDATION_SCHEMA = Yup.object({
+const schema = Yup.object({
   email: Yup.string()
     .email('Your inputted email is invalid!')
     .required('Required'),
@@ -23,4 +23,4 @@ const VALIDATION_SCHEMA = Yup.object({
   gradYear: Yup.number().required('Required'),
 });
 
-export default VALIDATION_SCHEMA;
+export default schema;

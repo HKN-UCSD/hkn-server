@@ -9,7 +9,7 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 
 import styles from './styles';
-import VALIDATION_SCHEMA from './schema';
+import schema from './schema';
 import { MajorDropdown, YearDropdown } from '../dropdowns';
 
 const MIN_GRAD_YEAR = 2005;
@@ -31,7 +31,7 @@ const SignUpForm = props => {
   return (
     <Formik
       initialValues={INITIAL_INPUT_BOX_VALUES}
-      validationSchema={VALIDATION_SCHEMA}
+      validationSchema={schema}
       onSubmit={(values, { setSubmitting }) => {
         handleSubmit(values, setSubmitting);
       }}
@@ -39,89 +39,93 @@ const SignUpForm = props => {
       {({ submitForm, isSubmitting }) => (
         <Form>
           <Grid container direction='column' spacing={3}>
-            <Grid
-              container
-              className={classes.nameFields}
-              direction='row'
-              spacing={3}
-              item
-            >
-              <Grid item xs={6}>
-                <Field
-                  component={TextField}
-                  name='firstname'
-                  label='First Name'
-                />
-              </Grid>
+            <Grid item>
+              <Grid
+                container
+                className={classes.nameFields}
+                direction='row'
+                spacing={3}
+              >
+                <Grid item xs={6}>
+                  <Field
+                    component={TextField}
+                    name='firstname'
+                    label='First Name'
+                  />
+                </Grid>
 
-              <Grid item xs={6}>
-                <Field
-                  component={TextField}
-                  name='lastname'
-                  label='Last Name'
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container direction='column' item spacing={3}>
-              <Grid item>
-                <Field
-                  className={classes.vertField}
-                  component={TextField}
-                  fullWidth
-                  name='email'
-                  label='Email Address'
-                />
-              </Grid>
-
-              <Grid item>
-                <Field
-                  className={classes.vertField}
-                  component={TextField}
-                  fullWidth
-                  name='password'
-                  type='password'
-                  label='Password'
-                />
-              </Grid>
-
-              <Grid item>
-                <Field
-                  className={classes.vertField}
-                  component={TextField}
-                  fullWidth
-                  name='confirmPW'
-                  type='password'
-                  label='Confirm Password'
-                />
+                <Grid item xs={6}>
+                  <Field
+                    component={TextField}
+                    name='lastname'
+                    label='Last Name'
+                  />
+                </Grid>
               </Grid>
             </Grid>
 
-            <Grid
-              container
-              className={classes.majorAndGradDate}
-              direction='row'
-              item
-              spacing={3}
-            >
-              <Grid item xs={8}>
-                <Field
-                  component={MajorDropdown}
-                  fullWidth
-                  name='major'
-                  label='Major'
-                />
-              </Grid>
+            <Grid item>
+              <Grid container direction='column' spacing={3}>
+                <Grid item>
+                  <Field
+                    className={classes.vertField}
+                    component={TextField}
+                    fullWidth
+                    name='email'
+                    label='Email Address'
+                  />
+                </Grid>
 
-              <Grid item xs={4}>
-                <Field
-                  component={YearDropdown}
-                  minyear={MIN_GRAD_YEAR}
-                  maxyear={MAX_GRAD_YEAR}
-                  fullWidth
-                  name='gradYear'
-                  label='Grad Year'
-                />
+                <Grid item>
+                  <Field
+                    className={classes.vertField}
+                    component={TextField}
+                    fullWidth
+                    name='password'
+                    type='password'
+                    label='Password'
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Field
+                    className={classes.vertField}
+                    component={TextField}
+                    fullWidth
+                    name='confirmPW'
+                    type='password'
+                    label='Confirm Password'
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item>
+              <Grid
+                container
+                className={classes.majorAndGradDate}
+                direction='row'
+                spacing={3}
+              >
+                <Grid item xs={8}>
+                  <Field
+                    component={MajorDropdown}
+                    fullWidth
+                    name='major'
+                    label='Major'
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Field
+                    component={YearDropdown}
+                    minyear={MIN_GRAD_YEAR}
+                    maxyear={MAX_GRAD_YEAR}
+                    fullWidth
+                    name='gradYear'
+                    label='Grad Year'
+                  />
+                </Grid>
               </Grid>
             </Grid>
 

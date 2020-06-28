@@ -37,12 +37,6 @@
           "children"
         ]
       }
-    ],
-    "import/no-unresolved": [
-      2,
-      {
-        "caseSensitive": false
-      }
     ]
   },
   "ignorePatterns": [
