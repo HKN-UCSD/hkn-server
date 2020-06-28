@@ -108,22 +108,13 @@ const SignUpForm = props => {
                 spacing={3}
               >
                 <Grid item xs={8}>
-                  <Field
-                    component={MajorDropdown}
-                    fullWidth
-                    name='major'
-                    label='Major'
-                  />
+                  <MajorDropdown />
                 </Grid>
 
                 <Grid item xs={4}>
-                  <Field
-                    component={YearDropdown}
-                    minyear={MIN_GRAD_YEAR}
-                    maxyear={MAX_GRAD_YEAR}
-                    fullWidth
-                    name='gradYear'
-                    label='Grad Year'
+                  <YearDropdown
+                    minYear={MIN_GRAD_YEAR}
+                    maxYear={MAX_GRAD_YEAR}
                   />
                 </Grid>
               </Grid>

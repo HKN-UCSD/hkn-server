@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { MenuItem, TextField } from '@material-ui/core';
-import { getIn } from 'formik';
+import PropTypes from 'prop-types';
+
+import { MenuItem } from '@material-ui/core';
+import { Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
 const yearDropdownChoices = (minYear, maxYear) => {
   const yearChoices = [];
@@ -12,50 +15,29 @@ const yearDropdownChoices = (minYear, maxYear) => {
   return yearChoices;
 };
 
-/*
- * From https://github.com/stackworx/formik-material-ui/tree/master/packages/formik-material-ui/src (TextField) :p
- *
- * Most of the code of this function fieldToTextField() is taken from formik-material-ui
- *
- * This function essentially takes the props received at the top-level <Field /> as well
- * as the default props for that <Field /> (field, form, meta) and transforms
- * all that into a props that is suitable for MUI's <TextField />
- */
-export function fieldToTextField({
-  disabled,
-  field,
-  form: { isSubmitting, touched, errors },
-  ...props
-}) {
-  /*
-   * What getIn() does:
-   *   https://stackoverflow.com/questions/56089054/how-to-dynamically-access-nested-errors-touched-on-formik-field
-   */
-  const fieldError = getIn(errors, field.name);
-  const showError = getIn(touched, field.name) && fieldError != null;
-
-  return {
-    ...props,
-    ...field,
-    error: showError,
-    helperText: showError ? fieldError : props.helperText,
-    disabled: disabled != null ? disabled : isSubmitting,
-    variant: props.variant,
-  };
-}
-
 const YearDropdown = props => {
-  const { minyear, maxyear } = fieldToTextField(props);
+  const { minYear, maxYear } = props;
 
   return (
-    <TextField select {...fieldToTextField(props)}>
-      {yearDropdownChoices(minyear, maxyear).map(year => (
+    <Field
+      component={TextField}
+      select
+      fullWidth
+      name='gradYear'
+      label='Grad Year'
+    >
+      {yearDropdownChoices(minYear, maxYear).map(year => (
         <MenuItem key={year} value={year}>
           {year}
         </MenuItem>
       ))}
-    </TextField>
+    </Field>
   );
+};
+
+YearDropdown.propTypes = {
+  minYear: PropTypes.number.isRequired,
+  maxYear: PropTypes.number.isRequired,
 };
 
 export default YearDropdown;
