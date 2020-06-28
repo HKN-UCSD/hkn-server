@@ -1,5 +1,5 @@
 import express from 'express';
-import * as controller from '../controllers/user.controller.js';
+import * as controller from '../controllers/user.controller';
 
 export const UserRouter = express.Router();
 
@@ -12,5 +12,5 @@ export const UserRouter = express.Router();
 UserRouter.route('/:uid/add-role').post(controller.addRole);
 UserRouter.route('/:uid/add-claim').post(controller.addClaim);
 UserRouter.route('/:uid/remove-claim').post(controller.removeClaim);
-UserRouter.route('/:uid/view-claim').post(controller.viewClaim);
+UserRouter.route('/:uid/view-claim').get(controller.viewClaim);
 UserRouter.route('/:uid/update-claim').post(controller.updateClaim);
