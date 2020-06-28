@@ -12,9 +12,9 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(6))]: {
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -22,9 +22,9 @@ const styles = theme => ({
   contentWrapper: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: theme.spacing.unit * 9,
+    marginTop: theme.spacing(9),
     // display: 'flex',
-    // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    // [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
     //   flexDirection: 'row',
     // },
     // [theme.breakpoints.down(theme.breakpoints.values.md)]: {

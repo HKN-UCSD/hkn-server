@@ -33,36 +33,37 @@ const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(6))]: {
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+      3
+    )}px`,
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '112px',
     height: '80px',
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   signup: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   signinFooter: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     textTransform: 'none',
     alignItems: 'center',
     flexDirection: 'column',
@@ -72,7 +73,7 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   footer: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     textAlign: 'center',
   },
   footerLink: {
