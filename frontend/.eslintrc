@@ -21,14 +21,31 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": [
       2,
-      { "ignore": ["firebase", "classes", "history", "children"] }
+      {
+        "ignore": [
+          "firebase",
+          "classes",
+          "history",
+          "children"
+        ]
+      }
+    ],
+    "import/no-unresolved": [
+      2,
+      {
+        "caseSensitive": false
+      }
     ]
   },
-  "ignorePatterns": ["cypress"]
+  "ignorePatterns": [
+    "cypress"
+  ]
 }

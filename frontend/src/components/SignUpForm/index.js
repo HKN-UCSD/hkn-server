@@ -7,36 +7,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField } from 'formik-material-ui';
 
 import { Formik, Field, Form } from 'formik';
-import * as Yup from 'yup';
 
 import styles from './styles';
-import MajorDropdown from '../Dropdowns/MajorDropdown';
-import YearDropdown from '../Dropdowns/YearDropdown';
+import VALIDATION_SCHEMA from './schema';
+import { MajorDropdown, YearDropdown } from '../dropdowns';
 
 const MIN_GRAD_YEAR = 2005;
 const MAX_GRAD_YEAR = moment().year() + 4;
-const PW_MIN_LENGTH = 4;
-
-const schema = Yup.object({
-  email: Yup.string()
-    .email('Your inputted email is invalid!')
-    .required('Required'),
-  password: Yup.string()
-    .min(PW_MIN_LENGTH, 'Your password is too short!')
-    .required('Required'),
-  confirmPW: Yup.string().when('password', {
-    is: value => value && value.length > 0,
-    then: Yup.string()
-      .oneOf([Yup.ref('password')], 'Both passwords need to be the same')
-      .required('Required'),
-  }),
-  firstname: Yup.string().required('Required'),
-  lastname: Yup.string().required('Required'),
-  major: Yup.string()
-    .min(2, 'Your major is too short!')
-    .required('Required'),
-  gradYear: Yup.number().required('Required'),
-});
 
 const INITIAL_INPUT_BOX_VALUES = {
   email: '',
@@ -54,19 +31,20 @@ const SignUpForm = props => {
   return (
     <Formik
       initialValues={INITIAL_INPUT_BOX_VALUES}
-      validationSchema={schema}
+      validationSchema={VALIDATION_SCHEMA}
       onSubmit={(values, { setSubmitting }) => {
         handleSubmit(values, setSubmitting);
       }}
     >
       {({ submitForm, isSubmitting }) => (
         <Form>
-          <Grid container direction='column'>
+          <Grid container direction='column' spacing={3}>
             <Grid
               container
               className={classes.nameFields}
               direction='row'
               spacing={3}
+              item
             >
               <Grid item xs={6}>
                 <Field
@@ -85,35 +63,45 @@ const SignUpForm = props => {
               </Grid>
             </Grid>
 
-            <Grid container direction='column'>
-              <Field
-                className={classes.vertField}
-                component={TextField}
-                name='email'
-                label='Email Address'
-              />
+            <Grid container direction='column' item spacing={3}>
+              <Grid item>
+                <Field
+                  className={classes.vertField}
+                  component={TextField}
+                  fullWidth
+                  name='email'
+                  label='Email Address'
+                />
+              </Grid>
 
-              <Field
-                className={classes.vertField}
-                component={TextField}
-                name='password'
-                type='password'
-                label='Password'
-              />
+              <Grid item>
+                <Field
+                  className={classes.vertField}
+                  component={TextField}
+                  fullWidth
+                  name='password'
+                  type='password'
+                  label='Password'
+                />
+              </Grid>
 
-              <Field
-                className={classes.vertField}
-                component={TextField}
-                name='confirmPW'
-                type='password'
-                label='Confirm Password'
-              />
+              <Grid item>
+                <Field
+                  className={classes.vertField}
+                  component={TextField}
+                  fullWidth
+                  name='confirmPW'
+                  type='password'
+                  label='Confirm Password'
+                />
+              </Grid>
             </Grid>
 
             <Grid
               container
               className={classes.majorAndGradDate}
               direction='row'
+              item
               spacing={3}
             >
               <Grid item xs={8}>
@@ -139,15 +127,18 @@ const SignUpForm = props => {
 
             {isSubmitting && <LinearProgress />}
 
-            <Button
-              variant='contained'
-              color='primary'
-              fullWidth
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              Sign Up
-            </Button>
+            <Grid item>
+              <Button
+                className={classes.signUpButton}
+                variant='contained'
+                color='primary'
+                fullWidth
+                disabled={isSubmitting}
+                onClick={submitForm}
+              >
+                Sign Up
+              </Button>
+            </Grid>
           </Grid>
         </Form>
       )}
