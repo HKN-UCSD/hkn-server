@@ -1,4 +1,4 @@
-import MajorDropdownField from './MajorDropdownField';
-import YearDropdownField from './YearDropdownField';
+import MajorDropdown from './MajorDropdown';
+import YearDropdown from './YearDropdown';
 
-export { MajorDropdownField, YearDropdownField };
+export { MajorDropdown, YearDropdown };
