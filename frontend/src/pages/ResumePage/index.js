@@ -30,9 +30,9 @@ const styles = theme => ({
   root: {
     width: 'auth',
     display: 'block',
-    maraginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    maraginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(6))]: {
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -46,30 +46,31 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     height: '100vh',
-    padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
+    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px ${theme.spacing(
+      3
+    )}px`,
   },
   description: {
     align: 'center',
     fontSize: '16px',
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     whiteSpace: 'pre-wrap',
     textAlign: 'center',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '120px',
     item: 'true',
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
   iconSmall: {
     fontSize: 20,
   },
   buttonsContainer: {
     flexDirection: 'row',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   fileInput: {
     display: 'none',
