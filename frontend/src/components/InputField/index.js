@@ -3,29 +3,29 @@ import PropTypes from 'prop-types';
 
 import { TextField } from '@material-ui/core';
 
-const CustomTextField = props => {
+const InputField = props => {
   const { label, readOnly, ...otherProps } = props;
-  const readOnlyProps = {};
+  let readOnlyProps = {};
 
   if (readOnly) {
-    readOnlyProps.InputProps = {
+    readOnlyProps = {
       disableUnderline: true,
       readOnly: true,
     };
   } else {
-    readOnlyProps.InputProps = {};
+    readOnlyProps = {};
   }
 
-  return <TextField label={label} {...readOnlyProps} {...otherProps} />;
+  return <TextField label={label} InputProps={readOnlyProps} {...otherProps} />;
 };
 
-CustomTextField.propTypes = {
+InputField.propTypes = {
   label: PropTypes.string.isRequired,
   readOnly: PropTypes.bool,
 };
 
-CustomTextField.defaultProps = {
+InputField.defaultProps = {
   readOnly: false,
 };
 
-export default CustomTextField;
+export default InputField;
