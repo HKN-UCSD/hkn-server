@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,12 +20,14 @@ const yearDropdownChoices = (minYear, maxYear) => {
 };
 
 const YearDropdownField = props => {
-  const { classes, minYear, maxYear, ...otherProps } = props;
+  const { classes, label, minYear, maxYear, name, ...otherProps } = props;
 
   return (
     <Field
       className={classes.root}
       component={TextField}
+      name={name}
+      label={label}
       select
       {...otherProps}
     >
@@ -38,8 +41,15 @@ const YearDropdownField = props => {
 };
 
 YearDropdownField.propTypes = {
-  minYear: PropTypes.number.isRequired,
-  maxYear: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  maxYear: PropTypes.number,
+  minYear: PropTypes.number,
+  name: PropTypes.string.isRequired,
+};
+
+YearDropdownField.defaultProps = {
+  minYear: parseInt(moment().year(), 10),
+  maxYear: parseInt(moment().year(), 10) + 5,
 };
 
 export default withStyles(styles)(YearDropdownField);

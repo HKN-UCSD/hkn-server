@@ -1,4 +1,6 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
 import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Field } from 'formik';
@@ -21,13 +23,15 @@ const createFullMajorTitle = (department, major) => {
 };
 
 const MajorDropdownField = props => {
-  const { classes, ...otherProps } = props;
+  const { classes, name, label, ...otherProps } = props;
 
   return (
     <Field
       className={classes.root}
       component={TextField}
       select
+      name={name}
+      label={label}
       {...otherProps}
     >
       {Object.keys(ELIGIBLE_MAJORS).map(department =>
@@ -38,6 +42,11 @@ const MajorDropdownField = props => {
       )}
     </Field>
   );
+};
+
+MajorDropdownField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(MajorDropdownField);
