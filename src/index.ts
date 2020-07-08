@@ -7,7 +7,6 @@ import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
 
-
 admin.initializeApp({
   credential: admin.credential.cert(config.firebaseConfig),
   databaseURL: config.dbURL,

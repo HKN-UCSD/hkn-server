@@ -1,6 +1,7 @@
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
 import { firebase as client } from '@firebase/app';
+
 import * as ERR_MSG from '../constants/ErrResponses';
 
 
@@ -44,7 +45,6 @@ export const signup = async (
     gradYear } = req.body;
 
   const userDocDetails: any = await getUserDocFromEmail(email);
-  const userDocID: string = userDocDetails.uid;
 
   if (!userDocDetails) {
     // email is not whitelisted.
@@ -53,6 +53,8 @@ export const signup = async (
     });
     return next();
   }
+
+  const userDocID: string = userDocDetails.uid;
 
   let newUser: admin.auth.UserRecord;
 
@@ -97,7 +99,7 @@ export const signup = async (
   // }
 
   try {
-    await updateUserDoc('users', userDocID, {
+    await updateDocInCollection('users', userDocID, {
       first_name: firstname,
       last_name: lastname,
       major: major,
@@ -163,7 +165,7 @@ async function getUserDocFromEmail(email: string): Promise<any> {
     });
 }
 
-async function updateUserDoc(collection: string, id: string, data: any) {
+async function updateDocInCollection(collection: string, id: string, data: any) {
   return admin.firestore()
     .collection(collection)
     .doc(id)
