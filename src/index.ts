@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import admin from 'firebase-admin';
 import { config } from './config';
 import { UserRouter } from './routers/user.router';
@@ -12,6 +13,7 @@ admin.initializeApp({
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
