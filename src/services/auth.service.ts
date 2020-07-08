@@ -1,13 +1,7 @@
 import admin from 'firebase-admin';
-import { NextFunction } from 'express';
-
 import * as ERROR_MSG from '../constants/authErrorMessages';
 
-const verifyRole = async (
-  token: string,
-  permittedRoles: Array<string>,
-  next: NextFunction
-) => {
+const verifyRole = async (token: string, permittedRoles: Array<string>) => {
   try {
     const claims = await admin.auth().verifyIdToken(token);
     const claimsKeyArr = Object.keys(claims);
@@ -15,14 +9,14 @@ const verifyRole = async (
     if (claims != null) {
       for (let i = 0; i < claimsKeyArr.length; i += 1) {
         if (permittedRoles.includes(claimsKeyArr[i])) {
-          return next();
+          return true;
         }
       }
 
-      return next(new Error(ERROR_MSG.NO_PERMITTED_ROLES));
+      return false;
     }
   } catch (err) {
-    return next(err);
+    throw new Error(ERROR_MSG.USER_NOT_AUTHENTICATED);
   }
 };
 
