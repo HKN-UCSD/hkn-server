@@ -5,11 +5,11 @@ This is where we can run APIs.
 
 ## Running Server
 
-Type `heroku local` in your terminal (you may need to download Heroku)
+Type `npm run start` in your terminal.
 
 ## Common Terms in Code
 
-{port} in the respective codes below will be the port the API is running on, specified after running `heroku local`.
+{port} in the respective codes below will be the port the API is running on, specified after running `npm run start`.
 You can change the port by setting it locally in your terminal. Ex: PORT=####
 
 "token" is the temporary token a user gets when logging in.
@@ -97,4 +97,14 @@ Usage: Universal code & insert below in TODO
 ```python
 answer = {"token": "", "email": "", "claims": "{ : , : }"}
 res = requests.post("http://localhost:{port}/api/user/uid/update-claim", json = answer)
+```
+
+## Signup API
+
+Used to create an auth account for a whitelisted user.
+
+Usage: Universal code & insert below in TODO
+```python
+answer = {"email": "", "password": "", "firstname": "", "lastname": "", "major": "", "gradYear": ""}
+res = requests.post("http://localhost:{port}/api/auth/signup", json = answer)
 ```
