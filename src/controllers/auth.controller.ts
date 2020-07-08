@@ -76,20 +76,18 @@ export const signup = async (
     await admin.auth().setCustomUserClaims(userDocID, updatedClaims).catch(console.log);
   }
   catch (err) {
-    console.log(err);
+    console.log("Error code: " + err.code + "\tError Message: " + err.message);
     if (err.code == 'auth/email-already-exists' || err.code == 'auth/uid-already-exists') {
       // Account already exists.
       res.status(403).json({
         msg: ERR_MSG.USER_ALREADY_EXISTS,
       });
-      console.log("account already exists");
       return next();
     }
     else {
       res.status(500).json({
         msg: ERR_MSG.GENERIC_INTERNAL_ERROR,
       });
-      console.log("Internal server error while creating auth");
       return next();
     }
   }
@@ -106,10 +104,8 @@ export const signup = async (
       graduation_year: gradYear,
     });
 
-    // Sign in to user account, send verification email and sign out.
-    await signInWithEmailAndPass(email, password);
-    await sendAccountVerificationEmail();
-    await signOut();
+    // Send verification email to user.
+    await sendAccountVerificationEmail(email, password);
 
     res.status(200).json({
       userRecord: newUser,
@@ -183,6 +179,8 @@ async function signOut() {
   await client.auth().signOut();
 }
 
-function sendAccountVerificationEmail() {
+async function sendAccountVerificationEmail(email: string, password: string) {
+  await signInWithEmailAndPass(email, password);
   client.auth().currentUser.sendEmailVerification();
+  await signOut();
 }
