@@ -24,7 +24,7 @@ const styles = theme => ({
     marginRight: 'auto',
     marginTop: theme.spacing(9),
     // display: 'flex',
-    // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    // [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
     //   flexDirection: 'row',
     // },
     // [theme.breakpoints.down(theme.breakpoints.values.md)]: {
@@ -47,16 +47,13 @@ class EventsPage extends React.Component {
     super(props);
 
     this.state = { ...INITIAL_STATE };
+    this.resizeFB = this.resizeFB.bind(this);
+    this.checkIfInductee();
   }
 
   componentDidMount() {
     this.resizeFB();
-    this.checkIfInductee();
     window.addEventListener('resize', this.resizeFB);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeFB);
   }
 
   resizeFB = () => {
@@ -91,7 +88,7 @@ class EventsPage extends React.Component {
     return 'https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles';
   };
 
-  checkIfInductee = () => {
+  checkIfInductee() {
     queryCurrentUserRole()
       .then(role => {
         if (role !== undefined && role !== 'Inductee') {
@@ -103,7 +100,7 @@ class EventsPage extends React.Component {
       .catch(error => {
         throw Error(`ERROR: ${error}`);
       });
-  };
+  }
 
   render() {
     const { buttons, width, height } = this.state;

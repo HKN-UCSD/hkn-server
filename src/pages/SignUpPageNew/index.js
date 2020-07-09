@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { Avatar, Button, Card } from '@material-ui/core';
+import { Avatar, Card } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import SignUpForm from '../../components/SignUpForm';
 
+import { createUserAccountFromSignup } from '../../services/auth';
 import HKN_TRIDENT_LOGO from '../../images/hkn-trident.png';
-import * as ROUTES from '../../constants/routes';
 import styles from './styles';
 
 const INITIAL_STATE = {};
@@ -19,12 +18,13 @@ class SignUpPage extends React.Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  handleSubmit = (values, setSubmitting) => {
-    const signUpSubmission = {
+  handleSubmit = async (values, setSubmitting) => {
+    const signupSubmission = {
       ...values,
     };
 
-    console.log(JSON.stringify(signUpSubmission));
+    const response = await createUserAccountFromSignup(signupSubmission);
+    console.log(response);
 
     setSubmitting(false);
   };
@@ -37,13 +37,6 @@ class SignUpPage extends React.Component {
         <Card className={classes.signUpCard} elevation={3}>
           <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
           <SignUpForm handleSubmit={this.handleSubmit} />
-          <Button
-            className={classes.redirectToSignIn}
-            to={ROUTES.SIGN_IN}
-            component={Link}
-          >
-            Have an Account Already?
-          </Button>
         </Card>
       </div>
     );

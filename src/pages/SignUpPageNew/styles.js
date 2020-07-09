@@ -19,11 +19,6 @@ const styles = () => ({
     marginTop: '28px',
     marginBottom: '40px',
   },
-  redirectToSignIn: {
-    marginTop: '20px',
-    color: '#5B5B5B',
-    textTransform: 'none',
-  },
 });
 
 export default styles;

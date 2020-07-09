@@ -1,6 +1,10 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
+import SIGNUP_ENDPOINT from '../constants/endpoints';
+
+const SIGN_UP_URL = `http://localhost:3001${SIGNUP_ENDPOINT}`;
+
 // Auth API
 const doCreateUserWithEmailAndPassword = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -35,6 +39,24 @@ const doSendVerificationEmail = () => {
   return firebase.auth().currentUser.sendEmailVerification();
 };
 
+const getCurrentUserClaims = async () => {
+  const tokenResult = await firebase.auth().currentUser.getIdTokenResult();
+  return tokenResult.claims;
+};
+
+const createUserAccountFromSignup = async signupSubmission => {
+  const response = await fetch(SIGN_UP_URL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(signupSubmission),
+  });
+
+  return response;
+};
+
 export {
   doCreateUserWithEmailAndPassword,
   doSignInWithEmailAndPassword,
@@ -42,4 +64,6 @@ export {
   doPasswordReset,
   doSendVerificationEmail,
   doPasswordUpdate,
+  getCurrentUserClaims,
+  createUserAccountFromSignup,
 };

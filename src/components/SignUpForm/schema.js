@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const PW_MIN_LENGTH = 4;
+const PW_MIN_LENGTH = 6;
 
 const schema = Yup.object({
   email: Yup.string()
