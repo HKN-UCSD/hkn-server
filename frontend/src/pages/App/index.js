@@ -31,14 +31,6 @@ const INITIAL_STATES = {
   isLoading: true,
 };
 
-const wrappedEventsPage = InducteeRoutingPermission(EventsPage);
-const wrappedPointsPage = InducteeRoutingPermission(PointsPage);
-const wrappedResumePage = InducteeRoutingPermission(ResumePage);
-const wrappedInducteePointsPage = OfficerRoutingPermission(InducteePointsPage);
-const wrappedCalendarPage = InducteeRoutingPermission(CalendarPage);
-const wrappedEventDetailsPage = InducteeRoutingPermission(EventDetailsPage);
-const wrappedEventEditPage = OfficerRoutingPermission(EventEditPage);
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -81,28 +73,40 @@ class App extends React.Component {
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route exact path={ROUTES.NEW_SIGN_UP} component={SignUpPageNew} />
-            <Route exact path={ROUTES.HOME} component={wrappedEventsPage} />
-            <Route exact path={ROUTES.POINTS} component={wrappedPointsPage} />
-            <Route exact path={ROUTES.RESUME} component={wrappedResumePage} />
+            <Route
+              exact
+              path={ROUTES.HOME}
+              component={InducteeRoutingPermission(EventsPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.POINTS}
+              component={InducteeRoutingPermission(PointsPage)}
+            />
+            <Route
+              exact
+              path={ROUTES.RESUME}
+              component={InducteeRoutingPermission(ResumePage)}
+            />
             <Route
               exact
               path={ROUTES.INDUCTEES}
-              component={wrappedInducteePointsPage}
+              component={OfficerRoutingPermission(InducteePointsPage)}
             />
             <Route
               exact
               path={ROUTES.CALENDAR}
-              component={wrappedCalendarPage}
+              component={InducteeRoutingPermission(CalendarPage)}
             />
             <Route
               exact
               path={ROUTES.EVENT_DETAILS}
-              component={wrappedEventDetailsPage}
+              component={InducteeRoutingPermission(EventDetailsPage)}
             />
             <Route
               exact
               path={ROUTES.EVENT_EDIT}
-              component={wrappedEventEditPage}
+              component={OfficerRoutingPermission(EventEditPage)}
             />
           </Switch>
         </BrowserRouter>

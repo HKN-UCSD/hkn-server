@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { Button, Grid, LinearProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,12 +8,10 @@ import { TextField } from 'formik-material-ui';
 
 import { Formik, Field, Form } from 'formik';
 
+import * as ROUTES from '../../constants/routes';
 import styles from './styles';
 import schema from './schema';
-import { MajorDropdown, YearDropdown } from '../dropdowns';
-
-const MIN_GRAD_YEAR = 2005;
-const MAX_GRAD_YEAR = moment().year() + 4;
+import { MajorDropdownField, YearDropdownField } from '../dropdowns';
 
 const INITIAL_INPUT_BOX_VALUES = {
   email: '',
@@ -38,7 +36,7 @@ const SignUpForm = props => {
     >
       {({ submitForm, isSubmitting }) => (
         <Form>
-          <Grid container direction='column' spacing={3}>
+          <Grid container direction='column' justify='center' spacing={3}>
             <Grid item>
               <Grid
                 container
@@ -108,19 +106,14 @@ const SignUpForm = props => {
                 spacing={3}
               >
                 <Grid item xs={8}>
-                  <MajorDropdown />
+                  <MajorDropdownField name='major' label='Major' />
                 </Grid>
 
                 <Grid item xs={4}>
-                  <YearDropdown
-                    minYear={MIN_GRAD_YEAR}
-                    maxYear={MAX_GRAD_YEAR}
-                  />
+                  <YearDropdownField name='gradYear' label='Grad Year' />
                 </Grid>
               </Grid>
             </Grid>
-
-            {isSubmitting && <LinearProgress />}
 
             <Grid item>
               <Button
@@ -134,6 +127,20 @@ const SignUpForm = props => {
                 Sign Up
               </Button>
             </Grid>
+
+            <Grid item>
+              <Grid container justify='center'>
+                <Button
+                  className={classes.signInRedirect}
+                  to={ROUTES.SIGN_IN}
+                  component={Link}
+                >
+                  Have an Account Already?
+                </Button>
+              </Grid>
+            </Grid>
+
+            {isSubmitting && <LinearProgress />}
           </Grid>
         </Form>
       )}
