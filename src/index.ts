@@ -13,11 +13,6 @@ admin.initializeApp({
   databaseURL: config.dbURL,
 });
 
-
-console.log(config.clientApiKey)
-console.log(config.clientAppID)
-console.log(config.firebaseConfig.project_id)
-
 client.initializeApp({
   apiKey: config.clientApiKey,
   projectId: config.firebaseConfig.project_id,
