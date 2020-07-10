@@ -33,7 +33,7 @@ jobs:
       - run: npm run build
       
 workflows:
-    lint:
+    lint_and_build:
       jobs:
         - run_lint_prettier
         - run_build:
