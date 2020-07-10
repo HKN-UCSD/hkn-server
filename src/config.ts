@@ -24,7 +24,7 @@ const {
   FIREBASE_PRIVATE_KEY,
   FIREBASE_DATABASE_URL,
   FIREBASE_CLIENT_ID,
-  FIREBASE_CLIENT_API_KEY
+  FIREBASE_CLIENT_API_KEY,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
