@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@2.0.2
 jobs:
-  run_lint:
+  run_lint_prettier:
     docker:
       - image: circleci/node:12.14.0
     steps:
@@ -14,8 +14,28 @@ jobs:
           key: package-cache-{{checksum "package.json"}}
           paths:
             - node_modules
-      - run: npm run lint
+      - run: 
+          command: |
+            npm run lint
+            npx prettier --check ./src/**/*.ts
+  run_build:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
+      - save_cache:
+          key: package-cache-{{checksum "package.json"}}
+          paths:
+            - node_modules
+      - run: npm run build
+      
 workflows:
-    lint:
+    lint_and_build:
       jobs:
-        - run_lint
+        - run_lint_prettier
+        - run_build:
+            requires:
+              - run_lint_prettier

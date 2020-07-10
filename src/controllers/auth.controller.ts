@@ -4,7 +4,6 @@ import { firebase as client } from '@firebase/app';
 
 import * as ERR_MSG from '../constants/ErrResponses';
 
-
 /*
   Create a new auth object for the provided email and password.
   Also links the auth account with existing user document and
@@ -26,8 +25,6 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-
-
   if (!validInput(req.body)) {
     // Invalid user information
     res.status(400).json({
@@ -37,12 +34,7 @@ export const signup = async (
   }
 
   // Grab form information from request body
-  const { email,
-    password,
-    firstname,
-    lastname,
-    major,
-    gradYear } = req.body;
+  const { email, password, firstname, lastname, major, gradYear } = req.body;
 
   const userDocDetails: any = await getUserDocFromEmail(email);
 
@@ -62,29 +54,33 @@ export const signup = async (
     newUser = await admin.auth().createUser({
       uid: userDocID,
       email: email,
-      password: password
+      password: password,
     });
 
     const updatedClaims: any = newUser.customClaims || {};
-    console.log("Initial User claims:");
+    console.log('Initial User claims:');
     console.log(newUser.customClaims);
 
     // claims are either 'member', 'inductee' or 'officer
     updatedClaims[userDocDetails.role.toLowerCase()] = true;
-    console.log("Updated User Claims:")
+    console.log('Updated User Claims:');
     console.log(updatedClaims);
-    await admin.auth().setCustomUserClaims(userDocID, updatedClaims).catch(console.log);
-  }
-  catch (err) {
-    console.log("Error code: " + err.code + "\tError Message: " + err.message);
-    if (err.code == 'auth/email-already-exists' || err.code == 'auth/uid-already-exists') {
+    await admin
+      .auth()
+      .setCustomUserClaims(userDocID, updatedClaims)
+      .catch(console.log);
+  } catch (err) {
+    console.log('Error code: ' + err.code + '\tError Message: ' + err.message);
+    if (
+      err.code == 'auth/email-already-exists' ||
+      err.code == 'auth/uid-already-exists'
+    ) {
       // Account already exists.
       res.status(403).json({
         msg: ERR_MSG.USER_ALREADY_EXISTS,
       });
       return next();
-    }
-    else {
+    } else {
       res.status(500).json({
         msg: ERR_MSG.GENERIC_INTERNAL_ERROR,
       });
@@ -112,8 +108,7 @@ export const signup = async (
     });
 
     return next();
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     // Could not update the user document with provided data.
     // Delete account because we want to have this data in the user account at all times.
@@ -126,18 +121,10 @@ export const signup = async (
   }
 };
 
-function validInput(
-  body: any
-): boolean {
-
+function validInput(body: any): boolean {
   // Grab form information from request body or if body is undefined,
   // parse from {}. (Helps avoid TypeError)
-  const { email,
-    password,
-    firstname,
-    lastname,
-    major,
-    gradYear } = body || {};
+  const { email, password, firstname, lastname, major, gradYear } = body || {};
 
   // Add form input validation here.
   if (!email || !password || !firstname || !lastname || !major || !gradYear) {
@@ -148,7 +135,9 @@ function validInput(
 }
 
 async function getUserDocFromEmail(email: string): Promise<any> {
-  return admin.firestore().collection('users')
+  return admin
+    .firestore()
+    .collection('users')
     .where('email', '==', email)
     .get()
     .then(snapshot => {
@@ -161,17 +150,19 @@ async function getUserDocFromEmail(email: string): Promise<any> {
     });
 }
 
-async function updateDocInCollection(collection: string, id: string, data: any) {
-  return admin.firestore()
+async function updateDocInCollection(
+  collection: string,
+  id: string,
+  data: any
+) {
+  return admin
+    .firestore()
     .collection(collection)
     .doc(id)
     .update(data);
 }
 
-async function signInWithEmailAndPass(
-  email: string,
-  password: string
-) {
+async function signInWithEmailAndPass(email: string, password: string) {
   await client.auth().signInWithEmailAndPassword(email, password);
 }
 
