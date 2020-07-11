@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@2.0.2
   cypress: cypress-io/cypress@1.24.0
 jobs:
-  lint:
+  lint_prettier:
     docker:
       - image: circleci/node:12.14.0
     steps:
@@ -15,7 +15,10 @@ jobs:
           key: package-cache-{{checksum "package.json"}}
           paths:
             - node_modules
-      - run: npm run lint
+      - run: 
+          command: |
+            npm run lint
+            npx prettier --check ./src/**/*.js
   test:
     docker:
       - image: circleci/node:12.14.0
@@ -32,8 +35,10 @@ jobs:
 workflows:
   lint_and_test:
     jobs:
-      - lint
+      - lint_prettier
       - cypress/run:
+          requires:
+            - lint_prettier
           executor: cypress/base-12-14-0
           start: npm run start
           wait-on: 'http://localhost:3000'
