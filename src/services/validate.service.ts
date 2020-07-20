@@ -8,8 +8,13 @@ const validateWithJoi = async (
 ): Promise<void> => {
   try {
     await schema.validateAsync(data, validationOptions);
-  } catch {
-    throw new Error(ERROR_MSG.INVALID_REQUEST_BODY);
+  } catch (err) {
+    const { details } = err;
+    const errMsgArray = details.map(
+      (errObj: Joi.ValidationErrorItem) => errObj.message
+    );
+
+    throw ERROR_MSG.INVALID_REQUEST_BODY(errMsgArray);
   }
 };
 

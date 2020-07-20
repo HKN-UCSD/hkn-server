@@ -16,7 +16,7 @@ const AuthMiddleware = (permittedRoles: Array<string>) => async (
     if (isVerified) {
       return next();
     } else {
-      return next(ERROR_MSG.NO_PERMITTED_ROLES);
+      return next(ERROR_MSG.USER_NOT_AUTHORIZED);
     }
   } catch (err) {
     return next(err);

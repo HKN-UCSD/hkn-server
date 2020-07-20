@@ -1,3 +1,5 @@
+import { array } from '@hapi/joi';
+
 export const GENERIC_400_MSG =
   'The request object received had invalid syntax or missing information.';
 export const USER_NOT_WHITELISTED =
@@ -8,10 +10,20 @@ export const GENERIC_INTERNAL_ERROR =
   'There was an internal error. Please try again later.';
 
 // Auth Error Responses
-export const NO_PERMITTED_ROLES =
-  'The user does not have the required roles for this action.';
+export const USER_NOT_AUTHORIZED =
+  'The user is not authorized for this action.';
 export const USER_NOT_AUTHENTICATED = 'The user is unauthenticated.';
 
 // Validation Error Responses
-export const INVALID_REQUEST_BODY =
-  'The provided request body does not match with the schema it is supposed to follow.';
+export const INVALID_REQUEST_BODY = (errMsgArray: Array<String>) => {
+  const baseAccumulator = '';
+  const reducer = (accumulator: String, currentValue: String) => {
+    return accumulator + '- ' + currentValue + '.\n';
+  };
+
+  return (
+    'The provided request body does not match with the validation schema.\n' +
+    'Error messages for key-value pairs that did not match the schema (only keys are shown):\n' +
+    `${errMsgArray.reduce(reducer, baseAccumulator)}`
+  );
+};
