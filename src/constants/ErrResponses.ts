@@ -1,5 +1,3 @@
-import { array } from '@hapi/joi';
-
 export const GENERIC_400_MSG =
   'The request object received had invalid syntax or missing information.';
 export const USER_NOT_WHITELISTED =
