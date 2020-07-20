@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyRole } from '../../../services/auth.service';
 
-import * as ERROR_MSG from '../../../constants/authErrorMessages';
+import * as ERROR_MSG from '../../../constants/ErrResponses';
 
 const AuthMiddleware = (permittedRoles: Array<string>) => async (
   req: Request,
