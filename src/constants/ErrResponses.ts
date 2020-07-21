@@ -6,3 +6,22 @@ export const USER_ALREADY_EXISTS =
   'The provided email is aready linked to an account. Please check the email you have entered.';
 export const GENERIC_INTERNAL_ERROR =
   'There was an internal error. Please try again later.';
+
+// Auth Error Responses
+export const USER_NOT_AUTHORIZED =
+  'The user is not authorized for this action.';
+export const USER_NOT_AUTHENTICATED = 'The user is unauthenticated.';
+
+// Validation Error Responses
+export const INVALID_REQUEST_BODY = (errMsgArray: Array<String>) => {
+  const baseAccumulator = '';
+  const reducer = (accumulator: String, currentValue: String) => {
+    return accumulator + '- ' + currentValue + '.\n';
+  };
+
+  return (
+    'The provided request body does not match with the validation schema.\n' +
+    'Error messages for key-value pairs that did not match the schema (only keys are shown):\n' +
+    `${errMsgArray.reduce(reducer, baseAccumulator)}`
+  );
+};
