@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyRole } from '../../../services/auth.service';
 
-import * as ERROR_MSG from '../../../constants/authErrorMessages';
+import * as ERROR_MSG from '../../../constants/ErrResponses';
 
 const AuthMiddleware = (permittedRoles: Array<string>) => async (
   req: Request,
@@ -16,7 +16,7 @@ const AuthMiddleware = (permittedRoles: Array<string>) => async (
     if (isVerified) {
       return next();
     } else {
-      return next(ERROR_MSG.NO_PERMITTED_ROLES);
+      return next(ERROR_MSG.USER_NOT_AUTHORIZED);
     }
   } catch (err) {
     return next(err);
