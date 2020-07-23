@@ -4,4 +4,3 @@ dist
 .DS_Store
 .eslintignore
 .eslintcache
-./src/test.ts
