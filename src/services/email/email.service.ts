@@ -5,6 +5,7 @@ import { EmailInfo } from './email.definition';
 
 dotenv.config();
 SendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
+const senderEmail: string = process.env.SENDER_EMAIL_ADDRESS;
 
 /*
  * Send one or more emails to one or more respective recipients
@@ -13,5 +14,10 @@ SendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
  * TODO: Add logging when there is a logging set up
  */
 const _sendEmails = async (emailInfoArr: Array<EmailInfo>): Promise<void> => {
-  await SendGridMail.send(emailInfoArr, true);
+  const emailsToSend = emailInfoArr.map(emailInfo => {
+    emailInfo.from = senderEmail;
+    return emailInfo;
+  });
+
+  await SendGridMail.send(emailsToSend, true);
 };
