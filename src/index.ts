@@ -7,6 +7,7 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
+import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
 admin.initializeApp({
   credential: admin.credential.cert(config.firebaseConfig),
@@ -29,5 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/user', UserRouter);
 app.use('/docs', DocsRouter);
 app.use('/api/auth', AuthRouter);
+
+app.use(ErrorHandler);
 
 app.listen(port);
