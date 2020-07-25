@@ -7,5 +7,3 @@ export interface EmailInfo {
   bcc?: Array<string>;
   sendAt?: number;
 }
-
-export type EmailInfoRequired = EmailInfo & { from: string };
