@@ -12,9 +12,6 @@ import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 import EventEditPage from '../EventEditPage';
 import EventDetailsPage from '../EventDetailsPage';
-
-import SignUpPageNew from '../SignUpPageNew';
-
 import Loading from '../../components/Loading';
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
@@ -72,7 +69,6 @@ class App extends React.Component {
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route exact path={ROUTES.NEW_SIGN_UP} component={SignUpPageNew} />
             <Route
               exact
               path={ROUTES.HOME}
