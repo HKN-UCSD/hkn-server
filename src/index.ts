@@ -47,5 +47,6 @@ createConnection()
     app.use('/api/auth', AuthRouter);
 
     app.listen(port);
+    console.log(connection.isConnected);
   })
   .catch(error => console.log(error));

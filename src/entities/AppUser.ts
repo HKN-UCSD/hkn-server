@@ -2,10 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  PrimaryColumn,
   ManyToOne,
-  Index,
   BaseEntity,
+  Index,
 } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
@@ -21,22 +20,23 @@ export enum AppUserRole {
 @Entity()
 export class AppUser extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @PrimaryColumn()
+  @Index()
+  @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   major: string;
 
-  @Column()
-  graduationYear: number;
+  @Column({ nullable: true })
+  graduationYear: string;
 
   @ManyToOne(() => InductionClass, { nullable: true })
   inductionClass: InductionClass;

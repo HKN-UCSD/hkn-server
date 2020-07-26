@@ -14,6 +14,7 @@ export enum EventType {
   PROFESSIONAL = 'professional',
   SOCIAL = 'social',
   TECHNICAL = 'technical',
+  MENTOSHIP = 'mentorship',
 }
 
 @Entity()
@@ -27,7 +28,7 @@ export class Event extends BaseEntity {
   @Column('text')
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   location: string;
 
   @Column('timestamp')
@@ -36,7 +37,10 @@ export class Event extends BaseEntity {
   @Column('timestamp')
   endDate: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: EventType,
+  })
   type: string;
 
   @ManyToMany(() => AppUser)
@@ -49,15 +53,15 @@ export class Event extends BaseEntity {
   )
   attendances: Attendance[];
 
-  @Column()
+  @Column({ nullable: true })
   rsvpURL: string;
 
-  @Column()
+  @Column({ nullable: true })
   signInURL: string;
 
-  @Column()
+  @Column({ nullable: true })
   fbURL: string;
 
-  @Column()
+  @Column({ nullable: true })
   canvaURL: string;
 }
