@@ -14,7 +14,7 @@ import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
-  max: parseInt(process.env.RATE_LIMIT_MAX_CONNS, 10),
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
 });
 
 admin.initializeApp({
