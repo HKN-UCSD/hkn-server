@@ -10,6 +10,7 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
+import { createConnection } from 'typeorm';
 
 import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
@@ -29,18 +30,22 @@ client.initializeApp({
   appId: config.clientAppID,
 });
 
-const app = express();
-const port = process.env.PORT || 3001;
+// cxn created via configs from ormconfig.ts
+createConnection()
+  .then(async connection => {
+    const app = express();
+    const port = process.env.PORT || 3001;
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(limiter);
+    app.use(cors());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(limiter);
+    app.use(ErrorHandler);
 
-app.use('/api/user', UserRouter);
-app.use('/docs', DocsRouter);
-app.use('/api/auth', AuthRouter);
+    app.use('/api/user', UserRouter);
+    app.use('/docs', DocsRouter);
+    app.use('/api/auth', AuthRouter);
 
-app.use(ErrorHandler);
-
-app.listen(port);
+    app.listen(port);
+  })
+  .catch(error => console.log(error));

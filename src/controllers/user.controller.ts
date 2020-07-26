@@ -1,5 +1,36 @@
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
+import { AppUser } from '../entities/AppUser';
+import { InductionClass } from '../entities/InductionClass';
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  // TODO clean this up with class mapper from typestack
+  const {
+    firstName,
+    lastName,
+    email,
+    major,
+    graduationYear,
+    inductionClass,
+  } = req.body;
+
+  // TODO catch invalid inductionClassObj
+  const inductionClassObj = await InductionClass.findOne(inductionClass);
+  const appUser = new AppUser();
+  appUser.firstName = firstName;
+  appUser.lastName = lastName;
+  appUser.email = email;
+  appUser.major = major;
+  appUser.graduationYear = graduationYear;
+  appUser.inductionClass = inductionClassObj;
+  await appUser.save(); // TODO catch errors for pk violation
+
+  res.status(200).json({ user: appUser });
+};
 
 /* 
   Cloud function that adds a role for a user.
