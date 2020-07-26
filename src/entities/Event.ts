@@ -40,6 +40,7 @@ export class Event extends BaseEntity {
   @Column({
     type: 'enum',
     enum: EventType,
+    nullable: true,
   })
   type: string;
 

@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   BaseEntity,
-  Index,
+  PrimaryColumn,
 } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
@@ -28,7 +28,7 @@ export class AppUser extends BaseEntity {
   @Column({ nullable: true })
   lastName: string;
 
-  @Index()
+  @PrimaryColumn()
   @Column()
   email: string;
 

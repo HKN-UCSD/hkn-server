@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-
+import 'reflect-metadata'; // required for class-transformer to work
 import admin from 'firebase-admin';
 import { firebase as client } from '@firebase/app';
 import '@firebase/auth';
@@ -10,6 +10,7 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
+import { EventRouter } from './routers/event.router';
 import { createConnection } from 'typeorm';
 
 import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
@@ -42,9 +43,10 @@ createConnection()
     app.use(limiter);
     app.use(ErrorHandler);
 
-    app.use('/api/user', UserRouter);
     app.use('/docs', DocsRouter);
+    app.use('/api/user', UserRouter);
     app.use('/api/auth', AuthRouter);
+    app.use('/api/event', EventRouter);
 
     app.listen(port);
     console.log(connection.isConnected);
