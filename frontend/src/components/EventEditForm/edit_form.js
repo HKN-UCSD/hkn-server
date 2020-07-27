@@ -163,9 +163,21 @@ const EventEditForm = props => {
 EventEditForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
-  initialValues: PropTypes.objectOf(
-    PropTypes.oneOfType(PropTypes.object, PropTypes.string)
-  ).isRequired,
+  initialValues: PropTypes.shape({
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    endDate: PropTypes.instanceOf(Date).isRequired,
+    hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    location: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    description: PropTypes.string.isRequired,
+    urls: PropTypes.shape({
+      fb: PropTypes.string.isRequired,
+      canva: PropTypes.string.isRequired,
+      rsvp: PropTypes.string.isRequired,
+      signin: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 };
 
 export default withStyles(styles)(EventEditForm);

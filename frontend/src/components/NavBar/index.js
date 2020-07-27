@@ -186,7 +186,7 @@ class NavBar extends React.Component {
 NavBar.contextType = AuthUserContext;
 
 NavBar.propTypes = {
-  children: PropTypes.objectOf(React.Component).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default compose(withStyles(styles))(NavBar);

@@ -1,6 +1,10 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
+import SIGNUP_ENDPOINT from '../constants/endpoints';
+
+const SIGN_UP_URL = `${process.env.REACT_APP_API_BASE_URL}${SIGNUP_ENDPOINT}`;
+
 // Auth API
 const doCreateUserWithEmailAndPassword = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -40,6 +44,19 @@ const getCurrentUserClaims = async () => {
   return tokenResult.claims;
 };
 
+const createUserAccountFromSignup = async signupSubmission => {
+  const response = await fetch(SIGN_UP_URL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(signupSubmission),
+  });
+
+  return response;
+};
+
 export {
   doCreateUserWithEmailAndPassword,
   doSignInWithEmailAndPassword,
@@ -48,4 +65,5 @@ export {
   doSendVerificationEmail,
   doPasswordUpdate,
   getCurrentUserClaims,
+  createUserAccountFromSignup,
 };

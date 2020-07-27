@@ -12,7 +12,6 @@ import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 import EventEditPage from '../EventEditPage';
 import EventDetailsPage from '../EventDetailsPage';
-
 import Loading from '../../components/Loading';
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
@@ -98,7 +97,7 @@ class App extends React.Component {
             <Route
               exact
               path={ROUTES.EVENT_DETAILS}
-              component={OfficerRoutingPermission(EventDetailsPage)}
+              component={InducteeRoutingPermission(EventDetailsPage)}
             />
             <Route
               exact
