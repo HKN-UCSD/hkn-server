@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 
 import admin from 'firebase-admin';
 import { firebase as client } from '@firebase/app';
@@ -10,7 +10,8 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
-import rateLimit from 'express-rate-limit';
+
+import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
@@ -39,5 +40,7 @@ app.use(limiter);
 app.use('/api/user', UserRouter);
 app.use('/docs', DocsRouter);
 app.use('/api/auth', AuthRouter);
+
+app.use(ErrorHandler);
 
 app.listen(port);
