@@ -3,6 +3,8 @@ import * as controller from '../controllers/user.controller';
 
 export const UserRouter = express.Router();
 
+UserRouter.route('/').post(controller.createUser);
+
 /**
  * @swagger
  * /:uid/add-role:

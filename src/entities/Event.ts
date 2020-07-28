@@ -44,7 +44,7 @@ export class Event extends BaseEntity {
   })
   type: string;
 
-  @ManyToMany(() => AppUser)
+  @ManyToMany(() => AppUser, { eager: true })
   @JoinTable()
   hosts: AppUser[];
 

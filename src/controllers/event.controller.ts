@@ -1,96 +1,52 @@
-import { Request, Response, NextFunction } from 'express';
-import { plainToClass, plainToClassFromExist } from 'class-transformer';
 import { Event } from '../entities/Event';
-import { castID } from './utils';
+import { EventService } from '../services/event.service';
+import { Inject } from 'typedi';
 
-export const createEvent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const event: Event = plainToClass(Event, req.body);
-    const eventWithID = await event.save();
-    res.status(200).json(eventWithID);
-  } catch (err) {
-    next(err);
+import {
+  JsonController,
+  Param,
+  Get,
+  Post,
+  Delete,
+  UseBefore,
+} from 'routing-controllers';
+
+import { json } from 'express';
+import { EventFromBody } from '../decorators/EventFromBody';
+
+@JsonController('/api/event')
+export class EventController {
+  @Inject()
+  eventService: EventService;
+
+  @Post('/')
+  @UseBefore(json())
+  createEvent(@EventFromBody() event: Event): Promise<Event> {
+    return this.eventService.createEvent(event);
   }
-};
 
-export const readEvent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const { eventID } = req.params;
-    const eventIDNum = castID(eventID);
-
-    const event = await Event.findOne({ id: eventIDNum });
-    if (event === undefined) {
-      throw new Error('No event with given id found.');
-    }
-
-    res.status(200).json(event);
-  } catch (err) {
-    next(err);
+  @Get('/')
+  getMultipleEvents(): Promise<Event[]> {
+    return this.eventService.getAllEvents();
   }
-};
 
-// TODO add query params for date later
-export const readMultipleEvents = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const events: Event[] = await Event.find({});
-    res.status(200).json(events);
-  } catch (err) {
-    next(err);
+  @Get('/:id')
+  getEvent(@Param('id') id: number): Promise<Event> {
+    return this.eventService.getEventById(id);
   }
-};
 
-export const updateEvent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const { eventID } = req.params;
-    // TODO wrap next 4 lines into function as it'll be used across all entities
-    const eventIDNum = castID(eventID);
-
-    const event = await Event.findOne({ id: eventIDNum });
-    if (event === undefined) {
-      throw new Error('No event with given id found.');
-    }
-
-    const updatedEvent = plainToClassFromExist(event, req.body);
-    await updatedEvent.save();
-    res.status(200).json(updatedEvent);
-  } catch (err) {
-    next(err);
+  @Post('/:id')
+  @UseBefore(json()) // must use if using FromBody decorators
+  updateEvent(
+    @Param('id') id: number,
+    @EventFromBody() event: Event
+  ): Promise<Event> {
+    event.id = id;
+    return this.eventService.updateEvent(event);
   }
-};
 
-export const deleteEvent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const { eventID } = req.params;
-    const eventIDNum = castID(eventID);
-
-    const event = await Event.findOne({ id: eventIDNum });
-    if (event === undefined) {
-      throw new Error('No event with given id found.');
-    }
-
-    await Event.delete(event);
-    res.status(200);
-  } catch (err) {
-    next(err);
+  @Delete('/:id')
+  deleteEvent(@Param('id') id: number): Promise<Event> {
+    return this.eventService.deleteEvent(id);
   }
-};
+}

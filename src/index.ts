@@ -10,8 +10,15 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
-import { EventRouter } from './routers/event.router';
+// import { EventRouter } from './routers/event.router';
 import { createConnection } from 'typeorm';
+import { InductionClassRouter } from './routers/induction-class.router';
+
+import 'reflect-metadata'; // shim required for routing-controllers
+import { createExpressServer } from 'routing-controllers';
+import { EventController } from './controllers/event.controller';
+import { useContainer as routingUseContainer } from 'routing-controllers';
+import { Container } from 'typedi';
 
 import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
@@ -33,11 +40,18 @@ client.initializeApp({
 
 // cxn created via configs from ormconfig.ts
 createConnection()
-  .then(async connection => {
-    const app = express();
+  .then(_ => {
+    // magic happens here
+    // <-------------->
+    routingUseContainer(Container);
+    const app = createExpressServer({
+      cors: true,
+      controllers: [EventController],
+    });
+    // <-------------->
+
     const port = process.env.PORT || 3001;
 
-    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(limiter);
@@ -46,9 +60,8 @@ createConnection()
     app.use('/docs', DocsRouter);
     app.use('/api/user', UserRouter);
     app.use('/api/auth', AuthRouter);
-    app.use('/api/event', EventRouter);
+    app.use('/api/induction-class', InductionClassRouter);
 
     app.listen(port);
-    console.log(connection.isConnected);
   })
   .catch(error => console.log(error));

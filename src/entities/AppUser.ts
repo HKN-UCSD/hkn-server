@@ -17,6 +17,7 @@ export enum AppUserRole {
 }
 
 // user table taken by internal postgres stuff already
+// TODO: fix primary key
 @Entity()
 export class AppUser extends BaseEntity {
   @PrimaryGeneratedColumn()
