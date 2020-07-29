@@ -10,17 +10,9 @@ const ButtonWithModal = props => {
   const { title, contentText, openButtonProps, children } = props;
   const { name, ...otherProps } = openButtonProps;
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
-      <Button onClick={handleOpen} {...otherProps}>
+      <Button onClick={() => setOpen(true)} {...otherProps}>
         {name}
       </Button>
 
@@ -28,7 +20,7 @@ const ButtonWithModal = props => {
         title={title}
         contentText={contentText}
         open={open}
-        handleClose={handleClose}
+        handleClose={() => setOpen(false)}
       >
         {children}
       </BaseModal>

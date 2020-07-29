@@ -11,17 +11,12 @@ export const ConfirmationModalWithButton = ({
   confirmButtonProps,
   cancelButtonProps,
 }) => {
+  const { name: cancelName, ...otherCancelProps } = cancelButtonProps;
   const {
     name: confirmName,
     onClick: confirmOnClick,
     ...otherConfirmProps
   } = confirmButtonProps;
-
-  const {
-    name: cancelName,
-    onClick: cancelOnClick,
-    ...otherCancelProps
-  } = cancelButtonProps;
 
   return (
     <ButtonWithModal
@@ -31,18 +26,15 @@ export const ConfirmationModalWithButton = ({
     >
       {onClickHOF => (
         <>
+          <Button onClick={() => onClickHOF(null)} {...otherCancelProps}>
+            {cancelName}
+          </Button>
+
           <Button
             onClick={() => onClickHOF(confirmOnClick)}
             {...otherConfirmProps}
           >
             {confirmName}
-          </Button>
-
-          <Button
-            onClick={() => onClickHOF(cancelOnClick)}
-            {...otherCancelProps}
-          >
-            {cancelName}
           </Button>
         </>
       )}
@@ -64,7 +56,6 @@ ConfirmationModalWithButton.propTypes = {
   }),
   cancelButtonProps: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
     otherCancelProps: PropTypes.object,
   }),
 };
@@ -89,7 +80,7 @@ export const AlertModalWithButton = ({
   openButtonProps,
   closeButtonProps,
 }) => {
-  const { name, onClick, ...otherProps } = closeButtonProps;
+  const { name, ...otherProps } = closeButtonProps;
 
   return (
     <ButtonWithModal
@@ -99,7 +90,7 @@ export const AlertModalWithButton = ({
     >
       {onClickHOF => (
         <>
-          <Button onClick={() => onClickHOF(onClick)} {...otherProps}>
+          <Button onClick={() => onClickHOF(null)} {...otherProps}>
             {name}
           </Button>
         </>
@@ -117,7 +108,6 @@ AlertModalWithButton.propTypes = {
   }),
   closeButtonProps: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
     otherProps: PropTypes.object,
   }),
 };
