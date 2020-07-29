@@ -1,101 +1,133 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BaseModal from './base';
+import Button from '../buttons';
+import ButtonWithModal from './base/ButtonWithModal';
 
-export const ConfirmModal = props => {
+export const ConfirmationModalWithButton = ({
+  title,
+  contentText,
+  openButtonProps,
+  confirmButtonProps,
+  cancelButtonProps,
+}) => {
   const {
-    title,
-    contentText,
-    openButtonProps,
-    confirmButtonProps,
-    cancelButtonProps,
-  } = props;
+    name: confirmName,
+    onClick: confirmOnClick,
+    ...otherConfirmProps
+  } = confirmButtonProps;
 
-  const actionButtonsProps = [confirmButtonProps, cancelButtonProps];
+  const {
+    name: cancelName,
+    onClick: cancelOnClick,
+    ...otherCancelProps
+  } = cancelButtonProps;
 
   return (
-    <BaseModal
+    <ButtonWithModal
       title={title}
       contentText={contentText}
       openButtonProps={openButtonProps}
-      actionButtonsProps={actionButtonsProps}
-    />
+    >
+      {onClickHOF => (
+        <>
+          <Button
+            onClick={() => onClickHOF(confirmOnClick)}
+            {...otherConfirmProps}
+          >
+            {confirmName}
+          </Button>
+
+          <Button
+            onClick={() => onClickHOF(cancelOnClick)}
+            {...otherCancelProps}
+          >
+            {cancelName}
+          </Button>
+        </>
+      )}
+    </ButtonWithModal>
   );
 };
 
-ConfirmModal.propTypes = {
+ConfirmationModalWithButton.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
   openButtonProps: PropTypes.shape({
-    openButtonName: PropTypes.string.isRequired,
-    openButtonOnClick: PropTypes.func,
-    openButtonOtherProps: PropTypes.object,
+    name: PropTypes.string.isRequired,
+    otherProps: PropTypes.object,
   }),
   confirmButtonProps: PropTypes.shape({
-    buttonName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     onClick: PropTypes.func,
-    otherProps: PropTypes.object,
+    otherConfirmProps: PropTypes.object,
   }),
   cancelButtonProps: PropTypes.shape({
-    buttonName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     onClick: PropTypes.func,
-    otherProps: PropTypes.object,
+    otherCancelProps: PropTypes.object,
   }),
 };
 
-ConfirmModal.defaultProps = {
+ConfirmationModalWithButton.defaultProps = {
   openButtonProps: {
-    openButtonOnClick: null,
-    openButtonOtherProps: {},
+    otherProps: {},
   },
   confirmButtonProps: {
-    onClick: null,
-    otherProps: {},
+    onClick: () => {},
+    otherConfirmProps: {},
   },
   cancelButtonProps: {
-    onClick: null,
-    otherProps: {},
+    onClick: () => {},
+    otherCancelProps: {},
   },
 };
 
-export const AlertModal = props => {
-  const { title, contentText, openButtonProps, closeButtonProps } = props;
-
-  const actionButtonsProps = [closeButtonProps];
+export const AlertModalWithButton = ({
+  title,
+  contentText,
+  openButtonProps,
+  closeButtonProps,
+}) => {
+  const { name, onClick, ...otherProps } = closeButtonProps;
 
   return (
-    <BaseModal
+    <ButtonWithModal
       title={title}
       contentText={contentText}
       openButtonProps={openButtonProps}
-      actionButtonsProps={actionButtonsProps}
-    />
+    >
+      {onClickHOF => (
+        <>
+          <Button onClick={() => onClickHOF(onClick)} {...otherProps}>
+            {name}
+          </Button>
+        </>
+      )}
+    </ButtonWithModal>
   );
 };
 
-AlertModal.propTypes = {
+AlertModalWithButton.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
   openButtonProps: PropTypes.shape({
-    openButtonName: PropTypes.string.isRequired,
-    openButtonOnClick: PropTypes.func,
-    openButtonOtherProps: PropTypes.object,
+    name: PropTypes.string.isRequired,
+    otherProps: PropTypes.object,
   }),
   closeButtonProps: PropTypes.shape({
-    buttonName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     otherProps: PropTypes.object,
   }),
 };
 
-AlertModal.defaultProps = {
+AlertModalWithButton.defaultProps = {
   openButtonProps: {
-    openButtonOnClick: null,
-    openButtonOtherProps: {},
+    otherProps: {},
   },
   closeButtonProps: {
-    onClick: null,
+    onClick: () => {},
     otherProps: {},
   },
 };
