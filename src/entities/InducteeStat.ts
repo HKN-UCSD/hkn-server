@@ -17,7 +17,7 @@ import { InductionClass } from './InductionClass';
       .innerJoin(Attendance, 'attendance', 'appUser.id = attendance.attendee')
       .innerJoin(Event, 'event', 'event.id = attendance.event')
       .where('attendance.isInductee = true')
-      .groupBy('appUser.id'),
+      .groupBy('appUser.id, appUser.inductionClass'),
 })
 export class InducteeStat {
   @ViewColumn()

@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Attendance } from './Attendance';
+import { RSVP } from './RSVP';
 
 export enum EventType {
   PROFESSIONAL = 'professional',
@@ -53,6 +54,12 @@ export class Event extends BaseEntity {
     attendance => attendance.event
   )
   attendances: Attendance[];
+
+  @OneToMany(
+    () => RSVP,
+    rsvp => rsvp.event
+  )
+  rsvps: RSVP[];
 
   @Column({ nullable: true })
   rsvpURL: string;

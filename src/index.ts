@@ -1,3 +1,4 @@
+import 'reflect-metadata'; // shim required for routing-controllers
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -14,7 +15,6 @@ import { AuthRouter } from './routers/auth.router';
 import { createConnection } from 'typeorm';
 import { InductionClassRouter } from './routers/induction-class.router';
 
-import 'reflect-metadata'; // shim required for routing-controllers
 import { createExpressServer } from 'routing-controllers';
 import { EventController } from './controllers/event.controller';
 import { useContainer as routingUseContainer } from 'routing-controllers';

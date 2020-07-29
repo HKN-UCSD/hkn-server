@@ -30,7 +30,6 @@ export class AppUser extends BaseEntity {
   lastName: string;
 
   @PrimaryColumn()
-  @Column()
   email: string;
 
   @Column({ nullable: true })
