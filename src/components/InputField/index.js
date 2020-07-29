@@ -2,21 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TextField } from '@material-ui/core';
+import { TextField as FormikTextField } from 'formik-material-ui';
+import { Field } from 'formik';
 
 const InputField = props => {
   const { label, readOnly, ...otherProps } = props;
-  let readOnlyProps = {};
 
   if (readOnly) {
-    readOnlyProps = {
+    const readOnlyProps = {
       disableUnderline: true,
       readOnly: true,
     };
-  } else {
-    readOnlyProps = {};
+    return (
+      <TextField label={label} InputProps={readOnlyProps} {...otherProps} />
+    );
   }
-
-  return <TextField label={label} InputProps={readOnlyProps} {...otherProps} />;
+  return <Field component={FormikTextField} label={label} {...otherProps} />;
 };
 
 InputField.propTypes = {

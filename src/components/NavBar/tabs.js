@@ -5,6 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
+// import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import * as ROUTES from '../../constants/routes';
 
 const CalendarTab = {
@@ -18,6 +19,12 @@ const ResumeTab = {
   icon: <AttachmentIcon />,
   text: 'Resume',
 };
+
+// const ProfileTab = {
+//   route: ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
+//   icon: <AccountBoxIcon />,
+//   text: 'Profile',
+// };
 
 const HomeTab = {
   route: ROUTES.HOME,
@@ -39,10 +46,17 @@ const PointsTab = {
 
 export const OfficerTabs = [
   HomeTab,
+  // ProfileTab,
   CalendarTab,
   ResumeTab,
   InducteesTab,
   PointsTab,
 ];
 
-export const InducteeTabs = [HomeTab, CalendarTab, ResumeTab, PointsTab];
+export const InducteeTabs = [
+  HomeTab,
+  // ProfileTab,
+  CalendarTab,
+  ResumeTab,
+  PointsTab,
+];
