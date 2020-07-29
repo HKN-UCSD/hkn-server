@@ -1,7 +1,7 @@
-import { Event } from '../entities/Event';
-import { AppUserService } from './app-user.service';
+import { Event } from '@Entities/Event';
+import { AppUserService } from '@Services/app-user.service';
 import { Service, Inject } from 'typedi';
-import { AppUser } from '../entities/AppUser';
+import { AppUser } from '@Entities/AppUser';
 import { plainToClass } from 'class-transformer';
 
 @Service()

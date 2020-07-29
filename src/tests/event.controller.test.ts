@@ -1,9 +1,9 @@
-import { EventService } from '../services/event.service';
-import { AppUserService } from '../services/app-user.service';
+import { EventService } from '@Services/event.service';
+import { AppUserService } from '@Services/app-user.service';
 import { MockEventService } from './mocks/event.service.mock';
 import { MockAppUserService } from './mocks/app-user.service.mock';
 
-import { EventController } from '../controllers/event.controller';
+import { EventController } from '@Controllers/event.controller';
 
 import { Container } from 'typedi';
 

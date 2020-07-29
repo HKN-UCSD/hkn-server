@@ -1,5 +1,5 @@
-import { Event } from '../entities/Event';
-import { EventService } from '../services/event.service';
+import { Event } from '@Entities/Event';
+import { EventService } from '@Services/event.service';
 import { Inject } from 'typedi';
 
 import {
@@ -12,7 +12,7 @@ import {
 } from 'routing-controllers';
 
 import { json } from 'express';
-import { EventFromBody } from '../decorators/EventFromBody';
+import { EventFromBody } from '@Decorators/EventFromBody';
 
 @JsonController('/api/event')
 export class EventController {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { plainToClass } from 'class-transformer';
-import { InductionClass } from '../entities/InductionClass';
+import { InductionClass } from '@Entities/InductionClass';
 
 export const createInductionClass = async (
   req: Request,

@@ -1,4 +1,4 @@
-import { EventService } from '../services/event.service';
+import { EventService } from '@Services/event.service';
 import { createParamDecorator, Action } from 'routing-controllers';
 
 import { Container } from 'typedi';

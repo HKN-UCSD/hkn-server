@@ -1,4 +1,5 @@
 import 'reflect-metadata'; // shim required for routing-controllers
+import 'module-alias/register';
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';

@@ -9,9 +9,14 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "outDir": "dist",
-    "baseUrl": ".",
     "lib": ["ES6"],
+    "baseUrl": ".",
     "paths": {
+      "@Services/*": ["src/services/*"],
+      "@Controllers/*": ["src/controllers/*"],
+      "@Entities/*": ["src/entities/*"],
+      "@Decorators/*": ["src/decorators/*"],
+      "@Middlewares/*": ["src/middlewares/*"],
       "*": ["node_modules/*"]
     },
     "emitDecoratorMetadata": true,
