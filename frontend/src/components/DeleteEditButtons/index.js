@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from '../buttons';
 import styles from './styles';
 
 import * as ROUTES from '../../constants/routes';
 import { deleteEventById } from '../../services/events';
-import { ConfirmModal } from "../modals";
+import { ConfirmationModalWithButton } from "../modals";
 
 const DeleteEditButtons = props => {
   const { classes, eventId } = props;
@@ -25,9 +25,12 @@ const DeleteEditButtons = props => {
       });
   };
 
+  const handleConfirmDelete = () => {
+    handleDeleteEvent(eventId);
+  };
+
   const openButtonProps = {
-    openButtonName: 'Delete',
-    openButtonOnClick: null,
+    name: 'Delete',
     className: classes.delete,
     startIcon: <DeleteIcon />,
     primary: true,
@@ -35,22 +38,21 @@ const DeleteEditButtons = props => {
   };
 
   const confirmButtonProps = {
-    buttonName: 'Yes',
-    onClick: () => handleDeleteEvent(eventId),
+    name: 'Yes',
+    onClick: handleConfirmDelete,
     to: ROUTES.CALENDAR,
     component: Link,
     positive: true,
   };
 
   const cancelButtonProps = {
-    buttonName: 'No',
-    onClick: null,
+    name: 'No',
     positive: true,
   };
 
   return (
     <div className={classes.root}>
-      <ConfirmModal
+      <ConfirmationModalWithButton
         title='Delete this event?'
         contentText='Do you want to delete this event permanently?'
         openButtonProps={openButtonProps}
