@@ -70,7 +70,7 @@ ButtonWithConfirmationModal.defaultProps = {
   },
 };
 
-export const AlertModalWithButton = ({
+export const ButtonWithAlertModal = ({
   title,
   contentText,
   name,
@@ -97,7 +97,7 @@ export const AlertModalWithButton = ({
   );
 };
 
-AlertModalWithButton.propTypes = {
+ButtonWithAlertModal.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -107,7 +107,7 @@ AlertModalWithButton.propTypes = {
   }),
 };
 
-AlertModalWithButton.defaultProps = {
+ButtonWithAlertModal.defaultProps = {
   closeButtonProps: {
     onClick: () => {},
     otherProps: {},
