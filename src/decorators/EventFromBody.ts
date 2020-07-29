@@ -1,5 +1,5 @@
 import { EventService } from '../services/event.service';
-import { createParamDecorator } from 'routing-controllers';
+import { createParamDecorator, Action } from 'routing-controllers';
 
 import { Container } from 'typedi';
 
@@ -7,7 +7,7 @@ import { Container } from 'typedi';
 export function EventFromBody() {
   return createParamDecorator({
     required: true,
-    value: action => {
+    value: (action: Action) => {
       const eventService: EventService = Container.get(EventService);
       return eventService.constructEvent(action.request.body);
     },
