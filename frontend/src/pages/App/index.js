@@ -12,6 +12,8 @@ import EventsPage from '../EventsPage';
 import CalendarPage from '../CalendarPage';
 import EventEditPage from '../EventEditPage';
 import EventDetailsPage from '../EventDetailsPage';
+// import ProfileEditPage from '../ProfileEditPage';
+// import ProfilePage from '../ProfilePage';
 import Loading from '../../components/Loading';
 import { AuthUserContext } from '../../contexts';
 import * as ROUTES from '../../constants/routes';
@@ -104,6 +106,16 @@ class App extends React.Component {
               path={ROUTES.EVENT_EDIT}
               component={OfficerRoutingPermission(EventEditPage)}
             />
+            {/* <Route
+              exact
+              path={ROUTES.PROFILE}
+              component={InducteeRoutingPermission(ProfilePage)}
+            />
+            <Route
+              exact
+              path={ROUTES.PROFILE_EDIT}
+              component={InducteeRoutingPermission(ProfileEditPage)}
+            /> */}
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
