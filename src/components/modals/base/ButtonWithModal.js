@@ -7,8 +7,7 @@ import BaseModal from './BaseModal';
 const ButtonWithModal = props => {
   const [open, setOpen] = useState(false);
 
-  const { title, contentText, openButtonProps, children } = props;
-  const { name, ...otherProps } = openButtonProps;
+  const { title, contentText, children, name, ...otherProps } = props;
 
   return (
     <>
@@ -31,17 +30,11 @@ const ButtonWithModal = props => {
 ButtonWithModal.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
-  openButtonProps: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    otherProps: PropTypes.object,
-  }),
+  name: PropTypes.string.isRequired,
   children: PropTypes.func,
 };
 
 ButtonWithModal.defaultProps = {
-  openButtonProps: {
-    otherProps: {},
-  },
   children: () => {},
 };
 

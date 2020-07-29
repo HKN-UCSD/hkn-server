@@ -10,11 +10,11 @@ import {
 } from '@material-ui/core';
 
 const BaseModal = ({ title, contentText, open, handleClose, children }) => {
-  const handleOnClickClose = onClickFunc => {
+  const closeModalWithCallback = actionButtonFunc => {
     handleClose();
 
-    if (onClickFunc != null) {
-      onClickFunc();
+    if (actionButtonFunc != null) {
+      actionButtonFunc();
     }
   };
 
@@ -27,7 +27,7 @@ const BaseModal = ({ title, contentText, open, handleClose, children }) => {
       </DialogContent>
 
       <DialogActions>
-        {children(onClickFunc => handleOnClickClose(onClickFunc))}
+        {children(actionButtonFunc => closeModalWithCallback(actionButtonFunc))}
       </DialogActions>
     </Dialog>
   );
