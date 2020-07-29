@@ -10,7 +10,7 @@ import styles from './styles';
 
 import * as ROUTES from '../../constants/routes';
 import { deleteEventById } from '../../services/events';
-import { ConfirmationModalWithButton } from "../modals";
+import { ButtonWithConfirmationModal } from '../modals';
 
 const DeleteEditButtons = props => {
   const { classes, eventId } = props;
@@ -29,14 +29,6 @@ const DeleteEditButtons = props => {
     handleDeleteEvent(eventId);
   };
 
-  const openButtonProps = {
-    name: 'Delete',
-    className: classes.delete,
-    startIcon: <DeleteIcon />,
-    primary: true,
-    negative: true,
-  };
-
   const confirmButtonProps = {
     name: 'Yes',
     onClick: handleConfirmDelete,
@@ -52,12 +44,16 @@ const DeleteEditButtons = props => {
 
   return (
     <div className={classes.root}>
-      <ConfirmationModalWithButton
+      <ButtonWithConfirmationModal
         title='Delete this event?'
         contentText='Do you want to delete this event permanently?'
-        openButtonProps={openButtonProps}
         confirmButtonProps={confirmButtonProps}
         cancelButtonProps={cancelButtonProps}
+        name='Delete'
+        className={classes.delete}
+        startIcon={<DeleteIcon />}
+        primary
+        negative
       />
 
       <Button

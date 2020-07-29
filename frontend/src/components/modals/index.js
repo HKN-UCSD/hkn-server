@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import Button from '../buttons';
 import ButtonWithModal from './base/ButtonWithModal';
 
-export const ConfirmationModalWithButton = ({
+export const ButtonWithConfirmationModal = ({
   title,
   contentText,
-  openButtonProps,
+  name,
   confirmButtonProps,
   cancelButtonProps,
+  ...otherProps
 }) => {
   const { name: cancelName, ...otherCancelProps } = cancelButtonProps;
   const {
@@ -22,7 +23,8 @@ export const ConfirmationModalWithButton = ({
     <ButtonWithModal
       title={title}
       contentText={contentText}
-      openButtonProps={openButtonProps}
+      name={name}
+      {...otherProps}
     >
       {onClickHOF => (
         <>
@@ -42,13 +44,10 @@ export const ConfirmationModalWithButton = ({
   );
 };
 
-ConfirmationModalWithButton.propTypes = {
+ButtonWithConfirmationModal.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
-  openButtonProps: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    otherProps: PropTypes.object,
-  }),
+  name: PropTypes.string.isRequired,
   confirmButtonProps: PropTypes.shape({
     name: PropTypes.string.isRequired,
     onClick: PropTypes.func,
@@ -60,10 +59,7 @@ ConfirmationModalWithButton.propTypes = {
   }),
 };
 
-ConfirmationModalWithButton.defaultProps = {
-  openButtonProps: {
-    otherProps: {},
-  },
+ButtonWithConfirmationModal.defaultProps = {
   confirmButtonProps: {
     onClick: () => {},
     otherConfirmProps: {},
@@ -77,21 +73,23 @@ ConfirmationModalWithButton.defaultProps = {
 export const AlertModalWithButton = ({
   title,
   contentText,
-  openButtonProps,
+  name,
   closeButtonProps,
+  ...otherProps
 }) => {
-  const { name, ...otherProps } = closeButtonProps;
+  const { name: closeName, ...closeOtherProps } = closeButtonProps;
 
   return (
     <ButtonWithModal
       title={title}
       contentText={contentText}
-      openButtonProps={openButtonProps}
+      name={name}
+      {...otherProps}
     >
       {onClickHOF => (
         <>
-          <Button onClick={() => onClickHOF(null)} {...otherProps}>
-            {name}
+          <Button onClick={() => onClickHOF(null)} {...closeOtherProps}>
+            {closeName}
           </Button>
         </>
       )}
@@ -102,10 +100,7 @@ export const AlertModalWithButton = ({
 AlertModalWithButton.propTypes = {
   title: PropTypes.string.isRequired,
   contentText: PropTypes.string.isRequired,
-  openButtonProps: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    otherProps: PropTypes.object,
-  }),
+  name: PropTypes.string.isRequired,
   closeButtonProps: PropTypes.shape({
     name: PropTypes.string.isRequired,
     otherProps: PropTypes.object,
@@ -113,9 +108,6 @@ AlertModalWithButton.propTypes = {
 };
 
 AlertModalWithButton.defaultProps = {
-  openButtonProps: {
-    otherProps: {},
-  },
   closeButtonProps: {
     onClick: () => {},
     otherProps: {},
