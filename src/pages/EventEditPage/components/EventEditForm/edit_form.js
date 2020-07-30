@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 
 import FormikChipListInput from './form_chip_list_input';
 import FormikMultiChipSelect from './form_multi_chip_select';
-import EVENT_TAGS from '../../constants/eventTags';
+import EVENT_TAGS from '../../../../constants/eventTags';
 import styles from './styles';
 
 const schema = Yup.object({

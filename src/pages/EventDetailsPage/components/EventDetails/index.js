@@ -7,12 +7,12 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import Links from './Links';
-import Tags from '../Tags';
+import Tags from '../../../../components/Tags';
 import DeleteEditButtons from '../DeleteEditButtons';
-import { OfficerRenderPermission } from '../../HOCs/RenderByContextPerm';
+import { OfficerRenderPermission } from '../../../../HOCs/RenderByContextPerm';
 
 import styles from './styles';
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from '../../../../constants/routes';
 
 function EventDetailsComponent(props) {
   const { classes, eventInfo, eventId } = props;
