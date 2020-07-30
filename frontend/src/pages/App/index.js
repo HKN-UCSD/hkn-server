@@ -2,7 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import SignInPage from '../SignInPage';
 import SignUpPage from '../SignUpPage';
 import PointsPage from '../PointsPage';
@@ -116,6 +116,7 @@ class App extends React.Component {
               path={ROUTES.PROFILE_EDIT}
               component={InducteeRoutingPermission(ProfileEditPage)}
             /> */}
+            <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
