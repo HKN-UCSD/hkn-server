@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import SignInPage from '@pages/SignInPage';
 import SignUpPage from '@pages/SignUpPage';
 import PointsPage from '@pages/PointsPage';
@@ -12,6 +13,8 @@ import EventsPage from '@pages/EventsPage';
 import CalendarPage from '@pages/CalendarPage';
 import EventEditPage from '@pages/EventEditPage';
 import EventDetailsPage from '@pages/EventDetailsPage';
+// import ProfileEditPage from '@pages/ProfileEditPage';
+// import ProfilePage from '@pages/ProfilePage';
 import Loading from '@sharedComponents/Loading';
 import { AuthUserContext } from '@src/contexts';
 import * as ROUTES from '@constants/routes';
@@ -104,6 +107,16 @@ class App extends React.Component {
               path={ROUTES.EVENT_EDIT}
               component={OfficerRoutingPermission(EventEditPage)}
             />
+            {/* <Route
+              exact
+              path={ROUTES.PROFILE}
+              component={InducteeRoutingPermission(ProfilePage)}
+            />
+            <Route
+              exact
+              path={ROUTES.PROFILE_EDIT}
+              component={InducteeRoutingPermission(ProfileEditPage)}
+            /> */}
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
