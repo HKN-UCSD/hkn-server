@@ -158,6 +158,7 @@ class App extends React.Component {
               path={ROUTES.PROFILE_EDIT}
               component={InducteeRoutingPermission(ProfileEditPage)}
             /> */}
+            <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
