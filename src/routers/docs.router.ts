@@ -1,21 +1,31 @@
 import express from 'express';
 import * as swaggerUI from 'swagger-ui-express';
-import * as swaggerJSDoc from 'swagger-jsdoc';
+import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import { getMetadataArgsStorage } from 'routing-controllers';
+import { routingControllersToSpec } from 'routing-controllers-openapi';
+import { Controllers } from '../controllers';
 
-const options: swaggerJSDoc.Options = {
-  swaggerDefinition: {
-    info: {
-      title: 'HKN API ',
-      version: '1.0.0',
-      description: 'HKN API',
-    },
-  },
-  apis: ['./src/routers/*.ts'],
+const rcOptions = {
+  controllers: Controllers,
 };
 
-const swaggerSpec = swaggerJSDoc.default(options);
+const schemas = validationMetadatasToSchemas({
+  refPointerPrefix: '#/components/schemas',
+});
+
+const rcMetadataStorage = getMetadataArgsStorage();
+const openAPISpec = routingControllersToSpec(rcMetadataStorage, rcOptions, {
+  components: {
+    schemas,
+  },
+  info: {
+    title: 'HKN API ',
+    version: '1.0.0',
+    description: 'HKN API',
+  },
+});
 
 export const DocsRouter = express.Router();
 
 DocsRouter.use('/', swaggerUI.serve);
-DocsRouter.get('/', swaggerUI.setup(swaggerSpec));
+DocsRouter.get('/', swaggerUI.setup(openAPISpec));

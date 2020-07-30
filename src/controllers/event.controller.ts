@@ -1,27 +1,24 @@
-import { Event } from '@Entities/Event';
-import { EventService } from '@Services/event.service';
-import { Inject } from 'typedi';
-
 import {
   JsonController,
   Param,
   Get,
   Post,
   Delete,
-  UseBefore,
+  Body,
 } from 'routing-controllers';
+import { Inject } from 'typedi';
 
-import { json } from 'express';
-import { EventFromBody } from '@Decorators/EventFromBody';
+import { EventRequest } from '@Requests/EventRequest';
+import { Event } from '@Entities/Event';
+import { EventServiceInterface, EventServiceToken } from '@Services/Interfaces';
 
 @JsonController('/api/event')
 export class EventController {
-  @Inject()
-  eventService: EventService;
+  @Inject(EventServiceToken)
+  eventService: EventServiceInterface;
 
   @Post('/')
-  @UseBefore(json())
-  createEvent(@EventFromBody() event: Event): Promise<Event> {
+  createEvent(@Body() event: EventRequest): Promise<Event> {
     return this.eventService.createEvent(event);
   }
 
@@ -36,13 +33,11 @@ export class EventController {
   }
 
   @Post('/:id')
-  @UseBefore(json()) // must use if using FromBody decorators
   updateEvent(
     @Param('id') id: number,
-    @EventFromBody() event: Event
+    @Body() event: EventRequest
   ): Promise<Event> {
-    event.id = id;
-    return this.eventService.updateEvent(event);
+    return this.eventService.updateEvent(id, event);
   }
 
   @Delete('/:id')

@@ -1,7 +1,6 @@
 import 'reflect-metadata'; // shim required for routing-controllers
 import 'module-alias/register';
 import express from 'express';
-import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import 'reflect-metadata'; // required for class-transformer to work
 import admin from 'firebase-admin';
@@ -12,13 +11,14 @@ import { config } from './config';
 import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
-// import { EventRouter } from './routers/event.router';
 import { createConnection } from 'typeorm';
 import { InductionClassRouter } from './routers/induction-class.router';
 
 import { createExpressServer } from 'routing-controllers';
-import { EventController } from './controllers/event.controller';
+import { Controllers } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
+import { DITokens } from '@Services/interfaces';
+import { EventService } from '@Services';
 import { Container } from 'typedi';
 
 import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
@@ -45,9 +45,11 @@ createConnection()
     // magic happens here
     // <-------------->
     routingUseContainer(Container);
+    // move this next line into a loader
+    Container.set(DITokens.EventServiceInterface, new EventService());
     const app = createExpressServer({
       cors: true,
-      controllers: [EventController],
+      controllers: Controllers,
     });
     // <-------------->
 

@@ -1,9 +1,14 @@
-import { Event } from '../../entities/Event';
 import { Service, Inject } from 'typedi';
-import { AppUserService } from '../../services/app-user.service';
+import { Event } from '@Entities/Event';
+import { AppUserService } from '@Services/app-user.service';
+import {
+  EventServiceToken,
+  EventServiceInterface,
+} from '@Services/interfaces/EventServiceInterface';
+import { EventRequest } from '@Requests/EventRequest';
 
-@Service()
-export class MockEventService {
+@Service(EventServiceToken)
+export class MockEventService implements EventServiceInterface {
   @Inject()
   appUserService: AppUserService;
 
@@ -15,8 +20,9 @@ export class MockEventService {
     this.db = db;
   }
 
-  createEvent(event: Event): Promise<Event> {
+  createEvent(eventRequest: EventRequest): Promise<Event> {
     const eventId = this.globalEventId++;
+    const event: Event = (eventRequest as unknown) as Event;
     event.id = eventId;
     this.db.set(eventId, event);
     return new Promise<Event>(resolve => {
@@ -37,10 +43,11 @@ export class MockEventService {
     });
   }
 
-  updateEvent(event: Event): Promise<Event> {
-    this.db.set(event.id, event);
+  updateEvent(id: number, eventRequest: EventRequest): Promise<Event> {
+    const event = (eventRequest as unknown) as Event;
+    this.db.set(id, event);
     return new Promise<Event>(resolve => {
-      resolve(this.db.get(event.id));
+      resolve(this.db.get(id));
     });
   }
 

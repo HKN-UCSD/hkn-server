@@ -26,6 +26,7 @@
     "body-parser": "^1.19.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "class-validator-jsonschema": "^2.0.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -36,6 +37,7 @@
     "pg": "^8.3.0",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.9.0-alpha.6",
+    "routing-controllers-openapi": "^2.0.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
     "typedi": "^0.8.0",
@@ -80,6 +82,7 @@
   },
   "_moduleAliases": {
     "@Services": "dist/services",
+    "@Requests": "dist/requests",
     "@Controllers": "dist/controllers",
     "@Entities": "dist/entities",
     "@Decorators": "dist/decorators",

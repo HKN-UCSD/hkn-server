@@ -13,8 +13,13 @@
     "baseUrl": ".",
     "paths": {
       "@Services/*": ["src/services/*"],
+      "@Services": ["src/services"],
+      "@Requests/*": ["src/requests/*"],
+      "@Requests": ["src/requests"],
       "@Controllers/*": ["src/controllers/*"],
+      "@Controllers": ["src/controllers"],
       "@Entities/*": ["src/entities/*"],
+      "@Entities": ["src/entities"],
       "@Decorators/*": ["src/decorators/*"],
       "@Middlewares/*": ["src/middlewares/*"],
       "*": ["node_modules/*"]

@@ -1,26 +1,27 @@
 import { Event } from '@Entities/Event';
+import { EventRequest } from '@Requests/EventRequest';
 import { AppUserService } from '@Services/app-user.service';
+import {
+  EventServiceInterface,
+  EventServiceToken,
+} from '@Services/interfaces/EventServiceInterface';
 import { Service, Inject } from 'typedi';
 import { AppUser } from '@Entities/AppUser';
-import { plainToClass } from 'class-transformer';
 
-@Service()
-export class EventService {
+@Service(EventServiceToken)
+export class EventService implements EventServiceInterface {
   @Inject()
   appUserService: AppUserService;
 
-  // naming is questionable...
-  // but we do need a mapper for each event to load the refs
-  async constructEvent(plainEvent: object): Promise<Event> {
-    const event: Event = plainToClass(Event, plainEvent);
-    const hosts: AppUser[] = await this.appUserService.getMultipleFromRef(
-      event.hosts
-    );
-    event.hosts = hosts;
-    return event;
-  }
+  async createEvent(eventRequest: EventRequest): Promise<Event> {
+    const event: Event = (eventRequest as unknown) as Event;
+    if (eventRequest.hosts != null) {
+      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(
+        eventRequest.hosts
+      );
+      event.hosts = hosts;
+    }
 
-  async createEvent(event: Event): Promise<Event> {
     return event.save();
   }
 
@@ -32,8 +33,14 @@ export class EventService {
     return Event.findOne({ id });
   }
 
-  async updateEvent(event: Event): Promise<Event> {
-    // assert that event with id exists
+  async updateEvent(id: number, eventRequest: EventRequest): Promise<Event> {
+    const event: Event = (eventRequest as unknown) as Event;
+    if (eventRequest.hosts != null) {
+      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(
+        eventRequest.hosts
+      );
+      event.hosts = hosts;
+    }
     return event.save();
   }
 
