@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Loading from '../../components/Loading';
 
-import EventDetailsComponent from '../../components/EventDetails';
+import EventDetailsComponent from './components/EventDetails';
 import { getEventById } from '../../services/events';
 
 class EventDetailsPage extends React.Component {
