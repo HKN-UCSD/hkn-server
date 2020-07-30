@@ -3,68 +3,25 @@ import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import SignInPage from '../SignInPage';
-import SignUpPage from '../SignUpPage';
-import PointsPage from '../PointsPage';
-import InducteePointsPage from '../InducteePointsPage';
-import ResumePage from '../ResumePage';
-import EventsPage from '../EventsPage';
-import CalendarPage from '../CalendarPage';
-import EventEditPage from '../EventEditPage';
-import EventDetailsPage from '../EventDetailsPage';
-// import ProfileEditPage from '../ProfileEditPage';
-// import ProfilePage from '../ProfilePage';
-import Loading from '../../components/Loading';
-import {
-  OfficerPermissions,
-  InducteePermissions,
-} from '../../HOCs/Permissions';
-import { AuthUserContext } from '../../contexts';
-import * as ROUTES from '../../constants/routes';
-import AuthUserContext from '../../contexts';
-import EventEditPage from '../EventEditPage';
-
-// PrivateRoute can be used just like a normal Route from react-router-dom
-// With a PrivateRoute, if the user is not logged in then they will be
-// automatically redirected to the Sign In Page
-// If the nav prop is true, then the component will be rendered with a navbar.
-const PrivateRoute = withFirebase(
-  ({ firebase, nav, component: Component, ...otherProps }) => (
-    <Route
-      {...otherProps}
-      render={props =>
-      {
-        if (firebase.auth.currentUser) {
-          if (nav) {
-            return (
-              <NavBar>
-                <Component {...props} />
-              </NavBar>
-            );
-          }
-          return <Component {...props} />;
-        }
-        return <Component {...props} />;
-      }
-      return <Redirect to={ROUTES.SIGN_IN} />;
-    }}
-  />
-);
-
-PrivateRoute.propTypes = {
-  component: PropTypes.objectOf(React.Component).isRequired,
-  nav: PropTypes.bool,
-};
-
-PrivateRoute.defaultProps = {
-  nav: false,
-};
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import SignInPage from '@pages/SignInPage';
+import SignUpPage from '@pages/SignUpPage';
+import PointsPage from '@pages/PointsPage';
+import InducteePointsPage from '@pages/InducteePointsPage';
+import ResumePage from '@pages/ResumePage';
+import EventsPage from '@pages/EventsPage';
+import CalendarPage from '@pages/CalendarPage';
+import EventEditPage from '@pages/EventEditPage';
+import EventDetailsPage from '@pages/EventDetailsPage';
+import Loading from '@sharedComponents/Loading';
+import { AuthUserContext } from '@src/contexts';
+import * as ROUTES from '@constants/routes';
+import { ClaimsSingleton } from '@services/claims';
 
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
-} from '../../HOCs/RoutingByContextPerm';
+} from '@HOCs/RoutingByContextPerm';
 
 const INITIAL_STATES = {
   authUser: null,

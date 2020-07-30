@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '../../buttons';
+import Button from '@sharedComponents/buttons';
 import BaseModal from './BaseModal';
 
 const ButtonWithModal = props => {

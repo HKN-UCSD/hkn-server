@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import Links from './Links';
-import Tags from '../../../../components/Tags';
-import DeleteEditButtons from '../DeleteEditButtons';
-import { OfficerRenderPermission } from '../../../../HOCs/RenderByContextPerm';
+import Tags from '@sharedComponents/Tags';
+import { OfficerRenderPermission } from '@HOCs/RenderByContextPerm';
 
+import * as ROUTES from '@constants/routes';
+import DeleteEditButtons from '../DeleteEditButtons';
+import Links from './Links';
 import styles from './styles';
-import * as ROUTES from '../../../../constants/routes';
 
 function EventDetailsComponent(props) {
   const { classes, eventInfo, eventId } = props;

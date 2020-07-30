@@ -1,11 +1,9 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 
-import Loading from '../../components/Loading';
-
+import Loading from '@sharedComponents/Loading';
+import { getEventById } from '@services/events';
 import EventDetailsComponent from './components/EventDetails';
-import { getEventById } from '../../services/events';
 
 class EventDetailsPage extends React.Component {
   constructor(props) {

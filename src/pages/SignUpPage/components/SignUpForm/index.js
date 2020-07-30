@@ -8,13 +8,13 @@ import { TextField } from 'formik-material-ui';
 
 import { Formik, Field, Form } from 'formik';
 
-import * as ROUTES from '../../../../constants/routes';
-import styles from './styles';
-import schema from './schema';
+import * as ROUTES from '@constants/routes';
 import {
   MajorDropdownField,
   YearDropdownField,
-} from '../../../../components/dropdowns';
+} from '@sharedComponents/dropdowns';
+import styles from './styles';
+import schema from './schema';
 
 const INITIAL_INPUT_BOX_VALUES = {
   email: '',

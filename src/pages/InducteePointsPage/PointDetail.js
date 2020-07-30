@@ -14,7 +14,7 @@ import {
 import { grey } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getUserEvent } from '../../services/events';
+import { getUserEvent } from '@services/events';
 
 const styles = theme => ({
   root: {

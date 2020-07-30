@@ -3,10 +3,10 @@ import React from 'react';
 import { Avatar, Card } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import SignUpForm from './components/SignUpForm';
 
-import { createUserAccountFromSignup } from '../../services/auth';
-import HKN_TRIDENT_LOGO from '../../images/hkn-trident.png';
+import { createUserAccountFromSignup } from '@services/auth';
+import HKN_TRIDENT_LOGO from '@images/hkn-trident.png';
+import SignUpForm from './components/SignUpForm';
 import styles from './styles';
 
 const INITIAL_STATE = {};

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { ClaimsSingleton } from '../services/claims';
-import * as ROUTES from '../constants/routes';
-import NavBar from '../components/NavBar';
+import { ClaimsSingleton } from '@services/claims';
+import * as ROUTES from '@constants/routes';
+import NavBar from '@sharedComponents/NavBar';
 
 // Fancy function currying where Authorization returns an HOC that takes in
 // Wrapped Component and roles. If any role in roles is also in allowedRoles,
