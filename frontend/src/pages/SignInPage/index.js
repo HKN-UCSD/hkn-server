@@ -23,8 +23,8 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
-import * as ROUTES from '../../constants/routes';
-import * as LOGO_URL from '../../images/hkn-trident.png';
+import * as ROUTES from '@constants/routes';
+import * as LOGO_URL from '@images/hkn-trident.png';
 
 import {
   doSignInWithEmailAndPassword,
@@ -32,8 +32,8 @@ import {
   doSendVerificationEmail,
   doPasswordReset,
   getCurrentUserClaims,
-} from '../../services/auth';
-import { ClaimsSingleton } from '../../services/claims';
+} from '@services/auth';
+import { ClaimsSingleton } from '@services/claims';
 
 const styles = theme => ({
   main: {

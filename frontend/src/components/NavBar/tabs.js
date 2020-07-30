@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from '@constants/routes';
 
 const CalendarTab = {
   route: ROUTES.CALENDAR,

@@ -3,10 +3,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Container, Button } from '@material-ui/core';
 
+import { getAllEvents } from '@services/events';
 import Calendar from './components/Calendar';
 import EventCard from './components/EventCard';
 import EventList from './components/EventList';
-import { getAllEvents } from '../../services/events';
 
 import styles from './styles';
 

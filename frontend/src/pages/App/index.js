@@ -3,24 +3,24 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignInPage from '../SignInPage';
-import SignUpPage from '../SignUpPage';
-import PointsPage from '../PointsPage';
-import InducteePointsPage from '../InducteePointsPage';
-import ResumePage from '../ResumePage';
-import EventsPage from '../EventsPage';
-import CalendarPage from '../CalendarPage';
-import EventEditPage from '../EventEditPage';
-import EventDetailsPage from '../EventDetailsPage';
-import Loading from '../../components/Loading';
-import { AuthUserContext } from '../../contexts';
-import * as ROUTES from '../../constants/routes';
-import { ClaimsSingleton } from '../../services/claims';
+import SignInPage from '@pages/SignInPage';
+import SignUpPage from '@pages/SignUpPage';
+import PointsPage from '@pages/PointsPage';
+import InducteePointsPage from '@pages/InducteePointsPage';
+import ResumePage from '@pages/ResumePage';
+import EventsPage from '@pages/EventsPage';
+import CalendarPage from '@pages/CalendarPage';
+import EventEditPage from '@pages/EventEditPage';
+import EventDetailsPage from '@pages/EventDetailsPage';
+import Loading from '@sharedComponents/Loading';
+import { AuthUserContext } from '@src/contexts';
+import * as ROUTES from '@constants/routes';
+import { ClaimsSingleton } from '@services/claims';
 
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
-} from '../../HOCs/RoutingByContextPerm';
+} from '@HOCs/RoutingByContextPerm';
 
 const INITIAL_STATES = {
   authUser: null,

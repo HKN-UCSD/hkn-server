@@ -10,9 +10,9 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import * as Yup from 'yup';
 
+import EVENT_TAGS from '@constants/eventTags';
 import FormikChipListInput from './form_chip_list_input';
 import FormikMultiChipSelect from './form_multi_chip_select';
-import EVENT_TAGS from '../../../../constants/eventTags';
 import styles from './styles';
 
 const schema = Yup.object({

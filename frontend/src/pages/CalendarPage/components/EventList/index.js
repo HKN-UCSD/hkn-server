@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Table from '../../../../components/Table';
+import Table from '@sharedComponents/Table';
 
 const eventDateComparator = (dateTimeA, dateTimeB) => {
   return moment(dateTimeA).diff(moment(dateTimeB));
