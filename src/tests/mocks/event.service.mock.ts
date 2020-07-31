@@ -1,6 +1,6 @@
 import { Service, Inject } from 'typedi';
 import { Event } from '@Entities/Event';
-import { AppUserService } from '@Services/app-user.service';
+import { AppUserService } from '@Services/AppUserService';
 import {
   EventServiceToken,
   EventServiceInterface,

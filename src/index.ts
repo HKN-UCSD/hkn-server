@@ -8,11 +8,11 @@ import { firebase as client } from '@firebase/app';
 import '@firebase/auth';
 
 import { config } from './config';
-import { UserRouter } from './routers/user.router';
-import { DocsRouter } from './routers/docs.router';
-import { AuthRouter } from './routers/auth.router';
+import { UserRouter } from './routers/UserRouter';
+import { DocsRouter } from './routers/DocsRouter';
+import { AuthRouter } from './routers/AuthRouter';
 import { createConnection } from 'typeorm';
-import { InductionClassRouter } from './routers/induction-class.router';
+import { InductionClassRouter } from './routers/InductionClassRouter';
 
 import { createExpressServer } from 'routing-controllers';
 import { Controllers } from './controllers';

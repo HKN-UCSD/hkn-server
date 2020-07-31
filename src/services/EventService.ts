@@ -1,6 +1,6 @@
 import { Event } from '@Entities/Event';
 import { EventRequest } from '@Requests/EventRequest';
-import { AppUserService } from '@Services/app-user.service';
+import { AppUserService } from '@Services/AppUserService';
 import {
   EventServiceInterface,
   EventServiceToken,

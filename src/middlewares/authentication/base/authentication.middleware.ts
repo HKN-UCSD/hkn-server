@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyRole } from '../../../services/auth.service';
+import { verifyRole } from '../../../services/AuthService';
 
 import * as ERROR_MSG from '../../../constants/ErrResponses';
 

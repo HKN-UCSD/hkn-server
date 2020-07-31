@@ -1,3 +1,3 @@
-import { EventService } from './event.service';
+import { EventService } from './EventService';
 
 export { EventService };

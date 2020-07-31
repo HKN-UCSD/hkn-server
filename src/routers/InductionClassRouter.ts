@@ -1,5 +1,5 @@
 import express from 'express';
-import * as controller from '../controllers/induction-class.controller';
+import * as controller from '../controllers/InductionClassController';
 
 export const InductionClassRouter = express.Router();
 
