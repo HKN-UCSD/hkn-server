@@ -1,5 +1,6 @@
 import Button from './buttons';
 import { MajorDropdownField, YearDropdownField } from './dropdowns';
+import FormLayout from './FormLayout';
 import InputField from './InputField';
 import Loading from './Loading';
 import { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
@@ -11,6 +12,7 @@ export {
   Button,
   MajorDropdownField,
   YearDropdownField,
+  FormLayout,
   InputField,
   Loading,
   ButtonWithConfirmationModal,
