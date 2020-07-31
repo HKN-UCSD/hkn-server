@@ -3,11 +3,47 @@ import { Event } from '@Entities/Event';
 import { EventRequest } from '@Requests/EventRequest';
 
 export interface EventServiceInterface {
-  createEvent(event: EventRequest): Promise<Event>;
+  /**
+   * Create event.
+   *
+   * @param {EventRequest} eventRequest Event to create.
+   * @returns {Promise} Event created
+   */
+  createEvent(eventRequest: EventRequest): Promise<Event>;
+
+  /**
+   * Get all events.
+   *
+   * @returns {Event[]} Array of all events.
+   */
   getAllEvents(): Promise<Event[]>;
-  getEventById(id: number): Promise<Event>;
-  updateEvent(id: number, event: EventRequest): Promise<Event>;
-  deleteEvent(id: number): Promise<Event>;
+
+  /**
+   * Get event with given id. Returns undefined on invalid id.
+   *
+   * @param {number} id ID of event to fetch.
+   * @returns {Promise} Event with given id.
+   */
+  getEventById(id: number): Promise<Event | undefined>;
+
+  /**
+   * Update event with new event details. Returns undefined on invalid id.
+   *
+   * @param {number} id ID of event to update.
+   * @param {EventRequest} eventRequest New event details.
+   */
+  updateEvent(
+    id: number,
+    eventRequest: EventRequest
+  ): Promise<Event | undefined>;
+
+  /**
+   * Deletes event with given id. Returns undefined on invalid id.
+   *
+   * @param  {number} id ID of event to delete.
+   * @returns {Promise} Deleted event.
+   */
+  deleteEvent(id: number): Promise<Event | undefined>;
 }
 
 export const EventServiceToken = new Token<EventServiceInterface>();

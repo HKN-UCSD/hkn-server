@@ -11,7 +11,7 @@ import { config } from './config';
 import { UserRouter } from './routers/UserRouter';
 import { DocsRouter } from './routers/DocsRouter';
 import { AuthRouter } from './routers/AuthRouter';
-import { createConnection } from 'typeorm';
+import { createConnection, useContainer } from 'typeorm';
 import { InductionClassRouter } from './routers/InductionClassRouter';
 
 import { createExpressServer } from 'routing-controllers';
@@ -20,8 +20,6 @@ import { useContainer as routingUseContainer } from 'routing-controllers';
 import { DITokens } from '@Services/Interfaces';
 import { EventService } from '@Services';
 import { Container } from 'typedi';
-
-import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
@@ -40,13 +38,14 @@ client.initializeApp({
 });
 
 // cxn created via configs from ormconfig.ts
+useContainer(Container);
 createConnection()
   .then(_ => {
     // magic happens here
     // <-------------->
     routingUseContainer(Container);
     // move this next line into a loader
-    Container.set(DITokens.EventServiceInterface, new EventService());
+    Container.set(DITokens.EventServiceInterface, Container.get(EventService));
     const app = createExpressServer({
       cors: true,
       controllers: Controllers,
@@ -58,7 +57,7 @@ createConnection()
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(limiter);
-    app.use(ErrorHandler);
+    // app.use(ErrorHandler);
 
     app.use('/docs', DocsRouter);
     app.use('/api/user', UserRouter);
