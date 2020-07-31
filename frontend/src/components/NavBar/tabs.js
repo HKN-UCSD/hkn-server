@@ -19,6 +19,12 @@ const ResumeTab = {
   text: 'Resume',
 };
 
+// const ProfileTab = {
+//   route: ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
+//   icon: <AccountBoxIcon />,
+//   text: 'Profile',
+// };
+
 const HomeTab = {
   route: ROUTES.HOME,
   icon: <HomeIcon />,
@@ -39,10 +45,17 @@ const PointsTab = {
 
 export const OfficerTabs = [
   HomeTab,
+  // ProfileTab,
   CalendarTab,
   ResumeTab,
   InducteesTab,
   PointsTab,
 ];
 
-export const InducteeTabs = [HomeTab, CalendarTab, ResumeTab, PointsTab];
+export const InducteeTabs = [
+  HomeTab,
+  // ProfileTab,
+  CalendarTab,
+  ResumeTab,
+  PointsTab,
+];

@@ -106,6 +106,16 @@ class App extends React.Component {
               path={ROUTES.EVENT_EDIT}
               component={OfficerRoutingPermission(EventEditPage)}
             />
+            {/* <Route
+              exact
+              path={ROUTES.PROFILE}
+              component={InducteeRoutingPermission(ProfilePage)}
+            />
+            <Route
+              exact
+              path={ROUTES.PROFILE_EDIT}
+              component={InducteeRoutingPermission(ProfileEditPage)}
+            /> */}
           </Switch>
         </BrowserRouter>
       </AuthUserContext.Provider>
