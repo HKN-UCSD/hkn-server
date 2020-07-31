@@ -18,6 +18,12 @@ export enum EventType {
   MENTORSHIP = 'mentorship',
 }
 
+export enum EventStatus {
+  PENDING = 'pending',
+  READY = 'ready',
+  COMPLETE = 'complete',
+}
+
 @Entity()
 export class Event extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -44,6 +50,13 @@ export class Event extends BaseEntity {
     nullable: true,
   })
   type: string;
+
+  @Column({
+    type: 'enum',
+    enum: EventStatus,
+    default: EventStatus.PENDING,
+  })
+  status: string;
 
   @ManyToMany(() => AppUser, { eager: true })
   @JoinTable()
