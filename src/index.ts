@@ -17,7 +17,7 @@ import { InductionClassRouter } from './routers/induction-class.router';
 import { createExpressServer } from 'routing-controllers';
 import { Controllers } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
-import { DITokens } from '@Services/interfaces';
+import { DITokens } from '@Services/Interfaces';
 import { EventService } from '@Services';
 import { Container } from 'typedi';
 

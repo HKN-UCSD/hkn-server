@@ -4,7 +4,7 @@ import { AppUserService } from '@Services/app-user.service';
 import {
   EventServiceInterface,
   EventServiceToken,
-} from '@Services/interfaces/EventServiceInterface';
+} from '@Services/Interfaces/EventServiceInterface';
 import { Service, Inject } from 'typedi';
 import { AppUser } from '@Entities/AppUser';
 

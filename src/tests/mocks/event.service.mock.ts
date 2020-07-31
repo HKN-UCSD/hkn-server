@@ -4,7 +4,7 @@ import { AppUserService } from '@Services/app-user.service';
 import {
   EventServiceToken,
   EventServiceInterface,
-} from '@Services/interfaces/EventServiceInterface';
+} from '@Services/Interfaces/EventServiceInterface';
 import { EventRequest } from '@Requests/EventRequest';
 
 @Service(EventServiceToken)
