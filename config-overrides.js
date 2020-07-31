@@ -5,12 +5,12 @@ const path = require('path');
 module.exports = override(
   useBabelRc(),
   addWebpackAlias({
-    '@constants': path.resolve(__dirname, './src/constants'),
-    '@sharedComponents': path.resolve(__dirname, './src/components'),
-    '@services': path.resolve(__dirname, './src/services'),
-    '@pages': path.resolve(__dirname, './src/pages'),
+    '@Constants': path.resolve(__dirname, './src/constants'),
+    '@SharedComponents': path.resolve(__dirname, './src/components'),
+    '@Services': path.resolve(__dirname, './src/services'),
+    '@Pages': path.resolve(__dirname, './src/pages'),
     '@HOCs': path.resolve(__dirname, './src/HOCs'),
-    '@images': path.resolve(__dirname, './src/images'),
-    '@src': path.resolve(__dirname, './src'),
+    '@Images': path.resolve(__dirname, './src/images'),
+    '@Src': path.resolve(__dirname, './src'),
   })
 );

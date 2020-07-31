@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
-import App from './pages/App';
+import App from '@Pages/App';
 
 import * as serviceWorker from './serviceWorker';
 

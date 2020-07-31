@@ -29,10 +29,9 @@ import {
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
-
-import { AuthUserContext } from '@src/contexts';
-import { isOfficer as checkIsOfficer } from '@services/claims';
-import { doSignOut } from '@services/auth';
+import { AuthUserContext } from '@Src/contexts';
+import { isOfficer as checkIsOfficer } from '@Services/claims';
+import { doSignOut } from '@Services/auth';
 import { OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
 

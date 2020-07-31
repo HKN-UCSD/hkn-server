@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import Tags from '@sharedComponents/Tags';
+import { Tags } from '@SharedComponents';
 import { OfficerRenderPermission } from '@HOCs/RenderByContextPerm';
 
-import * as ROUTES from '@constants/routes';
+import * as ROUTES from '@Constants/routes';
 import DeleteEditButtons from '../DeleteEditButtons';
 import Links from './Links';
 import styles from './styles';

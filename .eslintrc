@@ -37,13 +37,13 @@
     "import/resolver": {
       "alias": {
         "map": [
-          ["@constants", "./src/constants"],
-          ["@sharedComponents", "./src/components"],
-          ["@services", "./src/services"],
-          ["@pages", "./src/pages"],
+          ["@Constants", "./src/constants"],
+          ["@SharedComponents", "./src/components"],
+          ["@Services", "./src/services"],
+          ["@Pages", "./src/pages"],
           ["@HOCs", "./src/HOCs"],
-          ["@images", "./src/images"],
-          ["@src", "./src"]
+          ["@Images", "./src/images"],
+          ["@Src", "./src"]
         ],
         "extensions": [".js", ".jsx", ".json"]
       }
