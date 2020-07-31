@@ -1,6 +1,7 @@
 import express from 'express';
 import * as swaggerUI from 'swagger-ui-express';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
+import { defaultMetadataStorage } from 'class-transformer/storage';
 import { getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { Controllers } from '../controllers';
@@ -10,7 +11,9 @@ const rcOptions = {
 };
 
 const schemas = validationMetadatasToSchemas({
-  refPointerPrefix: '#/components/schemas',
+  // https://github.com/epiphone/class-validator-jsonschema#validatenested-and-arrays
+  classTransformerMetadataStorage: defaultMetadataStorage,
+  refPointerPrefix: '#/components/schemas/',
 });
 
 const rcMetadataStorage = getMetadataArgsStorage();

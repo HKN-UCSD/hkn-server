@@ -18,7 +18,7 @@ import { createExpressServer } from 'routing-controllers';
 import { Controllers } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
 import { DITokens } from '@Services/Interfaces';
-import { EventService } from '@Services';
+import { EventService } from '@Services/EventService';
 import { Container } from 'typedi';
 
 const limiter = rateLimit({

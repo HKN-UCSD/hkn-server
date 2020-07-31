@@ -84,7 +84,7 @@
   },
   "_moduleAliases": {
     "@Services": "dist/services",
-    "@Requests": "dist/requests",
+    "@Payloads": "dist/payloads",
     "@Controllers": "dist/controllers",
     "@Entities": "dist/entities",
     "@Decorators": "dist/decorators",

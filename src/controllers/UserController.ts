@@ -1,6 +1,6 @@
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
-import { AppUser } from '@Entities/AppUser';
+import { AppUser } from '@Entities';
 import { plainToClass } from 'class-transformer';
 
 // !!IMPORTANT!! this route shouldn't be exposed - here for migration purposes

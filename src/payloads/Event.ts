@@ -4,9 +4,14 @@ import {
   IsDateString,
   IsUrl,
   IsArray,
+  IsInt,
+  ValidateNested,
 } from 'class-validator';
 
-export class EventRequest {
+import { AppUser } from '@Entities';
+import { Type } from 'class-transformer';
+
+abstract class BaseEventPayload {
   @IsString()
   name: string;
 
@@ -42,7 +47,23 @@ export class EventRequest {
   @IsUrl()
   @IsOptional()
   canvaURL: string;
+}
 
-  @IsArray()
+export class EventRequest extends BaseEventPayload {
+  @IsInt({ each: true })
   hosts: number[];
+}
+
+export class EventResponse extends BaseEventPayload {
+  @IsInt()
+  id: number;
+
+  @IsArray() // TODO call @ValidateNested after defining AppUserResponse
+  hosts: AppUser[];
+}
+
+export class MultipleEventResponse {
+  @ValidateNested({ each: true })
+  @Type(() => EventResponse)
+  events: EventResponse[];
 }

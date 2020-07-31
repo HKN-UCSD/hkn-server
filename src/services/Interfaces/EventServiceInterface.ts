@@ -1,6 +1,6 @@
 import { Token } from 'typedi';
-import { Event } from '@Entities/Event';
-import { EventRequest } from '@Requests/EventRequest';
+import { Event } from '@Entities';
+import { EventRequest } from '@Payloads';
 
 export interface EventServiceInterface {
   /**

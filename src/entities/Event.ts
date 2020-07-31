@@ -7,9 +7,7 @@ import {
   OneToMany,
   BaseEntity,
 } from 'typeorm';
-import { AppUser } from './AppUser';
-import { Attendance } from './Attendance';
-import { RSVP } from './RSVP';
+import { AppUser, Attendance, RSVP } from '@Entities';
 
 export enum EventType {
   PROFESSIONAL = 'professional',

@@ -1,8 +1,8 @@
-import { Event } from '@Entities/Event';
-import { AppUser } from '@Entities/AppUser';
-import { EventRequest } from '@Requests/EventRequest';
-import { AppUserService } from '@Services/AppUserService';
-import { EventServiceInterface } from '@Services/Interfaces/EventServiceInterface';
+import { Event, AppUser } from '@Entities';
+import { EventRequest } from '@Payloads';
+import { AppUserService } from './AppUserService';
+import { EventServiceInterface } from '@Services/Interfaces';
+
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Service, Inject } from 'typedi';
 import { Repository } from 'typeorm';

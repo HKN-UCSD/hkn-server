@@ -1,11 +1,8 @@
 import { Service, Inject } from 'typedi';
-import { Event } from '@Entities/Event';
-import { AppUserService } from '@Services/AppUserService';
-import {
-  EventServiceToken,
-  EventServiceInterface,
-} from '@Services/Interfaces/EventServiceInterface';
-import { EventRequest } from '@Requests/EventRequest';
+import { Event } from '@Entities';
+import { AppUserService } from '@Services';
+import { EventServiceToken, EventServiceInterface } from '@Services/Interfaces';
+import { EventRequest } from '@Payloads';
 
 @Service(EventServiceToken)
 export class MockEventService implements EventServiceInterface {
