@@ -1,4 +1,4 @@
-import { AppUser } from '../../entities/AppUser';
+import { AppUser } from '@Entities';
 import { Service } from 'typedi';
 
 @Service()

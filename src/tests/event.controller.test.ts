@@ -1,4 +1,5 @@
-import { EventService, AppUserService } from '@Services';
+import { EventService } from '@Services/EventService';
+import { AppUserService } from '@Services/AppUserService';
 import { MockEventService } from './mocks/event.service.mock';
 import { MockAppUserService } from './mocks/app-user.service.mock';
 
