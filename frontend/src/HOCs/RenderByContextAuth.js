@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AuthUserContext } from '@src/contexts';
+import { AuthUserContext } from '@Src/contexts';
 
 const RenderByContextAuth = allowedRoles => ComponentToRender => props => {
   return (

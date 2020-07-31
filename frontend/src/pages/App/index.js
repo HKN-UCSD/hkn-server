@@ -3,19 +3,21 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignInPage from '@pages/SignInPage';
-import SignUpPage from '@pages/SignUpPage';
-import PointsPage from '@pages/PointsPage';
-import InducteePointsPage from '@pages/InducteePointsPage';
-import ResumePage from '@pages/ResumePage';
-import EventsPage from '@pages/EventsPage';
-import CalendarPage from '@pages/CalendarPage';
-import EventEditPage from '@pages/EventEditPage';
-import EventDetailsPage from '@pages/EventDetailsPage';
-import Loading from '@sharedComponents/Loading';
-import { AuthUserContext } from '@src/contexts';
-import * as ROUTES from '@constants/routes';
-import { ClaimsSingleton } from '@services/claims';
+import {
+  SignInPage,
+  SignUpPage,
+  PointsPage,
+  InducteePointsPage,
+  ResumePage,
+  EventsPage,
+  CalendarPage,
+  EventEditPage,
+  EventDetailsPage,
+} from '@Pages';
+import { Loading } from '@SharedComponents';
+import { AuthUserContext } from '@Src/contexts';
+import * as ROUTES from '@Constants/routes';
+import { ClaimsSingleton } from '@Services/claims';
 
 import {
   InducteeRoutingPermission,

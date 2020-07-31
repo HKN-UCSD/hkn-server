@@ -3,13 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Grid, Divider } from '@material-ui/core';
 
-import { USER_ROLES } from '@constants/roles';
-import { POINT_TYPE } from '@constants/pointtype';
+import { USER_ROLES } from '@Constants/roles';
+import { POINT_TYPE } from '@Constants/pointtype';
 
-
-import { getCurrentUserDocument } from '@services/user';
-import getEnumMap from '@services/general';
-import { getPoints } from '@services/events';
+import { getCurrentUserDocument } from '@Services/user';
+import getEnumMap from '@Services/general';
+import { getPoints } from '@Services/events';
 import PointDisplay from './point_display';
 
 const styles = theme => ({

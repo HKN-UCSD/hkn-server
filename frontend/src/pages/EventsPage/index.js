@@ -2,9 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Divider } from '@material-ui/core';
-import { queryCurrentUserRole } from '@services/user';
+import { queryCurrentUserRole } from '@Services/user';
 import EventButtons from './eventButtons';
-
 
 const styles = theme => ({
   root: {

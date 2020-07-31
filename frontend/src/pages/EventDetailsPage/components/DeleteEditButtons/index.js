@@ -6,10 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import Button from '@sharedComponents/buttons';
-import * as ROUTES from '@constants/routes';
-import { deleteEventById } from '@services/events';
-import { ButtonWithConfirmationModal } from '@sharedComponents/modals';
+import { Button, ButtonWithConfirmationModal } from '@SharedComponents';
+import * as ROUTES from '@Constants/routes';
+import { deleteEventById } from '@Services/events';
 import styles from './styles';
 
 const DeleteEditButtons = props => {
