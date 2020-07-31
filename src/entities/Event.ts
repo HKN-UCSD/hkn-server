@@ -15,7 +15,7 @@ export enum EventType {
   PROFESSIONAL = 'professional',
   SOCIAL = 'social',
   TECHNICAL = 'technical',
-  MENTOSHIP = 'mentorship',
+  MENTORSHIP = 'mentorship',
 }
 
 @Entity()
