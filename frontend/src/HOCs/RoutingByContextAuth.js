@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { AuthUserContext } from '@Src/contexts';
+import { AuthUserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
 import { NavBar } from '@SharedComponents';
 

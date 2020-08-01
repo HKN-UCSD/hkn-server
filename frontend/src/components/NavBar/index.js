@@ -29,7 +29,7 @@ import {
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { AuthUserContext } from '@Src/contexts';
+import { AuthUserContext } from '@Contexts';
 import { isOfficer as checkIsOfficer } from '@Services/claims';
 import { doSignOut } from '@Services/auth';
 import { OfficerTabs, InducteeTabs } from './tabs';

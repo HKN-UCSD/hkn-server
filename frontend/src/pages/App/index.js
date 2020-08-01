@@ -15,7 +15,7 @@ import {
   EventDetailsPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
-import { AuthUserContext } from '@Src/contexts';
+import { AuthUserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
 import { ClaimsSingleton } from '@Services/claims';
 
