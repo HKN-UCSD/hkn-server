@@ -69,52 +69,56 @@ class App extends React.Component {
       <AuthUserContext.Provider value={authUserClaims}>
         <BrowserRouter>
           <Switch>
-            <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
-            <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+            <Route exact path={ROUTES.SIGN_IN} render={() => <SignInPage />} />
+            <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
             <Route
               exact
               path={ROUTES.HOME}
-              component={InducteeRoutingPermission(EventsPage)}
+              render={props => InducteeRoutingPermission(EventsPage)(props)}
             />
             <Route
               exact
               path={ROUTES.POINTS}
-              component={InducteeRoutingPermission(PointsPage)}
+              render={props => InducteeRoutingPermission(PointsPage)(props)}
             />
             <Route
               exact
               path={ROUTES.RESUME}
-              component={InducteeRoutingPermission(ResumePage)}
+              render={props => InducteeRoutingPermission(ResumePage)(props)}
             />
             <Route
               exact
               path={ROUTES.INDUCTEES}
-              component={OfficerRoutingPermission(InducteePointsPage)}
+              render={props =>
+                OfficerRoutingPermission(InducteePointsPage)(props)
+              }
             />
             <Route
               exact
               path={ROUTES.CALENDAR}
-              component={InducteeRoutingPermission(CalendarPage)}
+              render={props => InducteeRoutingPermission(CalendarPage)(props)}
             />
             <Route
               exact
               path={ROUTES.EVENT_DETAILS}
-              component={InducteeRoutingPermission(EventDetailsPage)}
+              render={props =>
+                InducteeRoutingPermission(EventDetailsPage)(props)
+              }
             />
             <Route
               exact
               path={ROUTES.EVENT_EDIT}
-              component={OfficerRoutingPermission(EventEditPage)}
+              render={props => OfficerRoutingPermission(EventEditPage)(props)}
             />
             {/* <Route
               exact
               path={ROUTES.PROFILE}
-              component={InducteeRoutingPermission(ProfilePage)}
+              render={props => InducteeRoutingPermission(ProfilePage)(props)}
             />
             <Route
               exact
               path={ROUTES.PROFILE_EDIT}
-              component={InducteeRoutingPermission(ProfileEditPage)}
+              render={props => InducteeRoutingPermission(ProfileEditPage)(props)}
             /> */}
             <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
