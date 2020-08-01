@@ -11,6 +11,6 @@ module.exports = override(
     '@Pages': path.resolve(__dirname, './src/pages'),
     '@HOCs': path.resolve(__dirname, './src/HOCs'),
     '@Images': path.resolve(__dirname, './src/images'),
-    '@Src': path.resolve(__dirname, './src'),
+    '@Contexts': path.resolve(__dirname, './src/contexts'),
   })
 );

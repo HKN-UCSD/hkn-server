@@ -43,7 +43,7 @@
           ["@Pages", "./src/pages"],
           ["@HOCs", "./src/HOCs"],
           ["@Images", "./src/images"],
-          ["@Src", "./src"]
+          ["@Contexts", "./src/contexts"]
         ],
         "extensions": [".js", ".jsx", ".json"]
       }
