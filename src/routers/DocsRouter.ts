@@ -10,8 +10,8 @@ const rcOptions = {
   controllers: Controllers,
 };
 
+// https://github.com/epiphone/class-validator-jsonschema#validatenested-and-arrays
 const schemas = validationMetadatasToSchemas({
-  // https://github.com/epiphone/class-validator-jsonschema#validatenested-and-arrays
   classTransformerMetadataStorage: defaultMetadataStorage,
   refPointerPrefix: '#/components/schemas/',
 });

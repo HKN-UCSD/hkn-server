@@ -16,8 +16,8 @@ export enum AppUserRole {
   INDUCTEE = 'inductee',
 }
 
-// user table taken by internal postgres stuff already
-// TODO: fix primary key
+// This table isn't called a User table because Postgres already
+// internally has a User table.
 @Entity()
 export class AppUser extends BaseEntity {
   @PrimaryGeneratedColumn()

@@ -1,3 +1,11 @@
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            IMPORTANT
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+This file is awaiting refactoring. Please ignore.
+*/
+
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
 import { firebase as client } from '@firebase/app';

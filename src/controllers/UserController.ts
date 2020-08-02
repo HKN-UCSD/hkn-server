@@ -1,23 +1,13 @@
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            IMPORTANT
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+This file is awaiting refactoring. Please ignore.
+*/
+
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
-import { AppUser } from '@Entities';
-import { plainToClass } from 'class-transformer';
-
-// !!IMPORTANT!! this route shouldn't be exposed - here for migration purposes
-// also missing induction class
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const user: AppUser = plainToClass(AppUser, req.body);
-    const userWithID = await user.save();
-    res.status(200).json(userWithID);
-  } catch (err) {
-    next(err);
-  }
-};
 
 /* 
   Cloud function that adds a role for a user.
