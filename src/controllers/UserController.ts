@@ -17,11 +17,7 @@ import { Request, Response, NextFunction } from 'express';
     2. User specified by 'email' must have a doc and be in auth
     3. Role must be in the database (case-sensitive)
 */
-export const addRole = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const addRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const OFFICER = 'Officer';
   const { token, email, role } = req.body;
 
@@ -50,9 +46,7 @@ export const addRole = async (
 
   // check if caller doc has role of officer
   if (user_doc.get('role_id') !== officer_id) {
-    return next(
-      new Error('Unauthorized Action: Only admins in database can add roles.')
-    );
+    return next(new Error('Unauthorized Action: Only admins in database can add roles.'));
   }
 
   // verified caller, find user
@@ -102,11 +96,7 @@ function getIdFromRoles(role: string) {
     1. Caller must be an officer in claims
     2. User specified by 'email' must be in auth
 */
-export const addClaim = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const addClaim = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { email, claims } = req.body;
 
   // Check that caller is an officer
@@ -138,9 +128,7 @@ export const removeClaim = async (
   // Check that caller is an officer
   const requesterClaims = await checkToken();
   if (!('officer' in requesterClaims) || !requesterClaims.officer) {
-    return next(
-      new Error('Unauthorized Action: Only admins can delete claims.')
-    );
+    return next(new Error('Unauthorized Action: Only admins can delete claims.'));
   }
 
   // Remove claims
@@ -155,11 +143,7 @@ export const removeClaim = async (
   Prereqs:
     1. User specified by 'email' must be in auth
 */
-export const viewClaim = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const viewClaim = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { email } = req.body;
   const user = await getUser(email, next);
   res.status(200).json({ success: user });
@@ -218,10 +202,7 @@ async function checkToken() {
 }
 
 /* Helper function that gets the user from email in auth. */
-async function getUser(
-  email: string,
-  next: NextFunction
-): Promise<admin.auth.UserRecord> {
+async function getUser(email: string, next: NextFunction): Promise<admin.auth.UserRecord> {
   let user = null;
   try {
     user = await admin.auth().getUserByEmail(email);
@@ -254,10 +235,7 @@ async function addCustomUserClaims(
 /* Remove fields/properties from a custom claim.
 Ex usage: await removeCustomUserClaims(user, ["field1", "Inductee"]);
 */
-async function removeCustomUserClaims(
-  user: admin.auth.UserRecord,
-  claims: string[]
-) {
+async function removeCustomUserClaims(user: admin.auth.UserRecord, claims: string[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updated_claims: any = {};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -32,10 +32,7 @@ export interface EventServiceInterface {
    * @param {number} id ID of event to update.
    * @param {EventRequest} eventRequest New event details.
    */
-  updateEvent(
-    id: number,
-    eventRequest: EventRequest
-  ): Promise<Event | undefined>;
+  updateEvent(id: number, eventRequest: EventRequest): Promise<Event | undefined>;
 
   /**
    * Deletes event with given id. Returns undefined on invalid id.

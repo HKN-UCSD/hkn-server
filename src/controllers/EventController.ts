@@ -1,11 +1,4 @@
-import {
-  JsonController,
-  Param,
-  Get,
-  Post,
-  Delete,
-  Body,
-} from 'routing-controllers';
+import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controllers';
 import { Inject } from 'typedi';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
@@ -43,10 +36,7 @@ export class EventController {
 
   @Post('/:id')
   @ResponseSchema(EventResponse)
-  updateEvent(
-    @Param('id') id: number,
-    @Body() event: EventRequest
-  ): Promise<EventResponse> {
+  updateEvent(@Param('id') id: number, @Body() event: EventRequest): Promise<EventResponse> {
     return this.eventService.updateEvent(id, event);
   }
 
