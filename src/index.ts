@@ -11,6 +11,7 @@ import { UserRouter } from './routers/user.router';
 import { DocsRouter } from './routers/docs.router';
 import { AuthRouter } from './routers/auth.router';
 
+import morgan from 'morgan';
 import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
 const limiter = rateLimit({
@@ -35,6 +36,7 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('tiny'));
 app.use(limiter);
 
 app.use('/api/user', UserRouter);
