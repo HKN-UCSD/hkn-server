@@ -1,10 +1,7 @@
 import admin from 'firebase-admin';
 import * as ERROR_MSG from '../constants/ErrResponses';
 
-const verifyRole = async (
-  token: string,
-  permittedRoles: Array<string>
-): Promise<Boolean> => {
+const verifyRole = async (token: string, permittedRoles: Array<string>): Promise<Boolean> => {
   try {
     const claims = await admin.auth().verifyIdToken(token);
     const claimsKeyArr = Object.keys(claims);

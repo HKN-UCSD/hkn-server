@@ -1,7 +1,11 @@
 import { Event, AppUser } from '@Entities';
 import { EventRequest } from '@Payloads';
-import { AppUserService } from './AppUserService';
-import { EventServiceInterface } from '@Services/Interfaces';
+import {
+  EventServiceInterface,
+  AppUserServiceInterface,
+  AppUserServiceToken,
+  EventServiceToken,
+} from '@Services/Interfaces';
 
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Service, Inject } from 'typedi';
@@ -9,8 +13,8 @@ import { Repository } from 'typeorm';
 
 @Service()
 export class EventService implements EventServiceInterface {
-  @Inject()
-  appUserService: AppUserService;
+  @Inject(AppUserServiceToken)
+  appUserService: AppUserServiceInterface;
 
   @InjectRepository(Event)
   eventRepository: Repository<Event>;
@@ -18,9 +22,7 @@ export class EventService implements EventServiceInterface {
   async createEvent(eventRequest: EventRequest): Promise<Event> {
     const event: Event = (eventRequest as unknown) as Event;
     if (eventRequest.hosts != null) {
-      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(
-        eventRequest.hosts
-      );
+      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(eventRequest.hosts);
       event.hosts = hosts;
     }
 
@@ -35,10 +37,7 @@ export class EventService implements EventServiceInterface {
     return this.eventRepository.findOne({ id });
   }
 
-  async updateEvent(
-    id: number,
-    eventRequest: EventRequest
-  ): Promise<Event | undefined> {
+  async updateEvent(id: number, eventRequest: EventRequest): Promise<Event | undefined> {
     const originalEvent = await this.eventRepository.findOne({ id });
     if (originalEvent === undefined) {
       return undefined;
@@ -47,9 +46,7 @@ export class EventService implements EventServiceInterface {
     const event: Event = (eventRequest as unknown) as Event;
     event.id = id;
     if (eventRequest.hosts != null) {
-      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(
-        eventRequest.hosts
-      );
+      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(eventRequest.hosts);
       event.hosts = hosts;
     }
     return this.eventRepository.save(event);
