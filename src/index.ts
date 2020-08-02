@@ -1,5 +1,5 @@
 import 'reflect-metadata'; // shim required for routing-controllers
-import 'module-alias/register';
+import 'module-alias/register'; // required for aliases
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 
