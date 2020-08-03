@@ -13,57 +13,57 @@ import { Type } from 'class-transformer';
 
 abstract class BaseEventPayload {
   @IsString()
-  name: string;
+  readonly name: string;
 
   @IsString()
-  description: string;
+  readonly description: string;
 
   @IsString()
   @IsOptional()
-  location: string;
+  readonly location: string;
 
   @IsDateString()
-  startDate: string;
+  readonly startDate: string;
 
   @IsDateString()
-  endDate: string;
+  readonly endDate: string;
 
   @IsString()
   @IsOptional()
-  type: string;
+  readonly type: string;
 
   @IsUrl()
   @IsOptional()
-  rsvpURL: string;
+  readonly rsvpURL: string;
 
   @IsUrl()
   @IsOptional()
-  signInURL: string;
+  readonly signInURL: string;
 
   @IsUrl()
   @IsOptional()
-  fbURL: string;
+  readonly fbURL: string;
 
   @IsUrl()
   @IsOptional()
-  canvaURL: string;
+  readonly canvaURL: string;
 }
 
 export class EventRequest extends BaseEventPayload {
   @IsInt({ each: true })
-  hosts: number[];
+  readonly hosts: number[];
 }
 
 export class EventResponse extends BaseEventPayload {
   @IsInt()
-  id: number;
+  readonly id: number;
 
   @IsArray() // TODO call @ValidateNested after defining AppUserResponse
-  hosts: AppUser[];
+  readonly hosts: AppUser[];
 }
 
 export class MultipleEventResponse {
   @ValidateNested({ each: true })
   @Type(() => EventResponse)
-  events: EventResponse[];
+  readonly events: EventResponse[];
 }
