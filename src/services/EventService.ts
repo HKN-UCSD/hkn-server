@@ -7,6 +7,7 @@ import {
 } from '@Services/Interfaces';
 
 import { InjectRepository } from 'typeorm-typedi-extensions';
+import { classToPlain } from 'class-transformer';
 import { Service, Inject } from 'typedi';
 import { Repository } from 'typeorm';
 
@@ -37,19 +38,24 @@ export class EventService implements EventServiceInterface {
   }
 
   async updateEvent(id: number, eventRequest: EventRequest): Promise<Event | undefined> {
-    // This code is wrong - we lose the related entities.
-    // Should delegate to eventRepository.merge instead.
-    const originalEvent = await this.eventRepository.findOne({ id });
-    if (originalEvent === undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const plainEventRequest: any = classToPlain(eventRequest);
+    plainEventRequest.id = id;
+    plainEventRequest.hosts = plainEventRequest.hosts.map((id: number) => {
+      return { id };
+    });
+
+    const event: Event = await this.eventRepository.preload(plainEventRequest);
+
+    if (event === undefined) {
       return undefined;
     }
 
-    const event: Event = (eventRequest as unknown) as Event;
-    event.id = id;
-    if (eventRequest.hosts != null) {
-      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(eventRequest.hosts);
-      event.hosts = hosts;
+    // preload ignores empty arrays and loads stuff anyways...
+    if (plainEventRequest.hosts.length === 0) {
+      event.hosts = [];
     }
+
     return this.eventRepository.save(event);
   }
 
