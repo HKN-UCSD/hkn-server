@@ -65,5 +65,5 @@ export class EventResponse extends BaseEventPayload {
 export class MultipleEventResponse {
   @ValidateNested({ each: true })
   @Type(() => EventResponse)
-  readonly events: EventResponse[];
+  events: EventResponse[];
 }
