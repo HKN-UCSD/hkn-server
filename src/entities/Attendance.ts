@@ -1,10 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
 // TODO composite index on attendee + event
 @Entity()
-export class Attendance extends BaseEntity {
+export class Attendance {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-  BaseEntity,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { AppUser, Attendance, RSVP } from '@Entities';
 
 export enum EventType {
@@ -23,7 +15,7 @@ export enum EventStatus {
 }
 
 @Entity()
-export class Event extends BaseEntity {
+export class Event {
   @PrimaryGeneratedColumn()
   id: number;
 

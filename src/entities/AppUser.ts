@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  BaseEntity,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
 
@@ -19,7 +12,7 @@ export enum AppUserRole {
 // This table isn't called a User table because Postgres already
 // internally has a User table.
 @Entity()
-export class AppUser extends BaseEntity {
+export class AppUser {
   @PrimaryGeneratedColumn()
   id: string;
 

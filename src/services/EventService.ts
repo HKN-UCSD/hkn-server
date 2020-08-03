@@ -4,7 +4,6 @@ import {
   EventServiceInterface,
   AppUserServiceInterface,
   AppUserServiceToken,
-  EventServiceToken,
 } from '@Services/Interfaces';
 
 import { InjectRepository } from 'typeorm-typedi-extensions';

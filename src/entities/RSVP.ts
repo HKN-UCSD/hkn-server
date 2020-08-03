@@ -1,9 +1,9 @@
-import { Entity, BaseEntity, ManyToOne } from 'typeorm';
+import { Entity, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
 @Entity()
-export class RSVP extends BaseEntity {
+export class RSVP {
   @ManyToOne(
     () => Event,
     event => event.rsvps,

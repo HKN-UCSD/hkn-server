@@ -1,7 +1,7 @@
-import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
-export class InductionClass extends BaseEntity {
+export class InductionClass {
   @PrimaryColumn()
   quarter: string;
 
