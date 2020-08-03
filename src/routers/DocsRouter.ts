@@ -31,7 +31,8 @@ const openAPISpec = routingControllersToSpec(rcMetadataStorage, rcOptions, {
 
 export const DocsRouter = express.Router();
 
-DocsRouter.get('/', swaggerUI.serve, swaggerUI.setup(openAPISpec));
+DocsRouter.use('/', swaggerUI.serve);
+DocsRouter.get('/', swaggerUI.setup(openAPISpec));
 DocsRouter.get('/json', (req, res) => {
   res.status(200).json(classToPlain(openAPISpec));
 });
