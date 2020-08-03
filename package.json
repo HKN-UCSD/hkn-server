@@ -15,8 +15,8 @@
     "lint": "eslint . --ext .ts --fix",
     "format": "prettier --write src/**/*.ts",
     "test": "jest",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "typeorm:sync": "node --require ts-node/register ./node_modules/typeorm/cli.js schema:sync",
+    "typeorm": "node -r module-alias/register ./node_modules/typeorm/cli.js",
+    "typeorm:sync": "node -r module-alias/register ./node_modules/typeorm/cli.js schema:sync",
     "pretypeorm:sync": "npm-run-all clean build"
   },
   "author": "",

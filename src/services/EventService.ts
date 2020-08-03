@@ -37,6 +37,8 @@ export class EventService implements EventServiceInterface {
   }
 
   async updateEvent(id: number, eventRequest: EventRequest): Promise<Event | undefined> {
+    // This code is wrong - we lose the related entities.
+    // Should delegate to eventRepository.merge instead.
     const originalEvent = await this.eventRepository.findOne({ id });
     if (originalEvent === undefined) {
       return undefined;

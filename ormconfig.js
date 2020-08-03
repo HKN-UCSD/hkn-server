@@ -16,7 +16,7 @@ module.exports = {
     },
   },
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: ['dist/entities/**/*.js'],
   migrations: ['dist/migrations/**/*.js'],
   subscribers: ['dist/subscribers/**/*.js'],
