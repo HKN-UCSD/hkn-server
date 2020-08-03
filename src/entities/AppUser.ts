@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
 
@@ -22,7 +22,7 @@ export class AppUser {
   @Column({ nullable: true })
   lastName: string;
 
-  @PrimaryColumn()
+  @Column()
   email: string;
 
   @Column({ nullable: true })
