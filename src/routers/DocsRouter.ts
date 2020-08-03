@@ -3,7 +3,8 @@ import * as swaggerUI from 'swagger-ui-express';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { defaultMetadataStorage } from 'class-transformer/storage';
 import { getMetadataArgsStorage } from 'routing-controllers';
-import { routingControllersToSpec } from 'routing-controllers-openapi';
+import { routingControllersToSpec, OpenAPI } from 'routing-controllers-openapi';
+import { classToPlain } from 'class-transformer';
 import { Controllers } from '../controllers';
 
 const rcOptions = {
@@ -30,5 +31,7 @@ const openAPISpec = routingControllersToSpec(rcMetadataStorage, rcOptions, {
 
 export const DocsRouter = express.Router();
 
-DocsRouter.use('/', swaggerUI.serve);
-DocsRouter.get('/', swaggerUI.setup(openAPISpec));
+DocsRouter.get('/', swaggerUI.serve, swaggerUI.setup(openAPISpec));
+DocsRouter.get('/json', (req, res) => {
+  res.status(200).json(classToPlain(openAPISpec));
+});
