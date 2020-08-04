@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { Link } from 'react-router-dom';
+
 import styles from './styles';
 
 function EventCard({ event, classes }) {

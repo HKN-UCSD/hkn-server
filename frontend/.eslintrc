@@ -30,24 +30,7 @@
       {
         "ignore": ["firebase", "classes", "history", "children"]
       }
-    ]
-  },
-  "ignorePatterns": ["cypress"],
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          ["@Constants", "./src/constants"],
-          ["@SharedComponents", "./src/components"],
-          ["@Services", "./src/services"],
-          ["@Pages", "./src/pages"],
-          ["@HOCs", "./src/HOCs"],
-          ["@Images", "./src/images"],
-          ["@Contexts", "./src/contexts"]
-        ],
-        "extensions": [".js", ".jsx", ".json"]
-      }
-    },
+    ],
     "import/order": [
       "error",
       {
@@ -84,5 +67,22 @@
         ]
       }
     ]
+  },
+  "ignorePatterns": ["cypress"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@Constants", "./src/constants"],
+          ["@SharedComponents", "./src/components"],
+          ["@Services", "./src/services"],
+          ["@Pages", "./src/pages"],
+          ["@HOCs", "./src/HOCs"],
+          ["@Images", "./src/images"],
+          ["@Contexts", "./src/contexts"]
+        ],
+        "extensions": [".js", ".jsx", ".json"]
+      }
+    }
   }
 }

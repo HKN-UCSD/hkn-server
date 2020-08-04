@@ -5,13 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Card, CardContent, Grid } from '@material-ui/core';
 
+import styles from './styles';
+
 import { FormLayout } from '@SharedComponents';
 import {
   getAccountSection,
   getPersonalInfoSection,
 } from '@SharedComponents/formSections';
 import { PROFILE_EDIT_WITH_ID } from '@Constants/routes';
-import styles from './styles';
 
 class ProfilePage extends React.Component {
   constructor(props) {
