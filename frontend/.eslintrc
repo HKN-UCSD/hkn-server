@@ -47,6 +47,42 @@
         ],
         "extensions": [".js", ".jsx", ".json"]
       }
-    }
+    },
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always-and-inside-groups",
+        "pathGroups": [
+          {
+            "pattern": "@Constants/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@SharedComponents/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Services/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Pages/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@HOCs/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Images/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Contexts/*",
+            "group": "internal"
+          }
+        ]
+      }
+    ]
   }
 }
