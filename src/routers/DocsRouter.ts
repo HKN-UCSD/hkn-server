@@ -6,6 +6,7 @@ import { getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec, OpenAPI } from 'routing-controllers-openapi';
 import { classToPlain } from 'class-transformer';
 import { Controllers } from '../controllers';
+import redoc from 'redoc-express';
 
 const rcOptions = {
   controllers: Controllers,
@@ -31,8 +32,15 @@ const openAPISpec = routingControllersToSpec(rcMetadataStorage, rcOptions, {
 
 export const DocsRouter = express.Router();
 
-DocsRouter.use('/', swaggerUI.serve);
-DocsRouter.get('/', swaggerUI.setup(openAPISpec));
+// DocsRouter.use('/', swaggerUI.serve);
+// DocsRouter.get('/', swaggerUI.setup(openAPISpec));
+DocsRouter.get(
+  '/',
+  redoc({
+    title: 'HKN API',
+    specUrl: '/api/docs/json',
+  })
+);
 DocsRouter.get('/json', (req, res) => {
   res.status(200).json(classToPlain(openAPISpec));
 });

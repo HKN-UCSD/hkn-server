@@ -37,6 +37,7 @@
     "firebase-admin": "^8.9.2",
     "module-alias": "^2.2.2",
     "pg": "^8.3.0",
+    "redoc-express": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "0.8.0",
     "routing-controllers-openapi": "^2.0.1",
