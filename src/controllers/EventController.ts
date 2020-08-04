@@ -1,15 +1,19 @@
 import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controllers';
-import { Inject } from 'typedi';
+import { injectable, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { EventRequest, EventResponse, MultipleEventResponse } from '@Payloads';
 import { Event } from '@Entities';
-import { EventServiceInterface, EventServiceToken } from '@Services/Interfaces';
+import { EventServiceInterface, EventServiceInterfaceToken } from '@Services/Interfaces';
 
+@injectable()
 @JsonController('/api/event')
 export class EventController {
-  @Inject(EventServiceToken)
-  eventService: EventServiceInterface;
+  private eventService: EventServiceInterface;
+
+  constructor(@inject(EventServiceInterfaceToken) eventService: EventServiceInterface) {
+    this.eventService = eventService;
+  }
 
   @Post('/')
   @ResponseSchema(EventResponse)

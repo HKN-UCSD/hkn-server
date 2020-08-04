@@ -10,7 +10,7 @@ import { AuthRouter } from './routers/AuthRouter';
 import { useExpressServer } from 'routing-controllers';
 import { Controllers } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
-import { Container } from 'typedi';
+import { container } from 'tsyringe';
 
 import { loadServices, loadFirebase, loadORM } from './loaders';
 
@@ -20,8 +20,9 @@ const limiter = rateLimit({
 });
 const port = process.env.PORT || 3001;
 
+loadServices();
+
 loadORM().then(() => {
-  loadServices();
   loadFirebase();
 
   const app = express();
@@ -32,9 +33,12 @@ loadORM().then(() => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // load controllers
+  // load controllers; maybe move into loader?
+
   // tell routing-controllers to use typedi container
-  routingUseContainer(Container);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const containerShim = { get: (someClass: any) => container.resolve(someClass) as any };
+  routingUseContainer(containerShim);
   useExpressServer(app, {
     cors: true,
     controllers: Controllers,

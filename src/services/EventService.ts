@@ -3,21 +3,22 @@ import { EventRequest } from '@Payloads';
 import {
   EventServiceInterface,
   AppUserServiceInterface,
-  AppUserServiceToken,
+  AppUserServiceInterfaceToken,
 } from '@Services/Interfaces';
 
-import { InjectRepository } from 'typeorm-typedi-extensions';
 import { classToPlain } from 'class-transformer';
-import { Service, Inject } from 'typedi';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-@Service()
+@injectable()
 export class EventService implements EventServiceInterface {
-  @Inject(AppUserServiceToken)
-  appUserService: AppUserServiceInterface;
+  private appUserService: AppUserServiceInterface;
+  private eventRepository: Repository<Event>;
 
-  @InjectRepository(Event)
-  eventRepository: Repository<Event>;
+  constructor(@inject(AppUserServiceInterfaceToken) appUserService: AppUserServiceInterface) {
+    this.appUserService = appUserService;
+    this.eventRepository = getRepository(Event);
+  }
 
   async createEvent(eventRequest: EventRequest): Promise<Event> {
     const event: Event = (eventRequest as unknown) as Event;

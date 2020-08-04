@@ -1,4 +1,3 @@
-import { Token } from 'typedi';
 import { Event } from '@Entities';
 import { EventRequest } from '@Payloads';
 
@@ -43,4 +42,4 @@ export interface EventServiceInterface {
   deleteEvent(id: number): Promise<Event | undefined>;
 }
 
-export const EventServiceToken = new Token<EventServiceInterface>();
+export const EventServiceInterfaceToken = 'EventServiceInterface';

@@ -43,7 +43,7 @@
     "routing-controllers-openapi": "^2.0.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
-    "typedi": "^0.8.0",
+    "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
     "typeorm-typedi-extensions": "^0.2.3",
     "typescript": "^3.9.5"

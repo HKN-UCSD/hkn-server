@@ -1,9 +1,9 @@
-import { EventServiceInterface, EventServiceToken } from './EventServiceInterface';
-import { AppUserServiceInterface, AppUserServiceToken } from './AppUserServiceInterface';
+import { EventServiceInterface, EventServiceInterfaceToken } from './EventServiceInterface';
+import { AppUserServiceInterface, AppUserServiceInterfaceToken } from './AppUserServiceInterface';
 
-export { EventServiceToken, EventServiceInterface, AppUserServiceToken, AppUserServiceInterface };
-
-export const DITokens = {
-  EventServiceInterface: EventServiceToken,
-  AppUserServiceInterface: AppUserServiceToken,
+export {
+  EventServiceInterfaceToken,
+  EventServiceInterface,
+  AppUserServiceInterfaceToken,
+  AppUserServiceInterface,
 };

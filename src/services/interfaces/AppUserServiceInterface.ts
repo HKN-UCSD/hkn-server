@@ -1,4 +1,3 @@
-import { Token } from 'typedi';
 import { AppUser } from '@Entities';
 
 export interface AppUserServiceInterface {
@@ -10,4 +9,4 @@ export interface AppUserServiceInterface {
   getMultipleAppUsers(ids: number[]): Promise<AppUser[]>;
 }
 
-export const AppUserServiceToken = new Token<AppUserServiceInterface>();
+export const AppUserServiceInterfaceToken = 'AppUserServiceInterface';
