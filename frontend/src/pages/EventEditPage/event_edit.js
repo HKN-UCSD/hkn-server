@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { getEventById, setEventDetails } from '../../services/events';
-import EventEditForm from '../../components/EventEditForm';
+import { getEventById, setEventDetails } from '@Services/events';
+import EventEditForm from './components/EventEditForm';
 
 class EventEditPage extends React.Component {
   constructor(props) {

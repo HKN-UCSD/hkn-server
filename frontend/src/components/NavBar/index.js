@@ -29,12 +29,11 @@ import {
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import styles from './styles';
+import { AuthUserContext } from '@Contexts';
+import { isOfficer as checkIsOfficer } from '@Services/claims';
+import { doSignOut } from '@Services/auth';
 import { OfficerTabs, InducteeTabs } from './tabs';
-
-import { AuthUserContext } from '../../contexts';
-import { isOfficer as checkIsOfficer } from '../../services/claims';
-import { doSignOut } from '../../services/auth';
+import styles from './styles';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,

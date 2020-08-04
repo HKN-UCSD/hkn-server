@@ -17,14 +17,14 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-import { getCurrentUserDocument } from '../../services/user';
+import { getCurrentUserDocument } from '@Services/user';
 import {
   getDownload,
   uploadResume,
   updateResumeFields,
   deleteResume,
   removeResumeFields,
-} from '../../services/resume';
+} from '@Services/resume';
 
 const styles = theme => ({
   root: {
