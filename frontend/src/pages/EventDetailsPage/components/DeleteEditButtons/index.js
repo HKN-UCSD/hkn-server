@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Button from '../buttons';
-import styles from './styles';
 
-import * as ROUTES from '../../constants/routes';
-import { deleteEventById } from '../../services/events';
-import { ButtonWithConfirmationModal } from '../modals';
+import { Button, ButtonWithConfirmationModal } from '@SharedComponents';
+import * as ROUTES from '@Constants/routes';
+import { deleteEventById } from '@Services/events';
+import styles from './styles';
 
 const DeleteEditButtons = props => {
   const { classes, eventId } = props;

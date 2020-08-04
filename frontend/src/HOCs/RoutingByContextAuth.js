@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { AuthUserContext } from '../contexts';
-import * as ROUTES from '../constants/routes';
-import NavBar from '../components/NavBar';
+import { AuthUserContext } from '@Contexts';
+import * as ROUTES from '@Constants/routes';
+import { NavBar } from '@SharedComponents';
 
 const RoutingByContextAuth = allowedRoles => WrappedComponent => props => {
   return (

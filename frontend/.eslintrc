@@ -21,25 +21,32 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "rules": {
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": [
       2,
       {
-        "ignore": [
-          "firebase",
-          "classes",
-          "history",
-          "children"
-        ]
+        "ignore": ["firebase", "classes", "history", "children"]
       }
     ]
   },
-  "ignorePatterns": [
-    "cypress"
-  ]
+  "ignorePatterns": ["cypress"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@Constants", "./src/constants"],
+          ["@SharedComponents", "./src/components"],
+          ["@Services", "./src/services"],
+          ["@Pages", "./src/pages"],
+          ["@HOCs", "./src/HOCs"],
+          ["@Images", "./src/images"],
+          ["@Contexts", "./src/contexts"]
+        ],
+        "extensions": [".js", ".jsx", ".json"]
+      }
+    }
+  }
 }

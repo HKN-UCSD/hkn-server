@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import SIGNUP_ENDPOINT from '../constants/endpoints';
+import SIGNUP_ENDPOINT from '@Constants/endpoints';
 
 const SIGN_UP_URL = `${process.env.REACT_APP_API_BASE_URL}${SIGNUP_ENDPOINT}`;
 

@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 
-import FormLayout from '../../components/FormLayout';
+import { FormLayout } from '@SharedComponents';
 import {
   getAccountSection,
   getPersonalInfoSection,
-} from '../../components/formSections';
-import { PROFILE_WITH_ID } from '../../constants/routes';
+} from '@SharedComponents/formSections';
+import { PROFILE_WITH_ID } from '@Constants/routes';
 import schema from './schema';
 import styles from './styles';
 

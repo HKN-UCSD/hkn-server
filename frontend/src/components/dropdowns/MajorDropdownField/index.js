@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import ELIGIBLE_MAJORS from '../../../constants/eligibleMajors';
+import ELIGIBLE_MAJORS from '@Constants/eligibleMajors';
 import styles from './styles';
 
 const createFullMajorTitle = (department, major) => {

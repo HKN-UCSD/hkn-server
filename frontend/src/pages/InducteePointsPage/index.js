@@ -3,14 +3,14 @@ import React from 'react';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
-import Table from '../../components/Table';
+import { Table } from '@SharedComponents';
+
+import { USER_ROLES } from '@Constants/roles';
+import * as ROUTES from '@Constants/routes';
+
+import { queryCurrentUserRole } from '@Services/user';
+import { getInducteesInfo } from '@Services/officer';
 import PointDetail from './PointDetail';
-
-import { USER_ROLES } from '../../constants/roles';
-import * as ROUTES from '../../constants/routes';
-
-import { queryCurrentUserRole } from '../../services/user';
-import { getInducteesInfo } from '../../services/officer';
 
 const INITIAL_STATE = {
   users: [],
