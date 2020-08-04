@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -33,7 +34,6 @@ import {
   doPasswordReset,
   getCurrentUserClaims,
 } from '@Services/auth';
-import { ClaimsSingleton } from '@Services/claims';
 
 const styles = theme => ({
   main: {
@@ -134,14 +134,14 @@ class SignInPage extends React.Component {
 
   handleSignIn = event => {
     const { email, password, checked } = this.state;
-    const { history } = this.props;
+    const { history, setClaims } = this.props;
 
     doSignInWithEmailAndPassword(email, password, checked)
       .then(() => {
         return getCurrentUserClaims();
       })
       .then(claims => {
-        return ClaimsSingleton.setClaims(claims);
+        return setClaims(claims);
       })
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {
@@ -551,5 +551,9 @@ class SignInPage extends React.Component {
     );
   }
 }
+
+SignInPage.propTypes = {
+  setClaims: PropTypes.func.isRequired,
+};
 
 export default compose(withStyles(styles), withRouter)(SignInPage);
