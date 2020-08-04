@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, Typography, Divider } from '@material-ui/core';
 
 import Button from '../buttons';
+
 import styles from './styles';
 
 function TitleSectionComponent({ title, readOnly, editEndpoint, classes }) {

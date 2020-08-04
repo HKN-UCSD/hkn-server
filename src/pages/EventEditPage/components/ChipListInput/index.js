@@ -10,6 +10,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 import styles from './styles';
 
 class ChipListInput extends React.Component {

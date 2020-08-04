@@ -10,10 +10,11 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import * as Yup from 'yup';
 
-import EVENT_TAGS from '@Constants/eventTags';
 import FormikChipListInput from './form_chip_list_input';
 import FormikMultiChipSelect from './form_multi_chip_select';
 import styles from './styles';
+
+import EVENT_TAGS from '@Constants/eventTags';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),
