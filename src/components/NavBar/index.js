@@ -29,8 +29,7 @@ import {
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { AuthUserContext } from '@Contexts';
-import { isOfficer as checkIsOfficer } from '@Services/claims';
+import { UserContext } from '@Contexts';
 import { doSignOut } from '@Services/auth';
 import { OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
@@ -48,9 +47,9 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    const userClaims = this.context;
+    const { userRoles } = this.context;
     this.setState({
-      isOfficer: checkIsOfficer(userClaims),
+      isOfficer: userRoles.includes('officer'),
     });
   }
 
@@ -182,7 +181,7 @@ class NavBar extends React.Component {
   }
 }
 
-NavBar.contextType = AuthUserContext;
+NavBar.contextType = UserContext;
 
 NavBar.propTypes = {
   children: PropTypes.node.isRequired,

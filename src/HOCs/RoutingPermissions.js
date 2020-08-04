@@ -1,4 +1,4 @@
-import RoutingByContextAuth from './RoutingByContextAuth';
+import RoutingAuthorization from './RoutingAuthorization';
 
 /**
  * Use these functions like this:
@@ -10,18 +10,18 @@ import RoutingByContextAuth from './RoutingByContextAuth';
  * Note that the component prop is to be like that, other props are up to the person using these
  * wrappers
  */
-export const OfficerRoutingPermission = RoutingByContextAuth([
+export const OfficerRoutingPermission = RoutingAuthorization([
   'admin',
   'officer',
 ]);
 
-export const MemberRoutingPermission = RoutingByContextAuth([
+export const MemberRoutingPermission = RoutingAuthorization([
   'admin',
   'officer',
   'member',
 ]);
 
-export const InducteeRoutingPermission = RoutingByContextAuth([
+export const InducteeRoutingPermission = RoutingAuthorization([
   'admin',
   'officer',
   'member',

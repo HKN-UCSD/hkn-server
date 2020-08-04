@@ -7,7 +7,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { Tags } from '@SharedComponents';
-import { OfficerRenderPermission } from '@HOCs/RenderByContextPerm';
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 
 import * as ROUTES from '@Constants/routes';
 import DeleteEditButtons from '../DeleteEditButtons';
