@@ -1,8 +1,8 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import {
   SignInPage,
   SignUpPage,
@@ -18,7 +18,6 @@ import { Loading } from '@SharedComponents';
 import { AuthUserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
 import { ClaimsSingleton } from '@Services/claims';
-
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,

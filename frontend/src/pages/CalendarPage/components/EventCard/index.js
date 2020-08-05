@@ -9,11 +9,10 @@ import {
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
-
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
 import { Link } from 'react-router-dom';
+
 import styles from './styles';
 
 function EventCard({ event, classes }) {

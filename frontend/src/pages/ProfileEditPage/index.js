@@ -4,14 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Grid } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 
+import schema from './schema';
+import styles from './styles';
+
 import { FormLayout } from '@SharedComponents';
 import {
   getAccountSection,
   getPersonalInfoSection,
 } from '@SharedComponents/formSections';
 import { PROFILE_WITH_ID } from '@Constants/routes';
-import schema from './schema';
-import styles from './styles';
 
 class ProfileEditPage extends React.Component {
   constructor(props) {

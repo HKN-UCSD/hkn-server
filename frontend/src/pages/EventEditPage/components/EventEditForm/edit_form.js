@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
-
 import { withStyles } from '@material-ui/core/styles';
 import { Button, LinearProgress, Grid } from '@material-ui/core';
 import { DateTimePicker } from 'formik-material-ui-pickers';
@@ -10,10 +9,11 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import * as Yup from 'yup';
 
-import EVENT_TAGS from '@Constants/eventTags';
 import FormikChipListInput from './form_chip_list_input';
 import FormikMultiChipSelect from './form_multi_chip_select';
 import styles from './styles';
+
+import EVENT_TAGS from '@Constants/eventTags';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),

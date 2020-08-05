@@ -30,6 +30,42 @@
       {
         "ignore": ["firebase", "classes", "history", "children"]
       }
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@Constants/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@SharedComponents/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Services/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Pages/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@HOCs/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Images/*",
+            "group": "internal"
+          },
+          {
+            "pattern": "@Contexts/*",
+            "group": "internal"
+          }
+        ]
+      }
     ]
   },
   "ignorePatterns": ["cypress"],

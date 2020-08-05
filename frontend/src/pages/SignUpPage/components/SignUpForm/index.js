@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { Button, Grid, LinearProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from 'formik-material-ui';
-
 import { Formik, Field, Form } from 'formik';
+
+import styles from './styles';
+import schema from './schema';
 
 import * as ROUTES from '@Constants/routes';
 import { MajorDropdownField, YearDropdownField } from '@SharedComponents';
-import styles from './styles';
-import schema from './schema';
 
 const INITIAL_INPUT_BOX_VALUES = {
   email: '',

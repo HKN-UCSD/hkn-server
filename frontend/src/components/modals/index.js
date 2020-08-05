@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../buttons';
+
 import ButtonWithModal from './base/ButtonWithModal';
 
 export const ButtonWithConfirmationModal = ({
