@@ -37,7 +37,7 @@ class EventDetailsPage extends React.Component {
     const { eventId, eventInfo } = this.state;
 
     const EventDetails =
-      eventInfo === null ? (
+      eventInfo == null ? (
         <Loading />
       ) : (
         <EventDetailsComponent eventId={eventId} eventInfo={eventInfo} />
