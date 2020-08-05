@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Field, Form } from 'formik';
 import { TextField } from 'formik-material-ui';
-
 import { withStyles } from '@material-ui/core/styles';
 import { Button, LinearProgress, Grid } from '@material-ui/core';
 import { DateTimePicker } from 'formik-material-ui-pickers';

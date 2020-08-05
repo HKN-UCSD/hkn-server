@@ -34,7 +34,7 @@
     "import/order": [
       "error",
       {
-        "newlines-between": "always-and-inside-groups",
+        "newlines-between": "always",
         "pathGroups": [
           {
             "pattern": "@Constants/*",

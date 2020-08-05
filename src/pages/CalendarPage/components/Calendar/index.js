@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   Scheduler,
   DayView,
@@ -12,7 +11,6 @@ import {
   TodayButton,
   DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
-
 import { ViewState } from '@devexpress/dx-react-scheduler';
 
 const AppointmentWithClick = handleClick => props => (

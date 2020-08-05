@@ -3,7 +3,6 @@
 import React from 'react';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
-
 import {
   Grid,
   Card,

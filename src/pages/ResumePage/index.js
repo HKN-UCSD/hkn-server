@@ -1,11 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import PdfIcon from '@material-ui/icons/PictureAsPdf';
-
 import { compose } from 'recompose';
 import {
   Typography,

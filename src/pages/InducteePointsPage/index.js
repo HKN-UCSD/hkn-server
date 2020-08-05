@@ -7,10 +7,8 @@ import { Redirect } from 'react-router-dom';
 import PointDetail from './PointDetail';
 
 import { Table } from '@SharedComponents';
-
 import { USER_ROLES } from '@Constants/roles';
 import * as ROUTES from '@Constants/routes';
-
 import { queryCurrentUserRole } from '@Services/user';
 import { getInducteesInfo } from '@Services/officer';
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import {
   SignInPage,
@@ -19,8 +17,7 @@ import {
 import { Loading } from '@SharedComponents';
 import { UserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
-import { getRolesFromClaims } from '@Services/claims';
-
+import { ClaimsSingleton } from '@Services/claims';
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
