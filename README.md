@@ -44,7 +44,7 @@ Under this pattern, business logic is encapsulated within Services that delegate
 
 ### Controllers
 
-A controller is a class containing business logic corresponding to a subset of API routes. We use Express as our base framework of choice, but use [routing-controllers](https://github.com/typestack/routing-controllers) for controller development. **routing-controllers** allow developers to rapidly develop business logic without having to worry about directly manipulating request/response objects.
+A controller is a class containing logic corresponding to a subset of API routes. We use Express as our base framework of choice, but use [routing-controllers](https://github.com/typestack/routing-controllers) for controller development. **routing-controllers** allow developers to rapidly develop logic without having to worry about directly manipulating request/response objects.
 
 Each method within a controller corresponds to an API endpoint. Note that the response type of each controller method must be manually annotated with @ResponseSchema for swagger docs generation.
 

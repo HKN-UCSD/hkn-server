@@ -1,9 +1,2 @@
-import { EventServiceInterface, EventServiceInterfaceToken } from './EventServiceInterface';
-import { AppUserServiceInterface, AppUserServiceInterfaceToken } from './AppUserServiceInterface';
-
-export {
-  EventServiceInterfaceToken,
-  EventServiceInterface,
-  AppUserServiceInterfaceToken,
-  AppUserServiceInterface,
-};
+export { EventServiceInterface, EventServiceInterfaceToken } from './EventServiceInterface';
+export { AppUserServiceInterface, AppUserServiceInterfaceToken } from './AppUserServiceInterface';
