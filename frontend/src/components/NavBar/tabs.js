@@ -1,5 +1,4 @@
 import React from 'react';
-
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';

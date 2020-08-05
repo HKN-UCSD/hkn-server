@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import { compose } from 'recompose';
-
 import { withStyles } from '@material-ui/core/styles';
 import {
   CssBaseline,
@@ -25,12 +23,10 @@ import {
   DialogTitle,
   Hidden,
 } from '@material-ui/core';
-
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { OfficerTabs, InducteeTabs } from './tabs';
-
 import styles from './styles';
 
 import { AuthUserContext } from '@Contexts';

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Chip, Select, MenuItem, Input, InputLabel } from '@material-ui/core';
 
 class MultiChipSelect extends React.Component {
