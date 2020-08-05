@@ -14,6 +14,14 @@ npm run start
 - `npm run typeorm`: runs typeorm cli (npx typeorm doesn't work because typeorm doesn't play well with typescript)
 - `npm run typeorm:sync`: sync your entities with the postgres db to update database schema
 
+## Dependency Injection(DI)
+
+DI is essentially passing in your dependencies as arguments in your constructor. See [this](https://www.sarulabs.com/post/2/2018-06-12/what-is-a-dependency-injection-container-and-why-use-one.html) for further explanation.
+
+In this project, unlike in the above article, we use [tsyringe](https://github.com/microsoft/tsyringe) as our DI framework of choice. While [TypeDI](https://github.com/typestack/typedi) plays better with the typestack ecosystem (routing-controllers, typeorm etc.), TypeDI does not have strong support for dependency resolution when registering named services. (For more details @godwinpang)
+
+We use DI to inject our controllers and our services by decorating those classes with the @injectable decorator. Note that we skip injecting repositories not because it is the right thing to do, but tsyringe has no good way of injecting generic type repositories.
+
 ## Directory Structure + Terms
 
 All typescript code should be located inside of src for the tsc compiler to pick up the changes. For development hot reloading, we use tsc-watch to do incremental compilation and server rebooting. For further instructions on adding any of the following, _please_ read the corresponding guide in guides/
