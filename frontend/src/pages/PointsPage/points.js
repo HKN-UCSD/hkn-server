@@ -3,12 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Grid, Divider } from '@material-ui/core';
 
-import { USER_ROLES } from '@Constants/roles';
 import { POINT_TYPE } from '@Constants/pointtype';
 
 import { getCurrentUserDocument } from '@Services/user';
 import getEnumMap from '@Services/general';
 import { getPoints } from '@Services/events';
+import { UserContext } from '@Contexts';
+import { isMember } from '@Services/claims';
 import PointDisplay from './point_display';
 
 const styles = theme => ({
@@ -34,7 +35,6 @@ const styles = theme => ({
 });
 
 const INITIAL_STATES = {
-  userRole: '',
   mentorship: false,
   professional: false,
   inducteePoints: [],
@@ -46,7 +46,6 @@ const INITIAL_STATES = {
     member: 0,
   },
   pointRewardTypes: {},
-  roles: {},
 };
 
 class PointsPage extends React.Component {
@@ -57,16 +56,9 @@ class PointsPage extends React.Component {
   }
 
   componentDidMount() {
-    getEnumMap('roles')
-      .then(roleEnum => {
-        this.setState({ roles: roleEnum });
-      })
-      .catch(err => console.log(err));
-
     getCurrentUserDocument()
       .then(data => {
         this.setState({
-          userRole: data.role_id,
           mentorship: data.mentorship,
           professional: data.professional,
         });
@@ -150,10 +142,9 @@ class PointsPage extends React.Component {
   };
 
   render() {
+    const userContext = this.context;
     const { classes } = this.props;
     const {
-      userRole,
-      roles,
       totalPoints,
       memberPoints,
       memberMentorPoints,
@@ -162,11 +153,11 @@ class PointsPage extends React.Component {
       inducteePoints,
       inducteeMentorPoints,
     } = this.state;
+
     return (
       <div className={classes.root}>
         <div className={classes.contentWrapper}>
-          {userRole === roles[USER_ROLES.MEMBER] ||
-          userRole === roles[USER_ROLES.OFFICER] ? (
+          {isMember(userContext) ? (
             <div>
               <div style={{ margin: '20px' }}>
                 <h2>Member Points</h2>
@@ -212,5 +203,7 @@ class PointsPage extends React.Component {
     );
   }
 }
+
+PointsPage.contextType = UserContext;
 
 export default compose(withStyles(styles))(PointsPage);

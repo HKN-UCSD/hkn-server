@@ -17,19 +17,19 @@ const getRolesFromClaims = claims => {
   return roleClaims;
 };
 
-const isAnOfficer = userContext => {
+const isOfficer = userContext => {
   const { userRoles } = userContext;
 
   return userRoles.includes('officer');
 };
 
-const isAMember = userContext => {
+const isMember = userContext => {
   const { userRoles } = userContext;
 
   return userRoles.includes('officer') || userRoles.includes('member');
 };
 
-const isAnInductee = userContext => {
+const isInductee = userContext => {
   const { userRoles } = userContext;
 
   return (
@@ -39,4 +39,4 @@ const isAnInductee = userContext => {
   );
 };
 
-export { getRolesFromClaims, isAnOfficer, isAMember, isAnInductee };
+export { getRolesFromClaims, isOfficer, isMember, isInductee };
