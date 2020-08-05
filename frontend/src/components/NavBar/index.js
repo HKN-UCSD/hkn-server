@@ -31,6 +31,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { UserContext } from '@Contexts';
 import { doSignOut } from '@Services/auth';
+import { isAnOfficer } from '@Services/claims';
 import { OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
 
@@ -47,9 +48,9 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    const { userRoles } = this.context;
+    const userContext = this.context;
     this.setState({
-      isOfficer: userRoles.includes('officer'),
+      isOfficer: isAnOfficer(userContext),
     });
   }
 

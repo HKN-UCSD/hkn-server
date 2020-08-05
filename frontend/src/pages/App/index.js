@@ -17,6 +17,7 @@ import {
 import { Loading } from '@SharedComponents';
 import { UserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
+import { getRolesFromClaims } from '@Services/claims';
 
 import {
   InducteeRoutingPermission,
@@ -43,8 +44,8 @@ class App extends React.Component {
 
         this.setState({
           userClaims: {
-            user_id: claims.user_id,
-            userRoles: this.getRolesFromClaims(claims),
+            userId: claims.user_id,
+            userRoles: getRolesFromClaims(claims),
           },
           isLoading: false,
         });
@@ -57,30 +58,11 @@ class App extends React.Component {
     });
   }
 
-  getRolesFromClaims = claims => {
-    const keys = Object.keys(claims);
-    const roleClaims = [];
-
-    if (keys.includes('officer')) {
-      roleClaims.push('officer');
-    }
-
-    if (keys.includes('member')) {
-      roleClaims.push('member');
-    }
-
-    if (keys.includes('inductee')) {
-      roleClaims.push('inductee');
-    }
-
-    return roleClaims;
-  };
-
   setClaims = claims => {
     this.setState({
       userClaims: {
-        user_id: claims.user_id,
-        userRoles: this.getRolesFromClaims(claims),
+        userId: claims.user_id,
+        userRoles: getRolesFromClaims(claims),
       },
     });
   };
