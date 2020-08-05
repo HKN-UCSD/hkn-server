@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Divider } from '@material-ui/core';
-import { queryCurrentUserRole } from '@Services/user';
+import { MemberRenderPermission } from '@HOCs/RenderPermissions';
 import EventButtons from './eventButtons';
 
 const styles = theme => ({
@@ -38,7 +38,6 @@ const styles = theme => ({
 const INITIAL_STATE = {
   width: 500,
   height: 1000,
-  buttons: null,
 };
 
 class EventsPage extends React.Component {
@@ -47,12 +46,15 @@ class EventsPage extends React.Component {
 
     this.state = { ...INITIAL_STATE };
     this.resizeFB = this.resizeFB.bind(this);
-    this.checkIfInductee();
   }
 
   componentDidMount() {
     this.resizeFB();
     window.addEventListener('resize', this.resizeFB);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeFB);
   }
 
   resizeFB = () => {
@@ -87,26 +89,14 @@ class EventsPage extends React.Component {
     return 'https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles';
   };
 
-  checkIfInductee() {
-    queryCurrentUserRole()
-      .then(role => {
-        if (role !== undefined && role !== 'Inductee') {
-          this.setState({
-            buttons: <EventButtons />,
-          });
-        }
-      })
-      .catch(error => {
-        throw Error(`ERROR: ${error}`);
-      });
-  }
-
   render() {
-    const { buttons, width, height } = this.state;
+    const { width, height } = this.state;
     const { classes } = this.props;
     return (
       <div>
-        <div style={{ margin: '20px' }}>{buttons}</div>
+        <div style={{ margin: '20px' }}>
+          {MemberRenderPermission(EventButtons)({})}
+        </div>
 
         <div className={classes.contentWrapper}>
           <Divider />
