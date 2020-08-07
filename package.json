@@ -92,6 +92,7 @@
     "*.{ts,js,css,md}": "prettier --write"
   },
   "_moduleAliases": {
+    "@Services/Interfaces": "dist/services/interfaces",
     "@Services": "dist/services",
     "@Payloads": "dist/payloads",
     "@Controllers": "dist/controllers",
