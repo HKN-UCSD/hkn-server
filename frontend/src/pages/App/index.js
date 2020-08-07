@@ -13,6 +13,7 @@ import {
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
+  EventSignInPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { AuthUserContext } from '@Contexts';
@@ -70,6 +71,11 @@ class App extends React.Component {
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} render={() => <SignInPage />} />
             <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
+            <Route
+              exact
+              path={ROUTES.EVENT_SIGN_IN}
+              render={() => <EventSignInPage />}
+            />
             <Route
               exact
               path={ROUTES.HOME}
