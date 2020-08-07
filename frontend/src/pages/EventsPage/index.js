@@ -6,7 +6,6 @@ import { Divider } from '@material-ui/core';
 import EventButtons from './eventButtons';
 
 import { MemberRenderPermission } from '@HOCs/RenderPermissions';
-import { queryCurrentUserRole } from '@Services/user';
 
 const styles = theme => ({
   root: {
