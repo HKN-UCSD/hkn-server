@@ -10,8 +10,8 @@ import DeleteEditButtons from '../DeleteEditButtons';
 import Links from './Links';
 import styles from './styles';
 
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { Tags } from '@SharedComponents';
-import { OfficerRenderPermission } from '@HOCs/RenderByContextPerm';
 import * as ROUTES from '@Constants/routes';
 
 function EventDetailsComponent(props) {
