@@ -1,110 +1,79 @@
-# HKN-Server
+# HKN Server
 
-HKN-Server is used as the server side for the HKN-Member-Portal. 
-This is where we can run APIs.
+**tl;dr**
 
-## Running Server
-
-Type `npm run start` in your terminal.
-
-## Common Terms in Code
-
-{port} in the respective codes below will be the port the API is running on, specified after running `npm run start`.
-You can change the port by setting it locally in your terminal. Ex: PORT=####
-
-"token" is the temporary token a user gets when logging in.
-
-"email" is the email for the person you want to edit claims for.
-
-"role" is the role you would like to add to the person. The role must exist in the database.
-
-"claims" are the claims you want to add or remove. In add-claim, it must be a dictionary = {key: value}. 
-In remove-claim, it must be a list = [key, key].
-
-## Universal code to call APIs
-
-Usage: python script
-```python
-import requests
-import json
-// TODO: fill in based on the respective API
-res.json()
+```
+npm run start
 ```
 
-## Add Role API
+## Commands
 
-Specifically used to change a user's role by first checking some prereqs. 
-To add claims unrelated to roles, change code in controllers/user.js to only 
-call the addCustomerUserClaims function down below.
+- `npm run start`: runs lint, clean, build, then serves on localhost with hot reloading (updates server everytime you change code.)
+- `npm run build`: runs ts -> js transpiler (tsc)
+- `npm run clean`: rm -rf dist/\* but has cross-env support
+- `npm run typeorm`: runs typeorm cli (npx typeorm doesn't work because typeorm doesn't play well with typescript)
+- `npm run typeorm:sync`: sync your entities with the postgres db to update database schema
 
-Usage: Universal code & insert below in TODO
-```python
-answer = {"token": "", "email": "", "role": ""}
-res = requests.post("http://localhost:{port}/api/user/uid/add-role", json = answer)
-```
+## Dependency Injection(DI)
 
-## Add Claim API
+DI is essentially passing in your dependencies as arguments in your constructor. See [this](https://www.sarulabs.com/post/2/2018-06-12/what-is-a-dependency-injection-container-and-why-use-one.html) for further explanation.
 
-Used to add custom claims to a user. 
-Similar to adding a role, except it does not require anything related to documents (user, role). 
-It only checks for auth.
+In this project, unlike in the above article, we use [tsyringe](https://github.com/microsoft/tsyringe) as our DI framework of choice. While [TypeDI](https://github.com/typestack/typedi) plays better with the typestack ecosystem (routing-controllers, typeorm etc.), TypeDI does not have strong support for dependency resolution when registering named services. (For more details @godwinpang)
 
-Usage: Universal code & insert below in TODO
-```python
-answer = {"token": "", "email": "", "claims": "{ : , : }"}
-res = requests.post("http://localhost:{port}/api/user/uid/add-claim", json = answer)
-```
+We use DI to inject our controllers and our services by decorating those classes with the @injectable decorator. Note that we skip injecting repositories not because it is the right thing to do, but tsyringe has no good way of injecting generic type repositories.
 
-## Remove Claim API
+## Directory Structure + Terms
 
-Used to add remove claims from a user. 
-It does not require the user to exist in document, only auth.
+All typescript code should be located inside of src for the tsc compiler to pick up the changes. For development hot reloading, we use tsc-watch to do incremental compilation and server rebooting. For further instructions on adding any of the following, _please_ read the corresponding guide in guides/
 
-Usage: Universal code & insert below in TODO
-```python
-answer = {"token": "", "email": "", "claims": "[ , ]"}
-res = requests.post("http://localhost:{port}/api/user/uid/remove-claim", json = answer)
-```
+### index.ts
 
-## View Claim API
+Entry point of server that delegates to loaders (in Loaders folder). Loader pattern is still WIP - see https://softwareontheroad.com/ideal-nodejs-project-structure/ for more details.
 
-Used to view the user, including the custom claims. 
+### config.ts
 
-Usage: Universal code & insert below in TODO
-```python
-res = requests.post("http://localhost:{port}/api/user/uid/view-claim", {"email": ""})
-```
+All environment variables should be loaded here and encapsulated within the global singleton Config object so we don't leak process.envs everywhere.
 
-Example output:
-```
-{'uid': '',
-  'email': '',
-  'emailVerified': True,
-  'disabled': False,
-  'metadata': {'lastSignInTime': 'Sat, 16 May 2020 07:06:30 GMT',
-   'creationTime': 'Sat, 22 Feb 2020 23:17:14 GMT'},
-  'customClaims': {'member': True, 'officer': True},
-  'tokensValidAfterTime': 'Tue, 05 May 2020 21:53:46 GMT',
-  'providerData': [{'uid': '', 'email': '', 'providerId': 'password'}]}
-```
+### Entities
 
-## Update Claim API
+We use [TypeORM](https://github.com/typeorm/typeorm) to manage our tables in our Postgres database. The term _entities_ is directly borrowed from TypeORM's definition of an entity. Each file within the Entities folder should directly correspond to a Postgres table or view. Enums used within a table should be declared in the same file of the table that it is used in.
 
-Used to update the user. This is slightly different than custom claims, 
-as it includes emailVerified, email, etc. See the output of View Claim API. 
+Note that we use the Data Mapper pattern over the Active Record pattern because it offers better decoupling between the data model and our data manipulation logic. (Read more [here](https://github.com/typeorm/typeorm/blob/master/docs/active-record-data-mapper.md)) As a result, entities should merely be **a Typescript type without any attached methods**. Entities are currently implemented as classes merely to conform to TypeORM's decorators, as it is impossible to decorate interface/type properties.
 
-Usage: Universal code & insert below in TODO
-```python
-answer = {"token": "", "email": "", "claims": "{ : , : }"}
-res = requests.post("http://localhost:{port}/api/user/uid/update-claim", json = answer)
-```
+Under this pattern, business logic is encapsulated within Services that delegate to Repositories which manage data persistence (a.k.a. talking to Postgres).
 
-## Signup API
+### Controllers
 
-Used to create an auth account for a whitelisted user.
+A controller is a class containing logic corresponding to a subset of API routes. We use Express as our base framework of choice, but use [routing-controllers](https://github.com/typestack/routing-controllers) for controller development. **routing-controllers** allow developers to rapidly develop logic without having to worry about directly manipulating request/response objects.
 
-Usage: Universal code & insert below in TODO
-```python
-answer = {"email": "", "password": "", "firstname": "", "lastname": "", "major": "", "gradYear": ""}
-res = requests.post("http://localhost:{port}/api/auth/signup", json = answer)
-```
+Each method within a controller corresponds to an API endpoint. Note that the response type of each controller method must be manually annotated with @ResponseSchema for swagger docs generation.
+
+Returning _undefined_ from a controller method will automatically generate a 404 error.
+
+### Payloads
+
+A payload is a class corresponding to either a request or a response object corresponding to the bodies of POST/PUT/PATCH requests, or the responses of a general HTTP request. They exist for multiple reasons:
+
+- Reuse between frontend and backend
+- Auto docs generation
+- Auto request/response validation by [class-validator](https://github.com/typestack/class-validator)
+
+Again, these things should be interfaces (since they're used similar to C style structs) but are implemented as classes to support [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html). They should not have methods defined on them.
+
+### Services
+
+A service encapsulates business logic either pertaining to a db entity, or a group of actions (a.k.a sending emails through sendgrid or fetching+saving resumes).
+
+## Docs Generation
+
+API documentation is autogenerated and served at the /api/docs endpoint. The documentation is autogenerated via [class-validator-jsonschema](https://github.com/epiphone/class-validator-jsonschema) and [routing-controllers-openapi](https://github.com/epiphone/routing-controllers-openapi). These libraries grab metadata from the routing-controllers and class-validator libraries to generate OpenAPI specs, which we then serve using [redoc-express](https://www.npmjs.com/package/redoc-express).
+
+The OpenAPI spec is served as a json file at the /api/docs/json endpoint (should probably be /api/docs?json=true but oh well). **You can import this into Postman to generate a collection.**
+
+### Migrations
+
+A db migration encapsulates a change to the database schema. We'll set this up when we need to, but it allows us to do schema rollbacks and modifications.
+
+### Tests
+
+Ignore for now - don't think mocking is worth the effort. Future ideas include standing up a Docker container with a Postgres db running on localhost and pointing tests at that instead. Or run sqlite in memory.

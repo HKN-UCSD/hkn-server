@@ -1,6 +1,15 @@
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            IMPORTANT
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+This file is awaiting refactoring. Please ignore.
+*/
+
 import admin from 'firebase-admin';
 import { Request, Response, NextFunction } from 'express';
 import { firebase as client } from '@firebase/app';
+import '@firebase/auth';
 
 import * as ERR_MSG from '../constants/ErrResponses';
 
@@ -20,11 +29,7 @@ import * as ERR_MSG from '../constants/ErrResponses';
           information and user auth account object is sent back mapped to newUser.
   Errors:`Can send back the following error responses: 400, 403, 500.
 */
-export const signup = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (!validInput(req.body)) {
     // Invalid user information
     res.status(400).json({
@@ -71,10 +76,7 @@ export const signup = async (
       .catch(console.log);
   } catch (err) {
     console.log('Error code: ' + err.code + '\tError Message: ' + err.message);
-    if (
-      err.code == 'auth/email-already-exists' ||
-      err.code == 'auth/uid-already-exists'
-    ) {
+    if (err.code == 'auth/email-already-exists' || err.code == 'auth/uid-already-exists') {
       // Account already exists.
       res.status(403).json({
         msg: ERR_MSG.USER_ALREADY_EXISTS,
@@ -150,11 +152,7 @@ async function getUserDocFromEmail(email: string): Promise<any> {
     });
 }
 
-async function updateDocInCollection(
-  collection: string,
-  id: string,
-  data: any
-) {
+async function updateDocInCollection(collection: string, id: string, data: any) {
   return admin
     .firestore()
     .collection(collection)

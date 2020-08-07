@@ -2,16 +2,27 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "ES6",
+    "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "outDir": "dist",
-    "baseUrl": ".",
     "lib": ["ES6"],
+    "baseUrl": ".",
     "paths": {
+      "@Services": ["src/services"],
+      "@Services/*": ["src/services/*"],
+      "@Services/Interfaces": ["src/services/interfaces"],
+      "@Payloads": ["src/payloads"],
+      "@Controllers": ["src/controllers"],
+      "@Entities": ["src/entities"],
       "*": ["node_modules/*"]
-    }
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

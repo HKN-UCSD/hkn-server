@@ -1,48 +1,55 @@
+import 'reflect-metadata'; // shim required for routing-controllers
+import 'module-alias/register'; // required for aliases
 import express from 'express';
-import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 
-import admin from 'firebase-admin';
-import { firebase as client } from '@firebase/app';
-import '@firebase/auth';
+import { UserRouter } from './routers/UserRouter';
+import { DocsRouter } from './routers/DocsRouter';
+import { AuthRouter } from './routers/AuthRouter';
 
-import { config } from './config';
-import { UserRouter } from './routers/user.router';
-import { DocsRouter } from './routers/docs.router';
-import { AuthRouter } from './routers/auth.router';
+import { useExpressServer } from 'routing-controllers';
+import { Controllers } from './controllers';
+import { useContainer as routingUseContainer } from 'routing-controllers';
+import { container } from 'tsyringe';
 
+import { loadServices, loadFirebase, loadORM } from './loaders';
 import morgan from 'morgan';
-import ErrorHandler from './middlewares/errorHandler/errorHandler.middleware';
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
 });
-
-admin.initializeApp({
-  credential: admin.credential.cert(config.firebaseConfig),
-  databaseURL: config.dbURL,
-});
-
-client.initializeApp({
-  apiKey: config.clientApiKey,
-  projectId: config.firebaseConfig.project_id,
-  appId: config.clientAppID,
-});
-
-const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('tiny'));
-app.use(limiter);
+loadServices();
 
-app.use('/api/user', UserRouter);
-app.use('/docs', DocsRouter);
-app.use('/api/auth', AuthRouter);
+loadORM().then(() => {
+  loadFirebase();
 
-app.use(ErrorHandler);
+  const app = express();
 
-app.listen(port);
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(morgan('tiny'));
+  app.use(limiter);
+
+  // load controllers; maybe move into loader?
+
+  // tell routing-controllers to use typedi container
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const containerShim = { get: (someClass: any) => container.resolve(someClass) as any };
+  routingUseContainer(containerShim);
+  useExpressServer(app, {
+    cors: true,
+    controllers: Controllers,
+  });
+
+  app.use('/api/docs', DocsRouter);
+
+  // following two routers will be deprecated and moved into
+  // routing-controllers
+  app.use('/api/user', UserRouter);
+  app.use('/api/auth', AuthRouter);
+
+  app.listen(port);
+});

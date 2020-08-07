@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 import { Request, Response, NextFunction } from 'express';
-import { validateWithJoi } from '../../../services/validate.service';
+import { validateWithJoi } from '../../../services/ValidateService';
 
 const ValidationMiddleware = (
   schema: Joi.Schema,
