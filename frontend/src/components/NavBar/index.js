@@ -29,13 +29,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
 
-import { AuthUserContext } from '@Contexts';
-import { isOfficer as checkIsOfficer } from '@Services/claims';
+import { UserContext } from '@Contexts';
 import { doSignOut } from '@Services/auth';
+import { isOfficer } from '@Services/claims';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,
-  isOfficer: false,
+  isAnOfficer: false,
   isConfirmationModalOpen: false,
 };
 
@@ -46,9 +46,9 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    const userClaims = this.context;
+    const userContext = this.context;
     this.setState({
-      isOfficer: checkIsOfficer(userClaims),
+      isAnOfficer: isOfficer(userContext),
     });
   }
 
@@ -72,9 +72,9 @@ class NavBar extends React.Component {
 
   render() {
     const { classes, children } = this.props;
-    const { isDrawerOpen, isOfficer, isConfirmationModalOpen } = this.state;
+    const { isDrawerOpen, isAnOfficer, isConfirmationModalOpen } = this.state;
 
-    const tabs = isOfficer ? OfficerTabs : InducteeTabs;
+    const tabs = isAnOfficer ? OfficerTabs : InducteeTabs;
     const tabComponents = tabs.map(tab => (
       <ListItem button component={Link} to={tab.route} key={tab.route}>
         <ListItemIcon>{tab.icon}</ListItemIcon>
@@ -180,7 +180,7 @@ class NavBar extends React.Component {
   }
 }
 
-NavBar.contextType = AuthUserContext;
+NavBar.contextType = UserContext;
 
 NavBar.propTypes = {
   children: PropTypes.node.isRequired,

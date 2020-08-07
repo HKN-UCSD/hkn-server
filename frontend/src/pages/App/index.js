@@ -15,17 +15,16 @@ import {
   EventDetailsPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
-import { AuthUserContext } from '@Contexts';
+import { UserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
-import { ClaimsSingleton } from '@Services/claims';
+import { getRolesFromClaims } from '@Services/claims';
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
-} from '@HOCs/RoutingByContextPerm';
+} from '@HOCs/RoutingPermissions';
 
 const INITIAL_STATES = {
-  authUser: null,
-  authUserClaims: null,
+  userClaims: null,
   isLoading: true,
 };
 
@@ -42,33 +41,47 @@ class App extends React.Component {
         const tokenResult = await user.getIdTokenResult();
         const { claims } = tokenResult;
 
-        ClaimsSingleton.setClaims(claims);
         this.setState({
-          authUserClaims: Object.keys(claims),
+          userClaims: {
+            userId: claims.user_id,
+            userRoles: getRolesFromClaims(claims),
+          },
           isLoading: false,
         });
       } else {
-        ClaimsSingleton.setClaims({});
         this.setState({
-          authUserClaims: null,
+          userClaims: null,
           isLoading: false,
         });
       }
     });
   }
 
+  setClaims = claims => {
+    this.setState({
+      userClaims: {
+        userId: claims.user_id,
+        userRoles: getRolesFromClaims(claims),
+      },
+    });
+  };
+
   render() {
-    const { authUserClaims, isLoading } = this.state;
+    const { userClaims, isLoading } = this.state;
 
     if (isLoading) {
       return <Loading />;
     }
 
     return (
-      <AuthUserContext.Provider value={authUserClaims}>
+      <UserContext.Provider value={userClaims}>
         <BrowserRouter>
           <Switch>
-            <Route exact path={ROUTES.SIGN_IN} render={() => <SignInPage />} />
+            <Route
+              exact
+              path={ROUTES.SIGN_IN}
+              render={() => <SignInPage setClaims={this.setClaims} />}
+            />
             <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
             <Route
               exact
@@ -122,7 +135,7 @@ class App extends React.Component {
             <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
         </BrowserRouter>
-      </AuthUserContext.Provider>
+      </UserContext.Provider>
     );
   }
 }
