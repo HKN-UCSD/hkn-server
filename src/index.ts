@@ -13,6 +13,7 @@ import { useContainer as routingUseContainer } from 'routing-controllers';
 import { container } from 'tsyringe';
 
 import { loadServices, loadFirebase, loadORM } from './loaders';
+import morgan from 'morgan';
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
@@ -27,11 +28,10 @@ loadORM().then(() => {
 
   const app = express();
 
-  // initialize global middlewares to be used before
-  // all controllers
-  app.use(limiter);
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(morgan('tiny'));
+  app.use(limiter);
 
   // load controllers; maybe move into loader?
 
