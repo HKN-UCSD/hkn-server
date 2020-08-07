@@ -1,8 +1,7 @@
 import { AppUser } from '@Entities';
 import { injectable } from 'tsyringe';
-import { Any, getRepository } from 'typeorm';
+import { Any, Repository, getRepository } from 'typeorm';
 import { AppUserServiceInterface } from './interfaces/AppUserServiceInterface';
-import { Repository } from 'typeorm';
 
 @injectable()
 export class AppUserService implements AppUserServiceInterface {
