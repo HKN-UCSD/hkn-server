@@ -14,7 +14,7 @@ export enum AppUserRole {
 @Entity()
 export class AppUser {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ nullable: true })
   firstName: string;
