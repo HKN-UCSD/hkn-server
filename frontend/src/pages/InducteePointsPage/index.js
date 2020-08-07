@@ -2,10 +2,11 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
-import { Table } from '@SharedComponents';
+
+import PointDetail from './PointDetail';
 
 import getInducteesInfo from '@Services/officer';
-import PointDetail from './PointDetail';
+import { Table } from '@SharedComponents';
 
 const INITIAL_STATE = {
   users: [],

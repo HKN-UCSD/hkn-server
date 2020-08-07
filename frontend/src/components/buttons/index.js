@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Button as MuiButton } from '@material-ui/core';
 
 export default function Button({

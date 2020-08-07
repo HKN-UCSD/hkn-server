@@ -1,13 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
 import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import ELIGIBLE_MAJORS from '@Constants/eligibleMajors';
 import styles from './styles';
+
+import ELIGIBLE_MAJORS from '@Constants/eligibleMajors';
 
 const createFullMajorTitle = (department, major) => {
   let fullMajorTitle = '';

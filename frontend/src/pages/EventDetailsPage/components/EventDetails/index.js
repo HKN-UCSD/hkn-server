@@ -2,17 +2,17 @@ import React from 'react';
 import { Typography, Container, Card, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { Tags } from '@SharedComponents';
-import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
-
-import * as ROUTES from '@Constants/routes';
 import DeleteEditButtons from '../DeleteEditButtons';
+
 import Links from './Links';
 import styles from './styles';
+
+import { Tags } from '@SharedComponents';
+import { OfficerRenderPermission } from '@HOCs/RenderByContextPerm';
+import * as ROUTES from '@Constants/routes';
 
 function EventDetailsComponent(props) {
   const { classes, eventInfo, eventId } = props;

@@ -3,14 +3,14 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Grid, Divider } from '@material-ui/core';
 
-import { POINT_TYPE } from '@Constants/pointtype';
+import PointDisplay from './point_display';
 
+import { POINT_TYPE } from '@Constants/pointtype';
 import { getCurrentUserDocument } from '@Services/user';
 import getEnumMap from '@Services/general';
 import { getPoints } from '@Services/events';
 import { UserContext } from '@Contexts';
 import { isMember } from '@Services/claims';
-import PointDisplay from './point_display';
 
 const styles = theme => ({
   root: {

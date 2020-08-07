@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import withStyles from '@material-ui/core/styles/withStyles';
-
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import {
@@ -24,9 +23,9 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@material-ui/core';
+
 import * as ROUTES from '@Constants/routes';
 import * as LOGO_URL from '@Images/hkn-trident.png';
-
 import {
   doSignInWithEmailAndPassword,
   doSignOut,

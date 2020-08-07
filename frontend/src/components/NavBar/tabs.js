@@ -1,10 +1,10 @@
 import React from 'react';
-
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
+
 import * as ROUTES from '@Constants/routes';
 
 const CalendarTab = {
