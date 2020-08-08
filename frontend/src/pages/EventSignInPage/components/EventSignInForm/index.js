@@ -33,9 +33,9 @@ const EventSignInForm = props => {
     >
       {({ submitForm, isSubmitting, values: { agreeToPhotoRelease } }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={4}>
+          <Grid container direction='column' justify='center' spacing={3}>
             <Grid item>
-              <Grid container direction='row' spacing={4}>
+              <Grid container direction='row' spacing={3}>
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
@@ -57,7 +57,7 @@ const EventSignInForm = props => {
             </Grid>
 
             <Grid item>
-              <Grid container direction='column' spacing={4}>
+              <Grid container direction='column' spacing={3}>
                 <Grid item>
                   <Field
                     component={TextField}
@@ -91,6 +91,7 @@ const EventSignInForm = props => {
                         type='checkbox'
                         component={Checkbox}
                         name='agreeToPhotoRelease'
+                        color='primary'
                       />
                     </Grid>
 

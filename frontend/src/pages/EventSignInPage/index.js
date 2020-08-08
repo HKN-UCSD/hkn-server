@@ -60,7 +60,7 @@ class EventSignInPage extends React.Component {
                   container
                   direction='column'
                   alignItems='center'
-                  spacing={1}
+                  spacing={3}
                 >
                   <Grid item>
                     <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
