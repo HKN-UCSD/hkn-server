@@ -1,10 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+
+import GenericDropdownField from '../base';
 
 import styles from './styles';
 
@@ -19,27 +18,30 @@ const yearDropdownChoices = (minYear, maxYear) => {
 };
 
 const YearDropdownField = props => {
-  const { classes, minYear, maxYear, ...otherProps } = props;
+  const { classes, name, label, minYear, maxYear, ...otherProps } = props;
 
   return (
-    <Field
+    <GenericDropdownField
       className={classes.root}
-      component={TextField}
-      select
+      name={name}
+      label={label}
       {...otherProps}
     >
-      {yearDropdownChoices(minYear, maxYear).map(year => (
-        <MenuItem key={year} value={year}>
-          {year}
-        </MenuItem>
-      ))}
-    </Field>
+      {yearDropdownChoices(minYear, maxYear)}
+    </GenericDropdownField>
   );
 };
 
 YearDropdownField.propTypes = {
-  minYear: PropTypes.number.isRequired,
-  maxYear: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  minYear: PropTypes.number,
+  maxYear: PropTypes.number,
+};
+
+YearDropdownField.defaultProps = {
+  minYear: parseInt(moment().year(), 10),
+  maxYear: parseInt(moment().year(), 10) + 5,
 };
 
 export default withStyles(styles)(YearDropdownField);
