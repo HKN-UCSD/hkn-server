@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+
+import GenericDropdownField from '../base';
 
 import styles from './styles';
 
@@ -23,30 +22,38 @@ const createFullMajorTitle = (department, major) => {
 };
 
 const MajorDropdownField = props => {
-  const { classes, name, label, ...otherProps } = props;
+  const { classes, name, label, includeOthers, ...otherProps } = props;
+  const listOfMajors = Object.keys(ELIGIBLE_MAJORS).map(department =>
+    Object.keys(ELIGIBLE_MAJORS[department]).map(major => {
+      return createFullMajorTitle(department, major);
+    })
+  );
+
+  if (includeOthers) {
+    listOfMajors.push('Others');
+  }
 
   return (
-    <Field
+    <GenericDropdownField
       className={classes.root}
-      component={TextField}
-      select
       name={name}
       label={label}
+      defaultValue=''
       {...otherProps}
     >
-      {Object.keys(ELIGIBLE_MAJORS).map(department =>
-        Object.keys(ELIGIBLE_MAJORS[department]).map(major => {
-          const fullMajorTitle = createFullMajorTitle(department, major);
-          return <MenuItem value={fullMajorTitle}>{fullMajorTitle}</MenuItem>;
-        })
-      )}
-    </Field>
+      {listOfMajors}
+    </GenericDropdownField>
   );
 };
 
 MajorDropdownField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  includeOthers: PropTypes.bool,
+};
+
+MajorDropdownField.defaultProps = {
+  includeOthers: false,
 };
 
 export default withStyles(styles)(MajorDropdownField);

@@ -74,7 +74,7 @@ class App extends React.Component {
             <Route
               exact
               path={ROUTES.EVENT_SIGN_IN}
-              render={() => <EventSignInPage />}
+              render={props => <EventSignInPage {...props} />}
             />
             <Route
               exact

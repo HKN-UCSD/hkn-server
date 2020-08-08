@@ -15,8 +15,8 @@ const schema = Yup.object({
       .oneOf([Yup.ref('password')], 'Both passwords need to be the same')
       .required('Required'),
   }),
-  firstname: Yup.string().required('Required'),
-  lastname: Yup.string().required('Required'),
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
   major: Yup.string()
     .min(2, 'Your major is too short!')
     .required('Required'),

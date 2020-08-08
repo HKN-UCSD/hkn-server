@@ -39,6 +39,15 @@ function EventCard({ event, classes }) {
             >
               See More
             </Button>
+
+            <Button
+              variant='outlined'
+              color='primary'
+              to={`/events/${event.id}/signin`}
+              component={Link}
+            >
+              Sign In
+            </Button>
           </CardContent>
         </Card>
       )}
