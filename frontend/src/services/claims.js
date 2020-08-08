@@ -1,27 +1,42 @@
-// Singleton redux-like service. This exists because Firebase Auth SUCKS
-// and won't give us claims in the authDidChange call.
-// This literally just has get set calls for the claims of the currently logged in user
-// ClaimsSingleton is a HACK around Firebase Auth's inability to return a clean user object with
-// claims. Please don't use this singleton outside of what's currently been implemented
-// There's a Context that wraps these claims for normal use.
+const getRolesFromClaims = claims => {
+  const keys = Object.keys(claims);
+  const roleClaims = [];
 
-let claims = {};
+  if (keys.includes('officer')) {
+    roleClaims.push('officer');
+  }
 
-const ClaimsSingleton = {
-  setClaims: newClaims => {
-    claims = Object.keys(newClaims);
-  },
-  getClaims: () => claims,
-};
-Object.freeze(ClaimsSingleton);
+  if (keys.includes('member')) {
+    roleClaims.push('member');
+  }
 
-const hasClaim = claim => userClaims => {
-  return userClaims.includes(claim);
+  if (keys.includes('inductee')) {
+    roleClaims.push('inductee');
+  }
+
+  return roleClaims;
 };
 
-// These functions take in the current user claims as an array
-const isOfficer = hasClaim('officer');
-const isInductee = hasClaim('inductee');
-const isMember = hasClaim('member');
+const isOfficer = userContext => {
+  const { userRoles } = userContext;
 
-export { ClaimsSingleton, isOfficer, isInductee, isMember };
+  return userRoles.includes('officer');
+};
+
+const isMember = userContext => {
+  const { userRoles } = userContext;
+
+  return userRoles.includes('officer') || userRoles.includes('member');
+};
+
+const isInductee = userContext => {
+  const { userRoles } = userContext;
+
+  return (
+    userRoles.includes('officer') ||
+    userRoles.includes('member') ||
+    userRoles.includes('inductee')
+  );
+};
+
+export { getRolesFromClaims, isOfficer, isMember, isInductee };

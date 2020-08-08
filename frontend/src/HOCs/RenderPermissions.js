@@ -1,4 +1,4 @@
-import RenderByContextAuth from './RenderByContextAuth';
+import RenderAuthorization from './RenderAuthorization';
 
 /**
  * Use these functions like this:
@@ -8,18 +8,18 @@ import RenderByContextAuth from './RenderByContextAuth';
  *     MemberRenderPermission(Component)({...props})
  *     InducteeRenderPermission(Component)({...props})
  */
-export const OfficerRenderPermission = RenderByContextAuth([
+export const OfficerRenderPermission = RenderAuthorization([
   'admin',
   'officer',
 ]);
 
-export const MemberRenderPermission = RenderByContextAuth([
+export const MemberRenderPermission = RenderAuthorization([
   'admin',
   'officer',
   'member',
 ]);
 
-export const InducteeRenderPermission = RenderByContextAuth([
+export const InducteeRenderPermission = RenderAuthorization([
   'admin',
   'officer',
   'member',
