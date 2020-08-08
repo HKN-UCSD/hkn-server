@@ -26,8 +26,9 @@ const YearDropdownField = props => {
       name={name}
       label={label}
       {...otherProps}
-      selections={yearDropdownChoices(minYear, maxYear)}
-    />
+    >
+      {yearDropdownChoices(minYear, maxYear)}
+    </GenericDropdownField>
   );
 };
 

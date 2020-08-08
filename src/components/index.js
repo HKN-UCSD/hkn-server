@@ -1,5 +1,9 @@
 import Button from './buttons';
-import { MajorDropdownField, YearDropdownField } from './dropdowns';
+import {
+  MajorDropdownField,
+  YearDropdownField,
+  AffiliateDropdownField,
+} from './dropdowns';
 import FormLayout from './FormLayout';
 import InputField from './InputField';
 import Loading from './Loading';
@@ -12,6 +16,7 @@ export {
   Button,
   MajorDropdownField,
   YearDropdownField,
+  AffiliateDropdownField,
   FormLayout,
   InputField,
   Loading,

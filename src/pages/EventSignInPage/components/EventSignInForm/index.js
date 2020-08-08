@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, LinearProgress } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { Button, Grid, LinearProgress, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { TextField, Checkbox } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 
 import schema from './schema';
+import styles from './styles';
 
-import { MajorDropdownField } from '@SharedComponents';
+import { MajorDropdownField, AffiliateDropdownField } from '@SharedComponents';
 
 const INITIAL_INPUT_VALUES = {
   firstName: '',
@@ -14,35 +16,32 @@ const INITIAL_INPUT_VALUES = {
   email: '',
   major: '',
   hknAffiliation: '',
-  consentForPhotos: '',
+  agreeToPhotoRelease: false,
 };
 
 const EventSignInForm = props => {
-  const { handleSubmit, classes } = props;
+  const { classes, handleSubmit } = props;
 
   return (
     <Formik
       initialValues={INITIAL_INPUT_VALUES}
       validationSchema={schema}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         handleSubmit(values, setSubmitting);
+        resetForm({ values: '' });
       }}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm, isSubmitting, values: { agreeToPhotoRelease } }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={3}>
+          <Grid container direction='column' justify='center' spacing={4}>
             <Grid item>
-              <Grid
-                container
-                className={classes.nameFields}
-                direction='row'
-                spacing={3}
-              >
+              <Grid container direction='row' spacing={4}>
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
                     name='firstName'
                     label='First Name'
+                    fullWidth
                   />
                 </Grid>
 
@@ -51,45 +50,75 @@ const EventSignInForm = props => {
                     component={TextField}
                     name='lastName'
                     label='Last Name'
+                    fullWidth
                   />
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid item>
-              <Grid container direction='column' spacing={3}>
+              <Grid container direction='column' spacing={4}>
                 <Grid item>
                   <Field
-                    className={classes.vertField}
                     component={TextField}
                     fullWidth
                     name='email'
                     label='Email Address (UCSD)'
                   />
                 </Grid>
-              </Grid>
-            </Grid>
 
-            <Grid item>
-              <Grid
-                container
-                className={classes.majorAndGradDate}
-                direction='row'
-                spacing={3}
-              >
-                <Grid item xs={8}>
-                  <MajorDropdownField name='major' label='Major' />
+                <Grid item>
+                  <MajorDropdownField
+                    name='major'
+                    label='Major'
+                    includeOthers
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid item>
+                  <AffiliateDropdownField
+                    name='hknAffiliation'
+                    label='Affiliation with HKN'
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Grid container direction='row' alignItems='center'>
+                    <Grid item xs={1}>
+                      <Field
+                        type='checkbox'
+                        component={Checkbox}
+                        name='agreeToPhotoRelease'
+                      />
+                    </Grid>
+
+                    <Grid item>
+                      <Typography>
+                        I hereby accept the following{' '}
+                        <a
+                          href='somewhere'
+                          target='_blank'
+                          rel='noreferrer noopener'
+                          style={{ textDecoration: 'none', color: '#1c54b2' }}
+                        >
+                          photo release agreement
+                        </a>
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid item>
               <Button
-                className={classes.signUpButton}
+                className={classes.signInButton}
                 variant='contained'
                 color='primary'
                 fullWidth
-                disabled={isSubmitting}
+                disabled={!agreeToPhotoRelease || isSubmitting}
                 onClick={submitForm}
               >
                 Sign In For Event
@@ -108,4 +137,4 @@ EventSignInForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default EventSignInForm;
+export default withStyles(styles)(EventSignInForm);
