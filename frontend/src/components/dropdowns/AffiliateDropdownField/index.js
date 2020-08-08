@@ -16,10 +16,9 @@ const AffiliateDropdownField = props => {
       className={classes.root}
       name={name}
       label={label}
+      selections={Object.values(HKN_AFFILIATIONS)}
       {...otherProps}
-    >
-      {Object.values(HKN_AFFILIATIONS)}
-    </GenericDropdownField>
+    />
   );
 };
 
