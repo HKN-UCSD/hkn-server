@@ -27,6 +27,10 @@ function EventDetailsComponent(props) {
     description,
   } = eventInfo;
 
+  const updatedUrls = urls;
+  updatedUrls.signin = `/events/${eventId}/signin`;
+  // updatedUrls.rsvp = `/events/${eventId}/rsvp`;
+
   return (
     <div className={classes.root}>
       <Card>
@@ -85,7 +89,7 @@ function EventDetailsComponent(props) {
             spacing={4}
           >
             <Grid item xs={3}>
-              <Links urls={urls} />
+              {OfficerRenderPermission(Links)({ urls: updatedUrls })}
             </Grid>
 
             <Grid item xs={9}>
