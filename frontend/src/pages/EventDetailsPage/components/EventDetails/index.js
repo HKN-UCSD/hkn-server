@@ -29,7 +29,7 @@ function EventDetailsComponent(props) {
 
   const updatedUrls = urls;
   updatedUrls.signin = `/events/${eventId}/signin`;
-  // updatedUrls.rsvp = `/events/${eventId}/rsvp`;
+  updatedUrls.rsvp = `/events/${eventId}/rsvp`;
 
   return (
     <div className={classes.root}>

@@ -14,6 +14,7 @@ import {
   EventEditPage,
   EventDetailsPage,
   EventSignInPage,
+  EventRsvpPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext } from '@Contexts';
@@ -88,6 +89,11 @@ class App extends React.Component {
               exact
               path={ROUTES.EVENT_SIGN_IN}
               render={props => <EventSignInPage {...props} />}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_RSVP}
+              render={props => <EventRsvpPage {...props} />}
             />
             <Route
               exact
