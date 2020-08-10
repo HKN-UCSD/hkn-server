@@ -50,6 +50,10 @@ Each method within a controller corresponds to an API endpoint. Note that the re
 
 Returning _undefined_ from a controller method will automatically generate a 404 error.
 
+Controllers should be "skinny", meaning that all they do is validate req/res (auto handled by class-validator).
+
+This means that controllers mainly delegate to mappers for mapping req/res payloads to entities, then pass on those entities to service classes that perform the business logic.
+
 ### Payloads
 
 A payload is a class corresponding to either a request or a response object corresponding to the bodies of POST/PUT/PATCH requests, or the responses of a general HTTP request. They exist for multiple reasons:
@@ -62,7 +66,11 @@ Again, these things should be interfaces (since they're used similar to C style 
 
 ### Services
 
-A service encapsulates business logic either pertaining to a db entity, or a group of actions (a.k.a sending emails through sendgrid or fetching+saving resumes).
+A service encapsulates business logic either pertaining to a db entity, or a group of actions (a.k.a sending emails through sendgrid or fetching+saving resumes). See guides/add_new_service.md for more details.
+
+### Mappers
+
+A mapper is responsible for mapping request payloads to entities, and entities to response payloads.
 
 ## Docs Generation
 
