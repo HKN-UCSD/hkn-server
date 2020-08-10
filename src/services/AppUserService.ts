@@ -1,16 +1,20 @@
 import { AppUser } from '@Entities';
-import { injectable } from 'tsyringe';
+import { singleton } from 'tsyringe';
 import { Any, Repository, getRepository } from 'typeorm';
-import { AppUserServiceInterface } from './interfaces/AppUserServiceInterface';
 
-@injectable()
-export class AppUserService implements AppUserServiceInterface {
+@singleton()
+export class AppUserService {
   private appUserRepository: Repository<AppUser>;
 
   constructor() {
     this.appUserRepository = getRepository(AppUser);
   }
 
+  /**
+   * Get multiple app users.
+   *
+   * @param ids Array of ids of AppUsers to find.
+   */
   getMultipleAppUsers(ids: number[]): Promise<AppUser[]> {
     return this.appUserRepository.find({ id: Any(ids) });
   }

@@ -1,65 +1,51 @@
-import { Event, AppUser } from '@Entities';
-import { EventRequest } from '@Payloads';
-import {
-  EventServiceInterface,
-  AppUserServiceInterface,
-  AppUserServiceInterfaceToken,
-} from '@Services/Interfaces';
+import { Event } from '@Entities';
+import { EventRepositoryToken } from '@Repositories';
 
-import { classToPlain } from 'class-transformer';
-import { Repository, getRepository } from 'typeorm';
-import { inject, injectable } from 'tsyringe';
+import { Repository } from 'typeorm';
+import { singleton, inject } from 'tsyringe';
 
-@injectable()
-export class EventService implements EventServiceInterface {
-  private appUserService: AppUserServiceInterface;
+@singleton()
+export class EventService {
   private eventRepository: Repository<Event>;
 
-  constructor(@inject(AppUserServiceInterfaceToken) appUserService: AppUserServiceInterface) {
-    this.appUserService = appUserService;
-    this.eventRepository = getRepository(Event);
+  constructor(@inject(EventRepositoryToken) eventRepository: Repository<Event>) {
+    this.eventRepository = eventRepository;
   }
 
-  async createEvent(eventRequest: EventRequest): Promise<Event> {
-    const event: Event = (eventRequest as unknown) as Event;
-    if (eventRequest.hosts != null) {
-      const hosts: AppUser[] = await this.appUserService.getMultipleAppUsers(eventRequest.hosts);
-      event.hosts = hosts;
-    }
-
+  /**
+   * Persists event to db.
+   * @param {Event} event event to save.
+   * @returns {Promise} Saved event.
+   */
+  async saveEvent(event: Event): Promise<Event> {
     return this.eventRepository.save(event);
   }
 
+  /**
+   * Get all events.
+   *
+   * @returns {Event[]} Array of all events.
+   */
   getAllEvents(): Promise<Event[]> {
     return this.eventRepository.find();
   }
 
+  /**
+   * Get event with given id. Returns undefined on invalid id.
+   *
+   * @param {number} id ID of event to fetch.
+   * @returns {Promise} Event with given id.
+   */
   getEventById(id: number): Promise<Event | undefined> {
     return this.eventRepository.findOne({ id });
   }
 
-  async updateEvent(id: number, eventRequest: EventRequest): Promise<Event | undefined> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const plainEventRequest: any = classToPlain(eventRequest);
-    plainEventRequest.id = id;
-    plainEventRequest.hosts = plainEventRequest.hosts.map((id: number) => {
-      return { id };
-    });
-
-    const event: Event = await this.eventRepository.preload(plainEventRequest);
-
-    if (event === undefined) {
-      return undefined;
-    }
-
-    // preload ignores empty arrays and loads stuff anyways...
-    if (plainEventRequest.hosts.length === 0) {
-      event.hosts = [];
-    }
-
-    return this.eventRepository.save(event);
-  }
-
+  /**
+   * Deletes event with given id. Returns undefined on invalid id.
+   *
+   * @param  {number} id ID of event to delete.
+   * @returns {Promise} Deleted event.
+   */
   async deleteEvent(id: number): Promise<Event | undefined> {
     const event = await this.eventRepository.findOne({ id });
     return event ? this.eventRepository.remove(event) : undefined;

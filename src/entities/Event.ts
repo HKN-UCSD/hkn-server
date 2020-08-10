@@ -68,14 +68,16 @@ export class Event {
   rsvps: RSVP[];
 
   @Column({ nullable: true })
-  rsvpURL: string;
-
-  @Column({ nullable: true })
-  signInURL: string;
-
-  @Column({ nullable: true })
   fbURL: string;
 
   @Column({ nullable: true })
   canvaURL: string;
+
+  get signInURL(): string {
+    return `/events/${this.id}/signin`; // TODO missing baseURL from config.
+  }
+
+  get rsvpURL(): string {
+    return `/events/${this.id}/rsvp`;
+  }
 }
