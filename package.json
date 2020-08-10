@@ -98,6 +98,8 @@
     "@Controllers": "dist/controllers",
     "@Entities": "dist/entities",
     "@Decorators": "dist/decorators",
-    "@Middlewares": "dist/middlewares"
+    "@Middlewares": "dist/middlewares",
+    "@Mappers": "dist/mappers",
+    "@Repositories": "dist/repositories"
   }
 }
