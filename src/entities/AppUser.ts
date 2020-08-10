@@ -9,8 +9,12 @@ export enum AppUserRole {
   INDUCTEE = 'inductee',
 }
 
-// This table isn't called a User table because Postgres already
-// internally has a User table.
+/**
+ * The AppUser table represents an AppUser entity in the db.
+ *
+ * It's not called the user table because postgres internally
+ * uses the user table for metadata storage.
+ */
 @Entity()
 export class AppUser {
   @PrimaryGeneratedColumn()
