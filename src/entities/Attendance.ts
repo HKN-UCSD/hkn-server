@@ -3,6 +3,11 @@ import { AppUser } from './AppUser';
 import { Event } from './Event';
 
 // TODO composite index on attendee + event
+// TODO add start and end times instead of relying on duration.
+
+/**
+ * The Attendance entity is to record users attending events. See comments below for further detail.
+ */
 @Entity()
 export class Attendance {
   @PrimaryGeneratedColumn()
@@ -11,6 +16,7 @@ export class Attendance {
   @ManyToOne(() => AppUser)
   attendee: AppUser;
 
+  // Officer who checked off attendee
   @ManyToOne(() => AppUser)
   officer: AppUser;
 

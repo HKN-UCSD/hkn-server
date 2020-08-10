@@ -14,6 +14,9 @@ export enum EventStatus {
   COMPLETE = 'complete',
 }
 
+/**
+ * The Event table is intended to represent an event.
+ */
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn()
