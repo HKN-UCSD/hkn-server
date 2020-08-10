@@ -16,8 +16,8 @@ const INITIAL_INPUT_BOX_VALUES = {
   email: '',
   password: '',
   confirmPW: '',
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   major: '',
   gradYear: '',
 };
@@ -37,16 +37,11 @@ const SignUpForm = props => {
         <Form>
           <Grid container direction='column' justify='center' spacing={3}>
             <Grid item>
-              <Grid
-                container
-                className={classes.nameFields}
-                direction='row'
-                spacing={3}
-              >
+              <Grid container direction='row' spacing={3}>
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
-                    name='firstname'
+                    name='firstName'
                     label='First Name'
                   />
                 </Grid>
@@ -54,7 +49,7 @@ const SignUpForm = props => {
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
-                    name='lastname'
+                    name='lastName'
                     label='Last Name'
                   />
                 </Grid>
@@ -65,7 +60,6 @@ const SignUpForm = props => {
               <Grid container direction='column' spacing={3}>
                 <Grid item>
                   <Field
-                    className={classes.vertField}
                     component={TextField}
                     fullWidth
                     name='email'
@@ -75,7 +69,6 @@ const SignUpForm = props => {
 
                 <Grid item>
                   <Field
-                    className={classes.vertField}
                     component={TextField}
                     fullWidth
                     name='password'
@@ -86,7 +79,6 @@ const SignUpForm = props => {
 
                 <Grid item>
                   <Field
-                    className={classes.vertField}
                     component={TextField}
                     fullWidth
                     name='confirmPW'
@@ -98,12 +90,7 @@ const SignUpForm = props => {
             </Grid>
 
             <Grid item>
-              <Grid
-                container
-                className={classes.majorAndGradDate}
-                direction='row'
-                spacing={3}
-              >
+              <Grid container direction='row' spacing={3}>
                 <Grid item xs={8}>
                   <MajorDropdownField name='major' label='Major' />
                 </Grid>

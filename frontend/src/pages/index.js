@@ -7,6 +7,7 @@ import EventsPage from '@Pages/EventsPage';
 import CalendarPage from '@Pages/CalendarPage';
 import EventEditPage from '@Pages/EventEditPage';
 import EventDetailsPage from '@Pages/EventDetailsPage';
+import EventSignInPage from '@Pages/EventSignInPage';
 
 export {
   SignInPage,
@@ -18,4 +19,5 @@ export {
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
+  EventSignInPage,
 };
