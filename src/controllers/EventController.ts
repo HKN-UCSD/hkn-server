@@ -1,52 +1,78 @@
 import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controllers';
-import { injectable, inject } from 'tsyringe';
+import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { EventRequest, EventResponse, MultipleEventResponse } from '@Payloads';
 import { Event } from '@Entities';
-import { EventServiceInterface, EventServiceInterfaceToken } from '@Services/Interfaces';
+import { EventRequest, EventResponse, MultipleEventResponse } from '@Payloads';
+import { EventService } from '@Services';
+import { EventMapper } from '@Mappers';
 
-@injectable()
-@JsonController('/api/event')
+@singleton()
+@JsonController('/api/events')
 export class EventController {
-  private eventService: EventServiceInterface;
+  private eventService: EventService;
+  private eventMapper: EventMapper;
 
-  constructor(@inject(EventServiceInterfaceToken) eventService: EventServiceInterface) {
+  constructor(
+    @inject(EventService) eventService: EventService,
+    @inject(EventMapper) eventMapper: EventMapper
+  ) {
     this.eventService = eventService;
+    this.eventMapper = eventMapper;
   }
 
   @Post('/')
   @ResponseSchema(EventResponse)
-  createEvent(@Body() event: EventRequest): Promise<EventResponse> {
-    return this.eventService.createEvent(event);
+  async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
+    const event = this.eventMapper.requestToNewEntity(eventRequest);
+    const savedEvent = await this.eventService.saveEvent(event);
+    return this.eventMapper.entityToResponse(savedEvent);
   }
 
   @Get('/')
   @ResponseSchema(MultipleEventResponse)
   async getMultipleEvents(): Promise<MultipleEventResponse> {
     const events: Event[] = await this.eventService.getAllEvents();
-    const eventResponses: EventResponse[] = events as EventResponse[];
+    const eventResponses = events.map(event => this.eventMapper.entityToResponse(event));
 
     const multipleEventResponse = new MultipleEventResponse();
     multipleEventResponse.events = eventResponses;
     return multipleEventResponse;
   }
 
-  @Get('/:id')
+  @Get('/:eventID')
   @ResponseSchema(EventResponse)
-  getEvent(@Param('id') id: number): Promise<EventResponse> {
-    return this.eventService.getEventById(id);
+  async getEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
+    const event = await this.eventService.getEventById(eventID);
+    if (event === undefined) {
+      return undefined;
+    }
+    return this.eventMapper.entityToResponse(event);
   }
 
-  @Post('/:id')
+  @Post('/:eventID')
   @ResponseSchema(EventResponse)
-  updateEvent(@Param('id') id: number, @Body() event: EventRequest): Promise<EventResponse> {
-    return this.eventService.updateEvent(id, event);
+  async updateEvent(
+    @Param('eventID') id: number,
+    @Body() eventRequest: EventRequest
+  ): Promise<EventResponse> {
+    const event = await this.eventMapper.requestToExistingEntity(eventRequest, id);
+    if (event === undefined) {
+      return undefined;
+    }
+
+    const savedEvent = await this.eventService.saveEvent(event);
+    return this.eventMapper.entityToResponse(savedEvent);
   }
 
-  @Delete('/:id')
+  @Delete('/:eventID')
   @ResponseSchema(EventResponse)
-  deleteEvent(@Param('id') id: number): Promise<EventResponse> {
-    return this.eventService.deleteEvent(id);
+  async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
+    const deletedEvent = await this.eventService.deleteEvent(eventID);
+    if (deletedEvent === undefined) {
+      return undefined;
+    }
+
+    return this.eventMapper.entityToResponse(deletedEvent);
   }
 }

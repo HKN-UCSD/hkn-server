@@ -4,6 +4,13 @@ import { Attendance } from './Attendance';
 import { AppUser } from './AppUser';
 import { InductionClass } from './InductionClass';
 
+/**
+ * The InducteeStat view is intended to provide an easy way of querying
+ * how many pts an inductee has and if they have satisfied their requirements.
+ *
+ * All the columns in this view are a computed value based on actual values in
+ * the Attendance and Event tables.
+ */
 @ViewEntity({
   expression: (connection: Connection) =>
     connection

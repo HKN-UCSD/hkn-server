@@ -6,10 +6,12 @@ import {
   IsArray,
   IsInt,
   ValidateNested,
+  IsEnum,
 } from 'class-validator';
-
-import { AppUser } from '@Entities';
 import { Type } from 'class-transformer';
+
+import { AppUser, EventType, EventStatus } from '@Entities';
+import { AppUserPKPayload } from '@Payloads';
 
 abstract class BaseEventPayload {
   @IsString()
@@ -29,16 +31,9 @@ abstract class BaseEventPayload {
   readonly endDate: string;
 
   @IsString()
+  @IsEnum(EventType)
   @IsOptional()
   readonly type: string;
-
-  @IsUrl()
-  @IsOptional()
-  readonly rsvpURL: string;
-
-  @IsUrl()
-  @IsOptional()
-  readonly signInURL: string;
 
   @IsUrl()
   @IsOptional()
@@ -50,16 +45,27 @@ abstract class BaseEventPayload {
 }
 
 export class EventRequest extends BaseEventPayload {
-  @IsInt({ each: true })
-  readonly hosts: number[];
+  @ValidateNested({ each: true })
+  @Type(() => AppUserPKPayload)
+  readonly hosts: AppUserPKPayload[];
 }
 
 export class EventResponse extends BaseEventPayload {
   @IsInt()
-  readonly id: number;
+  id: number;
 
   @IsArray() // TODO call @ValidateNested after defining AppUserResponse
-  readonly hosts: AppUser[];
+  hosts: AppUser[];
+
+  @IsUrl()
+  rsvpURL: string;
+
+  @IsUrl()
+  signInURL: string;
+
+  @IsString()
+  @IsEnum(EventStatus)
+  status: string;
 }
 
 export class MultipleEventResponse {
