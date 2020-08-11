@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, LinearProgress, Grid } from '@material-ui/core';
 import { DateTimePicker } from 'formik-material-ui-pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import DateFnsUtils from '@date-io/date-fns';
 import * as Yup from 'yup';
 
 import FormikChipListInput from './form_chip_list_input';
@@ -27,7 +27,7 @@ const EventEditForm = props => {
   const { handleSubmit, handleCancel, classes, initialValues } = props;
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Formik
         initialValues={{ ...initialValues }}
         validationSchema={schema}
