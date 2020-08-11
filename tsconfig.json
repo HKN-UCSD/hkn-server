@@ -18,6 +18,8 @@
       "@Payloads": ["src/payloads"],
       "@Controllers": ["src/controllers"],
       "@Entities": ["src/entities"],
+      "@Mappers": ["src/mappers"],
+      "@Repositories": ["src/repositories"],
       "*": ["node_modules/*"]
     },
     "emitDecoratorMetadata": true,

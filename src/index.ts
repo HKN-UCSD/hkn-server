@@ -13,7 +13,7 @@ import { Controllers } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
 import { container } from 'tsyringe';
 
-import { loadServices, loadFirebase, loadORM } from './loaders';
+import { loadServices, loadFirebase, loadORM, loadRepositories } from './loaders';
 import morgan from 'morgan';
 
 const limiter = rateLimit({
@@ -23,6 +23,7 @@ const limiter = rateLimit({
 const port = process.env.PORT || 3001;
 
 loadServices();
+loadRepositories();
 
 loadORM().then(() => {
   loadFirebase();
