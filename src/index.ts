@@ -2,6 +2,7 @@ import 'reflect-metadata'; // shim required for routing-controllers
 import 'module-alias/register'; // required for aliases
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 
 import { UserRouter } from './routers/UserRouter';
 import { DocsRouter } from './routers/DocsRouter';
@@ -44,6 +45,8 @@ loadORM().then(() => {
     cors: true,
     controllers: Controllers,
   });
+
+  app.use(compression());
 
   app.use('/api/docs', DocsRouter);
 
