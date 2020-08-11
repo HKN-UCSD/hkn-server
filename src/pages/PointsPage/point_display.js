@@ -49,7 +49,6 @@ class PointDisplay extends React.Component {
           <div>
             <Grid container spacing={2}>
               {points.map(event => {
-                console.log(event.date);
                 return (
                   <Grid
                     item
