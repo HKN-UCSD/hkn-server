@@ -10,7 +10,7 @@ import {
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 
 import styles from './styles';
@@ -23,9 +23,9 @@ function EventCard({ event, classes }) {
           <CardHeader title={event.title} />
           <CardContent>
             <Typography variant='h6' color='textSecondary' gutterBottom>
-              {moment(event.startDate).format('ll')} -{' '}
-              {moment(event.startDate).format('LT')} to{' '}
-              {moment(event.endDate).format('LT')}
+              {format(parseISO(event.startDate), 'PP')} -{' '}
+              {format(parseISO(event.startDate), 'p')} to{' '}
+              {format(parseISO(event.endDate), 'p')}
             </Typography>
             <Box className={classes.locationContainer}>
               <RoomIcon color='disabled' />

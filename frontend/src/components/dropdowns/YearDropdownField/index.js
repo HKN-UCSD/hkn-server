@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { getYear } from 'date-fns';
 import { withStyles } from '@material-ui/core/styles';
 
 import GenericDropdownField from '../base';
@@ -39,8 +39,8 @@ YearDropdownField.propTypes = {
 };
 
 YearDropdownField.defaultProps = {
-  minYear: parseInt(moment().year(), 10),
-  maxYear: parseInt(moment().year(), 10) + 5,
+  minYear: parseInt(getYear(new Date()), 10),
+  maxYear: parseInt(getYear(new Date()), 10) + 5,
 };
 
 export default withStyles(styles)(YearDropdownField);

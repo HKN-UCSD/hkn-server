@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format, parseISO, compareAsc } from 'date-fns';
 
 import { Table } from '@SharedComponents';
 
 const eventDateComparator = (dateTimeA, dateTimeB) => {
-  return moment(dateTimeA).diff(moment(dateTimeB));
+  const parsedDateTimeA = parseISO(dateTimeA);
+  const parsedDateTimeB = parseISO(dateTimeB);
+
+  return compareAsc(parsedDateTimeA, parsedDateTimeB);
 };
 
 const columns = [
@@ -32,12 +35,8 @@ function EventList({ events, handleEventClick }) {
     const listEvent = {
       id: events[i].id,
       title: events[i].title,
-      startDateString: moment(events[i].startDate).format(
-        'dddd, MMMM Do YYYY, h:mm:ss a'
-      ),
-      endDateString: moment(events[i].endDate).format(
-        'dddd, MMMM Do YYYY, h:mm:ss a'
-      ),
+      startDateString: format(parseISO(events[i].startDate), 'PPPP p'),
+      endDateString: format(parseISO(events[i].endDate), 'PPPP p'),
       venue: events[i].venue,
       startDate: events[i].startDate,
       endDate: events[i].endDate,
