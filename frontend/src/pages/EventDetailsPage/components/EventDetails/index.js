@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Container, Card, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import DeleteEditButtons from '../DeleteEditButtons';
@@ -72,12 +72,10 @@ function EventDetailsComponent(props) {
 
               <Typography variant='h6'>
                 Start Time:{' '}
-                <Typography>{moment(startDate).format('LLL')}</Typography>
+                <Typography>{format(startDate, 'PPP p')}</Typography>
               </Typography>
-
               <Typography variant='h6'>
-                End Time:{' '}
-                <Typography>{moment(endDate).format('LLL')}</Typography>
+                End Time: <Typography>{format(endDate, 'PPP p')}</Typography>
               </Typography>
             </Grid>
           </Grid>

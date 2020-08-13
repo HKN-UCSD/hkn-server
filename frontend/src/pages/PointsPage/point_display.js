@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Card, CardContent, Typography, Grid } from '@material-ui/core';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const styles = () => ({
   card: {
@@ -67,7 +67,7 @@ class PointDisplay extends React.Component {
                           className={classes.pos}
                           color='textSecondary'
                         >
-                          {moment(event.date).format('LL')}
+                          {format(event.date, 'PP')}
                         </Typography>
                         <Typography variant='body2' component='p'>
                           {`Officer: ${event.officer}`}

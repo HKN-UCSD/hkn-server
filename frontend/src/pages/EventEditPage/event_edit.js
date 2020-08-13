@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import EventEditForm from './components/EventEditForm';
 
@@ -40,10 +39,13 @@ class EventEditPage extends React.Component {
     };
 
     const handleSubmit = (values, setSubmitting) => {
+      const parsedStartDate = new Date(values.startDate);
+      const parsedEndDate = new Date(values.endDate);
+
       const submission = {
         ...values,
-        startDate: moment(values.startDate).toDate(),
-        endDate: moment(values.endDate).toDate(),
+        startDate: parsedStartDate,
+        endDate: parsedEndDate,
       };
       setEventDetails(eventId, submission).then(() => {
         setSubmitting(false);
