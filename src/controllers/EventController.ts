@@ -2,21 +2,33 @@ import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controll
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event } from '@Entities';
-import { EventRequest, EventResponse, MultipleEventResponse } from '@Payloads';
-import { EventService } from '@Services';
-import { EventMapper } from '@Mappers';
+import { Event, AppUser, AppUserRole } from '@Entities';
+import {
+  EventRequest,
+  EventResponse,
+  MultipleEventResponse,
+  EventSignInRequest,
+  EventSignInResponse,
+} from '@Payloads';
+import { AppUserService, EventService } from '@Services';
+import { AppUserMapper, EventMapper } from '@Mappers';
 
 @singleton()
 @JsonController('/api/events')
 export class EventController {
+  private appUserService: AppUserService;
+  private appUserMapper: AppUserMapper;
   private eventService: EventService;
   private eventMapper: EventMapper;
 
   constructor(
+    @inject(AppUserService) appUserService: AppUserService,
+    @inject(AppUserMapper) appUserMapper: AppUserMapper,
     @inject(EventService) eventService: EventService,
     @inject(EventMapper) eventMapper: EventMapper
   ) {
+    this.appUserService = appUserService;
+    this.appUserMapper = appUserMapper;
     this.eventService = eventService;
     this.eventMapper = eventMapper;
   }
@@ -74,5 +86,29 @@ export class EventController {
     }
 
     return this.eventMapper.entityToResponse(deletedEvent);
+  }
+
+  @Post('/:eventID/signin')
+  @ResponseSchema(EventSignInResponse)
+  async signInToEvent(
+    @Param('eventID') eventID: number,
+    @Body() appUserRequest: EventSignInRequest
+  ): Promise<EventSignInResponse> {
+    const { email } = appUserRequest;
+    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+
+    if (appUserFromEmail == undefined) {
+      const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
+      const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
+      return this.appUserMapper.entityToResponse(savedAppUser);
+    } else {
+      const { role } = appUserFromEmail;
+
+      if (role !== AppUserRole.GUEST) {
+        // return HTTP error
+      } else {
+        // TODO
+      }
+    }
   }
 }
