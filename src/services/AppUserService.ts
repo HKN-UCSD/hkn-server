@@ -10,6 +10,10 @@ export class AppUserService {
     this.appUserRepository = getRepository(AppUser);
   }
 
+  saveAppUser(appUser: AppUser): Promise<AppUser> {
+    return this.appUserRepository.save(appUser);
+  }
+
   /**
    * Get multiple app users.
    *
@@ -17,5 +21,9 @@ export class AppUserService {
    */
   getMultipleAppUsers(ids: number[]): Promise<AppUser[]> {
     return this.appUserRepository.find({ id: Any(ids) });
+  }
+
+  getAppUserByEmail(email: string): Promise<AppUser> {
+    return this.appUserRepository.findOne({ email });
   }
 }
