@@ -41,10 +41,7 @@ abstract class BaseAppUserPayload {
   readonly inductionClass: InductionClass;
 }
 
-export class EventSignInRequest extends BaseAppUserPayload {
-  @IsBoolean()
-  readonly agreeToPhotoRelease: boolean;
-}
+export class EventSignInRequest extends BaseAppUserPayload {}
 
 export class EventSignInResponse {
   @IsInt()
