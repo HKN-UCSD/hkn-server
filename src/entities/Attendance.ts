@@ -10,17 +10,14 @@ import { Event } from './Event';
  */
 @Entity()
 export class Attendance {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @ManyToOne(() => AppUser)
+  @ManyToOne(() => AppUser, { primary: true })
   attendee: AppUser;
 
   // Officer who checked off attendee
   @ManyToOne(() => AppUser)
   officer: AppUser;
 
-  @ManyToOne(() => Event)
+  @ManyToOne(() => Event, { primary: true })
   event: Event;
 
   // num_hours

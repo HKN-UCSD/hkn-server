@@ -10,7 +10,7 @@ export class AppUserService {
     this.appUserRepository = getRepository(AppUser);
   }
 
-  saveAppUser(appUser: AppUser): Promise<AppUser> {
+  async saveAppUser(appUser: AppUser): Promise<AppUser> {
     return this.appUserRepository.save(appUser);
   }
 

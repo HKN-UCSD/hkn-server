@@ -2,7 +2,7 @@ import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controll
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event, AppUser, AppUserRole } from '@Entities';
+import { Event, AppUser, AppUserRole, Attendance } from '@Entities';
 import {
   EventRequest,
   EventResponse,
@@ -10,7 +10,7 @@ import {
   EventSignInRequest,
   EventSignInResponse,
 } from '@Payloads';
-import { AppUserService, EventService } from '@Services';
+import { AppUserService, EventService, AttendanceService } from '@Services';
 import { AppUserMapper, EventMapper } from '@Mappers';
 
 @singleton()
@@ -89,25 +89,31 @@ export class EventController {
   }
 
   @Post('/:eventID/signin')
-  @ResponseSchema(EventSignInResponse)
+  @ResponseSchema(Attendance)
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
-  ): Promise<EventSignInResponse> {
+  ): Promise<Attendance> {
     const { email } = appUserRequest;
     const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
 
     if (appUserFromEmail == undefined) {
       const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
       const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
-      return this.appUserMapper.entityToResponse(savedAppUser);
+      await this.eventService.registerAttendance(eventID, savedAppUser);
+
+      return null;
     } else {
-      const { role } = appUserFromEmail;
+      const { id, role } = appUserFromEmail;
 
       if (role !== AppUserRole.GUEST) {
         // return HTTP error
       } else {
-        // TODO
+        const updatedAppUser = await this.appUserMapper.requestToExistingEntity(appUserRequest, id);
+        const savedUpdatedUser = await this.appUserService.saveAppUser(updatedAppUser);
+        await this.eventService.registerAttendance(eventID, savedUpdatedUser);
+
+        return null;
       }
     }
   }
