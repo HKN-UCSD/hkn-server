@@ -7,7 +7,7 @@ export enum AppUserRole {
   OFFICER = 'officer',
   MEMBER = 'member',
   INDUCTEE = 'inductee',
-  GUEST = 'Guest',
+  GUEST = 'guest',
 }
 
 /**
