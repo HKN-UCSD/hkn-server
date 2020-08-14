@@ -1,5 +1,5 @@
-import { Event, AppUser, AppUserRole, Attendance } from '@Entities';
-import { EventRepositoryToken, AttendanceRepositoryToken } from '@Repositories';
+import { Event, AppUser, Attendance } from '@Entities';
+import { EventRepositoryToken } from '@Repositories';
 import { AttendanceService } from '@Services';
 
 import { Repository } from 'typeorm';
@@ -57,6 +57,14 @@ export class EventService {
     return event ? this.eventRepository.remove(event) : undefined;
   }
 
+  /**
+   * Creates an Attendance entity using the event obtained from eventId and
+   * the passed-in AppUser entity, then stores that Attendance entity to the
+   * Attendance table.
+   *
+   * @param eventId
+   * @param appUser
+   */
   async registerAttendance(eventId: number, appUser: AppUser): Promise<Attendance> {
     const event = await this.eventRepository.findOne({ id: eventId });
     const attendance = this.attendanceService.createAttendance(event, appUser);
