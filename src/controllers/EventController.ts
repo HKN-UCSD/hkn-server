@@ -2,15 +2,9 @@ import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controll
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event, AppUser, AppUserRole, Attendance } from '@Entities';
-import {
-  EventRequest,
-  EventResponse,
-  MultipleEventResponse,
-  EventSignInRequest,
-  EventSignInResponse,
-} from '@Payloads';
-import { AppUserService, EventService, AttendanceService } from '@Services';
+import { Event, AppUserRole, Attendance } from '@Entities';
+import { EventRequest, EventResponse, MultipleEventResponse, EventSignInRequest } from '@Payloads';
+import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper } from '@Mappers';
 
 @singleton()
@@ -100,14 +94,18 @@ export class EventController {
     if (appUserFromEmail == undefined) {
       const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
       const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
-      await this.eventService.registerAttendance(eventID, savedAppUser);
+      const attendance = await this.eventService.registerAttendance(eventID, savedAppUser);
 
-      return null;
+      return attendance;
     } else {
       const { id, role } = appUserFromEmail;
 
       if (role !== AppUserRole.GUEST) {
-        // return HTTP error
+        /*
+         * TODO: Handle the case where user is an affiliate
+         * If affiliated user has a token, then verify it and proceed. If said
+         * user does not have a token, then send back an HTTP error.
+         */
       } else {
         const updatedAppUser = await this.appUserMapper.requestToExistingEntity(appUserRequest, id);
         const savedUpdatedUser = await this.appUserService.saveAppUser(updatedAppUser);
