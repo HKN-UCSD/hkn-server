@@ -3,7 +3,7 @@ import { EventRepositoryToken } from '@Repositories';
 import { AttendanceService } from '@Services';
 
 import { Repository } from 'typeorm';
-import { singleton, inject } from 'tsyringe';
+import { singleton, inject, delay } from 'tsyringe';
 
 @singleton()
 export class EventService {
@@ -12,7 +12,7 @@ export class EventService {
 
   constructor(
     @inject(EventRepositoryToken) eventRepository: Repository<Event>,
-    @inject(AttendanceService) attendanceService: AttendanceService
+    @inject(delay(() => AttendanceService)) attendanceService: AttendanceService
   ) {
     this.eventRepository = eventRepository;
     this.attendanceService = attendanceService;

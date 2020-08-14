@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
@@ -21,7 +21,7 @@ export class Attendance {
   event: Event;
 
   // num_hours
-  @Column('float')
+  @Column('float', { nullable: true })
   duration: number;
 
   // indicates whether or not attendee was inductee at time of attendance

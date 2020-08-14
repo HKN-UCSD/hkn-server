@@ -94,9 +94,9 @@ export class EventController {
     if (appUserFromEmail == undefined) {
       const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
       const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
-      const attendance = await this.eventService.registerAttendance(eventID, savedAppUser);
+      await this.eventService.registerAttendance(eventID, savedAppUser);
 
-      return attendance;
+      return null;
     } else {
       const { id, role } = appUserFromEmail;
 
