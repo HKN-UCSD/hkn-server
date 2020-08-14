@@ -1,4 +1,4 @@
-import { Attendance, AppUser, Event } from '@Entities';
+import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
 import { AttendanceRepositoryToken } from '@Repositories';
 
 import { Repository } from 'typeorm';
@@ -14,7 +14,7 @@ export class AttendanceService {
 
   createAttendance(event: Event, attendee: AppUser): Attendance {
     const { role } = attendee;
-    const attendance = { event, attendee, role };
+    const attendance = { event, attendee, isInductee: role === AppUserRole.INDUCTEE };
     return this.attendanceRepository.create(attendance);
   }
 
