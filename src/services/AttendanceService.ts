@@ -12,13 +12,16 @@ export class AttendanceService {
     this.attendanceRepository = attendanceRepository;
   }
 
-  createAttendance(event: Event, attendee: AppUser): Attendance {
+  async registerAttendance(event: Event, attendee: AppUser): Promise<Attendance> {
     const { role } = attendee;
     const attendance = { event, attendee, isInductee: role === AppUserRole.INDUCTEE };
-    return this.attendanceRepository.create(attendance);
+    const newAttendance = this.attendanceRepository.create(attendance);
+    return this.attendanceRepository.save(newAttendance);
   }
 
-  async saveAttendance(attendance: Attendance): Promise<Attendance> {
-    return this.attendanceRepository.save(attendance);
+  async getAttendanceByEventUser(event: Event, attendee: AppUser): Promise<Attendance | undefined> {
+    const attendanceToCheck = await this.attendanceRepository.findOne({ event, attendee });
+
+    return attendanceToCheck;
   }
 }

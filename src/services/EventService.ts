@@ -1,9 +1,9 @@
 import { Event, AppUser, Attendance } from '@Entities';
 import { EventRepositoryToken } from '@Repositories';
-import { AttendanceService } from '@Services';
+import { AttendanceService } from './AttendanceService';
 
 import { Repository } from 'typeorm';
-import { singleton, inject, delay } from 'tsyringe';
+import { singleton, inject } from 'tsyringe';
 
 @singleton()
 export class EventService {
@@ -12,7 +12,7 @@ export class EventService {
 
   constructor(
     @inject(EventRepositoryToken) eventRepository: Repository<Event>,
-    @inject(delay(() => AttendanceService)) attendanceService: AttendanceService
+    @inject(AttendanceService) attendanceService: AttendanceService
   ) {
     this.eventRepository = eventRepository;
     this.attendanceService = attendanceService;
@@ -65,11 +65,20 @@ export class EventService {
    * @param eventId
    * @param appUser
    */
-  async registerAttendance(eventId: number, appUser: AppUser): Promise<Attendance> {
+  async registerForEventAttendance(eventId: number, appUser: AppUser): Promise<Attendance> {
     const event = await this.eventRepository.findOne({ id: eventId });
-    const attendance = this.attendanceService.createAttendance(event, appUser);
-    const savedAttendance = await this.attendanceService.saveAttendance(attendance);
+    const newAttendance = await this.attendanceService.registerAttendance(event, appUser);
 
-    return savedAttendance;
+    return newAttendance;
+  }
+
+  async hasDuplicateAttendance(eventId: number, appUser: AppUser): Promise<Boolean | undefined> {
+    const event = await this.eventRepository.findOne({ id: eventId });
+    const possibleDuplicateAttendance = await this.attendanceService.getAttendanceByEventUser(
+      event,
+      appUser
+    );
+
+    return possibleDuplicateAttendance !== undefined;
   }
 }

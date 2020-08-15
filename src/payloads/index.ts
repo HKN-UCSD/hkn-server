@@ -1,2 +1,8 @@
-export { EventRequest, EventResponse, MultipleEventResponse } from './Event';
-export { AppUserPKPayload, EventSignInRequest, EventSignInResponse } from './AppUser';
+export {
+  EventRequest,
+  EventResponse,
+  MultipleEventResponse,
+  EventSignInRequest,
+  EventSignInResponse,
+} from './Event';
+export { AppUserPKPayload, BaseAppUserPayload } from './AppUser';
