@@ -1,12 +1,11 @@
-import { IsInt, IsString, IsEmail, IsEnum } from 'class-validator';
-import { AppUserRole } from '@Entities';
+import { IsInt, IsString, IsEmail } from 'class-validator';
 
 export class AppUserPKPayload {
   @IsInt()
   readonly id: number;
 }
 
-abstract class BaseAppUserPayload {
+export class BaseAppUserPayload {
   @IsString()
   readonly firstName: string;
 
@@ -18,26 +17,4 @@ abstract class BaseAppUserPayload {
 
   @IsString()
   readonly major: string;
-}
-
-export class EventSignInRequest extends BaseAppUserPayload {}
-
-export class EventSignInResponse {
-  @IsInt()
-  id: number;
-
-  @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  major: string;
-
-  @IsEnum(AppUserRole)
-  role: string;
 }

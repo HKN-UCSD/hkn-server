@@ -1,4 +1,4 @@
-import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controllers';
+import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'routing-controllers';
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
@@ -83,36 +83,49 @@ export class EventController {
   }
 
   @Post('/:eventID/signin')
-  @ResponseSchema(Attendance)
+  @OnUndefined(409)
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
-  ): Promise<Attendance> {
+  ): Promise<Attendance | undefined> {
     const { email } = appUserRequest;
     const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
 
-    if (appUserFromEmail == undefined) {
+    if (appUserFromEmail === undefined) {
       const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
       const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
-      await this.eventService.registerAttendance(eventID, savedAppUser);
+      const newAttendance = await this.eventService.registerForEventAttendance(
+        eventID,
+        savedAppUser
+      );
 
-      return null;
+      return newAttendance;
     } else {
       const { id, role } = appUserFromEmail;
 
-      if (role !== AppUserRole.GUEST) {
-        /*
-         * TODO: Handle the case where user is an affiliate
-         * If affiliated user has a token, then verify it and proceed. If said
-         * user does not have a token, then send back an HTTP error.
-         */
-      } else {
-        const updatedAppUser = await this.appUserMapper.requestToExistingEntity(appUserRequest, id);
-        const savedUpdatedUser = await this.appUserService.saveAppUser(updatedAppUser);
-        await this.eventService.registerAttendance(eventID, savedUpdatedUser);
+      if (!(await this.eventService.hasDuplicateAttendance(eventID, appUserFromEmail))) {
+        if (role !== AppUserRole.GUEST) {
+          /*
+           * TODO: Handle the case where user is an affiliate
+           * If affiliated user has a token, then verify it and proceed. If said
+           * user does not have a token, then send back an HTTP error.
+           */
+        } else {
+          const updatedAppUser = await this.appUserMapper.requestToExistingEntity(
+            appUserRequest,
+            id
+          );
+          const savedUpdatedUser = await this.appUserService.saveAppUser(updatedAppUser);
+          const newAttendance = await this.eventService.registerForEventAttendance(
+            eventID,
+            savedUpdatedUser
+          );
 
-        return null;
+          return newAttendance;
+        }
       }
+
+      return undefined;
     }
   }
 }

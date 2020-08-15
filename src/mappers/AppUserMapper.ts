@@ -42,9 +42,6 @@ export class AppUserMapper {
     appUserObj.id = appUserId;
 
     const appUser: AppUser = await this.appUserRepository.preload(appUserObj);
-    if (appUser == undefined) {
-      return undefined;
-    }
 
     return appUser;
   }
