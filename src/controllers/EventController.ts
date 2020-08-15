@@ -2,27 +2,24 @@ import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'rou
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event, AppUserRole, Attendance } from '@Entities';
+import { Event, Attendance } from '@Entities';
 import { EventRequest, EventResponse, MultipleEventResponse, EventSignInRequest } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
-import { AppUserMapper, EventMapper } from '@Mappers';
+import { EventMapper } from '@Mappers';
 
 @singleton()
 @JsonController('/api/events')
 export class EventController {
   private appUserService: AppUserService;
-  private appUserMapper: AppUserMapper;
   private eventService: EventService;
   private eventMapper: EventMapper;
 
   constructor(
     @inject(AppUserService) appUserService: AppUserService,
-    @inject(AppUserMapper) appUserMapper: AppUserMapper,
     @inject(EventService) eventService: EventService,
     @inject(EventMapper) eventMapper: EventMapper
   ) {
     this.appUserService = appUserService;
-    this.appUserMapper = appUserMapper;
     this.eventService = eventService;
     this.eventMapper = eventMapper;
   }
@@ -84,48 +81,22 @@ export class EventController {
 
   @Post('/:eventID/signin')
   @OnUndefined(409)
+  @ResponseSchema(Attendance)
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
-  ): Promise<Attendance | undefined> {
-    const { email } = appUserRequest;
-    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+  ): Promise<Attendance> {
+    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserRequest);
 
-    if (appUserFromEmail === undefined) {
-      const newAppUser = this.appUserMapper.requestToNewEntity(appUserRequest);
-      const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
-      const newAttendance = await this.eventService.registerForEventAttendance(
-        eventID,
-        savedAppUser
-      );
-
-      return newAttendance;
-    } else {
-      const { id, role } = appUserFromEmail;
-
-      if (!(await this.eventService.hasDuplicateAttendance(eventID, appUserFromEmail))) {
-        if (role !== AppUserRole.GUEST) {
-          /*
-           * TODO: Handle the case where user is an affiliate
-           * If affiliated user has a token, then verify it and proceed. If said
-           * user does not have a token, then send back an HTTP error.
-           */
-        } else {
-          const updatedAppUser = await this.appUserMapper.requestToExistingEntity(
-            appUserRequest,
-            id
-          );
-          const savedUpdatedUser = await this.appUserService.saveAppUser(updatedAppUser);
-          const newAttendance = await this.eventService.registerForEventAttendance(
-            eventID,
-            savedUpdatedUser
-          );
-
-          return newAttendance;
-        }
-      }
-
-      return undefined;
+    // savedAppUser is undefined if AppUser from appUserRequest is an affiliate
+    if (savedAppUser === undefined) {
+      /*
+       * TODO: Handle the case where user is an affiliate
+       * If affiliated user has a token, then verify it and proceed. If said
+       * user does not have a token, then send back an HTTP error.
+       */
     }
+
+    return await this.eventService.registerForEventAttendance(eventID, savedAppUser);
   }
 }

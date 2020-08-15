@@ -71,14 +71,4 @@ export class EventService {
 
     return newAttendance;
   }
-
-  async hasDuplicateAttendance(eventId: number, appUser: AppUser): Promise<Boolean | undefined> {
-    const event = await this.eventRepository.findOne({ id: eventId });
-    const possibleDuplicateAttendance = await this.attendanceService.getAttendanceByEventUser(
-      event,
-      appUser
-    );
-
-    return possibleDuplicateAttendance !== undefined;
-  }
 }
