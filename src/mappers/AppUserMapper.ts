@@ -46,6 +46,19 @@ export class AppUserMapper {
     return appUser;
   }
 
+  async requestToEntityByEmail(
+    appUserFromEmail: AppUser,
+    appUserRequest: EventSignInRequest
+  ): Promise<AppUser | undefined> {
+    if (appUserFromEmail === undefined) {
+      return this.requestToNewEntity(appUserRequest);
+    } else {
+      const { id } = appUserFromEmail;
+
+      return await this.requestToExistingEntity(appUserRequest, id);
+    }
+  }
+
   /**
    * Converts an AppUser entity to an EventSignInResponse payload and returns the
    * newly created response payload to the caller.
