@@ -7,6 +7,7 @@ export enum AppUserRole {
   OFFICER = 'officer',
   MEMBER = 'member',
   INDUCTEE = 'inductee',
+  GUEST = 'guest',
 }
 
 /**
@@ -41,7 +42,7 @@ export class AppUser {
   @Column({
     type: 'enum',
     enum: AppUserRole,
-    default: AppUserRole.INDUCTEE,
+    default: AppUserRole.GUEST,
   })
   role: string;
 }

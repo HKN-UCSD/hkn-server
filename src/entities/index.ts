@@ -1,4 +1,4 @@
-export { AppUser } from './AppUser';
+export { AppUser, AppUserRole } from './AppUser';
 export { Attendance } from './Attendance';
 export { Event, EventStatus, EventType } from './Event';
 export { InducteeStat } from './InducteeStat';

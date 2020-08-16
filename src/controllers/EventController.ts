@@ -1,22 +1,28 @@
-import { JsonController, Param, Get, Post, Delete, Body } from 'routing-controllers';
+import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'routing-controllers';
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event } from '@Entities';
-import { EventRequest, EventResponse, MultipleEventResponse } from '@Payloads';
-import { EventService } from '@Services';
-import { EventMapper } from '@Mappers';
+import { Event, Attendance } from '@Entities';
+import { EventRequest, EventResponse, MultipleEventResponse, EventSignInRequest } from '@Payloads';
+import { AppUserService, EventService } from '@Services';
+import { AppUserMapper, EventMapper } from '@Mappers';
 
 @singleton()
 @JsonController('/api/events')
 export class EventController {
+  private appUserService: AppUserService;
+  private appUserMapper: AppUserMapper;
   private eventService: EventService;
   private eventMapper: EventMapper;
 
   constructor(
+    @inject(AppUserService) appUserService: AppUserService,
+    @inject(AppUserMapper) appUserMapper: AppUserMapper,
     @inject(EventService) eventService: EventService,
     @inject(EventMapper) eventMapper: EventMapper
   ) {
+    this.appUserService = appUserService;
+    this.appUserMapper = appUserMapper;
     this.eventService = eventService;
     this.eventMapper = eventMapper;
   }
@@ -74,5 +80,26 @@ export class EventController {
     }
 
     return this.eventMapper.entityToResponse(deletedEvent);
+  }
+
+  @Post('/:eventID/signin')
+  @OnUndefined(409)
+  @ResponseSchema(Attendance)
+  async signInToEvent(
+    @Param('eventID') eventID: number,
+    @Body() appUserRequest: EventSignInRequest
+  ): Promise<Attendance | undefined> {
+    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
+    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+
+    if (savedAppUser === undefined) {
+      /*
+       * TODO: Handle the case where user is an affiliate
+       * If affiliated user has a token, then verify it and proceed. If said
+       * user does not have a token, then send back an HTTP error.
+       */
+    }
+
+    return await this.eventService.registerForEventAttendance(eventID, savedAppUser);
   }
 }
