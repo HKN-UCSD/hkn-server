@@ -3,7 +3,13 @@ import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { Event, Attendance } from '@Entities';
-import { EventRequest, EventResponse, MultipleEventResponse, EventSignInRequest } from '@Payloads';
+import {
+  AttendanceResponse,
+  EventRequest,
+  EventResponse,
+  MultipleEventResponse,
+  EventSignInRequest,
+} from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper } from '@Mappers';
 
@@ -84,7 +90,7 @@ export class EventController {
 
   @Post('/:eventID/signin')
   @OnUndefined(409)
-  @ResponseSchema(Attendance)
+  @ResponseSchema(AttendanceResponse)
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
