@@ -1,5 +1,6 @@
 import { EventSignInRequest, EventSignInResponse } from '@Payloads';
 import { AppUser } from '@Entities';
+import { AppUserService } from '@Services';
 import { AppUserRepositoryToken } from '@Repositories';
 
 import { Repository } from 'typeorm';
@@ -9,9 +10,14 @@ import { singleton, inject } from 'tsyringe';
 @singleton()
 export class AppUserMapper {
   private appUserRepository: Repository<AppUser>;
+  private appUserService: AppUserService;
 
-  constructor(@inject(AppUserRepositoryToken) appUserRepository: Repository<AppUser>) {
+  constructor(
+    @inject(AppUserRepositoryToken) appUserRepository: Repository<AppUser>,
+    @inject(AppUserService) appUserService: AppUserService
+  ) {
     this.appUserRepository = appUserRepository;
+    this.appUserService = appUserService;
   }
 
   /**
@@ -46,10 +52,10 @@ export class AppUserMapper {
     return appUser;
   }
 
-  async requestToEntityByEmail(
-    appUserFromEmail: AppUser,
-    appUserRequest: EventSignInRequest
-  ): Promise<AppUser | undefined> {
+  async requestToEntityByEmail(appUserRequest: EventSignInRequest): Promise<AppUser> {
+    const { email } = appUserRequest;
+    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+
     if (appUserFromEmail === undefined) {
       return this.requestToNewEntity(appUserRequest);
     } else {

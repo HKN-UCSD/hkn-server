@@ -89,17 +89,7 @@ export class EventController {
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
   ): Promise<Attendance | undefined> {
-    const { email } = appUserRequest;
-    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
-    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(
-      appUserFromEmail,
-      appUserRequest
-    );
-
-    if (appUserToSave === undefined) {
-      return undefined;
-    }
-
+    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
     const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
 
     if (savedAppUser === undefined) {
