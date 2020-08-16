@@ -5,21 +5,24 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 import { Event, Attendance } from '@Entities';
 import { EventRequest, EventResponse, MultipleEventResponse, EventSignInRequest } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
-import { EventMapper } from '@Mappers';
+import { AppUserMapper, EventMapper } from '@Mappers';
 
 @singleton()
 @JsonController('/api/events')
 export class EventController {
   private appUserService: AppUserService;
+  private appUserMapper: AppUserMapper;
   private eventService: EventService;
   private eventMapper: EventMapper;
 
   constructor(
     @inject(AppUserService) appUserService: AppUserService,
+    @inject(AppUserMapper) appUserMapper: AppUserMapper,
     @inject(EventService) eventService: EventService,
     @inject(EventMapper) eventMapper: EventMapper
   ) {
     this.appUserService = appUserService;
+    this.appUserMapper = appUserMapper;
     this.eventService = eventService;
     this.eventMapper = eventMapper;
   }
@@ -85,10 +88,20 @@ export class EventController {
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: EventSignInRequest
-  ): Promise<Attendance> {
-    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserRequest);
+  ): Promise<Attendance | undefined> {
+    const { email } = appUserRequest;
+    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(
+      appUserFromEmail,
+      appUserRequest
+    );
 
-    // savedAppUser is undefined if AppUser from appUserRequest is an affiliate
+    if (appUserToSave === undefined) {
+      return undefined;
+    }
+
+    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+
     if (savedAppUser === undefined) {
       /*
        * TODO: Handle the case where user is an affiliate

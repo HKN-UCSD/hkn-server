@@ -25,10 +25,4 @@ export class AttendanceService {
 
     return newAttendance;
   }
-
-  async getAttendanceByEventUser(event: Event, attendee: AppUser): Promise<Attendance | undefined> {
-    const attendanceToCheck = await this.attendanceRepository.findOne({ event, attendee });
-
-    return attendanceToCheck;
-  }
 }
