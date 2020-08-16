@@ -10,8 +10,8 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { AppUser, EventType, EventStatus } from '@Entities';
-import { AppUserPKPayload } from '@Payloads';
+import { AppUser, AppUserRole, EventType, EventStatus } from '@Entities';
+import { AppUserPKPayload, BaseAppUserPayload } from './AppUser';
 
 abstract class BaseEventPayload {
   @IsString()
@@ -72,4 +72,14 @@ export class MultipleEventResponse {
   @ValidateNested({ each: true })
   @Type(() => EventResponse)
   events: EventResponse[];
+}
+
+export class EventSignInRequest extends BaseAppUserPayload {}
+
+export class EventSignInResponse extends BaseAppUserPayload {
+  @IsInt()
+  id: number;
+
+  @IsEnum(AppUserRole)
+  role: string;
 }

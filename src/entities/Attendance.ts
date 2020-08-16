@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
@@ -10,21 +10,18 @@ import { Event } from './Event';
  */
 @Entity()
 export class Attendance {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @ManyToOne(() => AppUser)
+  @ManyToOne(() => AppUser, { primary: true })
   attendee: AppUser;
 
   // Officer who checked off attendee
   @ManyToOne(() => AppUser)
   officer: AppUser;
 
-  @ManyToOne(() => Event)
+  @ManyToOne(() => Event, { primary: true })
   event: Event;
 
   // num_hours
-  @Column('float')
+  @Column('float', { nullable: true })
   duration: number;
 
   // indicates whether or not attendee was inductee at time of attendance
