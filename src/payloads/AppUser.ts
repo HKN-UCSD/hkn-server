@@ -5,7 +5,7 @@ export class AppUserPKPayload {
   readonly id: number;
 }
 
-export class BaseAppUserPayload {
+abstract class BaseAppUserPayload {
   @IsString()
   readonly firstName: string;
 
@@ -18,3 +18,5 @@ export class BaseAppUserPayload {
   @IsString()
   readonly major: string;
 }
+
+export class AppUserEventRequest extends BaseAppUserPayload {}

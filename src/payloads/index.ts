@@ -5,5 +5,5 @@ export {
   EventSignInRequest,
   EventSignInResponse,
 } from './Event';
-export { AppUserPKPayload, BaseAppUserPayload } from './AppUser';
+export { AppUserPKPayload, AppUserEventRequest } from './AppUser';
 export { AttendanceResponse } from './Attendance';
