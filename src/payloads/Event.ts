@@ -77,12 +77,11 @@ export class MultipleEventResponse {
   events: EventResponse[];
 }
 
-export class EventSignInRequest extends AppUserEventRequest {}
+export class EventAttendanceResponse extends BaseEventPayload {
+  @IsArray()
+  hosts: AppUser[];
 
-export class EventSignInResponse extends AppUserEventRequest {
-  @IsInt()
-  id: number;
-
-  @IsEnum(AppUserRole)
-  role: string;
+  @IsString()
+  @IsEnum(EventStatus)
+  status: string;
 }
