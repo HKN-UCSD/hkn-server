@@ -94,7 +94,7 @@ export class EventController {
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest
-  ): Promise<Attendance | undefined> {
+  ): Promise<AttendanceResponse | undefined> {
     const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
     const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
 
