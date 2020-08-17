@@ -8,7 +8,7 @@ import {
   EventRequest,
   EventResponse,
   MultipleEventResponse,
-  EventSignInRequest,
+  AppUserEventRequest,
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper } from '@Mappers';
@@ -93,8 +93,8 @@ export class EventController {
   @ResponseSchema(AttendanceResponse)
   async signInToEvent(
     @Param('eventID') eventID: number,
-    @Body() appUserRequest: EventSignInRequest
-  ): Promise<Attendance | undefined> {
+    @Body() appUserRequest: AppUserEventRequest
+  ): Promise<AttendanceResponse | undefined> {
     const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
     const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
 

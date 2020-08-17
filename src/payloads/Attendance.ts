@@ -1,24 +1,20 @@
-import { ValidateNested, IsOptional, IsBoolean, IsNumber, IsInstance } from 'class-validator';
-import { AppUser, Event } from '@Entities';
+import { IsOptional, IsBoolean, IsNumber, IsInstance } from 'class-validator';
+import { AppUserEventResponse } from './AppUser';
+import { EventAttendanceResponse } from './Event';
 
-abstract class BaseAttendancePayload {
-  @ValidateNested({ each: true })
-  @IsInstance(AppUser)
-  readonly attendee: AppUser;
+export class AttendanceResponse {
+  @IsInstance(AppUserEventResponse)
+  readonly attendee: AppUserEventResponse;
 
-  @ValidateNested({ each: true })
-  @IsInstance(Event)
-  readonly event: Event;
+  @IsInstance(EventAttendanceResponse)
+  readonly event: EventAttendanceResponse;
 
   @IsBoolean()
   readonly isInductee: Boolean;
-}
 
-export class AttendanceResponse extends BaseAttendancePayload {
-  @ValidateNested({ each: true })
-  @IsInstance(AppUser)
+  @IsInstance(AppUserEventResponse)
   @IsOptional()
-  readonly officer: AppUser;
+  readonly officer: AppUserEventResponse;
 
   @IsNumber()
   @IsOptional()

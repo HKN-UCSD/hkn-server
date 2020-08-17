@@ -1,4 +1,4 @@
-import { EventSignInRequest, EventSignInResponse } from '@Payloads';
+import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
 import { AppUser } from '@Entities';
 import { AppUserService } from '@Services';
 import { AppUserRepositoryToken } from '@Repositories';
@@ -27,7 +27,7 @@ export class AppUserMapper {
    * @param appUserRequest The request payload from which the AppUser entity
    *                       is created.
    */
-  requestToNewEntity(appUserRequest: EventSignInRequest): AppUser {
+  requestToNewEntity(appUserRequest: AppUserEventRequest): AppUser {
     const plainAppUserRequest: Object = classToPlain(appUserRequest);
     return this.appUserRepository.create(plainAppUserRequest);
   }
@@ -41,7 +41,7 @@ export class AppUserMapper {
    * @param appUserId The supposed ID of an existing AppUser entity.
    */
   async requestToExistingEntity(
-    appUserRequest: EventSignInRequest,
+    appUserRequest: AppUserEventRequest,
     appUserId: number
   ): Promise<AppUser | undefined> {
     const appUserObj: AppUser = appUserRequest as AppUser;
@@ -52,7 +52,7 @@ export class AppUserMapper {
     return appUser;
   }
 
-  async requestToEntityByEmail(appUserRequest: EventSignInRequest): Promise<AppUser> {
+  async requestToEntityByEmail(appUserRequest: AppUserEventRequest): Promise<AppUser> {
     const { email } = appUserRequest;
     const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
 
@@ -66,15 +66,15 @@ export class AppUserMapper {
   }
 
   /**
-   * Converts an AppUser entity to an EventSignInResponse payload and returns the
+   * Converts an AppUser entity to an AppUserEventResponse payload and returns the
    * newly created response payload to the caller.
    *
-   * @param appUser The AppUser entity to be converted to an EventSignInResponse
+   * @param appUser The AppUser entity to be converted to an AppUserEventResponse
    *                payload.
    */
-  entityToResponse(appUser: AppUser): EventSignInResponse {
+  entityToResponse(appUser: AppUser): AppUserEventResponse {
     const plainAppUser: Object = classToPlain(appUser);
-    const appUserResponse: EventSignInResponse = plainToClass(EventSignInResponse, plainAppUser);
+    const appUserResponse: AppUserEventResponse = plainToClass(AppUserEventResponse, plainAppUser);
 
     return appUserResponse;
   }
