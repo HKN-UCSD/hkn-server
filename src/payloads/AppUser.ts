@@ -1,4 +1,5 @@
-import { IsInt, IsString, IsEmail } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsEmail } from 'class-validator';
+import { AppUserRole } from '@Entities';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -12,11 +13,23 @@ abstract class BaseAppUserPayload {
   @IsString()
   readonly lastName: string;
 
-  @IsEmail()
-  readonly email: string;
-
   @IsString()
   readonly major: string;
 }
 
-export class AppUserEventRequest extends BaseAppUserPayload {}
+// If this class is empty, then it won't be decorated by class-validator, which will break docs
+export class AppUserEventRequest extends BaseAppUserPayload {
+  @IsEmail()
+  readonly email: string;
+}
+
+export class AppUserEventResponse extends BaseAppUserPayload {
+  @IsEmail()
+  email: string;
+
+  @IsInt()
+  id: number;
+
+  @IsEnum(AppUserRole)
+  role: string;
+}
