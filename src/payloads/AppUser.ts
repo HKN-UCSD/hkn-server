@@ -6,7 +6,11 @@ export class AppUserPKPayload {
   readonly id: number;
 }
 
-abstract class BaseAppUserPayload {
+// If this class is empty, then it won't be decorated by class-validator, which will break docs
+export class AppUserEventRequest {
+  @IsEmail()
+  readonly email: string;
+
   @IsString()
   readonly firstName: string;
 
@@ -17,15 +21,18 @@ abstract class BaseAppUserPayload {
   readonly major: string;
 }
 
-// If this class is empty, then it won't be decorated by class-validator, which will break docs
-export class AppUserEventRequest extends BaseAppUserPayload {
-  @IsEmail()
-  readonly email: string;
-}
-
-export class AppUserEventResponse extends BaseAppUserPayload {
+export class AppUserEventResponse {
   @IsEmail()
   email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  major: string;
 
   @IsInt()
   id: number;
