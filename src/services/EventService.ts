@@ -1,6 +1,7 @@
-import { Event, AppUser, Attendance } from '@Entities';
+import { Event, AppUser, Attendance, RSVP } from '@Entities';
 import { EventRepositoryToken } from '@Repositories';
 import { AttendanceService } from './AttendanceService';
+import { RSVPService } from './RSVPService';
 
 import { Repository } from 'typeorm';
 import { singleton, inject } from 'tsyringe';
@@ -9,13 +10,16 @@ import { singleton, inject } from 'tsyringe';
 export class EventService {
   private eventRepository: Repository<Event>;
   private attendanceService: AttendanceService;
+  private rsvpService: RSVPService;
 
   constructor(
     @inject(EventRepositoryToken) eventRepository: Repository<Event>,
-    @inject(AttendanceService) attendanceService: AttendanceService
+    @inject(AttendanceService) attendanceService: AttendanceService,
+    @inject(RSVPService) rsvpService: RSVPService
   ) {
     this.eventRepository = eventRepository;
     this.attendanceService = attendanceService;
+    this.rsvpService = rsvpService;
   }
 
   /**
@@ -70,5 +74,12 @@ export class EventService {
     const newAttendance = await this.attendanceService.registerAttendance(event, appUser);
 
     return newAttendance;
+  }
+
+  async registerForEventRSVP(eventId: number, appUser: AppUser): Promise<RSVP> {
+    const event = await this.eventRepository.findOne({ id: eventId });
+    const newRSVP = await this.rsvpService.registerRSVP(event, appUser);
+
+    return newRSVP;
   }
 }

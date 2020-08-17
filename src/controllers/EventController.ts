@@ -2,16 +2,17 @@ import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'rou
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event, Attendance } from '@Entities';
+import { Event } from '@Entities';
 import {
   AttendanceResponse,
   EventRequest,
   EventResponse,
   MultipleEventResponse,
   AppUserEventRequest,
+  RSVPResponse,
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
-import { AppUserMapper, EventMapper } from '@Mappers';
+import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
 
 @singleton()
 @JsonController('/api/events')
@@ -20,17 +21,23 @@ export class EventController {
   private appUserMapper: AppUserMapper;
   private eventService: EventService;
   private eventMapper: EventMapper;
+  private attendanceMapper: AttendanceMapper;
+  private rsvpMapper: RSVPMapper;
 
   constructor(
     @inject(AppUserService) appUserService: AppUserService,
     @inject(AppUserMapper) appUserMapper: AppUserMapper,
     @inject(EventService) eventService: EventService,
-    @inject(EventMapper) eventMapper: EventMapper
+    @inject(EventMapper) eventMapper: EventMapper,
+    @inject(AttendanceMapper) attendanceMapper: AttendanceMapper,
+    @inject(RSVPMapper) rsvpMapper: RSVPMapper
   ) {
     this.appUserService = appUserService;
     this.appUserMapper = appUserMapper;
     this.eventService = eventService;
     this.eventMapper = eventMapper;
+    this.attendanceMapper = attendanceMapper;
+    this.rsvpMapper = rsvpMapper;
   }
 
   @Post('/')
@@ -106,6 +113,31 @@ export class EventController {
        */
     }
 
-    return await this.eventService.registerForEventAttendance(eventID, savedAppUser);
+    const newAttendance = await this.eventService.registerForEventAttendance(eventID, savedAppUser);
+
+    return this.attendanceMapper.entityToResponse(newAttendance);
+  }
+
+  @Post('/:eventID/rsvp')
+  @OnUndefined(409)
+  @ResponseSchema(RSVPResponse)
+  async rsvpForEvent(
+    @Param('eventID') eventID: number,
+    @Body() appUserRequest: AppUserEventRequest
+  ): Promise<RSVPResponse | undefined> {
+    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
+    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+
+    if (savedAppUser === undefined) {
+      /*
+       * TODO: Handle the case where user is an affiliate
+       * If affiliated user has a token, then verify it and proceed. If said
+       * user does not have a token, then send back an HTTP error.
+       */
+    }
+
+    const newRSVP = await this.eventService.registerForEventRSVP(eventID, savedAppUser);
+
+    return this.rsvpMapper.entityToResponse(newRSVP);
   }
 }
