@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsString,
   IsOptional,
   IsDateString,
@@ -7,11 +8,13 @@ import {
   IsInt,
   ValidateNested,
   IsEnum,
+  IsNumber,
+  IsInstance,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { AppUser, AppUserRole, EventType, EventStatus } from '@Entities';
-import { AppUserPKPayload, BaseAppUserPayload } from './AppUser';
+import { AppUserPKPayload, AppUserEventRequest } from './AppUser';
 
 abstract class BaseEventPayload {
   @IsString()
@@ -74,12 +77,11 @@ export class MultipleEventResponse {
   events: EventResponse[];
 }
 
-export class EventSignInRequest extends BaseAppUserPayload {}
+export class EventAttendanceResponse extends BaseEventPayload {
+  @IsArray()
+  hosts: AppUser[];
 
-export class EventSignInResponse extends BaseAppUserPayload {
-  @IsInt()
-  id: number;
-
-  @IsEnum(AppUserRole)
-  role: string;
+  @IsString()
+  @IsEnum(EventStatus)
+  status: string;
 }
