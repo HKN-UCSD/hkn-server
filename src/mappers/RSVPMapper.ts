@@ -1,25 +1,21 @@
 import { RSVPResponse } from '@Payloads';
 import { RSVP } from '@Entities';
-import { RSVPService } from '@Services';
-import { RSVPRepositoryToken } from '@Repositories';
 
-import { Repository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton, inject } from 'tsyringe';
+import { singleton } from 'tsyringe';
 
 @singleton()
 export class RSVPMapper {
-  private rsvpRepository: Repository<RSVP>;
-  private rsvpService: RSVPService;
+  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+  constructor() {}
 
-  constructor(
-    @inject(RSVPRepositoryToken) rsvpRepository: Repository<RSVP>,
-    @inject(RSVPService) rsvpService: RSVPService
-  ) {
-    this.rsvpRepository = rsvpRepository;
-    this.rsvpService = rsvpService;
-  }
-
+  /**
+   * Converts an RSVP entity to an RSVPResponse payload and returns the
+   * newly created response payload to the caller.
+   *
+   * @param {RSVP} rsvp The RSVP entity to be converted to an RSVPResponse.
+   * @returns {RSVPResponse} An RSVPResponse instance.
+   */
   entityToResponse(rsvp: RSVP): RSVPResponse {
     const plainRSVP: Object = classToPlain(rsvp);
     const rsvpResponse: RSVPResponse = plainToClass(RSVPResponse, plainRSVP);

@@ -1,25 +1,21 @@
 import { AttendanceResponse } from '@Payloads';
 import { Attendance } from '@Entities';
-import { AttendanceService } from '@Services';
-import { AttendanceRepositoryToken } from '@Repositories';
 
-import { Repository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton, inject } from 'tsyringe';
+import { singleton } from 'tsyringe';
 
 @singleton()
 export class AttendanceMapper {
-  private attendanceRepository: Repository<Attendance>;
-  private attendanceService: AttendanceService;
+  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+  constructor() {}
 
-  constructor(
-    @inject(AttendanceRepositoryToken) attendanceRepository: Repository<Attendance>,
-    @inject(AttendanceService) attendanceService: AttendanceService
-  ) {
-    this.attendanceRepository = attendanceRepository;
-    this.attendanceService = attendanceService;
-  }
-
+  /**
+   * Converts an Attendance entity to an AttendanceResponse payload and returns the
+   * newly created response payload to the caller.
+   *
+   * @param {Attendance} attendance The Attendance entity to be converted to an AttendanceResponse.
+   * @returns {AttendanceResponse} An AttendanceResponse instance.
+   */
   entityToResponse(attendance: Attendance): AttendanceResponse {
     const plainAttendance: Object = classToPlain(attendance);
     const attendanceResponse: AttendanceResponse = plainToClass(

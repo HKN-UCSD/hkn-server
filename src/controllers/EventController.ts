@@ -113,7 +113,7 @@ export class EventController {
        */
     }
 
-    const newAttendance = await this.eventService.registerForEventAttendance(eventID, savedAppUser);
+    const newAttendance = await this.eventService.registerEventAttendance(eventID, savedAppUser);
 
     return this.attendanceMapper.entityToResponse(newAttendance);
   }
@@ -136,7 +136,7 @@ export class EventController {
        */
     }
 
-    const newRSVP = await this.eventService.registerForEventRSVP(eventID, savedAppUser);
+    const newRSVP = await this.eventService.registerEventRSVP(eventID, savedAppUser);
 
     return this.rsvpMapper.entityToResponse(newRSVP);
   }
