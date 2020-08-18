@@ -1,6 +1,7 @@
-import { Event, AppUser, Attendance } from '@Entities';
+import { Event, AppUser, Attendance, RSVP } from '@Entities';
 import { EventRepositoryToken } from '@Repositories';
 import { AttendanceService } from './AttendanceService';
+import { RSVPService } from './RSVPService';
 
 import { Repository } from 'typeorm';
 import { singleton, inject } from 'tsyringe';
@@ -9,13 +10,16 @@ import { singleton, inject } from 'tsyringe';
 export class EventService {
   private eventRepository: Repository<Event>;
   private attendanceService: AttendanceService;
+  private rsvpService: RSVPService;
 
   constructor(
     @inject(EventRepositoryToken) eventRepository: Repository<Event>,
-    @inject(AttendanceService) attendanceService: AttendanceService
+    @inject(AttendanceService) attendanceService: AttendanceService,
+    @inject(RSVPService) rsvpService: RSVPService
   ) {
     this.eventRepository = eventRepository;
     this.attendanceService = attendanceService;
+    this.rsvpService = rsvpService;
   }
 
   /**
@@ -62,13 +66,32 @@ export class EventService {
    * the passed-in AppUser entity, then stores that Attendance entity to the
    * Attendance table.
    *
-   * @param eventId
-   * @param appUser
+   * @param {number} eventId The id of an Event entity.
+   * @param {AppUser} appUser An AppUser who is trying to sign in for the specified event.
+   * @returns {Promise} A new Attendance entity.
    */
-  async registerForEventAttendance(eventId: number, appUser: AppUser): Promise<Attendance> {
+  async registerEventAttendance(
+    eventId: number,
+    appUser: AppUser
+  ): Promise<Attendance | undefined> {
     const event = await this.eventRepository.findOne({ id: eventId });
     const newAttendance = await this.attendanceService.registerAttendance(event, appUser);
 
     return newAttendance;
+  }
+
+  /**
+   * Creates an RSVP entity using the event obtained from eventId and the
+   * passed-in RSVP entity, then stores that RSVP entity to the RSVP table.
+   *
+   * @param {number} eventId The id of an Event entity.
+   * @param {AppUser} appUser An AppUser who is trying to rsvp for the specified event.
+   * @returns {Promise} A new RSVP entity.
+   */
+  async registerEventRSVP(eventId: number, appUser: AppUser): Promise<RSVP> {
+    const event = await this.eventRepository.findOne({ id: eventId });
+    const newRSVP = await this.rsvpService.registerRSVP(event, appUser);
+
+    return newRSVP;
   }
 }
