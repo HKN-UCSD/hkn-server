@@ -12,9 +12,9 @@ export const USER_NOT_AUTHENTICATED = 'The user is unauthenticated.';
 export const INVALID_ROLE = 'The user has an invalid role.';
 
 // Validation Error Responses
-export const INVALID_REQUEST_BODY = (errMsgArray: Array<String>) => {
+export const INVALID_REQUEST_BODY = (errMsgArray: Array<string>): string => {
   const baseAccumulator = '';
-  const reducer = (accumulator: String, currentValue: String) => {
+  const reducer = (accumulator: string, currentValue: string) => {
     return accumulator + '- ' + currentValue + '.\n';
   };
 

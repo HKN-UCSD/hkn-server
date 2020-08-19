@@ -22,7 +22,7 @@ import {
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
-import { AuthenticationMiddleware, OfficerAuthorizationFactory } from '@Middlewares';
+import { OfficerAuthorizationFactory } from '@Middlewares';
 
 @singleton()
 @JsonController('/api/events')
@@ -59,7 +59,7 @@ export class EventController {
   }
 
   @Get('/')
-  @UseBefore(AuthenticationMiddleware, OfficerAuthorizationFactory)
+  @UseBefore(OfficerAuthorizationFactory())
   @ResponseSchema(MultipleEventResponse)
   async getMultipleEvents(): Promise<MultipleEventResponse> {
     const events: Event[] = await this.eventService.getAllEvents();

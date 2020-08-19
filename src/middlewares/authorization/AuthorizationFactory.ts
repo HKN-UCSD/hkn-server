@@ -3,7 +3,24 @@ import { singleton, inject } from 'tsyringe';
 import { AppUserRole } from '@Entities';
 import { AuthenticationService, AuthorizationService } from '@Services';
 import { AuthorizationMiddleware } from './AuthorizationMiddleware';
-import * as ERR_MSGS from '../../constants/ErrResponses';
+
+interface rolePermissions {
+  [key: string]: Array<string>;
+}
+
+const rolePermisssionMapping: rolePermissions = {
+  admin: [AppUserRole.ADMIN],
+  officer: [AppUserRole.ADMIN, AppUserRole.OFFICER],
+  member: [AppUserRole.ADMIN, AppUserRole.OFFICER, AppUserRole.MEMBER],
+  inductee: [AppUserRole.ADMIN, AppUserRole.OFFICER, AppUserRole.MEMBER, AppUserRole.INDUCTEE],
+  guest: [
+    AppUserRole.ADMIN,
+    AppUserRole.OFFICER,
+    AppUserRole.MEMBER,
+    AppUserRole.INDUCTEE,
+    AppUserRole.GUEST,
+  ],
+};
 
 @singleton()
 export class AuthorizationFactory {
@@ -18,48 +35,13 @@ export class AuthorizationFactory {
     this.authorizationService = authorizationService;
   }
 
-  getAuthorizationMiddleware(permissionLevel: string): AuthorizationMiddleware {
+  getAuthorizationMiddleware(permissionLevel: string) {
     const { authenticationService, authorizationService } = this;
-    const authorizationMiddleware = new AuthorizationMiddleware(
+
+    return AuthorizationMiddleware(
       authenticationService,
-      authorizationService
+      authorizationService,
+      rolePermisssionMapping[permissionLevel]
     );
-
-    switch (permissionLevel) {
-      case AppUserRole.ADMIN:
-        authorizationMiddleware.setPermittedRoles([AppUserRole.ADMIN]);
-        break;
-      case AppUserRole.OFFICER:
-        authorizationMiddleware.setPermittedRoles([AppUserRole.ADMIN, AppUserRole.OFFICER]);
-        break;
-      case AppUserRole.MEMBER:
-        authorizationMiddleware.setPermittedRoles([
-          AppUserRole.ADMIN,
-          AppUserRole.OFFICER,
-          AppUserRole.MEMBER,
-        ]);
-        break;
-      case AppUserRole.INDUCTEE:
-        authorizationMiddleware.setPermittedRoles([
-          AppUserRole.ADMIN,
-          AppUserRole.OFFICER,
-          AppUserRole.MEMBER,
-          AppUserRole.INDUCTEE,
-        ]);
-        break;
-      case AppUserRole.GUEST:
-        authorizationMiddleware.setPermittedRoles([
-          AppUserRole.ADMIN,
-          AppUserRole.OFFICER,
-          AppUserRole.MEMBER,
-          AppUserRole.INDUCTEE,
-          AppUserRole.GUEST,
-        ]);
-        break;
-      default:
-        throw new Error(ERR_MSGS.INVALID_ROLE);
-    }
-
-    return authorizationMiddleware;
   }
 }

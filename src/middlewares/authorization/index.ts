@@ -1,20 +1,19 @@
 import { container } from 'tsyringe';
 
 import { AppUserRole } from '@Entities';
-import { AuthorizationMiddleware } from './AuthorizationMiddleware';
 import { AuthorizationFactory } from './AuthorizationFactory';
 
-export const AdminAuthorizationFactory = (): AuthorizationMiddleware =>
+export const AdminAuthorizationFactory = () =>
   container.resolve(AuthorizationFactory).getAuthorizationMiddleware(AppUserRole.ADMIN);
 
-export const OfficerAuthorizationFactory = (): AuthorizationMiddleware =>
+export const OfficerAuthorizationFactory = () =>
   container.resolve(AuthorizationFactory).getAuthorizationMiddleware(AppUserRole.OFFICER);
 
-export const MemberAuthorizationFactory = (): AuthorizationMiddleware =>
+export const MemberAuthorizationFactory = () =>
   container.resolve(AuthorizationFactory).getAuthorizationMiddleware(AppUserRole.MEMBER);
 
-export const InducteeAuthorizationFactory = (): AuthorizationMiddleware =>
+export const InducteeAuthorizationFactory = () =>
   container.resolve(AuthorizationFactory).getAuthorizationMiddleware(AppUserRole.INDUCTEE);
 
-export const GuestAuthorizationFactory = (): AuthorizationMiddleware =>
+export const GuestAuthorizationFactory = () =>
   container.resolve(AuthorizationFactory).getAuthorizationMiddleware(AppUserRole.GUEST);
