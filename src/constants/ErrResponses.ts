@@ -9,6 +9,7 @@ export const GENERIC_INTERNAL_ERROR = 'There was an internal error. Please try a
 // Auth Error Responses
 export const USER_NOT_AUTHORIZED = 'The user is not authorized for this action.';
 export const USER_NOT_AUTHENTICATED = 'The user is unauthenticated.';
+export const INVALID_ROLE = 'The user has an invalid role.';
 
 // Validation Error Responses
 export const INVALID_REQUEST_BODY = (errMsgArray: Array<String>) => {

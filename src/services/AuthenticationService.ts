@@ -3,6 +3,7 @@ import { singleton, inject } from 'tsyringe';
 
 import { AppUserService } from './AppUserService';
 import { AppUser } from '@Entities';
+import { config } from '../config';
 
 @singleton()
 export class AuthenticationService {
@@ -18,14 +19,14 @@ export class AuthenticationService {
       const tokenResult = await admin.auth().verifyIdToken(token);
 
       if (tokenResult != null) {
-        const {
-          claims: { user_id },
-        } = tokenResult;
-
-        return await this.appUserService.getAppUserById(user_id);
-      } else {
         return undefined;
       }
+
+      const {
+        claims: { user_id },
+      } = tokenResult;
+
+      return await this.appUserService.getAppUserById(user_id);
     } catch {
       return undefined;
     }
@@ -36,13 +37,15 @@ export class AuthenticationService {
     return await this.appUserService.getAppUserById(id);
   }
 
-  async verifyToken(mode: string, token: string): Promise<AppUser | undefined> {
-    if (mode === 'development') {
+  async verifyToken(token: string): Promise<AppUser | undefined> {
+    const { devAuth } = config;
+
+    if (devAuth === 'development') {
       // Inject local token resolution function?
       return await this.localVerifyIdToken(token);
     }
 
-    if (mode === 'production') {
+    if (devAuth === 'production') {
       // Inject production token resolution functinon?
       return await this.firebaseVerifyIdToken(token);
     }

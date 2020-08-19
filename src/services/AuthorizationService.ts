@@ -1,17 +1,15 @@
-import { singleton, inject } from 'tsyringe';
-
-import { AppUserService } from './AppUserService';
+import { singleton } from 'tsyringe';
+import { AppUser } from '@Entities';
 
 @singleton()
 export class AuthorizationService {
-  private appUserService: AppUserService;
+  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+  constructor() {}
 
-  constructor(@inject(AppUserService) appUserService: AppUserService) {
-    this.appUserService = appUserService;
-  }
-
-  async hasSufficientRole(permittedRoles: Array<string>, appUserId: number): Promise<Boolean> {
-    const appUserToCheck = await this.appUserService.getAppUserById(appUserId);
+  async hasSufficientRole(
+    permittedRoles: Array<string>,
+    appUserToCheck: AppUser
+  ): Promise<Boolean> {
     const { role } = appUserToCheck;
 
     return permittedRoles.includes(role);

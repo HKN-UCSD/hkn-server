@@ -20,6 +20,7 @@
       "@Entities": ["src/entities"],
       "@Mappers": ["src/mappers"],
       "@Repositories": ["src/repositories"],
+      "@Middlewares": ["src/middlewares"],
       "@Config": ["src/config.ts"],
       "*": ["node_modules/*"]
     },

@@ -1,8 +1,17 @@
-import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'routing-controllers';
+import {
+  JsonController,
+  Param,
+  Get,
+  Post,
+  Delete,
+  Body,
+  OnUndefined,
+  UseBefore,
+} from 'routing-controllers';
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event } from '@Entities';
+import { Event, AppUserRole } from '@Entities';
 import {
   AttendanceResponse,
   EventRequest,
@@ -13,6 +22,7 @@ import {
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
+import { AuthenticationMiddleware, OfficerAuthorizationFactory } from '@Middlewares';
 
 @singleton()
 @JsonController('/api/events')
@@ -49,6 +59,7 @@ export class EventController {
   }
 
   @Get('/')
+  @UseBefore(AuthenticationMiddleware, OfficerAuthorizationFactory)
   @ResponseSchema(MultipleEventResponse)
   async getMultipleEvents(): Promise<MultipleEventResponse> {
     const events: Event[] = await this.eventService.getAllEvents();
