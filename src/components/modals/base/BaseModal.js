@@ -41,6 +41,7 @@ BaseModal.propTypes = {
 };
 
 BaseModal.defaultProps = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   children: () => {},
 };
 

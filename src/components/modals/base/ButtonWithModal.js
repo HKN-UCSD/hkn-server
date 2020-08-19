@@ -36,6 +36,7 @@ ButtonWithModal.propTypes = {
 };
 
 ButtonWithModal.defaultProps = {
+  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
   children: () => {},
 };
 

@@ -5,6 +5,8 @@
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "airbnb",
     "prettier",
     "prettier/react"
@@ -13,7 +15,7 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -21,7 +23,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
@@ -29,6 +31,16 @@
       2,
       {
         "ignore": ["firebase", "classes", "history", "children"]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
       }
     ],
     "import/order": [
@@ -81,7 +93,14 @@
           ["@Images", "./src/images"],
           ["@Contexts", "./src/contexts"]
         ],
-        "extensions": [".js", ".jsx", ".json"]
+        "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"]
+      },
+      "webpack": {
+        "config": {
+          "resolve": {
+            "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"]
+          }
+        }
       }
     }
   }

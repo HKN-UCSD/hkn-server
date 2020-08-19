@@ -62,10 +62,12 @@ ButtonWithConfirmationModal.propTypes = {
 
 ButtonWithConfirmationModal.defaultProps = {
   confirmButtonProps: {
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onClick: () => {},
     otherConfirmProps: {},
   },
   cancelButtonProps: {
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onClick: () => {},
     otherCancelProps: {},
   },
@@ -110,6 +112,7 @@ ButtonWithAlertModal.propTypes = {
 
 ButtonWithAlertModal.defaultProps = {
   closeButtonProps: {
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onClick: () => {},
     otherProps: {},
   },
