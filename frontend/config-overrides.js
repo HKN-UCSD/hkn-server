@@ -1,9 +1,15 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable */
 const path = require('path');
 
 const { useBabelRc, override, addWebpackAlias } = require('customize-cra');
+const rewireReactHotLoader = require('react-app-rewire-hot-loader');
+
+function hotreload(config, env) {
+  return rewireReactHotLoader(config, env);
+}
 
 module.exports = override(
+  hotreload,
   useBabelRc(),
   addWebpackAlias({
     '@Constants': path.resolve(__dirname, './src/constants'),

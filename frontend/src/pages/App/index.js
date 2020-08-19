@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { hot } from 'react-hot-loader/root';
 
 import {
   SignInPage,
@@ -152,4 +153,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default process.env.NODE_ENV === 'development' ? hot(App) : App;
