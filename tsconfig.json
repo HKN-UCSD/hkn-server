@@ -20,6 +20,7 @@
       "@Entities": ["src/entities"],
       "@Mappers": ["src/mappers"],
       "@Repositories": ["src/repositories"],
+      "@Config": ["src/config.ts"],
       "*": ["node_modules/*"]
     },
     "emitDecoratorMetadata": true,

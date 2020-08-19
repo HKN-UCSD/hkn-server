@@ -32,6 +32,16 @@ export class AppUserService {
   }
 
   /**
+   * Get an existing AppUser by their id.
+   *
+   * @param {number} id The number used to query for an AppUser entity by ID.
+   * @returns {Promise} An AppUser entity if it exists in AppUser table.
+   */
+  getAppUserById(id: number): Promise<AppUser | undefined> {
+    return this.appUserRepository.findOne({ id });
+  }
+
+  /**
    * Get an existing AppUser by their email address.
    *
    * @param {string} email The email used to look for the corresponding AppUser.
