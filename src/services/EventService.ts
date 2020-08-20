@@ -1,23 +1,19 @@
 import { Event, AppUser, Attendance, RSVP } from '@Entities';
-import { EventRepositoryToken } from '@Repositories';
 import { AttendanceService } from './AttendanceService';
 import { RSVPService } from './RSVPService';
 
-import { Repository } from 'typeorm';
 import { singleton, inject } from 'tsyringe';
+import { getRepository } from 'typeorm';
 
 @singleton()
 export class EventService {
-  private eventRepository: Repository<Event>;
   private attendanceService: AttendanceService;
   private rsvpService: RSVPService;
 
   constructor(
-    @inject(EventRepositoryToken) eventRepository: Repository<Event>,
     @inject(AttendanceService) attendanceService: AttendanceService,
     @inject(RSVPService) rsvpService: RSVPService
   ) {
-    this.eventRepository = eventRepository;
     this.attendanceService = attendanceService;
     this.rsvpService = rsvpService;
   }
@@ -28,7 +24,9 @@ export class EventService {
    * @returns {Promise} Saved event.
    */
   async saveEvent(event: Event): Promise<Event> {
-    return this.eventRepository.save(event);
+    const eventRepository = getRepository(Event);
+
+    return eventRepository.save(event);
   }
 
   /**
@@ -37,7 +35,9 @@ export class EventService {
    * @returns {Event[]} Array of all events.
    */
   getAllEvents(): Promise<Event[]> {
-    return this.eventRepository.find();
+    const eventRepository = getRepository(Event);
+
+    return eventRepository.find();
   }
 
   /**
@@ -47,7 +47,9 @@ export class EventService {
    * @returns {Promise} Event with given id.
    */
   getEventById(id: number): Promise<Event | undefined> {
-    return this.eventRepository.findOne({ id });
+    const eventRepository = getRepository(Event);
+
+    return eventRepository.findOne({ id });
   }
 
   /**
@@ -57,8 +59,10 @@ export class EventService {
    * @returns {Promise} Deleted event.
    */
   async deleteEvent(id: number): Promise<Event | undefined> {
-    const event = await this.eventRepository.findOne({ id });
-    return event ? this.eventRepository.remove(event) : undefined;
+    const eventRepository = getRepository(Event);
+    const event = await eventRepository.findOne({ id });
+
+    return event ? eventRepository.remove(event) : undefined;
   }
 
   /**
@@ -74,7 +78,8 @@ export class EventService {
     eventId: number,
     appUser: AppUser
   ): Promise<Attendance | undefined> {
-    const event = await this.eventRepository.findOne({ id: eventId });
+    const eventRepository = getRepository(Event);
+    const event = await eventRepository.findOne({ id: eventId });
     const newAttendance = await this.attendanceService.registerAttendance(event, appUser);
 
     return newAttendance;
@@ -89,7 +94,8 @@ export class EventService {
    * @returns {Promise} A new RSVP entity.
    */
   async registerEventRSVP(eventId: number, appUser: AppUser): Promise<RSVP> {
-    const event = await this.eventRepository.findOne({ id: eventId });
+    const eventRepository = getRepository(Event);
+    const event = await eventRepository.findOne({ id: eventId });
     const newRSVP = await this.rsvpService.registerRSVP(event, appUser);
 
     return newRSVP;

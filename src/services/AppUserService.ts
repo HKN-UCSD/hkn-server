@@ -1,15 +1,9 @@
 import { AppUser, AppUserRole } from '@Entities';
 import { singleton } from 'tsyringe';
-import { Any, Repository, getRepository } from 'typeorm';
+import { Any, getRepository } from 'typeorm';
 
 @singleton()
 export class AppUserService {
-  private appUserRepository: Repository<AppUser>;
-
-  constructor() {
-    this.appUserRepository = getRepository(AppUser);
-  }
-
   /**
    * Stores the AppUser passed in as a parameter to the
    * AppUser table.
@@ -18,7 +12,9 @@ export class AppUserService {
    * @returns {Promise} The saved AppUser entity.
    */
   async saveAppUser(appUser: AppUser): Promise<AppUser> {
-    return await this.appUserRepository.save(appUser);
+    const appUserRepository = getRepository(AppUser);
+
+    return await appUserRepository.save(appUser);
   }
 
   /**
@@ -28,7 +24,9 @@ export class AppUserService {
    * @returns {AppUser[]} Array of AppUser entities.
    */
   getMultipleAppUsers(ids: number[]): Promise<AppUser[]> {
-    return this.appUserRepository.find({ id: Any(ids) });
+    const appUserRepository = getRepository(AppUser);
+
+    return appUserRepository.find({ id: Any(ids) });
   }
 
   /**
@@ -38,7 +36,9 @@ export class AppUserService {
    * @returns {Promise} An AppUser entity if it exists in AppUser table.
    */
   getAppUserByEmail(email: string): Promise<AppUser | undefined> {
-    return this.appUserRepository.findOne({ email });
+    const appUserRepository = getRepository(AppUser);
+
+    return appUserRepository.findOne({ email });
   }
 
   /**
