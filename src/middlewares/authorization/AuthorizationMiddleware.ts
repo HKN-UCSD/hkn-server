@@ -11,8 +11,6 @@ export const AuthorizationMiddleware = (
   const { headers } = request;
   const token = headers['authorization'];
 
-  console.log('HI');
-
   try {
     const appUserFromToken = await authenticationService.verifyToken(token);
 

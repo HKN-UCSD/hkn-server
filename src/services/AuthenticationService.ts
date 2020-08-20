@@ -13,7 +13,6 @@ export class AuthenticationService {
     this.appUserService = appUserService;
   }
 
-  // Not sure if Promise<Object> or Promise<admin.auth.DecodedIdToken> is better...
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
     try {
       const tokenResult = await admin.auth().verifyIdToken(token);

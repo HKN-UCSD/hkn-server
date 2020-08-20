@@ -25,6 +25,7 @@ const port = process.env.PORT || 3001;
 loadServices();
 loadRepositories();
 
+// DB connection
 loadORM().then(() => {
   loadFirebase();
 

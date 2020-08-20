@@ -59,7 +59,7 @@ export class EventController {
   }
 
   @Get('/')
-  @UseBefore(OfficerAuthorizationFactory())
+  @UseBefore(OfficerAuthorizationFactory)
   @ResponseSchema(MultipleEventResponse)
   async getMultipleEvents(): Promise<MultipleEventResponse> {
     const events: Event[] = await this.eventService.getAllEvents();
