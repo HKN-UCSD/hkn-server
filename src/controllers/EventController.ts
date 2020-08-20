@@ -1,5 +1,4 @@
 import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'routing-controllers';
-import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { Event } from '@Entities';
@@ -11,33 +10,34 @@ import {
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
-import { AppUserService, EventService } from '@Services';
-import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
+import { AppUserService, EventService, getEventService, getAppUserService } from '@Services';
+import {
+  AppUserMapper,
+  EventMapper,
+  AttendanceMapper,
+  RSVPMapper,
+  getAppUserMapper,
+  getAttendanceMapper,
+  getRSVPMapper,
+  getEventMapper,
+} from '@Mappers';
 
-@singleton()
 @JsonController('/api/events')
 export class EventController {
   private appUserService: AppUserService;
-  private appUserMapper: AppUserMapper;
   private eventService: EventService;
+  private appUserMapper: AppUserMapper;
   private eventMapper: EventMapper;
   private attendanceMapper: AttendanceMapper;
   private rsvpMapper: RSVPMapper;
 
-  constructor(
-    @inject(AppUserService) appUserService: AppUserService,
-    @inject(AppUserMapper) appUserMapper: AppUserMapper,
-    @inject(EventService) eventService: EventService,
-    @inject(EventMapper) eventMapper: EventMapper,
-    @inject(AttendanceMapper) attendanceMapper: AttendanceMapper,
-    @inject(RSVPMapper) rsvpMapper: RSVPMapper
-  ) {
-    this.appUserService = appUserService;
-    this.appUserMapper = appUserMapper;
-    this.eventService = eventService;
-    this.eventMapper = eventMapper;
-    this.attendanceMapper = attendanceMapper;
-    this.rsvpMapper = rsvpMapper;
+  constructor() {
+    this.appUserService = getAppUserService();
+    this.eventService = getEventService();
+    this.appUserMapper = getAppUserMapper();
+    this.eventMapper = getEventMapper();
+    this.attendanceMapper = getAttendanceMapper();
+    this.rsvpMapper = getRSVPMapper();
   }
 
   @Post('/')

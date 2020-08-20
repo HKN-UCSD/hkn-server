@@ -9,6 +9,8 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "start": "cross-env NODE_ENV=development tsc-watch --onSuccess \"node .\"",
+    "predebug:start": "npm run build",
+    "debug:start": "cross-env NODE_ENV=development node --stack-trace-limit=1000 dist/index.js",
     "prebuild": "npm-run-all clean lint",
     "build": "tsc",
     "prestart": "npm run build",
@@ -50,7 +52,6 @@
     "routing-controllers": "0.8.0",
     "routing-controllers-openapi": "^2.0.1",
     "ts-node": "^8.10.2",
-    "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
     "typeorm-typedi-extensions": "^0.2.3",
     "typescript": "^3.9.5",

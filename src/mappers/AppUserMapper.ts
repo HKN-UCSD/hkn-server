@@ -1,17 +1,15 @@
 import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
 import { AppUser } from '@Entities';
-import { AppUserService } from '@Services';
+import { AppUserService, getAppUserService } from '@Services';
 
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton, inject } from 'tsyringe';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class AppUserMapper {
   private appUserService: AppUserService;
 
-  constructor(@inject(AppUserService) appUserService: AppUserService) {
-    this.appUserService = appUserService;
+  constructor() {
+    this.appUserService = getAppUserService();
   }
 
   /**

@@ -9,9 +9,8 @@ import { DocsRouter } from './routers/DocsRouter';
 import { AuthRouter } from './routers/AuthRouter';
 
 import { useExpressServer } from 'routing-controllers';
-import { Controllers } from './controllers';
+import { Controllers, ControllerContainer } from './controllers';
 import { useContainer as routingUseContainer } from 'routing-controllers';
-import { container } from 'tsyringe';
 
 import { loadServices, loadFirebase, loadORM } from './loaders';
 import morgan from 'morgan';
@@ -37,9 +36,7 @@ loadORM().then(() => {
   // load controllers; maybe move into loader?
 
   // tell routing-controllers to use typedi container
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const containerShim = { get: (someClass: any) => container.resolve(someClass) as any };
-  routingUseContainer(containerShim);
+  routingUseContainer(ControllerContainer);
   useExpressServer(app, {
     cors: true,
     controllers: Controllers,

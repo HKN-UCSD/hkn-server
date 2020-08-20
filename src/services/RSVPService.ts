@@ -1,9 +1,6 @@
-import { singleton } from 'tsyringe';
-
 import { AppUser, Event, RSVP } from '@Entities';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class RSVPService {
   /**
    * Creates a new RSVP entity, then attempts to insert it into the DB.

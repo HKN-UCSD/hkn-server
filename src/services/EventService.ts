@@ -1,21 +1,17 @@
 import { Event, AppUser, Attendance, RSVP } from '@Entities';
 import { AttendanceService } from './AttendanceService';
 import { RSVPService } from './RSVPService';
+import { getAttendanceService, getRSVPService } from './getters';
 
-import { singleton, inject } from 'tsyringe';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class EventService {
   private attendanceService: AttendanceService;
   private rsvpService: RSVPService;
 
-  constructor(
-    @inject(AttendanceService) attendanceService: AttendanceService,
-    @inject(RSVPService) rsvpService: RSVPService
-  ) {
-    this.attendanceService = attendanceService;
-    this.rsvpService = rsvpService;
+  constructor() {
+    this.attendanceService = getAttendanceService();
+    this.rsvpService = getRSVPService();
   }
 
   /**
