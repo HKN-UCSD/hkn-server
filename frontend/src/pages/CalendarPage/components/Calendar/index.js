@@ -16,9 +16,14 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 const AppointmentWithClick = handleClick => props => (
   <Appointments.Appointment
     {...props}
+    // eslint-disable-next-line react/prop-types
     onClick={() => handleClick(props.data)}
   />
 );
+
+AppointmentWithClick.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default function Calendar({ events, handleEventClick }) {
   return (
