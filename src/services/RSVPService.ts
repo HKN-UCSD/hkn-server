@@ -1,17 +1,10 @@
-import { AppUser, Event, RSVP } from '@Entities';
-import { RSVPRepositoryToken } from '@Repositories';
+import { singleton } from 'tsyringe';
 
-import { Repository } from 'typeorm';
-import { singleton, inject } from 'tsyringe';
+import { AppUser, Event, RSVP } from '@Entities';
+import { getRepository } from 'typeorm';
 
 @singleton()
 export class RSVPService {
-  private rsvpRepository: Repository<RSVP>;
-
-  constructor(@inject(RSVPRepositoryToken) rsvpRepository: Repository<RSVP>) {
-    this.rsvpRepository = rsvpRepository;
-  }
-
   /**
    * Creates a new RSVP entity, then attempts to insert it into the DB.
    *
@@ -20,11 +13,12 @@ export class RSVPService {
    * @returns {Promise} A new RSVP entity, but undefined for duplicate RSVP.
    */
   async registerRSVP(event: Event, appUser: AppUser): Promise<RSVP | undefined> {
-    const RSVP = { event, appUser };
-    const newRSVP = this.rsvpRepository.create(RSVP);
+    const rsvpRepository = getRepository(RSVP);
+    const rsvpBeingProcessed = { event, appUser };
+    const newRSVP = rsvpRepository.create(rsvpBeingProcessed);
 
     try {
-      await this.rsvpRepository.insert(newRSVP);
+      await rsvpRepository.insert(newRSVP);
     } catch {
       return undefined;
     }

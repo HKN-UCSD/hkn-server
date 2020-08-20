@@ -1,22 +1,17 @@
 import { EventRequest, EventResponse } from '@Payloads';
 import { Event } from '@Entities';
-import { EventRepositoryToken } from '@Repositories';
 
-import { Repository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton, inject } from 'tsyringe';
+import { singleton } from 'tsyringe';
+import { getRepository } from 'typeorm';
 
 @singleton()
 export class EventMapper {
-  private eventRepository: Repository<Event>;
-
-  constructor(@inject(EventRepositoryToken) eventRepository: Repository<Event>) {
-    this.eventRepository = eventRepository;
-  }
-
   requestToNewEntity(eventRequest: EventRequest): Event {
+    const eventRepository = getRepository(Event);
     const plainEventRequest: object = classToPlain(eventRequest);
-    return this.eventRepository.create(plainEventRequest);
+
+    return eventRepository.create(plainEventRequest);
   }
 
   /**
@@ -33,7 +28,9 @@ export class EventMapper {
     const eventObj: Event = eventRequest as Event;
     eventObj.id = eventID; // preload expects an id.
 
-    const event: Event = await this.eventRepository.preload(eventObj);
+    const eventRepository = getRepository(Event);
+    const event: Event = await eventRepository.preload(eventObj);
+
     if (event === undefined) {
       return undefined;
     }

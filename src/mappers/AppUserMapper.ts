@@ -1,22 +1,16 @@
 import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
 import { AppUser } from '@Entities';
 import { AppUserService } from '@Services';
-import { AppUserRepositoryToken } from '@Repositories';
 
-import { Repository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { singleton, inject } from 'tsyringe';
+import { getRepository } from 'typeorm';
 
 @singleton()
 export class AppUserMapper {
-  private appUserRepository: Repository<AppUser>;
   private appUserService: AppUserService;
 
-  constructor(
-    @inject(AppUserRepositoryToken) appUserRepository: Repository<AppUser>,
-    @inject(AppUserService) appUserService: AppUserService
-  ) {
-    this.appUserRepository = appUserRepository;
+  constructor(@inject(AppUserService) appUserService: AppUserService) {
     this.appUserService = appUserService;
   }
 
@@ -28,8 +22,10 @@ export class AppUserMapper {
    * @returns {AppUser} A newly created AppUser entity.
    */
   requestToNewEntity(appUserRequest: AppUserEventRequest): AppUser {
+    const appUserRepository = getRepository(AppUser);
     const plainAppUserRequest: Object = classToPlain(appUserRequest);
-    return this.appUserRepository.create(plainAppUserRequest);
+
+    return appUserRepository.create(plainAppUserRequest);
   }
 
   /**
@@ -48,7 +44,8 @@ export class AppUserMapper {
     const appUserObj: AppUser = appUserRequest as AppUser;
     appUserObj.id = appUserId;
 
-    const appUser: AppUser = await this.appUserRepository.preload(appUserObj);
+    const appUserRepository = getRepository(AppUser);
+    const appUser: AppUser = await appUserRepository.preload(appUserObj);
 
     return appUser;
   }
