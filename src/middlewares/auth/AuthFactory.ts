@@ -2,7 +2,7 @@ import { singleton, inject } from 'tsyringe';
 
 import { AppUserRole } from '@Entities';
 import { AuthenticationService, AuthorizationService } from '@Services';
-import { AuthorizationMiddleware } from './AuthorizationMiddleware';
+import { AuthMiddleware } from './AuthMiddleware';
 
 interface rolePermissions {
   [key: string]: Array<string>;
@@ -23,7 +23,7 @@ const rolePermisssionMapping: rolePermissions = {
 };
 
 @singleton()
-export class AuthorizationFactory {
+export class AuthFactory {
   private authenticationService: AuthenticationService;
   private authorizationService: AuthorizationService;
 
@@ -35,10 +35,10 @@ export class AuthorizationFactory {
     this.authorizationService = authorizationService;
   }
 
-  getAuthorizationMiddleware(permissionLevel: string) {
+  getAuthMiddleware(permissionLevel: string) {
     const { authenticationService, authorizationService } = this;
 
-    return AuthorizationMiddleware(
+    return AuthMiddleware(
       authenticationService,
       authorizationService,
       rolePermisssionMapping[permissionLevel]

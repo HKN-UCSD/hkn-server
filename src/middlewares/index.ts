@@ -1,8 +1,7 @@
-export { AuthenticationMiddleware } from './authentication/AuthenticationMiddleware';
 export {
-  AdminAuthorizationFactory,
-  OfficerAuthorizationFactory,
-  MemberAuthorizationFactory,
-  InducteeAuthorizationFactory,
-  GuestAuthorizationFactory,
-} from './authorization';
+  AdminAuthFactory,
+  OfficerAuthFactory,
+  MemberAuthFactory,
+  InducteeAuthFactory,
+  GuestAuthFactory,
+} from './auth';

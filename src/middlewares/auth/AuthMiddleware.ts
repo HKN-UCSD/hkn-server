@@ -1,13 +1,14 @@
+import { Request, Response, NextFunction } from 'express';
 import { ForbiddenError, UnauthorizedError } from 'routing-controllers';
 
 import { AuthorizationService, AuthenticationService } from '@Services';
 import * as ERR_MSGS from '../../constants/ErrResponses';
 
-export const AuthorizationMiddleware = (
+export const AuthMiddleware = (
   authenticationService: AuthenticationService,
   authorizationService: AuthorizationService,
   permittedRoles: Array<string>
-) => async (request: any, response: any, next?: (err?: any) => any): Promise<any> => {
+) => async (request: Request, response: Response, next: NextFunction): Promise<any> => {
   const { headers } = request;
   const token = headers['authorization'];
 

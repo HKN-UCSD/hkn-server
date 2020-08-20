@@ -11,7 +11,7 @@ import {
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event, AppUserRole } from '@Entities';
+import { Event } from '@Entities';
 import {
   AttendanceResponse,
   EventRequest,
@@ -22,7 +22,7 @@ import {
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
-import { OfficerAuthorizationFactory } from '@Middlewares';
+import { OfficerAuthFactory } from '@Middlewares';
 
 @singleton()
 @JsonController('/api/events')
@@ -51,6 +51,7 @@ export class EventController {
   }
 
   @Post('/')
+  @UseBefore(OfficerAuthFactory)
   @ResponseSchema(EventResponse)
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
     const event = this.eventMapper.requestToNewEntity(eventRequest);
@@ -59,7 +60,6 @@ export class EventController {
   }
 
   @Get('/')
-  @UseBefore(OfficerAuthorizationFactory)
   @ResponseSchema(MultipleEventResponse)
   async getMultipleEvents(): Promise<MultipleEventResponse> {
     const events: Event[] = await this.eventService.getAllEvents();
@@ -81,6 +81,7 @@ export class EventController {
   }
 
   @Post('/:eventID')
+  @UseBefore(OfficerAuthFactory)
   @ResponseSchema(EventResponse)
   async updateEvent(
     @Param('eventID') id: number,

@@ -36,7 +36,9 @@ export class AppUserService {
    * @returns {Promise} An AppUser entity if it exists in AppUser table.
    */
   getAppUserById(id: number): Promise<AppUser | undefined> {
-    return this.appUserRepository.findOne({ id });
+    const appUserRepository = getRepository(AppUser);
+
+    return appUserRepository.findOne({ id });
   }
 
   /**
