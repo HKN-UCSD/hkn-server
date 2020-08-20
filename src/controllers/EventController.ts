@@ -1,6 +1,6 @@
 import { JsonController, Param, Get, Post, Delete, Body, OnUndefined } from 'routing-controllers';
 import { singleton, inject } from 'tsyringe';
-import { ResponseSchema } from 'routing-controllers-openapi';
+import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { Event } from '@Entities';
 import {
@@ -42,6 +42,7 @@ export class EventController {
 
   @Post('/')
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
     const event = this.eventMapper.requestToNewEntity(eventRequest);
     const savedEvent = await this.eventService.saveEvent(event);
@@ -71,6 +72,7 @@ export class EventController {
 
   @Post('/:eventID')
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async updateEvent(
     @Param('eventID') id: number,
     @Body() eventRequest: EventRequest
@@ -86,6 +88,7 @@ export class EventController {
 
   @Delete('/:eventID')
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
     const deletedEvent = await this.eventService.deleteEvent(eventID);
     if (deletedEvent === undefined) {
