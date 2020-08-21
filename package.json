@@ -49,7 +49,9 @@
     "cypress": "npx cypress run",
     "lint": "eslint --fix './src/**/*.{js,ts,tsx}'",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "precodegen": "rimraf src/api/*",
+    "codegen": "npx openapi-generator generate -i http://dev.api.hknucsd.com/api/docs/json -g typescript-fetch --additional-properties=typescriptThreePlus=true -o src/api/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,6 +65,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@material-ui/codemod": "^4.5.0",
+    "@openapitools/openapi-generator-cli": "^1.0.15-5.0.0-beta",
     "@storybook/addon-actions": "^6.0.13",
     "@storybook/addon-docs": "^6.0.13",
     "@storybook/addon-essentials": "^6.0.13",
@@ -81,7 +84,8 @@
     "eslint-plugin-react": "^7.20.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.10",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2"
   },
   "husky": {
     "hooks": {
