@@ -7,11 +7,12 @@ import {
   Body,
   OnUndefined,
   UseBefore,
+  CurrentUser,
 } from 'routing-controllers';
 import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
-import { Event } from '@Entities';
+import { Event, AppUser } from '@Entities';
 import {
   AttendanceResponse,
   EventRequest,
@@ -22,7 +23,7 @@ import {
 } from '@Payloads';
 import { AppUserService, EventService } from '@Services';
 import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
-import { OfficerAuthFactory } from '@Middlewares';
+import { OfficerAuthMiddleware } from '@Middlewares';
 
 @singleton()
 @JsonController('/api/events')
@@ -51,7 +52,7 @@ export class EventController {
   }
 
   @Post('/')
-  @UseBefore(OfficerAuthFactory)
+  @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
     const event = this.eventMapper.requestToNewEntity(eventRequest);
@@ -81,7 +82,7 @@ export class EventController {
   }
 
   @Post('/:eventID')
-  @UseBefore(OfficerAuthFactory)
+  @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   async updateEvent(
     @Param('eventID') id: number,
@@ -112,20 +113,17 @@ export class EventController {
   @ResponseSchema(AttendanceResponse)
   async signInToEvent(
     @Param('eventID') eventID: number,
-    @Body() appUserRequest: AppUserEventRequest
+    @Body() appUserRequest: AppUserEventRequest,
+    @CurrentUser() appUser: AppUser
   ): Promise<AttendanceResponse | undefined> {
-    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
-    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+    let currAppUser = appUser;
 
-    if (savedAppUser === undefined) {
-      /*
-       * TODO: Handle the case where user is an affiliate
-       * If affiliated user has a token, then verify it and proceed. If said
-       * user does not have a token, then send back an HTTP error.
-       */
+    if (appUser === undefined) {
+      const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
+      currAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
     }
 
-    const newAttendance = await this.eventService.registerEventAttendance(eventID, savedAppUser);
+    const newAttendance = await this.eventService.registerEventAttendance(eventID, currAppUser);
 
     return this.attendanceMapper.entityToResponse(newAttendance);
   }
@@ -135,20 +133,17 @@ export class EventController {
   @ResponseSchema(RSVPResponse)
   async rsvpForEvent(
     @Param('eventID') eventID: number,
-    @Body() appUserRequest: AppUserEventRequest
+    @Body() appUserRequest: AppUserEventRequest,
+    @CurrentUser() appUser: AppUser
   ): Promise<RSVPResponse | undefined> {
-    const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
-    const savedAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+    let currAppUser = appUser;
 
-    if (savedAppUser === undefined) {
-      /*
-       * TODO: Handle the case where user is an affiliate
-       * If affiliated user has a token, then verify it and proceed. If said
-       * user does not have a token, then send back an HTTP error.
-       */
+    if (appUser === undefined) {
+      const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
+      currAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
     }
 
-    const newRSVP = await this.eventService.registerEventRSVP(eventID, savedAppUser);
+    const newRSVP = await this.eventService.registerEventRSVP(eventID, currAppUser);
 
     return this.rsvpMapper.entityToResponse(newRSVP);
   }

@@ -17,6 +17,7 @@
       "@Services/Interfaces": ["src/services/interfaces"],
       "@Payloads": ["src/payloads"],
       "@Controllers": ["src/controllers"],
+      "@Decorators": ["src/decorators"],
       "@Entities": ["src/entities"],
       "@Mappers": ["src/mappers"],
       "@Repositories": ["src/repositories"],
