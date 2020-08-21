@@ -23,7 +23,7 @@ const rolePermisssionMapping: rolePermissions = {
 };
 
 @singleton()
-export class AuthFactory {
+export class AuthMiddlewareFactory {
   private authenticationService: AuthenticationService;
   private authorizationService: AuthorizationService;
 

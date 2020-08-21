@@ -1,24 +1,24 @@
 import { container } from 'tsyringe';
 
 import { AppUserRole } from '@Entities';
-import { AuthFactory } from './AuthFactory';
+import { AuthMiddlewareFactory } from './AuthMiddlewareFactory';
 
 export const AdminAuthMiddleware = container
-  .resolve(AuthFactory)
+  .resolve(AuthMiddlewareFactory)
   .getAuthMiddleware(AppUserRole.ADMIN);
 
 export const OfficerAuthMiddleware = container
-  .resolve(AuthFactory)
+  .resolve(AuthMiddlewareFactory)
   .getAuthMiddleware(AppUserRole.OFFICER);
 
 export const MemberAuthMiddleware = container
-  .resolve(AuthFactory)
+  .resolve(AuthMiddlewareFactory)
   .getAuthMiddleware(AppUserRole.MEMBER);
 
 export const InducteeAuthMiddleware = container
-  .resolve(AuthFactory)
+  .resolve(AuthMiddlewareFactory)
   .getAuthMiddleware(AppUserRole.INDUCTEE);
 
 export const GuestAuthMiddleware = container
-  .resolve(AuthFactory)
+  .resolve(AuthMiddlewareFactory)
   .getAuthMiddleware(AppUserRole.GUEST);
