@@ -16,6 +16,7 @@ type Config = {
   dbURL: string;
   clientAppID: string;
   clientApiKey: string;
+  devAuth: string;
 };
 
 const {
@@ -25,6 +26,7 @@ const {
   FIREBASE_DATABASE_URL,
   FIREBASE_CLIENT_ID,
   FIREBASE_CLIENT_API_KEY,
+  DEV_AUTH,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
@@ -38,4 +40,5 @@ export const config: Config = {
   dbURL: FIREBASE_DATABASE_URL,
   clientAppID: FIREBASE_CLIENT_ID,
   clientApiKey: FIREBASE_CLIENT_API_KEY,
+  devAuth: DEV_AUTH,
 };

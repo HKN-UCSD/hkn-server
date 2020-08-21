@@ -16,6 +16,8 @@ import { container } from 'tsyringe';
 import { loadServices, loadFirebase, loadORM } from './loaders';
 import morgan from 'morgan';
 
+import { checkCurrentUserToken } from './decorators';
+
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
@@ -24,6 +26,7 @@ const port = process.env.PORT || 3001;
 
 loadServices();
 
+// DB connection
 loadORM().then(() => {
   loadFirebase();
 
@@ -43,6 +46,7 @@ loadORM().then(() => {
   useExpressServer(app, {
     cors: true,
     controllers: Controllers,
+    currentUserChecker: checkCurrentUserToken,
   });
 
   app.use(compression());

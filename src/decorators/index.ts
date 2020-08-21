@@ -1,0 +1,1 @@
+export { checkCurrentUserToken } from './currentUser';

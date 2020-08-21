@@ -93,6 +93,7 @@
     "@Decorators": "dist/decorators",
     "@Middlewares": "dist/middlewares",
     "@Mappers": "dist/mappers",
-    "@Repositories": "dist/repositories"
+    "@Repositories": "dist/repositories",
+    "@Config": "dist/config.js"
   }
 }
