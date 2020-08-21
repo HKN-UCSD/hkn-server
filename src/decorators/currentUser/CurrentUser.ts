@@ -5,7 +5,7 @@ import { AuthenticationService } from '@Services';
 import { AppUser } from '@Entities';
 
 @singleton()
-export class CurrentUserFactory {
+export class CurrentUserDecorator {
   private authenticationService: AuthenticationService;
 
   constructor(@inject(AuthenticationService) authenticationService: AuthenticationService) {

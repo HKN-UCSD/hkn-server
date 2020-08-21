@@ -1,4 +1,6 @@
 import { container } from 'tsyringe';
-import { CurrentUserFactory } from './CurrentUser';
+import { CurrentUserDecorator } from './CurrentUser';
 
-export const checkCurrentUserToken = container.resolve(CurrentUserFactory).getCurrentUserChecker();
+export const checkCurrentUserToken = container
+  .resolve(CurrentUserDecorator)
+  .getCurrentUserChecker();
