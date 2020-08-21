@@ -33,6 +33,11 @@ export class AuthenticationService {
 
   async localVerifyIdToken(token: string): Promise<AppUser | undefined> {
     const id = parseInt(token, 10);
+
+    if (isNaN(id)) {
+      return undefined;
+    }
+
     return await this.appUserService.getAppUserById(id);
   }
 

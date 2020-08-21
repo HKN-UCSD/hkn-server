@@ -1,7 +1,7 @@
 export {
-  AdminAuthFactory,
-  OfficerAuthFactory,
-  MemberAuthFactory,
-  InducteeAuthFactory,
-  GuestAuthFactory,
+  AdminAuthMiddleware,
+  OfficerAuthMiddleware,
+  MemberAuthMiddleware,
+  InducteeAuthMiddleware,
+  GuestAuthMiddleware,
 } from './auth';
