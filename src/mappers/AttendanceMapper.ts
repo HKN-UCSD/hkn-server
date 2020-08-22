@@ -2,13 +2,8 @@ import { AttendanceResponse } from '@Payloads';
 import { Attendance } from '@Entities';
 
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class AttendanceMapper {
-  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-  constructor() {}
-
   /**
    * Converts an Attendance entity to an AttendanceResponse payload and returns the
    * newly created response payload to the caller.
@@ -26,3 +21,5 @@ export class AttendanceMapper {
     return attendanceResponse;
   }
 }
+
+export const AttendanceMapperImpl = new AttendanceMapper();

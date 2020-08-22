@@ -8,12 +8,10 @@ import { UserRouter } from './routers/UserRouter';
 import { DocsRouter } from './routers/DocsRouter';
 import { AuthRouter } from './routers/AuthRouter';
 
-import { useExpressServer } from 'routing-controllers';
-import { Controllers } from './controllers';
-import { useContainer as routingUseContainer } from 'routing-controllers';
-import { container } from 'tsyringe';
+import { useExpressServer, useContainer as routingUseContainer } from 'routing-controllers';
+import { controllers, ControllerContainer } from './controllers';
 
-import { loadServices, loadFirebase, loadORM } from './loaders';
+import { loadFirebase, loadORM } from './loaders';
 import morgan from 'morgan';
 
 import { checkCurrentUserToken } from './decorators';
@@ -23,8 +21,6 @@ const limiter = rateLimit({
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
 });
 const port = process.env.PORT || 3001;
-
-loadServices();
 
 // DB connection
 loadORM().then(() => {
@@ -40,12 +36,10 @@ loadORM().then(() => {
   // load controllers; maybe move into loader?
 
   // tell routing-controllers to use typedi container
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const containerShim = { get: (someClass: any) => container.resolve(someClass) as any };
-  routingUseContainer(containerShim);
+  routingUseContainer(ControllerContainer);
   useExpressServer(app, {
     cors: true,
-    controllers: Controllers,
+    controllers: controllers,
     currentUserChecker: checkCurrentUserToken,
   });
 

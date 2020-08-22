@@ -1,14 +1,17 @@
-import { singleton, inject } from 'tsyringe';
-
 import { AppUserRole } from '@Entities';
-import { AuthenticationService, AuthorizationService } from '@Services';
+import {
+  AuthenticationService,
+  AuthorizationService,
+  AuthenticationServiceImpl,
+  AuthorizationServiceImpl,
+} from '@Services';
 import { AuthMiddleware } from './AuthMiddleware';
 
 interface rolePermissions {
   [key: string]: Array<string>;
 }
 
-const rolePermisssionMapping: rolePermissions = {
+const rolePermissionMapping: rolePermissions = {
   admin: [AppUserRole.ADMIN],
   officer: [AppUserRole.ADMIN, AppUserRole.OFFICER],
   member: [AppUserRole.ADMIN, AppUserRole.OFFICER, AppUserRole.MEMBER],
@@ -22,18 +25,11 @@ const rolePermisssionMapping: rolePermissions = {
   ],
 };
 
-@singleton()
 export class AuthMiddlewareFactory {
-  private authenticationService: AuthenticationService;
-  private authorizationService: AuthorizationService;
-
   constructor(
-    @inject(AuthenticationService) authenticationService: AuthenticationService,
-    @inject(AuthorizationService) authorizationService: AuthorizationService
-  ) {
-    this.authenticationService = authenticationService;
-    this.authorizationService = authorizationService;
-  }
+    private authenticationService: AuthenticationService,
+    private authorizationService: AuthorizationService
+  ) {}
 
   getAuthMiddleware(permissionLevel: string) {
     const { authenticationService, authorizationService } = this;
@@ -41,7 +37,12 @@ export class AuthMiddlewareFactory {
     return AuthMiddleware(
       authenticationService,
       authorizationService,
-      rolePermisssionMapping[permissionLevel]
+      rolePermissionMapping[permissionLevel]
     );
   }
 }
+
+export const AuthMiddlewareFactoryImpl = new AuthMiddlewareFactory(
+  AuthenticationServiceImpl,
+  AuthorizationServiceImpl
+);

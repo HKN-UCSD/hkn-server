@@ -1,18 +1,12 @@
 import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
 import { AppUser } from '@Entities';
-import { AppUserService } from '@Services';
+import { AppUserService, AppUserServiceImpl } from '@Services';
 
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton, inject } from 'tsyringe';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class AppUserMapper {
-  private appUserService: AppUserService;
-
-  constructor(@inject(AppUserService) appUserService: AppUserService) {
-    this.appUserService = appUserService;
-  }
+  constructor(private appUserService: AppUserService) {}
 
   /**
    * Converts an EventSignInRequest payload to an AppUser entity and
@@ -87,3 +81,5 @@ export class AppUserMapper {
     return appUserResponse;
   }
 }
+
+export const AppUserMapperImpl = new AppUserMapper(AppUserServiceImpl);

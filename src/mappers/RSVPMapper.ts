@@ -2,13 +2,8 @@ import { RSVPResponse } from '@Payloads';
 import { RSVP } from '@Entities';
 
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class RSVPMapper {
-  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-  constructor() {}
-
   /**
    * Converts an RSVP entity to an RSVPResponse payload and returns the
    * newly created response payload to the caller.
@@ -23,3 +18,5 @@ export class RSVPMapper {
     return rsvpResponse;
   }
 }
+
+export const RSVPMapperImpl = new RSVPMapper();

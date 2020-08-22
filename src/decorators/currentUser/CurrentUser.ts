@@ -1,16 +1,10 @@
 import { Action } from 'routing-controllers';
-import { singleton, inject } from 'tsyringe';
 
-import { AuthenticationService } from '@Services';
+import { AuthenticationService, AuthenticationServiceImpl } from '@Services';
 import { AppUser } from '@Entities';
 
-@singleton()
-export class CurrentUserDecoratorFactory {
-  private authenticationService: AuthenticationService;
-
-  constructor(@inject(AuthenticationService) authenticationService: AuthenticationService) {
-    this.authenticationService = authenticationService;
-  }
+class CurrentUserDecoratorFactory {
+  constructor(private authenticationService: AuthenticationService) {}
 
   getCurrentUserChecker(): (action: Action) => Promise<AppUser> {
     const currentUserChecker = async (action: Action): Promise<AppUser> => {
@@ -21,3 +15,7 @@ export class CurrentUserDecoratorFactory {
     return currentUserChecker;
   }
 }
+
+export const CurrentUserDecoratorFactoryImpl = new CurrentUserDecoratorFactory(
+  AuthenticationServiceImpl
+);

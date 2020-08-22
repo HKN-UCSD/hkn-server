@@ -1,9 +1,7 @@
 import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
 
 import { getRepository } from 'typeorm';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class AttendanceService {
   /**
    * Creates a new Attendance entity, then attempts to insert it into the DB.
@@ -28,3 +26,5 @@ export class AttendanceService {
     return newAttendance;
   }
 }
+
+export const AttendanceServiceImpl = new AttendanceService();
