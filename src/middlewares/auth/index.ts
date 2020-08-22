@@ -1,24 +1,16 @@
-import { container } from 'tsyringe';
-
 import { AppUserRole } from '@Entities';
-import { AuthMiddlewareFactory } from './AuthMiddlewareFactory';
+import { AuthMiddlewareFactoryImpl } from './AuthMiddlewareFactory';
 
-export const AdminAuthMiddleware = container
-  .resolve(AuthMiddlewareFactory)
-  .getAuthMiddleware(AppUserRole.ADMIN);
+export const AdminAuthMiddleware = AuthMiddlewareFactoryImpl.getAuthMiddleware(AppUserRole.ADMIN);
 
-export const OfficerAuthMiddleware = container
-  .resolve(AuthMiddlewareFactory)
-  .getAuthMiddleware(AppUserRole.OFFICER);
+export const OfficerAuthMiddleware = AuthMiddlewareFactoryImpl.getAuthMiddleware(
+  AppUserRole.OFFICER
+);
 
-export const MemberAuthMiddleware = container
-  .resolve(AuthMiddlewareFactory)
-  .getAuthMiddleware(AppUserRole.MEMBER);
+export const MemberAuthMiddleware = AuthMiddlewareFactoryImpl.getAuthMiddleware(AppUserRole.MEMBER);
 
-export const InducteeAuthMiddleware = container
-  .resolve(AuthMiddlewareFactory)
-  .getAuthMiddleware(AppUserRole.INDUCTEE);
+export const InducteeAuthMiddleware = AuthMiddlewareFactoryImpl.getAuthMiddleware(
+  AppUserRole.INDUCTEE
+);
 
-export const GuestAuthMiddleware = container
-  .resolve(AuthMiddlewareFactory)
-  .getAuthMiddleware(AppUserRole.GUEST);
+export const GuestAuthMiddleware = AuthMiddlewareFactoryImpl.getAuthMiddleware(AppUserRole.GUEST);

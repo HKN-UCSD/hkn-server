@@ -43,7 +43,6 @@
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "0.8.0",
     "routing-controllers-openapi": "^2.0.1",
-    "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
     "typescript": "^3.9.5",
     "winston": "^3.3.3"

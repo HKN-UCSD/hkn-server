@@ -1,4 +1,4 @@
-export { EventMapper } from './EventMapper';
-export { AppUserMapper } from './AppUserMapper';
-export { AttendanceMapper } from './AttendanceMapper';
-export { RSVPMapper } from './RSVPMapper';
+export { EventMapper, EventMapperImpl } from './EventMapper';
+export { AppUserMapper, AppUserMapperImpl } from './AppUserMapper';
+export { AttendanceMapper, AttendanceMapperImpl } from './AttendanceMapper';
+export { RSVPMapper, RSVPMapperImpl } from './RSVPMapper';

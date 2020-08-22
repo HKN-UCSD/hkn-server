@@ -1,8 +1,6 @@
 import { AppUser, AppUserRole } from '@Entities';
-import { singleton } from 'tsyringe';
 import { Any, getRepository } from 'typeorm';
 
-@singleton()
 export class AppUserService {
   /**
    * Stores the AppUser passed in as a parameter to the
@@ -70,3 +68,5 @@ export class AppUserService {
     return await this.saveAppUser(appUser);
   }
 }
+
+export const AppUserServiceImpl = new AppUserService();

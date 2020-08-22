@@ -1,22 +1,11 @@
 import { Event, AppUser, Attendance, RSVP } from '@Entities';
-import { AttendanceService } from './AttendanceService';
-import { RSVPService } from './RSVPService';
+import { AttendanceService, AttendanceServiceImpl } from './AttendanceService';
+import { RSVPService, RSVPServiceImpl } from './RSVPService';
 
-import { singleton, inject } from 'tsyringe';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class EventService {
-  private attendanceService: AttendanceService;
-  private rsvpService: RSVPService;
-
-  constructor(
-    @inject(AttendanceService) attendanceService: AttendanceService,
-    @inject(RSVPService) rsvpService: RSVPService
-  ) {
-    this.attendanceService = attendanceService;
-    this.rsvpService = rsvpService;
-  }
+  constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
 
   /**
    * Persists event to db.
@@ -101,3 +90,5 @@ export class EventService {
     return newRSVP;
   }
 }
+
+export const EventServiceImpl = new EventService(AttendanceServiceImpl, RSVPServiceImpl);
