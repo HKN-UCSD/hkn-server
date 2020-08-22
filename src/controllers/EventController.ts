@@ -9,7 +9,6 @@ import {
   UseBefore,
   CurrentUser,
 } from 'routing-controllers';
-import { singleton, inject } from 'tsyringe';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { Event, AppUser } from '@Entities';
@@ -21,35 +20,29 @@ import {
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
-import { AppUserService, EventService } from '@Services';
-import { AppUserMapper, EventMapper, AttendanceMapper, RSVPMapper } from '@Mappers';
+import { AppUserService, AppUserServiceImpl, EventService, EventServiceImpl } from '@Services';
+import {
+  AppUserMapper,
+  AppUserMapperImpl,
+  EventMapper,
+  EventMapperImpl,
+  AttendanceMapper,
+  AttendanceMapperImpl,
+  RSVPMapper,
+  RSVPMapperImpl,
+} from '@Mappers';
 import { OfficerAuthMiddleware } from '@Middlewares';
 
-@singleton()
 @JsonController('/api/events')
 export class EventController {
-  private appUserService: AppUserService;
-  private appUserMapper: AppUserMapper;
-  private eventService: EventService;
-  private eventMapper: EventMapper;
-  private attendanceMapper: AttendanceMapper;
-  private rsvpMapper: RSVPMapper;
-
   constructor(
-    @inject(AppUserService) appUserService: AppUserService,
-    @inject(AppUserMapper) appUserMapper: AppUserMapper,
-    @inject(EventService) eventService: EventService,
-    @inject(EventMapper) eventMapper: EventMapper,
-    @inject(AttendanceMapper) attendanceMapper: AttendanceMapper,
-    @inject(RSVPMapper) rsvpMapper: RSVPMapper
-  ) {
-    this.appUserService = appUserService;
-    this.appUserMapper = appUserMapper;
-    this.eventService = eventService;
-    this.eventMapper = eventMapper;
-    this.attendanceMapper = attendanceMapper;
-    this.rsvpMapper = rsvpMapper;
-  }
+    private appUserService: AppUserService,
+    private appUserMapper: AppUserMapper,
+    private eventService: EventService,
+    private eventMapper: EventMapper,
+    private attendanceMapper: AttendanceMapper,
+    private rsvpMapper: RSVPMapper
+  ) {}
 
   @Post('/')
   @UseBefore(OfficerAuthMiddleware)
@@ -148,3 +141,12 @@ export class EventController {
     return this.rsvpMapper.entityToResponse(newRSVP);
   }
 }
+
+export const EventControllerImpl = new EventController(
+  AppUserServiceImpl,
+  AppUserMapperImpl,
+  EventServiceImpl,
+  EventMapperImpl,
+  AttendanceMapperImpl,
+  RSVPMapperImpl
+);

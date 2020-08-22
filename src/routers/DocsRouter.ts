@@ -4,11 +4,11 @@ import { defaultMetadataStorage } from 'class-transformer/storage';
 import { getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { classToPlain } from 'class-transformer';
-import { Controllers } from '../controllers';
+import { controllers } from '../controllers';
 import redoc from 'redoc-express';
 
 const rcOptions = {
-  controllers: Controllers,
+  controllers: controllers,
 };
 
 // https://github.com/epiphone/class-validator-jsonschema#validatenested-and-arrays

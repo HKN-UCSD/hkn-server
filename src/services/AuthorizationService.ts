@@ -1,7 +1,5 @@
-import { singleton } from 'tsyringe';
 import { AppUser } from '@Entities';
 
-@singleton()
 export class AuthorizationService {
   async hasSufficientRole(
     permittedRoles: Array<string>,
@@ -12,3 +10,5 @@ export class AuthorizationService {
     return permittedRoles.includes(role);
   }
 }
+
+export const AuthorizationServiceImpl = new AuthorizationService();

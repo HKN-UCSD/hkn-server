@@ -1,17 +1,11 @@
 import admin from 'firebase-admin';
-import { singleton, inject } from 'tsyringe';
 
-import { AppUserService } from './AppUserService';
+import { AppUserService, AppUserServiceImpl } from './AppUserService';
 import { AppUser } from '@Entities';
 import { config } from '../config';
 
-@singleton()
 export class AuthenticationService {
-  private appUserService: AppUserService;
-
-  constructor(@inject(AppUserService) appUserService: AppUserService) {
-    this.appUserService = appUserService;
-  }
+  constructor(private appUserService: AppUserService) {}
 
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
     try {
@@ -57,3 +51,5 @@ export class AuthenticationService {
     return undefined;
   }
 }
+
+export const AuthenticationServiceImpl = new AuthenticationService(AppUserServiceImpl);

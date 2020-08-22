@@ -2,10 +2,8 @@ import { EventRequest, EventResponse } from '@Payloads';
 import { Event } from '@Entities';
 
 import { classToPlain, plainToClass } from 'class-transformer';
-import { singleton } from 'tsyringe';
 import { getRepository } from 'typeorm';
 
-@singleton()
 export class EventMapper {
   requestToNewEntity(eventRequest: EventRequest): Event {
     const eventRepository = getRepository(Event);
@@ -51,3 +49,5 @@ export class EventMapper {
     return eventResponse;
   }
 }
+
+export const EventMapperImpl = new EventMapper();
