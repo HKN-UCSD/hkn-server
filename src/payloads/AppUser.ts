@@ -1,5 +1,4 @@
 import { IsEnum, IsInt, IsString, IsEmail } from 'class-validator';
-import { Expose } from 'class-transformer';
 
 import { AppUserRole } from '@Entities';
 
@@ -45,6 +44,5 @@ export class AppUserEventResponse {
 
 export class AppUserRolesResponse {
   @IsEnum(AppUserRole)
-  @Expose()
   role: string;
 }

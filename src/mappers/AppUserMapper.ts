@@ -80,23 +80,6 @@ export class AppUserMapper {
 
     return appUserResponse;
   }
-
-  /**
-   * Converts an AppUser entity to an AppUserRolesResponse payload and returns the
-   * newly created response payload to the caller.
-   *
-   * @param {AppUser} appUser The AppUser entity to be converted to an AppUserRolesResponse
-   *                          payload.
-   * @returns {AppUserRolesResponse} An AppUserRolesResponse instance.
-   */
-  entityToRolesResponse(appUser: AppUser): AppUserRolesResponse {
-    const plainAppUser: Object = classToPlain(appUser);
-    const rolesResponse: AppUserRolesResponse = plainToClass(AppUserRolesResponse, plainAppUser, {
-      excludeExtraneousValues: true,
-    });
-
-    return rolesResponse;
-  }
 }
 
 export const AppUserMapperImpl = new AppUserMapper(AppUserServiceImpl);

@@ -3,33 +3,32 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { AppUser, AppUserRole } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
-import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { AppUserRolesResponse } from '@Payloads';
 
 @JsonController('/api/users')
 export class UserController {
-  constructor(private appUserService: AppUserService, private appUserMapper: AppUserMapper) {}
+  constructor(private appUserService: AppUserService) {}
 
-  @Get('/:userId/roles')
+  @Get('/:userID/roles')
   @ResponseSchema(AppUserRolesResponse)
   async getUserRole(
-    @Param('userId') userId: number,
+    @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserRolesResponse | undefined> {
     const { role, id } = appUser;
 
-    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && id != userId) {
+    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && id != userID) {
       throw new ForbiddenError();
     }
 
-    const queriedAppUser = await this.appUserService.getAppUserById(userId);
+    const queriedRoleFromId = await this.appUserService.getAppUserRoleById(userID);
 
-    if (queriedAppUser === undefined) {
+    if (queriedRoleFromId === undefined) {
       return undefined;
     }
 
-    return this.appUserMapper.entityToRolesResponse(queriedAppUser);
+    return { role: queriedRoleFromId };
   }
 }
 
-export const UserControllerImpl = new UserController(AppUserServiceImpl, AppUserMapperImpl);
+export const UserControllerImpl = new UserController(AppUserServiceImpl);
