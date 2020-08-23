@@ -8,7 +8,7 @@ You're getting moved into a routing-controller.
 */
 
 import express from 'express';
-import * as controller from '../controllers/UserController';
+import * as controller from '../controllers/OldUserController';
 
 export const UserRouter = express.Router();
 

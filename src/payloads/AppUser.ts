@@ -1,4 +1,5 @@
 import { IsEnum, IsInt, IsString, IsEmail } from 'class-validator';
+
 import { AppUserRole } from '@Entities';
 
 export class AppUserPKPayload {
@@ -37,6 +38,11 @@ export class AppUserEventResponse {
   @IsInt()
   id: number;
 
+  @IsEnum(AppUserRole)
+  role: string;
+}
+
+export class AppUserRolesResponse {
   @IsEnum(AppUserRole)
   role: string;
 }
