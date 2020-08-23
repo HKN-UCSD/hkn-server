@@ -48,11 +48,7 @@ export class AppUserService {
   async getAppUserRoleById(id: number): Promise<string | undefined> {
     const appUser = await this.getAppUserById(id);
 
-    if (appUser === undefined) {
-      return undefined;
-    }
-
-    return appUser.role;
+    return appUser?.role;
   }
 
   /**
