@@ -5,6 +5,11 @@ export {
   EventAttendanceResponse,
   EventRSVPResponse,
 } from './Event';
-export { AppUserPKPayload, AppUserEventRequest, AppUserEventResponse } from './AppUser';
+export {
+  AppUserPKPayload,
+  AppUserEventRequest,
+  AppUserEventResponse,
+  AppUserRolesResponse,
+} from './AppUser';
 export { AttendanceResponse } from './Attendance';
 export { RSVPResponse } from './RSVP';

@@ -1,4 +1,4 @@
-import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
+import { AppUserEventRequest, AppUserEventResponse, AppUserRolesResponse } from '@Payloads';
 import { AppUser } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 
@@ -72,7 +72,7 @@ export class AppUserMapper {
    *
    * @param {AppUser} appUser The AppUser entity to be converted to an AppUserEventResponse
    *                          payload.
-   * @returns {AppUserEventResponse} An AppUserEventRespones instance.
+   * @returns {AppUserEventResponse} An AppUserEventResponse instance.
    */
   entityToResponse(appUser: AppUser): AppUserEventResponse {
     const plainAppUser: Object = classToPlain(appUser);

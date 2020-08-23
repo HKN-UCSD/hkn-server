@@ -40,6 +40,18 @@ export class AppUserService {
   }
 
   /**
+   * Get the role of an existing AppUser by their id.
+   *
+   * @param {number} id The number used to query for an AppUser entity by ID.
+   * @returns {Promise} The role of the user if they exist in the AppUser table.
+   */
+  async getAppUserRoleById(id: number): Promise<string | undefined> {
+    const appUser = await this.getAppUserById(id);
+
+    return appUser?.role;
+  }
+
+  /**
    * Get an existing AppUser by their email address.
    *
    * @param {string} email The email used to look for the corresponding AppUser.
