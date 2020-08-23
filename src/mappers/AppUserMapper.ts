@@ -1,4 +1,4 @@
-import { AppUserEventRequest, AppUserEventResponse } from '@Payloads';
+import { AppUserEventRequest, AppUserEventResponse, AppUserRolesResponse } from '@Payloads';
 import { AppUser } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 
@@ -72,13 +72,30 @@ export class AppUserMapper {
    *
    * @param {AppUser} appUser The AppUser entity to be converted to an AppUserEventResponse
    *                          payload.
-   * @returns {AppUserEventResponse} An AppUserEventRespones instance.
+   * @returns {AppUserEventResponse} An AppUserEventResponse instance.
    */
   entityToResponse(appUser: AppUser): AppUserEventResponse {
     const plainAppUser: Object = classToPlain(appUser);
     const appUserResponse: AppUserEventResponse = plainToClass(AppUserEventResponse, plainAppUser);
 
     return appUserResponse;
+  }
+
+  /**
+   * Converts an AppUser entity to an AppUserRolesResponse payload and returns the
+   * newly created response payload to the caller.
+   *
+   * @param {AppUser} appUser The AppUser entity to be converted to an AppUserRolesResponse
+   *                          payload.
+   * @returns {AppUserRolesResponse} An AppUserRolesResponse instance.
+   */
+  entityToRolesResponse(appUser: AppUser): AppUserRolesResponse {
+    const plainAppUser: Object = classToPlain(appUser);
+    const rolesResponse: AppUserRolesResponse = plainToClass(AppUserRolesResponse, plainAppUser, {
+      excludeExtraneousValues: true,
+    });
+
+    return rolesResponse;
   }
 }
 

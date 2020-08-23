@@ -1,4 +1,6 @@
 import { IsEnum, IsInt, IsString, IsEmail } from 'class-validator';
+import { Expose } from 'class-transformer';
+
 import { AppUserRole } from '@Entities';
 
 export class AppUserPKPayload {
@@ -38,5 +40,11 @@ export class AppUserEventResponse {
   id: number;
 
   @IsEnum(AppUserRole)
+  role: string;
+}
+
+export class AppUserRolesResponse {
+  @IsEnum(AppUserRole)
+  @Expose()
   role: string;
 }
