@@ -6,15 +6,15 @@ Naming convention for paths should be plural, a.k.a. preferring `/api/events` ov
 
 To create a new controller, follow the following steps.
 
-### 1. Decorators
-
-Mark the class as injectable with @singleton(). Note that we don't use DI tokens with controllers as there is no need(fingers-crossed) to dynamically swap controller behavior at runtime.
+### 1. Class Decorators
 
 Mark the class with @JsonController('base_endpoint').
 
-### 2. Setup injection
+### 2. Setup constructor
 
-We choose to use constructor style injection with instance variable declared first, followed by explicit injection in the constructor.
+Constructors are to be made in this manner:
+
+- `constructor(private yService: YService, private zMapper: ZMapper) {}` where YService is a service class and ZMapper is a mapper class that your controller depends on and yService and zMapper is an instance of their respective class. Here is a [reference](https://kendaleiv.com/typescript-constructor-assignment-public-and-private-keywords/) to this syntax.
 
 ### 3. Setup routes
 
@@ -28,3 +28,14 @@ The HTTPMethod endpoint is in addition to the previously mentioned base_endpoint
 ### 4. Setup payloads
 
 Each response/request object should conform to a class decorated by class-validator as defined in src/payloads. This is for request/response validation and also future code reuse with frontend.
+
+### 5. Setup export statement
+
+Make an export statement that exports an instance of your controller class. Remember to import the instances of service and mapper
+classes that you use so you can pass it into the constructor call of you controller class. An example of this is:
+
+- `export const XControllerImpl = new XController(YServiceImpl, ZMapperImpl);` where "Impl" stands for "Implementation".
+
+### 6. Include controller in top-level index file of controllers folder
+
+In ./src/controllers/index, add `export {XController, XControllerImpl} from './XController'`

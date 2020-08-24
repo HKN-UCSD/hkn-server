@@ -1,5 +1,10 @@
 # HKN Server
 
+## Deploys
+
+- `Production`: http://api.hknucsd.com/
+- `Development`: http://dev.api.hknucsd.com/
+
 **tl;dr**
 
 ```
