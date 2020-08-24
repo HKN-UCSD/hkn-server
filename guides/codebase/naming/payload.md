@@ -31,4 +31,11 @@ you can have more than just names of existing entities.
 
 **(3)**: "Request", "Response" or "Payload".
 
+Some examples:
+
+- `AppUserEventRequest` (1) - AppUser, (2) - Event, (3) - Request
+- `AppUserPKPayload` (1) - AppUser, (2) - PK, (3) - Payload
+- `EventAttendanceResponse` (1) - Event, (2) - Attendance, (3) - Response
+- `AppUserGradYearResponse` (1) - AppUser, (2) - GradYear, (3) - Response
+
 Note that you have **A LOT** of discretion in choosing what to have for (2) because the points listed above for (2) are not meant to be exhaustive. With that said, please do follow the presented format and try to be as accurate and concise as possible in what you put for (2). It will help others immensely in working with payloads that you have made.
