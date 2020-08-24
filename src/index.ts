@@ -49,8 +49,8 @@ loadORM().then(() => {
 
   // following two routers will be deprecated and moved into
   // routing-controllers
-  app.use('/api/user', UserRouter);
-  app.use('/api/auth', AuthRouter);
+  //app.use('/api/user', UserRouter);
+  //app.use('/api/auth', AuthRouter);
 
   app.listen(port);
 });

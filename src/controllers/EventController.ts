@@ -91,6 +91,7 @@ export class EventController {
   }
 
   @Delete('/:eventID')
+  @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
     const deletedEvent = await this.eventService.deleteEvent(eventID);
