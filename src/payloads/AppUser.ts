@@ -1,6 +1,7 @@
-import { IsEnum, IsInt, IsString, IsEmail } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsEmail, IsInstance, ValidateNested } from 'class-validator';
 
-import { AppUserRole } from '@Entities';
+import { AppUserRole, InductionClass } from '@Entities';
+import { Type } from 'class-transformer';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -45,4 +46,24 @@ export class AppUserEventResponse {
 export class AppUserRolesResponse {
   @IsEnum(AppUserRole)
   role: string;
+}
+
+export class AppUserProfileResponse {
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  major: string;
+
+  @IsString()
+  graduationYear: string;
+
+  @IsInstance(InductionClass)
+  inductionClass: InductionClass;
 }
