@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
 
@@ -37,7 +37,6 @@ export class AppUser {
   graduationYear: string;
 
   @ManyToOne(() => InductionClass, { nullable: true, eager: true })
-  @JoinTable()
   inductionClass: InductionClass;
 
   @Column({
