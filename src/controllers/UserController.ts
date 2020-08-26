@@ -3,11 +3,12 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { AppUser, AppUserRole } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
-import { AppUserRolesResponse } from '@Payloads';
+import { AppUserRolesResponse, AppUserProfileResponse } from '@Payloads';
+import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 
 @JsonController('/api/users')
 export class UserController {
-  constructor(private appUserService: AppUserService) {}
+  constructor(private appUserService: AppUserService, private appUserMapper: AppUserMapper) {}
 
   @Get('/:userID/roles')
   @ResponseSchema(AppUserRolesResponse)
@@ -29,6 +30,19 @@ export class UserController {
 
     return { role: queriedRoleFromId };
   }
+
+  @Get('/:userID')
+  @ResponseSchema(AppUserProfileResponse)
+  async getUserProfile(
+    @Param('userID') userID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<AppUserProfileResponse | undefined> {
+    const { id } = appUser;
+
+    const appUserObj: AppUser = await this.appUserService.getAppUserById(userID);
+
+    return this.appUserMapper.entityToProfileResponse(appUserObj);
+  }
 }
 
-export const UserControllerImpl = new UserController(AppUserServiceImpl);
+export const UserControllerImpl = new UserController(AppUserServiceImpl, AppUserMapperImpl);

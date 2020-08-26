@@ -10,6 +10,7 @@ export {
   AppUserEventRequest,
   AppUserEventResponse,
   AppUserRolesResponse,
+  AppUserProfileResponse,
 } from './AppUser';
 export { AttendanceResponse } from './Attendance';
 export { RSVPResponse } from './RSVP';
