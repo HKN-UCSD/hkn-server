@@ -108,6 +108,7 @@ export class EventController {
   @Post('/:eventID/signin')
   @OnUndefined(409)
   @ResponseSchema(AttendanceResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,
@@ -128,6 +129,7 @@ export class EventController {
   @Post('/:eventID/rsvp')
   @OnUndefined(409)
   @ResponseSchema(RSVPResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async rsvpForEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,
