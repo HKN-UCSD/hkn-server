@@ -1,7 +1,6 @@
-import { IsEnum, IsInt, IsString, IsEmail, IsInstance, ValidateNested } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsEmail, IsInstance } from 'class-validator';
 
 import { AppUserRole, InductionClass } from '@Entities';
-import { Type } from 'class-transformer';
 
 export class AppUserPKPayload {
   @IsInt()

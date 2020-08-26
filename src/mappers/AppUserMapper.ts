@@ -95,12 +95,12 @@ export class AppUserMapper {
    */
   entityToProfileResponse(appUser: AppUser): AppUserProfileResponse {
     const plainAppUserProfile: Object = classToPlain(appUser);
-    const appUserProfileRespose: AppUserProfileResponse = plainToClass(
+    const appUserProfileResponse: AppUserProfileResponse = plainToClass(
       AppUserProfileResponse,
       plainAppUserProfile
     );
 
-    return appUserProfileRespose;
+    return appUserProfileResponse;
   }
 }
 
