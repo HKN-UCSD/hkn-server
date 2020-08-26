@@ -36,7 +36,7 @@ export class AppUser {
   @Column({ nullable: true })
   graduationYear: string;
 
-  @ManyToOne(() => InductionClass, { nullable: true })
+  @ManyToOne(() => InductionClass, { nullable: true, eager: true })
   inductionClass: InductionClass;
 
   @Column({
