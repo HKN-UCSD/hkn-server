@@ -77,6 +77,15 @@ export class EventApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request({
       path: `/api/events/`,
       method: 'POST',
@@ -122,6 +131,15 @@ export class EventApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request({
       path: `/api/events/{eventID}`.replace(
         `{${'eventID'}}`,
@@ -246,6 +264,15 @@ export class EventApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request({
       path: `/api/events/{eventID}/rsvp`.replace(
         `{${'eventID'}}`,
@@ -296,6 +323,15 @@ export class EventApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request({
       path: `/api/events/{eventID}/signin`.replace(
         `{${'eventID'}}`,
@@ -346,6 +382,15 @@ export class EventApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request({
       path: `/api/events/{eventID}`.replace(
         `{${'eventID'}}`,
