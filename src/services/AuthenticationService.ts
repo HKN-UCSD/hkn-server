@@ -8,18 +8,24 @@ export class AuthenticationService {
   constructor(private appUserService: AppUserService) {}
 
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
-    try {
-      const tokenResult = await admin.auth().verifyIdToken(token);
+    const splitToken: string[] = token.split(' ');
+    const userToken = splitToken[1];
 
-      if (tokenResult != null) {
+    try {
+      const tokenResult = await admin.auth().verifyIdToken(userToken);
+
+      if (tokenResult == null) {
         return undefined;
       }
 
-      const {
-        claims: { user_id },
-      } = tokenResult;
+      const { user_id } = tokenResult;
+      const id = parseInt(user_id, 10);
 
-      return await this.appUserService.getAppUserById(user_id);
+      if (isNaN(id)) {
+        return undefined;
+      }
+
+      return await this.appUserService.getAppUserById(id);
     } catch {
       return undefined;
     }
@@ -39,12 +45,10 @@ export class AuthenticationService {
     const { devAuth } = config;
 
     if (devAuth === 'development') {
-      // Inject local token resolution function?
       return await this.localVerifyIdToken(token);
     }
 
     if (devAuth === 'production') {
-      // Inject production token resolution functinon?
       return await this.firebaseVerifyIdToken(token);
     }
 

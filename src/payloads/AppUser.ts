@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsString, IsEmail, IsInstance } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsEmail, IsInstance, IsDateString } from 'class-validator';
 
 import { AppUserRole, InductionClass } from '@Entities';
 
@@ -47,6 +47,20 @@ export class AppUserRolesResponse {
   role: string;
 }
 
+export class AppUserInductionClass {
+  @IsString()
+  quarter: string;
+
+  @IsString()
+  name: string;
+
+  @IsDateString()
+  startDate: string;
+
+  @IsDateString()
+  endDate: string;
+}
+
 export class AppUserProfileResponse {
   @IsString()
   firstName: string;
@@ -63,6 +77,6 @@ export class AppUserProfileResponse {
   @IsString()
   graduationYear: string;
 
-  @IsInstance(InductionClass)
-  inductionClass: InductionClass;
+  @IsInstance(AppUserInductionClass)
+  inductionClass: AppUserInductionClass;
 }

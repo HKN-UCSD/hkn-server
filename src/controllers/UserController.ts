@@ -1,5 +1,5 @@
 import { JsonController, Get, Param, CurrentUser, ForbiddenError } from 'routing-controllers';
-import { ResponseSchema } from 'routing-controllers-openapi';
+import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { AppUser, AppUserRole } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
@@ -12,6 +12,7 @@ export class UserController {
 
   @Get('/:userID/roles')
   @ResponseSchema(AppUserRolesResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getUserRole(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
