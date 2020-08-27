@@ -9,7 +9,7 @@ import {
   UseBefore,
   CurrentUser,
 } from 'routing-controllers';
-import { ResponseSchema } from 'routing-controllers-openapi';
+import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { Event, AppUser } from '@Entities';
 import {
@@ -47,6 +47,7 @@ export class EventController {
   @Post('/')
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
     const event = this.eventMapper.requestToNewEntity(eventRequest);
     const savedEvent = await this.eventService.saveEvent(event);
@@ -77,6 +78,7 @@ export class EventController {
   @Post('/:eventID')
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async updateEvent(
     @Param('eventID') id: number,
     @Body() eventRequest: EventRequest
@@ -93,6 +95,7 @@ export class EventController {
   @Delete('/:eventID')
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
     const deletedEvent = await this.eventService.deleteEvent(eventID);
     if (deletedEvent === undefined) {
@@ -105,6 +108,7 @@ export class EventController {
   @Post('/:eventID/signin')
   @OnUndefined(409)
   @ResponseSchema(AttendanceResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,
@@ -125,6 +129,7 @@ export class EventController {
   @Post('/:eventID/rsvp')
   @OnUndefined(409)
   @ResponseSchema(RSVPResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async rsvpForEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,

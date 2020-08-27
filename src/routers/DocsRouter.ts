@@ -7,6 +7,9 @@ import { classToPlain } from 'class-transformer';
 import { controllers } from '../controllers';
 import redoc from 'redoc-express';
 
+// TODO move this into a constants folder or config or sth
+const SecuritySchemeName = 'TokenAuth';
+
 const rcOptions = {
   controllers: controllers,
 };
@@ -28,6 +31,12 @@ const openAPISpec = routingControllersToSpec(rcMetadataStorage, rcOptions, {
     description: 'HKN API',
   },
 });
+
+openAPISpec.components.securitySchemes = {};
+openAPISpec.components.securitySchemes[SecuritySchemeName] = {
+  type: 'http',
+  scheme: 'bearer',
+};
 
 export const DocsRouter = express.Router();
 
