@@ -19,7 +19,7 @@ class ApiConfigStoreClass {
 
   // this is gonna be called on login
   setToken(token: string) {
-    this.configParams.apiKey = token;
+    this.configParams.accessToken = token;
     this.config = new Configuration(this.configParams);
   }
 }

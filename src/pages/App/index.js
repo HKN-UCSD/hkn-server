@@ -25,9 +25,11 @@ import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
 } from '@HOCs/RoutingPermissions';
+import ApiConfigStore from '@Services/ApiConfigStore';
 
 const INITIAL_STATES = {
   userClaims: null,
+  userToken: null,
   isLoading: true,
 };
 
@@ -42,18 +44,20 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         const tokenResult = await user.getIdTokenResult();
-        const { claims } = tokenResult;
+        const { claims, token } = tokenResult;
 
         this.setState({
           userClaims: {
             userId: claims.user_id,
             userRoles: getRolesFromClaims(claims),
           },
+          userToken: token,
           isLoading: false,
         });
       } else {
         this.setState({
           userClaims: null,
+          userToken: null,
           isLoading: false,
         });
       }
@@ -61,6 +65,10 @@ class App extends React.Component {
   }
 
   setClaims = claims => {
+    const { userToken } = this.state;
+
+    ApiConfigStore.setToken(userToken);
+
     this.setState({
       userClaims: {
         userId: claims.user_id,
