@@ -1,8 +1,9 @@
 import request from 'supertest';
+import { Application } from 'express';
 import { getExpressApp } from '../app';
 import { Connection } from 'typeorm';
 
-let testApp: any = null;
+let testApp: Application = null;
 let testConnection: Connection = null;
 
 beforeAll(async () => {
