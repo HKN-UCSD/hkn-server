@@ -22,8 +22,8 @@ const limiter = rateLimit({
 });
 const port = process.env.PORT || 3001;
 
-// DB connection
-loadORM().then(() => {
+export const getExpressApp = async () => {
+  await loadORM();
   loadFirebase();
 
   const app = express();
@@ -52,5 +52,9 @@ loadORM().then(() => {
   //app.use('/api/user', UserRouter);
   //app.use('/api/auth', AuthRouter);
 
-  app.listen(port);
-});
+  return app;
+};
+
+getExpressApp()
+  .then(app => app.listen(port))
+  .catch(err => err);
