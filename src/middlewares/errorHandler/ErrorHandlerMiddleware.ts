@@ -6,7 +6,7 @@ const ErrorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(500).send({ err });
+  res.send({ err });
 };
 
 export default ErrorHandler;

@@ -12,11 +12,22 @@ export class AppUserService {
   async saveAppUser(appUser: AppUser): Promise<AppUser> {
     const appUserRepository = getRepository(AppUser);
 
-    return await appUserRepository.save(appUser);
+    return appUserRepository.save(appUser);
   }
 
   /**
-   * Get multiple app users.
+   * Gets all app users.
+   *
+   * @returns {AppUser[]} Array of AppUser entities
+   */
+  getAllAppUsers(): Promise<AppUser[]> {
+    const appUserRepository = getRepository(AppUser);
+
+    return appUserRepository.find();
+  }
+
+  /**
+   * Gets multiple app users.
    *
    * @param {number[]} ids Array of ids of AppUsers to find.
    * @returns {AppUser[]} Array of AppUser entities.
@@ -77,7 +88,7 @@ export class AppUserService {
       return undefined;
     }
 
-    return await this.saveAppUser(appUser);
+    return this.saveAppUser(appUser);
   }
 }
 
