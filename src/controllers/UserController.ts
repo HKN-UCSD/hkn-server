@@ -8,6 +8,7 @@ import {
   Body,
   UseBefore,
   HttpCode,
+  QueryParam,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
@@ -31,11 +32,16 @@ export class UserController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(MultipleAppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async getMultipleUsers(): Promise<MultipleAppUserResponse> {
-    const allUsers = await this.appUserService.getAllAppUsers();
-    const allUsersResponse = allUsers.map(appUser => this.appUserMapper.entityToResponse(appUser));
+  async getMultipleUsers(
+    @QueryParam('officers') officerOnly: boolean,
+    @QueryParam('names') nameOnly: boolean
+  ): Promise<MultipleAppUserResponse> {
+    const multipleUsers = await this.appUserService.getAllAppUsers(officerOnly, nameOnly);
+    const multipleUsersResponse = multipleUsers.map(user =>
+      this.appUserMapper.entityToResponse(user)
+    );
 
-    return { appUsers: allUsersResponse };
+    return { users: multipleUsersResponse };
   }
 
   @Post('/')

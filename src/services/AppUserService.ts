@@ -1,5 +1,9 @@
 import { AppUser, AppUserRole } from '@Entities';
-import { Any, getRepository } from 'typeorm';
+import { Any, getRepository, FindManyOptions } from 'typeorm';
+
+type multipleUsersQueryFilter = {
+  role: string;
+};
 
 export class AppUserService {
   /**
@@ -20,10 +24,19 @@ export class AppUserService {
    *
    * @returns {AppUser[]} Array of AppUser entities
    */
-  getAllAppUsers(): Promise<AppUser[]> {
+  getAllAppUsers(officerOnly: boolean, nameOnly: boolean): Promise<AppUser[]> {
     const appUserRepository = getRepository(AppUser);
+    const query: FindManyOptions<AppUser> = {};
 
-    return appUserRepository.find();
+    if (nameOnly) {
+      query.select = ['firstName', 'lastName'];
+    }
+
+    if (officerOnly) {
+      query.where = { role: 'officer' };
+    }
+
+    return appUserRepository.find(query);
   }
 
   /**

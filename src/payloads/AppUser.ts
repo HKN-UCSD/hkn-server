@@ -73,9 +73,11 @@ export class AppUserEventRequest {
 
 export class AppUserResponse {
   @IsInt()
+  @IsOptional()
   id: number;
 
   @IsEmail()
+  @IsOptional()
   email: string;
 
   @IsString()
@@ -85,9 +87,11 @@ export class AppUserResponse {
   lastName: string;
 
   @IsString()
+  @IsOptional()
   major: string;
 
   @IsString()
+  @IsOptional()
   graduationYear: string;
 
   @IsInstance(AppUserInductionClass)
@@ -95,6 +99,7 @@ export class AppUserResponse {
   inductionClass: AppUserInductionClass;
 
   @IsEnum(AppUserRole)
+  @IsOptional()
   role: string;
 }
 
@@ -146,5 +151,5 @@ export class AppUserProfileResponse {
 export class MultipleAppUserResponse {
   @ValidateNested({ each: true })
   @Type(() => AppUserResponse)
-  appUsers: AppUserResponse[];
+  users: AppUserResponse[];
 }
