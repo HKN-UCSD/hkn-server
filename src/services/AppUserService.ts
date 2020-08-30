@@ -1,11 +1,25 @@
 import { AppUser, AppUserRole } from '@Entities';
+import { MultipleUsersQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
 
-type multipleUsersQueryFilter = {
-  role: string;
-};
-
 export class AppUserService {
+  private buildMultipleUsersQuery(
+    multipleUsersQuery: MultipleUsersQuery
+  ): FindManyOptions<AppUser> {
+    const { names, officers } = multipleUsersQuery;
+    const query: FindManyOptions<AppUser> = {};
+
+    if (names) {
+      query.select = ['firstName', 'lastName'];
+    }
+
+    if (officers) {
+      query.where = { role: 'officer' };
+    }
+
+    return query;
+  }
+
   /**
    * Stores the AppUser passed in as a parameter to the
    * AppUser table.
@@ -24,17 +38,9 @@ export class AppUserService {
    *
    * @returns {AppUser[]} Array of AppUser entities
    */
-  getAllAppUsers(officerOnly: boolean, nameOnly: boolean): Promise<AppUser[]> {
+  getAllAppUsers(multipleUsersQuery: MultipleUsersQuery): Promise<AppUser[]> {
     const appUserRepository = getRepository(AppUser);
-    const query: FindManyOptions<AppUser> = {};
-
-    if (nameOnly) {
-      query.select = ['firstName', 'lastName'];
-    }
-
-    if (officerOnly) {
-      query.where = { role: 'officer' };
-    }
+    const query = this.buildMultipleUsersQuery(multipleUsersQuery);
 
     return appUserRepository.find(query);
   }

@@ -13,6 +13,7 @@ export {
   AppUserEventResponse,
   AppUserRolesResponse,
   AppUserProfileResponse,
+  MultipleUsersQuery,
   MultipleAppUserResponse,
 } from './AppUser';
 export { AttendanceResponse } from './Attendance';

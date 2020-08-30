@@ -7,8 +7,7 @@ import {
   Post,
   Body,
   UseBefore,
-  HttpCode,
-  QueryParam,
+  QueryParams,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
@@ -19,6 +18,7 @@ import {
   AppUserResponse,
   AppUserRolesResponse,
   AppUserProfileResponse,
+  MultipleUsersQuery,
   MultipleAppUserResponse,
 } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
@@ -33,10 +33,9 @@ export class UserController {
   @ResponseSchema(MultipleAppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getMultipleUsers(
-    @QueryParam('officers') officerOnly: boolean,
-    @QueryParam('names') nameOnly: boolean
+    @QueryParams() multipleUsersQuery: MultipleUsersQuery
   ): Promise<MultipleAppUserResponse> {
-    const multipleUsers = await this.appUserService.getAllAppUsers(officerOnly, nameOnly);
+    const multipleUsers = await this.appUserService.getAllAppUsers(multipleUsersQuery);
     const multipleUsersResponse = multipleUsers.map(user =>
       this.appUserMapper.entityToResponse(user)
     );

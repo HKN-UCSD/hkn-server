@@ -7,6 +7,7 @@ import {
   IsDateString,
   IsOptional,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 
 import { AppUserRole } from '@Entities';
@@ -73,11 +74,9 @@ export class AppUserEventRequest {
 
 export class AppUserResponse {
   @IsInt()
-  @IsOptional()
   id: number;
 
   @IsEmail()
-  @IsOptional()
   email: string;
 
   @IsString()
@@ -87,11 +86,9 @@ export class AppUserResponse {
   lastName: string;
 
   @IsString()
-  @IsOptional()
   major: string;
 
   @IsString()
-  @IsOptional()
   graduationYear: string;
 
   @IsInstance(AppUserInductionClass)
@@ -99,7 +96,6 @@ export class AppUserResponse {
   inductionClass: AppUserInductionClass;
 
   @IsEnum(AppUserRole)
-  @IsOptional()
   role: string;
 }
 
@@ -119,11 +115,6 @@ export class AppUserEventResponse {
   @IsString()
   major: string;
 
-  @IsEnum(AppUserRole)
-  role: string;
-}
-
-export class AppUserRolesResponse {
   @IsEnum(AppUserRole)
   role: string;
 }
@@ -148,8 +139,33 @@ export class AppUserProfileResponse {
   inductionClass: AppUserInductionClass;
 }
 
+export class AppUserNameResponse {
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+}
+
+export class AppUserRolesResponse {
+  @IsEnum(AppUserRole)
+  role: string;
+}
+
+export class MultipleUsersQuery {
+  @IsBoolean()
+  @IsOptional()
+  officers: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  names: boolean;
+}
+
 export class MultipleAppUserResponse {
   @ValidateNested({ each: true })
   @Type(() => AppUserResponse)
   users: AppUserResponse[];
 }
+
+export class MultipleUserNameResponse {}
