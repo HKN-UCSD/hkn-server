@@ -2,6 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   coveragePathIgnorePatterns: ['/node_modules/'],
+  testMatch: ['**/tests/**/*.test.(ts)'],
   moduleNameMapper: {
     '@Services': '<rootDir>/src/services',
     '@Services/(.*)': '<rootDir>/src/services/*',
