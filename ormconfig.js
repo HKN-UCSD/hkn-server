@@ -6,6 +6,12 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+let entities = 'dist/entities/**/*.js';
+
+if (process.env.NODE_ENV === 'test') {
+  entities = 'src/entities/**/*.ts';
+}
+
 module.exports = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
@@ -17,7 +23,7 @@ module.exports = {
   },
   synchronize: false,
   logging: false,
-  entities: ['dist/entities/**/*.js'],
+  entities: [entities],
   migrations: ['dist/migrations/**/*.js'],
   subscribers: ['dist/subscribers/**/*.js'],
   cli: {
