@@ -31,11 +31,23 @@ jobs:
           paths:
             - node_modules
       - run: npm run build
+  run_test:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "package.json"}}
+      - run: npm install
+      - save_cache:
+          key: package-cache-{{checksum "package.json"}}
+          paths:
+            - node_modules
+      - run: npm run test
 
 workflows:
   lint_and_build:
     jobs:
       - run_lint_prettier
-      - run_build:
-          requires:
-            - run_lint_prettier
+      - run_build
+      - run_test
