@@ -1,10 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 import GenericDropdownField from '../base';
-
-import styles from './styles';
 
 import ELIGIBLE_MAJORS from '@Constants/eligibleMajors';
 
@@ -37,7 +34,6 @@ const MajorDropdownField = props => {
 
   return (
     <GenericDropdownField
-      className={classes.root}
       name={name}
       label={label}
       defaultValue=''
@@ -57,4 +53,4 @@ MajorDropdownField.defaultProps = {
   includeOthers: false,
 };
 
-export default withStyles(styles)(MajorDropdownField);
+export default MajorDropdownField;

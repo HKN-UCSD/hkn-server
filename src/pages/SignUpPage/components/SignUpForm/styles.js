@@ -1,6 +1,6 @@
 const styles = () => ({
-  signUpButton: {
-    marginTop: '10px',
+  signUp: {
+    marginTop: 8,
   },
   signInRedirect: {
     color: '#5B5B5B',

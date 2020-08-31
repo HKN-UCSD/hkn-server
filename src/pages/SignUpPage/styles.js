@@ -1,23 +1,21 @@
-const styles = () => ({
+const styles = theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  signUpCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '536px',
-    marginTop: '37px',
-    marginBottom: '37px',
-    paddingBottom: '20px',
+    [theme.breakpoints.up('sm')]: {
+      marginTop: '8vh',
+    },
+    [theme.breakpoints.only('xs')]: {
+      marginTop: '3vh',
+    },
   },
   logo: {
-    width: '150px',
-    height: '107px',
-    marginTop: '28px',
-    marginBottom: '40px',
+    minWidth: '98px',
+    minHeight: '70px',
+    width: '14vh',
+    height: '10vh',
+  },
+  cardContent: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
 });
 

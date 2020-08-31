@@ -1,11 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { getYear } from 'date-fns';
-import { withStyles } from '@material-ui/core/styles';
 
 import GenericDropdownField from '../base';
-
-import styles from './styles';
 
 const yearDropdownChoices = (minYear, maxYear) => {
   const yearChoices = [];
@@ -18,11 +15,10 @@ const yearDropdownChoices = (minYear, maxYear) => {
 };
 
 const YearDropdownField = props => {
-  const { classes, name, label, minYear, maxYear, ...otherProps } = props;
+  const { name, label, minYear, maxYear, ...otherProps } = props;
 
   return (
     <GenericDropdownField
-      className={classes.root}
       name={name}
       label={label}
       {...otherProps}
@@ -43,4 +39,4 @@ YearDropdownField.defaultProps = {
   maxYear: parseInt(getYear(new Date()), 10) + 5,
 };
 
-export default withStyles(styles)(YearDropdownField);
+export default YearDropdownField;
