@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'test') {
 
 let prodSSLConfig = { ssl: true, extra: { ssl: { rejectUnauthorized: false } } };
 let localSSLConfig = { ssl: false, extra: {} };
-let sslConfig = process.env.NODE_ENV === 'production' ? prodSSLConfig : localSSLConfig;
+let sslConfig = process.env.NODE_ENV === 'development' ? localSSLConfig : prodSSLConfig;
 
 module.exports = [
   {
