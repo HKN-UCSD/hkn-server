@@ -18,8 +18,9 @@ import {
   AppUserResponse,
   AppUserRolesResponse,
   AppUserProfileResponse,
-  MultipleUsersQuery,
+  MultipleUserQuery,
   MultipleAppUserResponse,
+  MultipleUserNameResponse,
 } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
@@ -33,14 +34,10 @@ export class UserController {
   @ResponseSchema(MultipleAppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getMultipleUsers(
-    @QueryParams() multipleUsersQuery: MultipleUsersQuery
-  ): Promise<MultipleAppUserResponse> {
-    const multipleUsers = await this.appUserService.getAllAppUsers(multipleUsersQuery);
-    const multipleUsersResponse = multipleUsers.map(user =>
-      this.appUserMapper.entityToResponse(user)
-    );
-
-    return { users: multipleUsersResponse };
+    @QueryParams() multipleUserQuery: MultipleUserQuery
+  ): Promise<MultipleAppUserResponse | MultipleUserNameResponse> {
+    const multipleUsers = await this.appUserService.getAllAppUsers(multipleUserQuery);
+    return { users: multipleUsers };
   }
 
   @Post('/')

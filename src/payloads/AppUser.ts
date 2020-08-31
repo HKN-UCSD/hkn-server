@@ -139,6 +139,11 @@ export class AppUserProfileResponse {
   inductionClass: AppUserInductionClass;
 }
 
+export class AppUserRolesResponse {
+  @IsEnum(AppUserRole)
+  role: string;
+}
+
 export class AppUserNameResponse {
   @IsString()
   firstName: string;
@@ -147,12 +152,7 @@ export class AppUserNameResponse {
   lastName: string;
 }
 
-export class AppUserRolesResponse {
-  @IsEnum(AppUserRole)
-  role: string;
-}
-
-export class MultipleUsersQuery {
+export class MultipleUserQuery {
   @IsBoolean()
   @IsOptional()
   officers: boolean;
@@ -168,4 +168,8 @@ export class MultipleAppUserResponse {
   users: AppUserResponse[];
 }
 
-export class MultipleUserNameResponse {}
+export class MultipleUserNameResponse {
+  @ValidateNested({ each: true })
+  @Type(() => AppUserNameResponse)
+  users: AppUserNameResponse[];
+}

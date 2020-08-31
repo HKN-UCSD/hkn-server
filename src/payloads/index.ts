@@ -13,8 +13,9 @@ export {
   AppUserEventResponse,
   AppUserRolesResponse,
   AppUserProfileResponse,
-  MultipleUsersQuery,
+  MultipleUserQuery,
   MultipleAppUserResponse,
+  MultipleUserNameResponse,
 } from './AppUser';
 export { AttendanceResponse } from './Attendance';
 export { RSVPResponse } from './RSVP';
