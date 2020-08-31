@@ -53,7 +53,7 @@ export class Event {
   })
   status: string;
 
-  @ManyToMany(() => AppUser, { eager: true })
+  @ManyToMany(() => AppUser, { eager: true, deferrable: 'INITIALLY DEFERRED' })
   @JoinTable()
   hosts: AppUser[];
 
