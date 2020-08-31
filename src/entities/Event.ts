@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import { AppUser, Attendance, RSVP } from '@Entities';
+import { AppUser } from './AppUser';
+import { Attendance } from './Attendance';
+import { RSVP } from './RSVP';
 
 export enum EventType {
   PROFESSIONAL = 'professional',
