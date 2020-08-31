@@ -1,10 +1,7 @@
 import { AppUser } from '@Entities';
 
 export class AuthorizationService {
-  async hasSufficientRole(
-    permittedRoles: Array<string>,
-    appUserToCheck: AppUser
-  ): Promise<Boolean> {
+  hasSufficientRole(permittedRoles: Array<string>, appUserToCheck: AppUser): boolean {
     const { role } = appUserToCheck;
 
     return permittedRoles.includes(role);

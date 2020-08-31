@@ -15,17 +15,14 @@ export const AuthMiddleware = (
   const appUserFromToken = await authenticationService.verifyToken(token);
 
   if (appUserFromToken === undefined) {
-    throw new ForbiddenError(ERR_MSGS.USER_NOT_AUTHENTICATED);
+    return response.status(403).send({ error: ERR_MSGS.USER_NOT_AUTHENTICATED });
   }
 
-  const isAuthorized = await authorizationService.hasSufficientRole(
-    permittedRoles,
-    appUserFromToken
-  );
+  const isAuthorized = authorizationService.hasSufficientRole(permittedRoles, appUserFromToken);
 
-  if (isAuthorized) {
-    return next();
+  if (!isAuthorized) {
+    return response.status(401).send({ error: ERR_MSGS.USER_NOT_AUTHORIZED });
   }
 
-  throw new UnauthorizedError(ERR_MSGS.USER_NOT_AUTHORIZED);
+  next();
 };
