@@ -12,23 +12,40 @@ if (process.env.NODE_ENV === 'test') {
   entities = 'src/entities/**/*.ts';
 }
 
-module.exports = {
-  type: 'postgres',
-  url: process.env.DATABASE_URL,
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
+let prodSSLConfig = { ssl: true, extra: { ssl: { rejectUnauthorized: false } } };
+let localSSLConfig = { ssl: false, extra: {} };
+let sslConfig = process.env.NODE_ENV === 'production' ? prodSSLConfig : localSSLConfig;
+
+module.exports = [
+  {
+    type: 'postgres',
+    url: process.env.DATABASE_URL,
+    ssl: sslConfig.ssl,
+    extra: sslConfig.extra,
+    synchronize: false,
+    logging: false,
+    entities: [entities],
+    migrations: ['dist/migrations/**/*.js'],
+    subscribers: ['dist/subscribers/**/*.js'],
+    cli: {
+      entitiesDir: 'src/entities',
+      migrationsDir: 'src/migrations',
+      subscribersDir: 'src/subscribers',
     },
   },
-  synchronize: false,
-  logging: false,
-  entities: [entities],
-  migrations: ['dist/migrations/**/*.js'],
-  subscribers: ['dist/subscribers/**/*.js'],
-  cli: {
-    entitiesDir: 'src/entities',
-    migrationsDir: 'src/migrations',
-    subscribersDir: 'src/subscribers',
+  {
+    name: 'seed',
+    type: 'postgres',
+    url: process.env.DATABASE_URL,
+    ssl: sslConfig.ssl,
+    extra: sslConfig.extra,
+    synchronize: false,
+    logging: false,
+    entities: [entities],
+    migrations: ['dist/seeds/**/*.js'],
+    cli: {
+      entitiesDir: 'src/entities',
+      migrationsDir: 'src/seeds',
+    },
   },
-};
+];
