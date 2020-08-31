@@ -109,6 +109,7 @@ export class AppUserService {
     return this.saveAppUser(appUser);
   }
 
+  // TODO: Come up with a better name for this method
   isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
     const { role, id: requesterID } = appUser;
 
