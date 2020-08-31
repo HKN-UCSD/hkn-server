@@ -35,12 +35,13 @@ const SignUpForm = props => {
     >
       {({ submitForm, isSubmitting }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={3}>
+          <Grid container direction='column' justify='center' spacing={2}>
             <Grid item>
-              <Grid container direction='row' spacing={3}>
+              <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
+                    fullWidth
                     name='firstName'
                     label='First Name'
                   />
@@ -49,6 +50,7 @@ const SignUpForm = props => {
                 <Grid item xs={6}>
                   <Field
                     component={TextField}
+                    fullWidth
                     name='lastName'
                     label='Last Name'
                   />
@@ -57,53 +59,53 @@ const SignUpForm = props => {
             </Grid>
 
             <Grid item>
-              <Grid container direction='column' spacing={3}>
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    fullWidth
-                    name='email'
-                    label='Email Address'
-                  />
-                </Grid>
-
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    fullWidth
-                    name='password'
-                    type='password'
-                    label='Password'
-                  />
-                </Grid>
-
-                <Grid item>
-                  <Field
-                    component={TextField}
-                    fullWidth
-                    name='confirmPW'
-                    type='password'
-                    label='Confirm Password'
-                  />
-                </Grid>
-              </Grid>
+              <Field
+                component={TextField}
+                fullWidth
+                name='email'
+                label='Email Address'
+              />
             </Grid>
 
             <Grid item>
-              <Grid container direction='row' spacing={3}>
+              <Field
+                component={TextField}
+                fullWidth
+                name='password'
+                type='password'
+                label='Password'
+              />
+            </Grid>
+
+            <Grid item>
+              <Field
+                component={TextField}
+                fullWidth
+                name='confirmPW'
+                type='password'
+                label='Confirm Password'
+              />
+            </Grid>
+
+            <Grid item>
+              <Grid container direction='row' spacing={2}>
                 <Grid item xs={8}>
-                  <MajorDropdownField name='major' label='Major' />
+                  <MajorDropdownField name='major' label='Major' fullWidth />
                 </Grid>
 
                 <Grid item xs={4}>
-                  <YearDropdownField name='gradYear' label='Grad Year' />
+                  <YearDropdownField
+                    name='gradYear'
+                    label='Grad Year'
+                    fullWidth
+                  />
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid item>
               <Button
-                className={classes.signUpButton}
+                className={classes.signUp}
                 variant='contained'
                 color='primary'
                 fullWidth
