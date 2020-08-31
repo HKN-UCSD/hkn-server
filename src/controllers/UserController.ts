@@ -37,6 +37,7 @@ export class UserController {
     @QueryParams() multipleUserQuery: MultipleUserQuery
   ): Promise<MultipleAppUserResponse | MultipleUserNameResponse> {
     const multipleUsers = await this.appUserService.getAllAppUsers(multipleUserQuery);
+
     return { users: multipleUsers };
   }
 
@@ -75,9 +76,7 @@ export class UserController {
     @CurrentUser({ required: true })
     appUser: AppUser
   ): Promise<AppUserResponse | undefined> {
-    const { role, id } = appUser;
-
-    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && id != userID) {
+    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -99,9 +98,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserRolesResponse | undefined> {
-    const { role, id } = appUser;
-
-    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && id != userID) {
+    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
       throw new ForbiddenError();
     }
 

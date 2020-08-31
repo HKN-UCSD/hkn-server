@@ -32,7 +32,8 @@ export class AppUserService {
   }
 
   /**
-   * Gets all app users.
+   * Gets multiple app users with every property on the entity schema or their names.
+   * Can be filtered by officer role.
    *
    * @returns {AppUser[]} Array of AppUser entities
    */
@@ -106,6 +107,16 @@ export class AppUserService {
     }
 
     return this.saveAppUser(appUser);
+  }
+
+  isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
+    const { role, id: requesterID } = appUser;
+
+    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID) {
+      return true;
+    }
+
+    return false;
   }
 }
 
