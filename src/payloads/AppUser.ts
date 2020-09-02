@@ -145,6 +145,9 @@ export class AppUserRolesResponse {
 }
 
 export class AppUserNameResponse {
+  @IsInt()
+  id: number;
+
   @IsString()
   firstName: string;
 

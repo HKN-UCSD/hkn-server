@@ -8,7 +8,7 @@ export class AppUserService {
     const query: FindManyOptions<AppUser> = {};
 
     if (names) {
-      query.select = ['firstName', 'lastName'];
+      query.select = ['firstName', 'lastName', 'id'];
     }
 
     if (officers) {
