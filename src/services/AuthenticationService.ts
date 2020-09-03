@@ -32,7 +32,10 @@ export class AuthenticationService {
   }
 
   async localVerifyIdToken(token: string): Promise<AppUser | undefined> {
-    const id = parseInt(token, 10);
+    const splitToken: string[] = token.split(' ');
+    const userToken = splitToken[1];
+
+    const id = parseInt(userToken, 10);
 
     if (isNaN(id)) {
       return undefined;

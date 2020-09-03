@@ -1,8 +1,9 @@
 import {
   AppUserEventRequest,
+  AppUserResponse,
   AppUserEventResponse,
-  AppUserRolesResponse,
   AppUserProfileResponse,
+  AppUserPostRequest,
 } from '@Payloads';
 import { AppUser } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
@@ -17,10 +18,10 @@ export class AppUserMapper {
    * Converts an EventSignInRequest payload to an AppUser entity and
    * returns the newly created entity to the caller.
    *
-   * @param {AppUserEventRequest} appUserRequest The request payload from which the AppUser entity is created.
+   * @param {AppUserPostRequest | AppUserEventRequest} appUserRequest The request payload from which the AppUser entity is created.
    * @returns {AppUser} A newly created AppUser entity.
    */
-  requestToNewEntity(appUserRequest: AppUserEventRequest): AppUser {
+  requestToNewEntity(appUserRequest: AppUserPostRequest | AppUserEventRequest): AppUser {
     const appUserRepository = getRepository(AppUser);
     const plainAppUserRequest: Object = classToPlain(appUserRequest);
 
@@ -31,13 +32,13 @@ export class AppUserMapper {
    * Updates an existing AppUser entity with new data from the request payload.
    * If there is no AppUser entity with the passed-in appUserId, then return undefined.
    *
-   * @param {AppUserEventRequest} appUserRequest The request payload from which the updated
+   * @param {AppUserPostRequest | AppUserEventRequest} appUserRequest The request payload from which the updated
    *                                             existing AppUser entity is created.
    * @param {number} appUserId The supposed ID of an existing AppUser entity.
    * @returns {Promise} An updated AppUser entity.
    */
   async requestToExistingEntity(
-    appUserRequest: AppUserEventRequest,
+    appUserRequest: AppUserPostRequest | AppUserEventRequest,
     appUserId: number
   ): Promise<AppUser | undefined> {
     const appUserObj: AppUser = appUserRequest as AppUser;
@@ -71,6 +72,13 @@ export class AppUserMapper {
     }
   }
 
+  entityToResponse(appUser: AppUser): AppUserResponse {
+    const plainAppUser: Object = classToPlain(appUser);
+    const appUserResponse: AppUserResponse = plainToClass(AppUserResponse, plainAppUser);
+
+    return appUserResponse;
+  }
+
   /**
    * Converts an AppUser entity to an AppUserEventResponse payload and returns the
    * newly created response payload to the caller.
@@ -79,7 +87,7 @@ export class AppUserMapper {
    *                          payload.
    * @returns {AppUserEventResponse} An AppUserEventResponse instance.
    */
-  entityToResponse(appUser: AppUser): AppUserEventResponse {
+  entityToUserEventResponse(appUser: AppUser): AppUserEventResponse {
     const plainAppUser: Object = classToPlain(appUser);
     const appUserResponse: AppUserEventResponse = plainToClass(AppUserEventResponse, plainAppUser);
 

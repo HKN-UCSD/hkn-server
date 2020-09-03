@@ -1,7 +1,23 @@
 import { AppUser, AppUserRole } from '@Entities';
-import { Any, getRepository } from 'typeorm';
+import { MultipleUserQuery } from '@Payloads';
+import { Any, getRepository, FindManyOptions } from 'typeorm';
 
 export class AppUserService {
+  private buildMultipleUserQuery(multipleUserQuery: MultipleUserQuery): FindManyOptions<AppUser> {
+    const { names, officers } = multipleUserQuery;
+    const query: FindManyOptions<AppUser> = {};
+
+    if (names) {
+      query.select = ['firstName', 'lastName', 'id'];
+    }
+
+    if (officers) {
+      query.where = { role: 'officer' };
+    }
+
+    return query;
+  }
+
   /**
    * Stores the AppUser passed in as a parameter to the
    * AppUser table.
@@ -12,11 +28,24 @@ export class AppUserService {
   async saveAppUser(appUser: AppUser): Promise<AppUser> {
     const appUserRepository = getRepository(AppUser);
 
-    return await appUserRepository.save(appUser);
+    return appUserRepository.save(appUser);
   }
 
   /**
-   * Get multiple app users.
+   * Gets multiple app users with every property on the entity schema or their names.
+   * Can be filtered by officer role.
+   *
+   * @returns {AppUser[]} Array of AppUser entities
+   */
+  getAllAppUsers(multipleUserQuery: MultipleUserQuery): Promise<AppUser[]> {
+    const appUserRepository = getRepository(AppUser);
+    const query = this.buildMultipleUserQuery(multipleUserQuery);
+
+    return appUserRepository.find(query);
+  }
+
+  /**
+   * Gets multiple app users.
    *
    * @param {number[]} ids Array of ids of AppUsers to find.
    * @returns {AppUser[]} Array of AppUser entities.
@@ -77,7 +106,18 @@ export class AppUserService {
       return undefined;
     }
 
-    return await this.saveAppUser(appUser);
+    return this.saveAppUser(appUser);
+  }
+
+  // TODO: Come up with a better name for this method
+  isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
+    const { role, id: requesterID } = appUser;
+
+    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID) {
+      return true;
+    }
+
+    return false;
   }
 }
 

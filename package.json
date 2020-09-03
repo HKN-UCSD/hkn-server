@@ -34,7 +34,6 @@
   "type": "commonjs",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "@sendgrid/mail": "^7.2.1",
     "body-parser": "^1.19.0",
     "class-transformer": "^0.3.1",
@@ -64,7 +63,6 @@
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
     "@types/express-rate-limit": "^5.0.0",
-    "@types/hapi__joi": "^17.1.4",
     "@types/jest": "^26.0.10",
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.0.26",
