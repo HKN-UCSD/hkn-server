@@ -10,14 +10,14 @@ import { Event } from './Event';
  */
 @Entity()
 export class Attendance {
-  @ManyToOne(() => AppUser, { primary: true })
+  @ManyToOne(() => AppUser, { primary: true, deferrable: 'INITIALLY DEFERRED' })
   attendee: AppUser;
 
   // Officer who checked off attendee
-  @ManyToOne(() => AppUser)
+  @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED' })
   officer: AppUser;
 
-  @ManyToOne(() => Event, { primary: true })
+  @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED' })
   event: Event;
 
   // num_hours

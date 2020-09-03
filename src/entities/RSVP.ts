@@ -10,10 +10,10 @@ export class RSVP {
   @ManyToOne(
     () => Event,
     event => event.rsvps,
-    { primary: true }
+    { primary: true, deferrable: 'INITIALLY DEFERRED' }
   )
   event: Event;
 
-  @ManyToOne(() => AppUser, { primary: true })
+  @ManyToOne(() => AppUser, { primary: true, deferrable: 'INITIALLY DEFERRED' })
   appUser: AppUser;
 }
