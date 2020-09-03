@@ -7,7 +7,7 @@ import EventSignInForm from './components/EventSignInForm';
 import styles from './styles';
 
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
-import { Loading } from '@SharedComponents';
+import { Loading, PublicPageLayout } from '@SharedComponents';
 import { getEventById } from '@Services/events';
 import { signInToEvent } from '@Services/ApiEvents';
 
@@ -42,8 +42,6 @@ class EventSignInPage extends React.Component {
   handleSubmit = (values, setSubmitting) => {
     const { eventId } = this.state;
 
-    console.log(values);
-
     signInToEvent(eventId, values);
 
     setSubmitting(false);
@@ -57,7 +55,7 @@ class EventSignInPage extends React.Component {
       eventInfo == null ? (
         <Loading />
       ) : (
-        <div className={classes.root}>
+        <PublicPageLayout>
           <Card className={classes.eventSignInCard}>
             <Grid container direction='column' alignItems='center' spacing={3}>
               <Grid item>
@@ -92,7 +90,7 @@ class EventSignInPage extends React.Component {
               </Grid>
             </Grid>
           </Card>
-        </div>
+        </PublicPageLayout>
       );
 
     return EventSignIn;

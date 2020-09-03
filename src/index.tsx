@@ -25,6 +25,8 @@ firebase
     // Just don't cache. Catching error to ensure that it doesn't propagate out.
   });
 
+document.body.style.height = '100%';
+document.body.style.margin = '0';
 ReactDOM.render(<App />, document.getElementById('root'));
 
 serviceWorker.unregister();

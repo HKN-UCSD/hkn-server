@@ -7,7 +7,7 @@ import EventRsvpForm from './components/EventRsvpForm';
 import styles from './styles';
 
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
-import { Loading } from '@SharedComponents';
+import { Loading, PublicPageLayout } from '@SharedComponents';
 import { getEventById } from '@Services/events';
 
 class EventRsvpPage extends React.Component {
@@ -39,8 +39,6 @@ class EventRsvpPage extends React.Component {
   }
 
   handleSubmit = (values, setSubmitting) => {
-    console.log(values);
-
     setSubmitting(false);
   };
 
@@ -52,7 +50,7 @@ class EventRsvpPage extends React.Component {
       eventInfo == null ? (
         <Loading />
       ) : (
-        <div className={classes.root}>
+        <PublicPageLayout>
           <Card className={classes.eventRsvpCard}>
             <Grid container direction='column' alignItems='center' spacing={3}>
               <Grid item>
@@ -87,7 +85,7 @@ class EventRsvpPage extends React.Component {
               </Grid>
             </Grid>
           </Card>
-        </div>
+        </PublicPageLayout>
       );
 
     return EventRsvp;
