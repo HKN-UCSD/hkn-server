@@ -8,7 +8,7 @@ You're getting moved into a routing-controller.
 */
 
 import express from 'express';
-import * as controller from '../controllers/AuthController';
+import * as controller from '../controllers/OldAuthController';
 
 export const AuthRouter = express.Router();
 

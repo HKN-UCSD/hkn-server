@@ -57,7 +57,6 @@ export class AppUserPostRequest {
   readonly role: string;
 }
 
-// If this class is empty, then it won't be decorated by class-validator, which will break docs
 export class AppUserEventRequest {
   @IsEmail()
   readonly email: string;
@@ -70,6 +69,26 @@ export class AppUserEventRequest {
 
   @IsString()
   readonly major: string;
+}
+
+export class AppUserSignupRequest {
+  @IsEmail()
+  readonly email: string;
+
+  @IsString()
+  readonly firstName: string;
+
+  @IsString()
+  readonly lastName: string;
+
+  @IsString()
+  readonly major: string;
+
+  @IsString()
+  readonly graduationYear: string;
+
+  @IsString()
+  readonly password: string;
 }
 
 export class AppUserResponse {
