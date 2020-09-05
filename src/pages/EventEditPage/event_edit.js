@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Card } from '@material-ui/core';
 
 import EventEditForm from './components/EventEditForm';
 
-import { getEventById, setEventDetails } from '@Services/events';
+import { getEventById, updateEvent } from '@Services/EventService';
 
 class EventEditPage extends React.Component {
   constructor(props) {
@@ -19,13 +20,20 @@ class EventEditPage extends React.Component {
   componentDidMount() {
     const { eventId } = this.state;
 
-    getEventDetails(eventId).then(event => {
-      const initialValues = {
-        ...event,
-        startDate: event.startDate,
-        endDate: event.endDate,
-      };
-      this.setState({ initialValues, formLoading: false });
+    getEventById(eventId).then(eventInfo => {
+      this.setState({
+        initialValues: {
+          ...eventInfo,
+          hosts: eventInfo.hosts.map(host => {
+            return {
+              id: host.id,
+              firstName: host.firstName,
+              lastName: host.lastName,
+            };
+          }),
+        },
+        formLoading: false,
+      });
     });
   }
 
@@ -40,15 +48,16 @@ class EventEditPage extends React.Component {
     };
 
     const handleSubmit = (values, setSubmitting) => {
-      const parsedStartDate = new Date(values.startDate);
-      const parsedEndDate = new Date(values.endDate);
-
       const submission = {
         ...values,
-        startDate: parsedStartDate,
-        endDate: parsedEndDate,
+        hosts: values.hosts.map(host => {
+          return {
+            id: host.id,
+          };
+        }),
       };
-      setEventDetails(eventId, submission).then(() => {
+
+      updateEvent(eventId, submission).then(() => {
         setSubmitting(false);
         // history.push(`/event/${eventId}`); // Waiting for event detail page
         history.goBack(); // TODO Remove!
@@ -60,12 +69,14 @@ class EventEditPage extends React.Component {
         {formLoading ? (
           <div />
         ) : (
-          <EventEditForm
-            handleSubmit={handleSubmit}
-            handleCancel={handleCancel}
-            eventId={eventId}
-            initialValues={initialValues}
-          />
+          <Card>
+            <EventEditForm
+              handleSubmit={handleSubmit}
+              handleCancel={handleCancel}
+              eventId={eventId}
+              initialValues={initialValues}
+            />
+          </Card>
         )}
       </div>
     );

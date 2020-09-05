@@ -13,6 +13,8 @@ import NavBar from './NavBar';
 import Table from './Table';
 import Tags from './Tags';
 
+export { OfficerNameAutocomplete } from './autocomplete';
+
 export {
   Button,
   MajorDropdownField,

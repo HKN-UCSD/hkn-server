@@ -20,7 +20,7 @@ function EventCard({ event, classes }) {
     <>
       {event && (
         <Card>
-          <CardHeader title={event.title} />
+          <CardHeader title={event.name} />
           <CardContent>
             <Typography variant='h6' color='textSecondary' gutterBottom>
               {format(parseISO(event.startDate), 'PP')} -{' '}
@@ -29,7 +29,7 @@ function EventCard({ event, classes }) {
             </Typography>
             <Box className={classes.locationContainer}>
               <RoomIcon color='disabled' />
-              <Typography color='textSecondary'>{event.venue}</Typography>
+              <Typography color='textSecondary'>{event.location}</Typography>
             </Box>
             <Button
               variant='outlined'
@@ -50,10 +50,16 @@ EventCard.propTypes = {
   event: PropTypes.shape({
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    venue: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+    name: PropTypes.string.isRequired,
+    location: PropTypes.string,
+    id: PropTypes.number.isRequired,
+  }),
+};
+
+EventCard.defaultProps = {
+  event: {
+    location: '',
+  },
 };
 
 export default withStyles(styles)(EventCard);

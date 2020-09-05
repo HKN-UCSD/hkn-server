@@ -18,6 +18,11 @@ import {
 import ApiConfigStore from './ApiConfigStore';
 import { Configuration } from './api/runtime';
 
+export {
+  EventRequestTypeEnum as EventTypeEnum,
+  EventResponseStatusEnum as EventStatusEnum,
+} from './api/models';
+
 export async function getAllEvents(): Promise<MultipleEventResponse> {
   const apiConfig: Configuration = ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);

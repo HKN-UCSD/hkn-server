@@ -9,13 +9,13 @@ import styles from './styles';
 
 import { Button, ButtonWithConfirmationModal } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
-import { deleteEventById } from '@Services/events';
+import { deleteEvent } from '@Services/EventService';
 
 const DeleteEditButtons = props => {
   const { classes, eventId } = props;
 
   const handleDeleteEvent = eventToDeleteId => {
-    deleteEventById(eventToDeleteId)
+    deleteEvent(eventToDeleteId)
       .then(res => {
         return res;
       })

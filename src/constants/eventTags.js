@@ -1,7 +1,8 @@
 const EVENT_TAGS = {
-  PROFESSIONAL: 'Professional',
-  TECHNICAL: 'Technical',
-  SOCIAL: 'Social',
+  PROFESSIONAL: 'professional',
+  TECHNICAL: 'technical',
+  SOCIAL: 'social',
+  MENTORSHIP: 'mentorship',
 };
 
 export default EVENT_TAGS;

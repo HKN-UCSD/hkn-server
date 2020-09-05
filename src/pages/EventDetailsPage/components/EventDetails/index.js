@@ -1,8 +1,8 @@
 import React from 'react';
-import { Typography, Container, Card, Button, Grid } from '@material-ui/core';
+import { Typography, Card, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import DeleteEditButtons from '../DeleteEditButtons';
@@ -20,83 +20,101 @@ function EventDetailsComponent(props) {
     endDate,
     hosts,
     location,
+    description,
     name,
     startDate,
-    tags,
-    urls,
-    description,
+    type,
+    fbURL,
+    canvaURL,
+    signInURL,
+    rsvpURL,
   } = eventInfo;
 
-  const updatedUrls = urls;
-  updatedUrls.signin = `/events/${eventId}/signin`;
-  updatedUrls.rsvp = `/events/${eventId}/rsvp`;
+  const urls = {
+    fb: fbURL,
+    canva: canvaURL,
+    signin: signInURL,
+    rsvp: rsvpURL,
+  };
+
+  const eventType = type || 'Event';
 
   return (
     <div className={classes.root}>
-      <Card>
-        <Container className={classes.container} maxWidth='sm'>
-          <Grid container direction='row' justify='space-between'>
-            <Grid className={classes.titleTag} item xs={7}>
-              <Typography className={classes.title} variant='h4'>
-                {name}
-                <Tags tags={tags} />
-              </Typography>
-            </Grid>
+      <Card className={classes.eventDetailsCard}>
+        <Grid container direction='column' justify='center' spacing={3}>
+          <Grid item className={classes.firstRow}>
+            <Grid container direction='row' justify='center'>
+              <Grid item xs={6}>
+                <Typography className={classes.title} variant='h4'>
+                  {name}
+                  <Tags tags={[eventType]} />
+                </Typography>
+              </Grid>
 
-            <Grid item xs={4}>
-              {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
-            </Grid>
-          </Grid>
-
-          <Grid
-            className={classes.hostLocTime}
-            container
-            direction='row'
-            spacing={4}
-          >
-            <Grid item xs={6}>
-              <Typography className={classes.hosts} variant='h6'>
-                Hosts:{' '}
-                {hosts.map(host => (
-                  <Typography key={host} className={classes.hostName}>
-                    {host}
-                  </Typography>
-                ))}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Typography variant='h6'>
-                Location: <Typography>{location}</Typography>
-              </Typography>
-
-              <Typography variant='h6'>
-                Start Time:{' '}
-                <Typography>{format(startDate, 'PPP p')}</Typography>
-              </Typography>
-              <Typography variant='h6'>
-                End Time: <Typography>{format(endDate, 'PPP p')}</Typography>
-              </Typography>
+              <Grid item xs={5}>
+                {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
+              </Grid>
             </Grid>
           </Grid>
 
-          <Grid
-            className={classes.descURL}
-            container
-            direction='row'
-            spacing={4}
-          >
-            <Grid item xs={3}>
-              {OfficerRenderPermission(Links)({ urls: updatedUrls })}
-            </Grid>
+          <Grid item>
+            <Grid container direction='row' justify='center'>
+              <Grid item xs={6}>
+                <Typography className={classes.hosts} variant='h6'>
+                  Hosts:{' '}
+                  {hosts.map(host => (
+                    <Typography key={host.id} className={classes.hostName}>
+                      {`${host.firstName} ${host.lastName}`}
+                    </Typography>
+                  ))}
+                </Typography>
+              </Grid>
 
-            <Grid item xs={9}>
-              <Typography variant='h6'>
-                Description: <Typography>{description}</Typography>
-              </Typography>
+              <Grid item xs={5}>
+                <Grid container direction='column'>
+                  <Grid item>
+                    <Typography variant='h6'>
+                      Location: <Typography>{location}</Typography>
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography variant='h6'>
+                      Start Time:{' '}
+                      <Typography>
+                        {format(parseISO(startDate), 'PPP p')}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography variant='h6'>
+                      End Time:{' '}
+                      <Typography>
+                        {format(parseISO(endDate), 'PPP p')}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-        </Container>
+
+          <Grid item>
+            <Grid container direction='row' justify='center' spacing={3}>
+              <Grid item xs={3}>
+                {OfficerRenderPermission(Links)({ urls })}
+              </Grid>
+
+              <Grid item xs={8}>
+                <Typography variant='h6'>
+                  Description: <Typography>{description}</Typography>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Card>
 
       <Button
@@ -114,21 +132,30 @@ function EventDetailsComponent(props) {
 
 EventDetailsComponent.propTypes = {
   eventInfo: PropTypes.shape({
-    startDate: PropTypes.instanceOf(Date).isRequired,
-    endDate: PropTypes.instanceOf(Date).isRequired,
-    hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    location: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    hosts: PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.number.isRequired })
+    ).isRequired,
+    location: PropTypes.string,
     name: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    type: PropTypes.string,
     description: PropTypes.string.isRequired,
-    urls: PropTypes.shape({
-      fb: PropTypes.string.isRequired,
-      canva: PropTypes.string.isRequired,
-      rsvp: PropTypes.string.isRequired,
-      signin: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
+    fbURL: PropTypes.string,
+    canvaURL: PropTypes.string,
+    rsvpURL: PropTypes.string.isRequired,
+    signInURL: PropTypes.string.isRequired,
+  }),
   eventId: PropTypes.string.isRequired,
+};
+
+EventDetailsComponent.defaultProps = {
+  eventInfo: {
+    location: '',
+    type: '',
+    fbURL: '',
+    canvaURL: '',
+  },
 };
 
 export default withStyles(styles)(EventDetailsComponent);

@@ -9,22 +9,30 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import * as Yup from 'yup';
 
-import FormikChipListInput from './form_chip_list_input';
-import FormikMultiChipSelect from './form_multi_chip_select';
+import EventTypeDropdownField from '../EventTypeDropdownField';
+import EventStatusDropdownField from '../EventStatusDropdownField';
+
 import styles from './styles';
 
-import EVENT_TAGS from '@Constants/eventTags';
+import { OfficerNameAutocomplete } from '@SharedComponents';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),
   hosts: Yup.array().required('Required'),
   location: Yup.string().required('Required'),
-  tags: Yup.array(),
+  type: Yup.string(),
+  status: Yup.string().required('Required'),
   description: Yup.string(),
+  fbURL: Yup.string(),
+  canvaURL: Yup.string(),
+  rsvpURL: Yup.string(),
+  signInURL: Yup.string(),
 });
 
 const EventEditForm = props => {
   const { handleSubmit, handleCancel, classes, initialValues } = props;
+  const { fbURL, canvaURL, rsvpURL, signInURL } = initialValues;
+  const urls = { fbURL, canvaURL, rsvpURL, signInURL };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -72,13 +80,29 @@ const EventEditForm = props => {
                       label='Event Name'
                     />
 
-                    <Field
-                      className={classes.field}
-                      name='hosts'
-                      component={FormikChipListInput}
-                      fullWidth
-                      label='Hosts'
-                    />
+                    <Grid item className={classes.field}>
+                      <EventTypeDropdownField
+                        name='type'
+                        label='Type'
+                        fullWidth
+                      />
+                    </Grid>
+
+                    <Grid item className={classes.field}>
+                      <EventStatusDropdownField
+                        name='status'
+                        label='Status'
+                        fullWidth
+                      />
+                    </Grid>
+
+                    <Grid item className={classes.field}>
+                      <OfficerNameAutocomplete
+                        name='hosts'
+                        label='Hosts'
+                        fullWidth
+                      />
+                    </Grid>
 
                     <Field
                       className={classes.field}
@@ -88,31 +112,20 @@ const EventEditForm = props => {
                       fullWidth
                       label='Location'
                     />
-
-                    <Field
-                      className={classes.field}
-                      name='tags'
-                      component={FormikMultiChipSelect}
-                      selections={Object.values(EVENT_TAGS)}
-                      fullWidth
-                      label='Tags'
-                    />
                   </Grid>
                 </Grid>
 
                 <Grid className={classes.urls}>
-                  {Object.keys(initialValues.urls).map(url => {
-                    return (
-                      <Field
-                        key={url}
-                        className={classes.field}
-                        name={`urls.${url}`}
-                        type='text'
-                        component={TextField}
-                        label={url.toUpperCase()}
-                      />
-                    );
-                  })}
+                  {Object.keys(urls).map(url => (
+                    <Field
+                      key={url}
+                      className={classes.field}
+                      name={`${url}`}
+                      type='text'
+                      component={TextField}
+                      label={url}
+                    />
+                  ))}
                 </Grid>
               </Grid>
 
@@ -164,20 +177,27 @@ EventEditForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
   initialValues: PropTypes.shape({
-    startDate: PropTypes.instanceOf(Date).isRequired,
-    endDate: PropTypes.instanceOf(Date).isRequired,
-    hosts: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    hosts: PropTypes.array.isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    type: PropTypes.string,
+    status: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    urls: PropTypes.shape({
-      fb: PropTypes.string.isRequired,
-      canva: PropTypes.string.isRequired,
-      rsvp: PropTypes.string.isRequired,
-      signin: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
+    fbURL: PropTypes.string,
+    canvaURL: PropTypes.string,
+    rsvpURL: PropTypes.string.isRequired,
+    signInURL: PropTypes.string.isRequired,
+  }),
+};
+
+EventEditForm.defaultProps = {
+  initialValues: {
+    fbURL: '',
+    canvaURL: '',
+    type: '',
+  },
 };
 
 export default withStyles(styles)(EventEditForm);

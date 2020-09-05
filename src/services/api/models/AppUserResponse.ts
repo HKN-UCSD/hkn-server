@@ -13,58 +13,77 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+  AppUserInductionClass,
+  AppUserInductionClassFromJSON,
+  AppUserInductionClassFromJSONTyped,
+  AppUserInductionClassToJSON,
+} from './';
+
 /**
  *
  * @export
- * @interface AppUserEventResponse
+ * @interface AppUserResponse
  */
-export interface AppUserEventResponse {
+export interface AppUserResponse {
   /**
    *
    * @type {number}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
   id: number;
   /**
    *
    * @type {string}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
   email: string;
   /**
    *
    * @type {string}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
   firstName: string;
   /**
    *
    * @type {string}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
   lastName: string;
   /**
    *
    * @type {string}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
   major: string;
   /**
    *
    * @type {string}
-   * @memberof AppUserEventResponse
+   * @memberof AppUserResponse
    */
-  role: AppUserEventResponseRoleEnum;
+  graduationYear: string;
+  /**
+   *
+   * @type {AppUserInductionClass}
+   * @memberof AppUserResponse
+   */
+  inductionClass?: AppUserInductionClass;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUserResponse
+   */
+  role: AppUserResponseRoleEnum;
 }
 
-export function AppUserEventResponseFromJSON(json: any): AppUserEventResponse {
-  return AppUserEventResponseFromJSONTyped(json, false);
+export function AppUserResponseFromJSON(json: any): AppUserResponse {
+  return AppUserResponseFromJSONTyped(json, false);
 }
 
-export function AppUserEventResponseFromJSONTyped(
+export function AppUserResponseFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): AppUserEventResponse {
+): AppUserResponse {
   if (json === undefined || json === null) {
     return json;
   }
@@ -74,13 +93,15 @@ export function AppUserEventResponseFromJSONTyped(
     firstName: json['firstName'],
     lastName: json['lastName'],
     major: json['major'],
+    graduationYear: json['graduationYear'],
+    inductionClass: !exists(json, 'inductionClass')
+      ? undefined
+      : AppUserInductionClassFromJSON(json['inductionClass']),
     role: json['role'],
   };
 }
 
-export function AppUserEventResponseToJSON(
-  value?: AppUserEventResponse | null
-): any {
+export function AppUserResponseToJSON(value?: AppUserResponse | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -93,6 +114,8 @@ export function AppUserEventResponseToJSON(
     firstName: value.firstName,
     lastName: value.lastName,
     major: value.major,
+    graduationYear: value.graduationYear,
+    inductionClass: AppUserInductionClassToJSON(value.inductionClass),
     role: value.role,
   };
 }
@@ -101,7 +124,7 @@ export function AppUserEventResponseToJSON(
  * @export
  * @enum {string}
  */
-export enum AppUserEventResponseRoleEnum {
+export enum AppUserResponseRoleEnum {
   Admin = 'admin',
   Officer = 'officer',
   Member = 'member',

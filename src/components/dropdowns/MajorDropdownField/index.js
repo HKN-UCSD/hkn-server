@@ -36,7 +36,6 @@ const MajorDropdownField = props => {
     <GenericDropdownField
       name={name}
       label={label}
-      defaultValue=''
       selections={listOfMajors}
       {...otherProps}
     />
