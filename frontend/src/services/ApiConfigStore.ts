@@ -8,7 +8,7 @@ class ApiConfigStoreClass {
     basePath:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3001'
-        : 'https://dev.api.hknucsd.com',
+        : 'https://dev-api.hknucsd.com',
   };
 
   private config: Configuration = new Configuration(this.configParams);
