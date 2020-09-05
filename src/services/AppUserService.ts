@@ -119,6 +119,14 @@ export class AppUserService {
 
     return false;
   }
+
+  isGuest(appUser: AppUser): boolean {
+    if (appUser.role !== AppUserRole.GUEST) {
+      return false;
+    }
+
+    return true;
+  }
 }
 
 export const AppUserServiceImpl = new AppUserService();

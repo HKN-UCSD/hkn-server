@@ -18,7 +18,7 @@ export class AuthController {
 
     const appUserWhitelisted = await this.appUserService.getAppUserByEmail(email);
 
-    if (appUserWhitelisted === undefined) {
+    if (appUserWhitelisted === undefined || this.appUserService.isGuest(appUserWhitelisted)) {
       return undefined;
     }
 
