@@ -32,7 +32,6 @@ export class UserController {
   @Get('/')
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(MultipleAppUserResponse)
-  @ResponseSchema(MultipleUserNameResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getMultipleUsers(
     @QueryParams() multipleUserQuery: MultipleUserQuery
