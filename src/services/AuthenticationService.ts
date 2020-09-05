@@ -8,10 +8,10 @@ export class AuthenticationService {
   constructor(private appUserService: AppUserService) {}
 
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
-    const splitToken: string[] = token.split(' ');
-    const userToken = splitToken[1];
-
     try {
+      const splitToken: string[] = token.split(' ');
+      const userToken = splitToken[1];
+
       const tokenResult = await admin.auth().verifyIdToken(userToken);
 
       if (tokenResult == null) {
@@ -32,16 +32,20 @@ export class AuthenticationService {
   }
 
   async localVerifyIdToken(token: string): Promise<AppUser | undefined> {
-    const splitToken: string[] = token.split(' ');
-    const userToken = splitToken[1];
+    try {
+      const splitToken: string[] = token.split(' ');
+      const userToken = splitToken[1];
 
-    const id = parseInt(userToken, 10);
+      const id = parseInt(userToken, 10);
 
-    if (isNaN(id)) {
+      if (isNaN(id)) {
+        return undefined;
+      }
+
+      return await this.appUserService.getAppUserById(id);
+    } catch {
       return undefined;
     }
-
-    return await this.appUserService.getAppUserById(id);
   }
 
   async verifyToken(token: string): Promise<AppUser | undefined> {
