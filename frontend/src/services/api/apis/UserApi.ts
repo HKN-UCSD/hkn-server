@@ -14,13 +14,31 @@
 
 import * as runtime from '../runtime';
 import {
+  AppUserPostRequest,
+  AppUserPostRequestFromJSON,
+  AppUserPostRequestToJSON,
   AppUserProfileResponse,
   AppUserProfileResponseFromJSON,
   AppUserProfileResponseToJSON,
+  AppUserResponse,
+  AppUserResponseFromJSON,
+  AppUserResponseToJSON,
   AppUserRolesResponse,
   AppUserRolesResponseFromJSON,
   AppUserRolesResponseToJSON,
+  MultipleAppUserResponse,
+  MultipleAppUserResponseFromJSON,
+  MultipleAppUserResponseToJSON,
 } from '../models';
+
+export interface UserControllerCreateUserRequest {
+  appUserPostRequest?: AppUserPostRequest;
+}
+
+export interface UserControllerGetMultipleUsersRequest {
+  officers?: boolean;
+  names?: boolean;
+}
 
 export interface UserControllerGetUserProfileRequest {
   userID: number;
@@ -30,10 +48,110 @@ export interface UserControllerGetUserRoleRequest {
   userID: number;
 }
 
+export interface UserControllerUpdateUserProfileRequest {
+  userID: number;
+  appUserPostRequest?: AppUserPostRequest;
+}
+
 /**
  *
  */
 export class UserApi extends runtime.BaseAPI {
+  /**
+   * Create user
+   */
+  async userControllerCreateUserRaw(
+    requestParameters: UserControllerCreateUserRequest
+  ): Promise<runtime.ApiResponse<AppUserResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/users/`,
+      method: 'POST',
+      headers: headerParameters,
+      query: queryParameters,
+      body: AppUserPostRequestToJSON(requestParameters.appUserPostRequest),
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      AppUserResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Create user
+   */
+  async userControllerCreateUser(
+    requestParameters: UserControllerCreateUserRequest
+  ): Promise<AppUserResponse> {
+    const response = await this.userControllerCreateUserRaw(requestParameters);
+    return await response.value();
+  }
+
+  /**
+   * Get multiple users
+   */
+  async userControllerGetMultipleUsersRaw(
+    requestParameters: UserControllerGetMultipleUsersRequest
+  ): Promise<runtime.ApiResponse<MultipleAppUserResponse>> {
+    const queryParameters: any = {};
+
+    if (requestParameters.officers !== undefined) {
+      queryParameters['officers'] = requestParameters.officers;
+    }
+
+    if (requestParameters.names !== undefined) {
+      queryParameters['names'] = requestParameters.names;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/users/`,
+      method: 'GET',
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      MultipleAppUserResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Get multiple users
+   */
+  async userControllerGetMultipleUsers(
+    requestParameters: UserControllerGetMultipleUsersRequest
+  ): Promise<MultipleAppUserResponse> {
+    const response = await this.userControllerGetMultipleUsersRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
   /**
    * Get user profile
    */
@@ -132,6 +250,65 @@ export class UserApi extends runtime.BaseAPI {
     requestParameters: UserControllerGetUserRoleRequest
   ): Promise<AppUserRolesResponse> {
     const response = await this.userControllerGetUserRoleRaw(requestParameters);
+    return await response.value();
+  }
+
+  /**
+   * Update user profile
+   */
+  async userControllerUpdateUserProfileRaw(
+    requestParameters: UserControllerUpdateUserProfileRequest
+  ): Promise<runtime.ApiResponse<AppUserResponse>> {
+    if (
+      requestParameters.userID === null ||
+      requestParameters.userID === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'userID',
+        'Required parameter requestParameters.userID was null or undefined when calling userControllerUpdateUserProfile.'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/users/{userID}`.replace(
+        `{${'userID'}}`,
+        encodeURIComponent(String(requestParameters.userID))
+      ),
+      method: 'POST',
+      headers: headerParameters,
+      query: queryParameters,
+      body: AppUserPostRequestToJSON(requestParameters.appUserPostRequest),
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      AppUserResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Update user profile
+   */
+  async userControllerUpdateUserProfile(
+    requestParameters: UserControllerUpdateUserProfileRequest
+  ): Promise<AppUserResponse> {
+    const response = await this.userControllerUpdateUserProfileRaw(
+      requestParameters
+    );
     return await response.value();
   }
 }

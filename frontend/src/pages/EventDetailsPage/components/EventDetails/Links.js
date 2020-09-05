@@ -73,11 +73,18 @@ function Links(props) {
 
 Links.propTypes = {
   urls: PropTypes.shape({
-    fb: PropTypes.string.isRequired,
-    canva: PropTypes.string.isRequired,
+    fb: PropTypes.string,
+    canva: PropTypes.string,
     rsvp: PropTypes.string.isRequired,
     signin: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
+};
+
+Links.defaultProps = {
+  urls: {
+    fb: '',
+    canva: '',
+  },
 };
 
 export default withStyles(styles)(Links);

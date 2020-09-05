@@ -48,7 +48,7 @@ export default function Calendar({ events, handleEventClick }) {
 Calendar.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
       endDate: PropTypes.string.isRequired,
     })

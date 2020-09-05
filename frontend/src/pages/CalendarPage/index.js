@@ -7,7 +7,7 @@ import EventCard from './components/EventCard';
 import EventList from './components/EventList';
 import styles from './styles';
 
-import { getAllEvents } from '@Services/events';
+import { getAllEvents } from '@Services/EventService';
 
 class CalendarPage extends React.Component {
   constructor(props) {
@@ -20,45 +20,22 @@ class CalendarPage extends React.Component {
   }
 
   componentDidMount() {
-    getAllEvents().then(events => {
+    getAllEvents().then(multipleEventResponse => {
+      const { events } = multipleEventResponse;
       const calendarEvents = [];
-      events.forEach(newEventParam => {
+
+      events.forEach(event => {
         // make a copy of the event
-        const newEvent = Object.assign(newEventParam);
+        const newEvent = Object.assign(event);
 
-        // convert timestamp object to ISO time string
-        newEvent.startDate = newEvent.startDate.toDate().toISOString();
-        newEvent.endDate = newEvent.endDate.toDate().toISOString();
-
+        // For EventList
         newEvent.title = newEvent.name;
-        newEvent.venue = newEvent.location;
+
         calendarEvents.push(newEvent);
       });
+
       this.setState({ events: calendarEvents });
     });
-
-    // const calendarEvents = [
-    //   {
-    //     id: 'qO8nJ50tCO57hptbxNZa',
-    //     title: 'Enhanced multi-tasking model',
-    //     description:
-    //       'Pressure someone institution fund account part. Entire couple develop main.\nMeeting sea school me policy beautiful well. Agent ground so majority care born blood.',
-    //     venue: 'Lindsey Rapids',
-    //     startDate: '2020-05-16T01:30:49+00:00',
-    //     endDate: '2020-05-16T02:30:49+00:00',
-    //   },
-    //   {
-    //     id: 'mRaXeYuSCMmqMOngDl7B',
-    //     title: 'Customizable bottom-line help-desk',
-    //     description:
-    //       'Reason clear rest the lay. Customer fill change.\nCampaign member we notice include investment. Near they order particularly western life. Reflect bed offer dinner top Mr of her.',
-    //     venue: 'Frazier Station',
-    //     startDate: '2020-03-30T21:04:26+00:00',
-    //     endDate: '2020-03-30T22:04:26+00:00',
-    //   },
-    // ];
-
-    // this.setState({ events: calendarEvents });
   }
 
   toggleView() {

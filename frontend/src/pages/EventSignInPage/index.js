@@ -8,8 +8,8 @@ import styles from './styles';
 
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
 import { Loading, PublicPageLayout } from '@SharedComponents';
-import { getEventById } from '@Services/events';
-import { signInToEvent } from '@Services/ApiEvents';
+import { getEventById, signInToEvent } from '@Services/EventService';
+
 
 class EventSignInPage extends React.Component {
   constructor(props) {
@@ -41,7 +41,6 @@ class EventSignInPage extends React.Component {
 
   handleSubmit = (values, setSubmitting) => {
     const { eventId } = this.state;
-
     signInToEvent(eventId, values);
 
     setSubmitting(false);

@@ -35,9 +35,10 @@ function EventList({ events, handleEventClick }) {
     const listEvent = {
       id: events[i].id,
       title: events[i].title,
+      name: events[i].title,
       startDateString: format(parseISO(events[i].startDate), 'PPPP p'),
       endDateString: format(parseISO(events[i].endDate), 'PPPP p'),
-      venue: events[i].venue,
+      location: events[i].location,
       startDate: events[i].startDate,
       endDate: events[i].endDate,
     };
@@ -64,11 +65,15 @@ EventList.propTypes = {
       startDate: PropTypes.string.isRequired,
       endDate: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      venue: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
+      location: PropTypes.string,
+      id: PropTypes.number.isRequired,
     })
-  ).isRequired,
+  ),
   handleEventClick: PropTypes.func.isRequired,
+};
+
+EventList.defaultProps = {
+  events: [{ location: '' }],
 };
 
 export default EventList;
