@@ -3,11 +3,15 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { AppUserSignupRequest, AppUserResponse } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
-import { AppUserService, AppUserServiceImpl, createNewFirebaseUser } from '@Services';
+import { AppUserService, AppUserServiceImpl, SignupService, SignupServiceImpl } from '@Services';
 
 @JsonController('/api/auth')
 export class AuthController {
-  constructor(private appUserService: AppUserService, private appUserMapper: AppUserMapper) {}
+  constructor(
+    private appUserService: AppUserService,
+    private signupService: SignupService,
+    private appUserMapper: AppUserMapper
+  ) {}
 
   @Post('/signup')
   @ResponseSchema(AppUserResponse)
@@ -16,14 +20,18 @@ export class AuthController {
   ): Promise<AppUserResponse | undefined> {
     const { email, password, firstName, lastName, major, graduationYear } = appUserSignupRequest;
 
-    const appUserWhitelisted = await this.appUserService.getAppUserByEmail(email);
+    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
 
-    if (appUserWhitelisted === undefined || this.appUserService.isGuest(appUserWhitelisted)) {
+    if (appUserFromEmail === undefined || this.appUserService.isGuest(appUserFromEmail)) {
       return undefined;
     }
 
-    const appUserId = appUserWhitelisted.id;
-    const newFirebaseUser = await createNewFirebaseUser(appUserId, email, password);
+    const appUserId = appUserFromEmail.id;
+    const newFirebaseUser = await this.signupService.createNewFirebaseUser(
+      appUserId,
+      email,
+      password
+    );
 
     if (newFirebaseUser === undefined) {
       return undefined;
@@ -36,4 +44,8 @@ export class AuthController {
   }
 }
 
-export const AuthControllerImpl = new AuthController(AppUserServiceImpl, AppUserMapperImpl);
+export const AuthControllerImpl = new AuthController(
+  AppUserServiceImpl,
+  SignupServiceImpl,
+  AppUserMapperImpl
+);
