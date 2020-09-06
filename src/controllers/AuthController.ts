@@ -3,13 +3,13 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 
 import { AppUserSignupRequest, AppUserResponse } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
-import { AppUserService, AppUserServiceImpl, SignupService, SignupServiceImpl } from '@Services';
+import { AppUserService, AppUserServiceImpl, AccountService, AccountServiceImpl } from '@Services';
 
 @JsonController('/api/auth')
 export class AuthController {
   constructor(
     private appUserService: AppUserService,
-    private signupService: SignupService,
+    private accountService: AccountService,
     private appUserMapper: AppUserMapper
   ) {}
 
@@ -27,7 +27,7 @@ export class AuthController {
     }
 
     const appUserId = appUserFromEmail.id;
-    const newFirebaseUser = await this.signupService.createNewFirebaseUser(
+    const newFirebaseUser = await this.accountService.createNewFirebaseUser(
       appUserId,
       email,
       password
@@ -46,6 +46,6 @@ export class AuthController {
 
 export const AuthControllerImpl = new AuthController(
   AppUserServiceImpl,
-  SignupServiceImpl,
+  AccountServiceImpl,
   AppUserMapperImpl
 );

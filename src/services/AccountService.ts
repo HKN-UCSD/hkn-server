@@ -1,7 +1,7 @@
 import admin from 'firebase-admin';
 import '@firebase/auth';
 
-export class SignupService {
+export class AccountService {
   /**
    * Creates a new Firebase Auth user using Admin SDK.
    *
@@ -30,4 +30,4 @@ export class SignupService {
   }
 }
 
-export const SignupServiceImpl = new SignupService();
+export const AccountServiceImpl = new AccountService();
