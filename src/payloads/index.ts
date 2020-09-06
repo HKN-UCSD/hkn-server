@@ -9,6 +9,7 @@ export {
   AppUserPKPayload,
   AppUserPostRequest,
   AppUserEventRequest,
+  AppUserSignupRequest,
   AppUserResponse,
   AppUserEventResponse,
   AppUserRolesResponse,

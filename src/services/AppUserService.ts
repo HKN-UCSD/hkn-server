@@ -3,6 +3,12 @@ import { MultipleUserQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
 
 export class AppUserService {
+  /**
+   * Builds a query object for TypeOrm to filter rows when calling find() on AppUser table.
+   *
+   * @param {MultipleUserQuery} multipleUserQuery The available query parameters for getting multiple users.
+   * @returns {FindManyOptions<AppUser>} The query object used by TypeORM to filter rows by the query parameters.
+   */
   private buildMultipleUserQuery(multipleUserQuery: MultipleUserQuery): FindManyOptions<AppUser> {
     const { names, officers } = multipleUserQuery;
     const query: FindManyOptions<AppUser> = {};
@@ -110,14 +116,33 @@ export class AppUserService {
   }
 
   // TODO: Come up with a better name for this method
+  /**
+   * Checks if a user making a request to an endpoint is an officer or higher, and whether they are
+   * making a request with the URL parameter userID matching their own userID or not.
+   *
+   * @param {AppUser} appUser The AppUser entity whose role and id are being checked to see if they have
+   * valid access.
+   * @param {number} urlUserID The userID that is a URL parameter of the endpoint this method is being
+   * called from.
+   * @returns {boolean} True if the user has role lower than officer or their userID does not match with
+   * the one they put in the URL parameter userID.
+   */
   isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
     const { role, id: requesterID } = appUser;
 
-    if (!(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID) {
-      return true;
-    }
+    return (
+      !(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID
+    );
+  }
 
-    return false;
+  /**
+   * Checks if the passed-in AppUser is a guest.
+   *
+   * @param {AppUser} appUser The AppUser entity whose role is to be checked.
+   * @returns {boolean} Whether the passed-in AppUser has guest role or not.
+   */
+  isGuest(appUser: AppUser): boolean {
+    return appUser.role === AppUserRole.GUEST;
   }
 }
 
