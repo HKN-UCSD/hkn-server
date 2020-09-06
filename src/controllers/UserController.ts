@@ -11,7 +11,7 @@ import {
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
-import { AppUser } from '@Entities';
+import { AppUser, AppUserRole } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 import {
   AppUserPostRequest,
@@ -54,16 +54,24 @@ export class UserController {
 
   // TODO: Add auth
   @Get('/:userID')
+  @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserProfileResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getUserProfile(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserProfileResponse | undefined> {
-    const { id } = appUser;
+    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
+      throw new ForbiddenError();
+    }
 
-    const appUserObj: AppUser = await this.appUserService.getAppUserById(userID);
+    const appUserFromID: AppUser = await this.appUserService.getAppUserById(userID);
 
-    return this.appUserMapper.entityToProfileResponse(appUserObj);
+    if (appUserFromID === undefined) {
+      return undefined;
+    }
+
+    return this.appUserMapper.entityToProfileResponse(appUserFromID);
   }
 
   @Post('/:userID')
