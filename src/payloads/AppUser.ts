@@ -155,7 +155,11 @@ export class AppUserProfileResponse {
   graduationYear: string;
 
   @IsInstance(AppUserInductionClass)
+  @IsOptional()
   inductionClass: AppUserInductionClass;
+
+  @IsEnum(AppUserRole)
+  role: string;
 }
 
 export class AppUserRolesResponse {
