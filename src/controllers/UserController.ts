@@ -11,7 +11,7 @@ import {
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
-import { AppUser, AppUserRole } from '@Entities';
+import { AppUser } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 import {
   AppUserPostRequest,
