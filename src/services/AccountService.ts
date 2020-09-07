@@ -4,7 +4,7 @@ import '@firebase/auth';
 export class AccountService {
   // getAuthService is needed instead of just AuthService because we need to wait for firebase to
   // load first :)))
-  constructor(private getAuthService: () => AuthService) {}
+  constructor(private getAuthService: () => IAuthService) {}
 
   /**
    * Creates a new Firebase Auth user using Admin SDK.
@@ -32,7 +32,7 @@ export class AccountService {
 }
 
 // TODO fix overloaded authservice naming
-interface AuthService {
+interface IAuthService {
   createUser(properties: {
     uid: string;
     email: string;
