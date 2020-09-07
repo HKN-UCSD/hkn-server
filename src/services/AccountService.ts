@@ -2,6 +2,10 @@ import admin from 'firebase-admin';
 import '@firebase/auth';
 
 export class AccountService {
+  // getAuthService is needed instead of just AuthService because we need to wait for firebase to
+  // load first :)))
+  constructor(private getAuthService: () => AuthService) {}
+
   /**
    * Creates a new Firebase Auth user using Admin SDK.
    *
@@ -11,13 +15,9 @@ export class AccountService {
    * @returns {string} The userID of the newly created Firebase Auth user, if the creation
    * process succeeds.
    */
-  async createNewFirebaseUser(
-    id: number,
-    email: string,
-    password: string
-  ): Promise<string | undefined> {
+  async createNewAccount(id: number, email: string, password: string): Promise<string | undefined> {
     try {
-      const newFirebaseUser = await admin.auth().createUser({
+      const newFirebaseUser = await this.getAuthService().createUser({
         uid: id.toString(10),
         email: email,
         password: password,
@@ -25,9 +25,19 @@ export class AccountService {
 
       return newFirebaseUser.uid;
     } catch {
+      // TODO log error
       return undefined;
     }
   }
 }
 
-export const AccountServiceImpl = new AccountService();
+// TODO fix overloaded authservice naming
+interface AuthService {
+  createUser(properties: {
+    uid: string;
+    email: string;
+    password: string;
+  }): Promise<{ uid: string }>;
+}
+
+export const AccountServiceImpl = new AccountService(() => admin.auth());
