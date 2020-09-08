@@ -7,8 +7,13 @@ import styles from './styles';
 
 import { Card } from '@SharedComponents';
 import { PublicPageLayout } from '@SharedComponents/layouts';
-import { createUserAccountFromSignup } from '@Services/auth';
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
+import { createNewUser } from '@Services/AuthService';
+import {
+  doSignInWithEmailAndPassword,
+  doSendVerificationEmail,
+  doSignOut,
+} from '@Services/auth';
 
 const INITIAL_STATE = {};
 
@@ -20,12 +25,39 @@ class SignUpPage extends React.Component {
   }
 
   handleSubmit = async (values, setSubmitting) => {
+    const { email, firstName, lastName, major, gradYear, password } = values;
     const signupSubmission = {
-      ...values,
+      email,
+      firstName,
+      lastName,
+      major,
+      password,
+      graduationYear: gradYear.toString(),
     };
 
-    await createUserAccountFromSignup(signupSubmission);
+    try {
+      await createNewUser(signupSubmission);
+    } catch {
+      console.log('Create new user failed');
+      setSubmitting(false);
+      return;
+    }
 
+    try {
+      await doSignInWithEmailAndPassword(email, password, false);
+    } catch {
+      console.log('Sign in failed');
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      await doSendVerificationEmail();
+    } catch {
+      console.log('Send verification email failed.');
+    }
+
+    await doSignOut();
     setSubmitting(false);
   };
 
