@@ -7,6 +7,7 @@ export * from './AppUserPostRequest';
 export * from './AppUserProfileResponse';
 export * from './AppUserResponse';
 export * from './AppUserRolesResponse';
+export * from './AppUserSignupRequest';
 export * from './AttendanceResponse';
 export * from './BaseEventPayload';
 export * from './EventAttendanceResponse';

@@ -61,7 +61,13 @@ export interface AppUserProfileResponse {
    * @type {AppUserInductionClass}
    * @memberof AppUserProfileResponse
    */
-  inductionClass: AppUserInductionClass;
+  inductionClass?: AppUserInductionClass;
+  /**
+   *
+   * @type {string}
+   * @memberof AppUserProfileResponse
+   */
+  role: AppUserProfileResponseRoleEnum;
 }
 
 export function AppUserProfileResponseFromJSON(
@@ -83,7 +89,10 @@ export function AppUserProfileResponseFromJSONTyped(
     email: json['email'],
     major: json['major'],
     graduationYear: json['graduationYear'],
-    inductionClass: AppUserInductionClassFromJSON(json['inductionClass']),
+    inductionClass: !exists(json, 'inductionClass')
+      ? undefined
+      : AppUserInductionClassFromJSON(json['inductionClass']),
+    role: json['role'],
   };
 }
 
@@ -103,5 +112,18 @@ export function AppUserProfileResponseToJSON(
     major: value.major,
     graduationYear: value.graduationYear,
     inductionClass: AppUserInductionClassToJSON(value.inductionClass),
+    role: value.role,
   };
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum AppUserProfileResponseRoleEnum {
+  Admin = 'admin',
+  Officer = 'officer',
+  Member = 'member',
+  Inductee = 'inductee',
+  Guest = 'guest',
 }
