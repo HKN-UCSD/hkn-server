@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, Button, Grid } from '@material-ui/core';
+import { Typography, Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
@@ -11,7 +11,7 @@ import Links from './Links';
 import styles from './styles';
 
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
-import { Tags } from '@SharedComponents';
+import { Tags, Card } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 
 function EventDetailsComponent(props) {
@@ -40,93 +40,97 @@ function EventDetailsComponent(props) {
   const eventType = type || 'Event';
 
   return (
-    <div className={classes.root}>
-      <Card className={classes.eventDetailsCard}>
-        <Grid container direction='column' justify='center' spacing={3}>
-          <Grid item className={classes.firstRow}>
-            <Grid container direction='row' justify='center'>
-              <Grid item xs={6}>
-                <Typography className={classes.title} variant='h4'>
-                  {name}
-                  <Tags tags={[eventType]} />
-                </Typography>
-              </Grid>
+    <Grid container direction='column' alignItems='center'>
+      <Grid item>
+        <Card className={classes.eventDetailsCard}>
+          <Grid container direction='column' justify='center' spacing={3}>
+            <Grid item className={classes.firstRow}>
+              <Grid container direction='row' justify='center'>
+                <Grid item xs={6}>
+                  <Typography className={classes.title} variant='h4'>
+                    {name}
+                    <Tags tags={[eventType]} />
+                  </Typography>
+                </Grid>
 
-              <Grid item xs={5}>
-                {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
+                <Grid item xs={5}>
+                  {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item>
-            <Grid container direction='row' justify='center'>
-              <Grid item xs={6}>
-                <Typography className={classes.hosts} variant='h6'>
-                  Hosts:{' '}
-                  {hosts.map(host => (
-                    <Typography key={host.id} className={classes.hostName}>
-                      {`${host.firstName} ${host.lastName}`}
-                    </Typography>
-                  ))}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={5}>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <Typography variant='h6'>
-                      Location: <Typography>{location}</Typography>
-                    </Typography>
-                  </Grid>
-
-                  <Grid item>
-                    <Typography variant='h6'>
-                      Start Time:{' '}
-                      <Typography>
-                        {format(parseISO(startDate), 'PPP p')}
+            <Grid item>
+              <Grid container direction='row' justify='center'>
+                <Grid item xs={6}>
+                  <Typography className={classes.hosts} variant='h6'>
+                    Hosts:{' '}
+                    {hosts.map(host => (
+                      <Typography key={host.id} className={classes.hostName}>
+                        {`${host.firstName} ${host.lastName}`}
                       </Typography>
-                    </Typography>
-                  </Grid>
+                    ))}
+                  </Typography>
+                </Grid>
 
-                  <Grid item>
-                    <Typography variant='h6'>
-                      End Time:{' '}
-                      <Typography>
-                        {format(parseISO(endDate), 'PPP p')}
+                <Grid item xs={5}>
+                  <Grid container direction='column'>
+                    <Grid item>
+                      <Typography variant='h6'>
+                        Location: <Typography>{location}</Typography>
                       </Typography>
-                    </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <Typography variant='h6'>
+                        Start Time:{' '}
+                        <Typography>
+                          {format(parseISO(startDate), 'PPP p')}
+                        </Typography>
+                      </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <Typography variant='h6'>
+                        End Time:{' '}
+                        <Typography>
+                          {format(parseISO(endDate), 'PPP p')}
+                        </Typography>
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item>
-            <Grid container direction='row' justify='center' spacing={3}>
-              <Grid item xs={3}>
-                {OfficerRenderPermission(Links)({ urls })}
-              </Grid>
+            <Grid item>
+              <Grid container direction='row' justify='center' spacing={3}>
+                <Grid item xs={3}>
+                  {OfficerRenderPermission(Links)({ urls })}
+                </Grid>
 
-              <Grid item xs={8}>
-                <Typography variant='h6'>
-                  Description: <Typography>{description}</Typography>
-                </Typography>
+                <Grid item xs={8}>
+                  <Typography variant='h6'>
+                    Description: <Typography>{description}</Typography>
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Card>
+        </Card>
+      </Grid>
 
-      <Button
-        className={classes.calendarButton}
-        variant='outlined'
-        color='secondary'
-        to={ROUTES.CALENDAR}
-        component={Link}
-      >
-        Back To Calendar
-      </Button>
-    </div>
+      <Grid item>
+        <Button
+          className={classes.calendarButton}
+          variant='outlined'
+          color='secondary'
+          to={ROUTES.CALENDAR}
+          component={Link}
+        >
+          Back To Calendar
+        </Button>
+      </Grid>
+    </Grid>
   );
 }
 

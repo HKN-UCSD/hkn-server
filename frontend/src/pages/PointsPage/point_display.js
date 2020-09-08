@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { compose } from 'recompose';
-import { Card, CardContent, Typography, Grid } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { format } from 'date-fns';
+
+import { Card } from '@SharedComponents';
 
 const styles = () => ({
   card: {
@@ -59,22 +60,17 @@ class PointDisplay extends React.Component {
                     key={event.event_name}
                   >
                     <Card className={classes.card}>
-                      <CardContent>
-                        <Typography variant='h5' component='h2'>
-                          {event.event_name}
-                        </Typography>
-                        <Typography
-                          className={classes.pos}
-                          color='textSecondary'
-                        >
-                          {format(event.date, 'PP')}
-                        </Typography>
-                        <Typography variant='body2' component='p'>
-                          {`Officer: ${event.officer}`}
-                          <br />
-                          {`Points: ${event.value}`}
-                        </Typography>
-                      </CardContent>
+                      <Typography variant='h5' component='h2'>
+                        {event.event_name}
+                      </Typography>
+                      <Typography className={classes.pos} color='textSecondary'>
+                        {format(event.date, 'PP')}
+                      </Typography>
+                      <Typography variant='body2' component='p'>
+                        {`Officer: ${event.officer}`}
+                        <br />
+                        {`Points: ${event.value}`}
+                      </Typography>
                     </Card>
                   </Grid>
                 );
@@ -93,4 +89,4 @@ PointDisplay.propTypes = {
   points: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default compose(withStyles(styles))(PointDisplay);
+export default withStyles(styles)(PointDisplay);

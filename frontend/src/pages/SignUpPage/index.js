@@ -1,10 +1,11 @@
 import React from 'react';
-import { Avatar, Card, Grid, CardContent } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import SignUpForm from './components/SignUpForm';
 import styles from './styles';
 
+import { Card } from '@SharedComponents';
 import { PublicPageLayout } from '@SharedComponents/layouts';
 import { createUserAccountFromSignup } from '@Services/auth';
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
@@ -33,23 +34,21 @@ class SignUpPage extends React.Component {
 
     return (
       <PublicPageLayout>
-        <Card elevation={3} className={classes.card}>
-          <CardContent>
-            <Grid
-              container
-              className={classes.cardContent}
-              alignItems='center'
-              direction='column'
-              spacing={2}
-            >
-              <Grid item>
-                <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
-              </Grid>
-              <Grid item>
-                <SignUpForm handleSubmit={this.handleSubmit} />
-              </Grid>
+        <Card className={classes.card}>
+          <Grid
+            container
+            className={classes.cardContent}
+            alignItems='center'
+            direction='column'
+            spacing={2}
+          >
+            <Grid item>
+              <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
             </Grid>
-          </CardContent>
+            <Grid item>
+              <SignUpForm handleSubmit={this.handleSubmit} />
+            </Grid>
+          </Grid>
         </Card>
       </PublicPageLayout>
     );
