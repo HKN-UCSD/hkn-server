@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { Formik, Form } from 'formik';
 
 import schema from './schema';
 import styles from './styles';
 
-import { FormLayout } from '@SharedComponents';
+import { FormLayout, Card } from '@SharedComponents';
 import {
   getAccountSection,
   getPersonalInfoSection,
@@ -78,15 +78,13 @@ class ProfileEditPage extends React.Component {
           <Form>
             <Grid container className={classes.root}>
               <Card className={classes.paper}>
-                <CardContent>
-                  <FormLayout
-                    title='Profile'
-                    sections={sections}
-                    onSubmit={submitForm}
-                    onCancel={handleCancel}
-                    submitButtonText='Save'
-                  />
-                </CardContent>
+                <FormLayout
+                  title='Profile'
+                  sections={sections}
+                  onSubmit={submitForm}
+                  onCancel={handleCancel}
+                  submitButtonText='Save'
+                />
               </Card>
             </Grid>
           </Form>

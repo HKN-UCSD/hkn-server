@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import styles from './styles';
 
-import { FormLayout } from '@SharedComponents';
+import { FormLayout, Card } from '@SharedComponents';
 import {
   getAccountSection,
   getPersonalInfoSection,
@@ -66,14 +66,12 @@ class ProfilePage extends React.Component {
     return (
       <Grid container className={classes.root}>
         <Card className={classes.paper}>
-          <CardContent>
-            <FormLayout
-              readOnly
-              editEndpoint={PROFILE_EDIT_WITH_ID(id)}
-              title='Profile'
-              sections={sections}
-            />
-          </CardContent>
+          <FormLayout
+            readOnly
+            editEndpoint={PROFILE_EDIT_WITH_ID(id)}
+            title='Profile'
+            sections={sections}
+          />
         </Card>
       </Grid>
     );

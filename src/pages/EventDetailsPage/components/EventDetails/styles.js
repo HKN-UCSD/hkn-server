@@ -1,13 +1,5 @@
 const styles = () => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   eventDetailsCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     width: '536px',
   },
   firstRow: {

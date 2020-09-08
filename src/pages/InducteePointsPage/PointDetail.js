@@ -3,16 +3,11 @@
 import React from 'react';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-} from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 
+import { Card } from '@SharedComponents';
 import { getUserEvent } from '@Services/events';
 
 const styles = theme => ({
@@ -56,23 +51,17 @@ class PointDetail extends React.Component {
         alignItems='flex-start'
       >
         <Grid item className={classes.gridItem} md={4}>
-          <Card>
-            <CardHeader title='Events' />
-            <CardContent>
-              {eventNames.map(eventName => (
-                <Typography>{eventName}</Typography>
-              ))}
-            </CardContent>
+          <Card title='Events'>
+            {eventNames.map(eventName => (
+              <Typography>{eventName}</Typography>
+            ))}
           </Card>
         </Grid>
         <Grid item className={classes.gridItem} md={4}>
-          <Card>
-            <CardHeader title='Officer Signoffs' />
-            <CardContent>
-              {officerSigns.map(officerName => (
-                <Typography>{officerName}</Typography>
-              ))}
-            </CardContent>
+          <Card title='Officer Signoffs'>
+            {officerSigns.map(officerName => (
+              <Typography>{officerName}</Typography>
+            ))}
           </Card>
         </Grid>
       </Grid>
