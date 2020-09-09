@@ -180,7 +180,7 @@ EventEditForm.propTypes = {
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
     hosts: PropTypes.array.isRequired,
-    location: PropTypes.string.isRequired,
+    location: PropTypes.string,
     name: PropTypes.string.isRequired,
     type: PropTypes.string,
     status: PropTypes.string.isRequired,

@@ -1,4 +1,6 @@
-const styles = () => ({
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
   root: {
     width: '100%',
   },
@@ -10,4 +12,4 @@ const styles = () => ({
   },
 });
 
-export default styles;
+export default useStyles;
