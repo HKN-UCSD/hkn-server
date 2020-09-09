@@ -26,7 +26,7 @@ describe('signUpUser', () => {
 
   it('should return undefined for guest', async () => {
     (AppUserServiceImpl.getAppUserByEmail as jest.Mock).mockImplementation(() => new AppUser());
-    (AppUserServiceImpl.isGuest as jest.Mock).mockImplementation(() => false);
+    (AppUserServiceImpl.isGuest as jest.Mock).mockImplementation(() => true);
 
     expect(await authController.signUpUser(new AppUserSignupRequest())).toEqual(undefined);
   });
