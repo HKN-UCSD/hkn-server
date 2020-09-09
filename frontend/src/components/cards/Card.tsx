@@ -8,11 +8,12 @@ import {
 export interface CardProps {
   title?: string;
   children: JSX.Element;
+  className?: string;
 }
 
-export function Card({ children, title, ...props }: CardProps): JSX.Element {
+export function Card({ children, title, className }: CardProps): JSX.Element {
   return (
-    <MuiCard elevation={3} {...props}>
+    <MuiCard elevation={3} className={className}>
       {title ? <MuiCardHeader title={title} /> : null}
       <MuiCardContent>{children}</MuiCardContent>
     </MuiCard>

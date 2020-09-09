@@ -12,7 +12,7 @@ const getPersonalInfoSection = params => {
     readOnly = params.readOnly;
   }
 
-  const { firstName, lastName, major, gradYear } = params || {};
+  const { firstName, lastName, major, graduationYear } = params || {};
 
   return {
     title: 'Personal Info',
@@ -50,7 +50,7 @@ const getPersonalInfoSection = params => {
             </Grid>
             <Grid item>
               {readOnly ? (
-                <InputField readOnly label='Grad Year' value={gradYear} />
+                <InputField readOnly label='Grad Year' value={graduationYear} />
               ) : (
                 <YearDropdownField name='gradYear' label='Grad Year' />
               )}

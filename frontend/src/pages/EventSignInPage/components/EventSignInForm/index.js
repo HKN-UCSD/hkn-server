@@ -26,8 +26,9 @@ const EventSignInForm = props => {
     <Formik
       initialValues={INITIAL_INPUT_VALUES}
       validationSchema={schema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        handleSubmit(values, setSubmitting);
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        await handleSubmit(values);
+        setSubmitting(false);
         resetForm({ values: '' });
       }}
     >
