@@ -1,6 +1,7 @@
 import { JsonController, Post, Body } from 'routing-controllers';
 import { ResponseSchema } from 'routing-controllers-openapi';
 
+import { AppUser } from '@Entities';
 import { AppUserSignupRequest, AppUserResponse } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { AppUserService, AppUserServiceImpl, AccountService, AccountServiceImpl } from '@Services';
@@ -20,27 +21,31 @@ export class AuthController {
   ): Promise<AppUserResponse | undefined> {
     const { email, password, firstName, lastName, major, graduationYear } = appUserSignupRequest;
 
-    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+    const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
 
     if (appUserFromEmail === undefined || this.appUserService.isGuest(appUserFromEmail)) {
       return undefined;
     }
 
-    const appUserId = appUserFromEmail.id;
-    const newFirebaseUser = await this.accountService.createNewFirebaseUser(
-      appUserId,
+    const appUserID: number = appUserFromEmail.id;
+    const newAccountID: string = await this.accountService.createNewAccount(
+      appUserID,
       email,
       password
     );
 
-    if (newFirebaseUser === undefined) {
+    if (newAccountID === undefined) {
       return undefined;
     }
 
     const appUserInfo = { email, firstName, lastName, major, graduationYear };
-    const appUserToSave = await this.appUserMapper.requestToExistingEntity(appUserInfo, appUserId);
+    const appUserToSave: AppUser = await this.appUserMapper.requestToExistingEntity(
+      appUserInfo,
+      appUserID
+    );
 
-    return await this.appUserService.saveAppUser(appUserToSave);
+    const savedAppUser: AppUser = await this.appUserService.saveAppUser(appUserToSave);
+    return this.appUserMapper.entityToResponse(savedAppUser);
   }
 }
 

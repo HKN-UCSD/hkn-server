@@ -112,7 +112,7 @@ export class AppUserResponse {
 
   @IsInstance(AppUserInductionClass)
   @IsOptional()
-  inductionClass: AppUserInductionClass;
+  inductionClass?: AppUserInductionClass;
 
   @IsEnum(AppUserRole)
   role: string;
