@@ -2,7 +2,6 @@ import { Entity, Column, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
-// TODO composite index on attendee + event
 // TODO add start and end times instead of relying on duration.
 
 /**
