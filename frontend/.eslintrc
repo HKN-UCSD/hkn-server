@@ -78,6 +78,10 @@
           {
             "pattern": "@Contexts/*",
             "group": "internal"
+          },
+          {
+            "pattern": "@Config/*",
+            "group": "internal"
           }
         ]
       }
@@ -94,7 +98,8 @@
           ["@Pages", "./src/pages"],
           ["@HOCs", "./src/HOCs"],
           ["@Images", "./src/images"],
-          ["@Contexts", "./src/contexts"]
+          ["@Contexts", "./src/contexts"],
+          ["@Config", "./src/config"]
         ],
         "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"]
       },

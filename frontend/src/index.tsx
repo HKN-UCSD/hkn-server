@@ -6,17 +6,18 @@ import 'firebase/firestore';
 import * as serviceWorker from './serviceWorker';
 
 import App from '@Pages/App';
+import { config } from '@Config';
 
-const config = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_DATABASE_URL,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+const appConfig = {
+  apiKey: config.apiKey,
+  authDomain: config.authDomain,
+  databaseURL: config.databaseURL,
+  projectId: config.projectID,
+  storageBucket: config.storageBucket,
+  messagingSenderId: config.messagingSenderID,
 };
 
-firebase.initializeApp(config);
+firebase.initializeApp(appConfig);
 
 document.body.style.height = '100%';
 document.body.style.margin = '0';

@@ -14,7 +14,8 @@
       "@HOCs/*": ["src/HOCs/*"],
       "@Images": ["src/images"],
       "@Images/*": ["src/images/*"],
-      "@Contexts": ["src/contexts"]
+      "@Contexts": ["src/contexts"],
+      "@Config": ["src/config"]
     }
   }
 }

@@ -2,13 +2,12 @@
 
 import { ConfigurationParameters, Configuration } from './api';
 
+import { config } from '@Config';
+
 class ApiConfigStoreClass {
   private configParams: ConfigurationParameters = {
     // TODO: load this from a config instead
-    basePath:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3001'
-        : 'https://dev-api.hknucsd.com',
+    basePath: config.apiURL,
   };
 
   private config: Configuration = new Configuration(this.configParams);
