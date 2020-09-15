@@ -9,6 +9,8 @@ import EventEditPage from '@Pages/EventEditPage';
 import EventDetailsPage from '@Pages/EventDetailsPage';
 import EventSignInPage from '@Pages/EventSignInPage';
 import EventRsvpPage from '@Pages/EventRsvpPage';
+import EventCreationPage from '@Pages/EventCreationPage';
+import QueriedEventPage from '@Pages/QueriedEventPage';
 
 export {
   SignInPage,
@@ -22,4 +24,6 @@ export {
   EventDetailsPage,
   EventSignInPage,
   EventRsvpPage,
+  EventCreationPage,
+  QueriedEventPage,
 };

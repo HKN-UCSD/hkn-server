@@ -6,11 +6,11 @@ import { EventStatusEnum } from '@Services/EventService';
 type EventStatusFieldProp = {
   name: string;
   label: string;
-  fullWidth: boolean;
+  fullWidth?: boolean;
 };
 
 const EventStatusDropdownField = (props: EventStatusFieldProp) => {
-  const { name, label, fullWidth } = props;
+  const { name, label, fullWidth = false } = props;
 
   return (
     <GenericDropdownField
@@ -21,6 +21,10 @@ const EventStatusDropdownField = (props: EventStatusFieldProp) => {
       selections={Object.values(EventStatusEnum)}
     />
   );
+};
+
+EventStatusDropdownField.defaultProps = {
+  fullWidth: false,
 };
 
 export default EventStatusDropdownField;

@@ -10,18 +10,23 @@ import { Loading, Card, PublicPageLayout } from '@SharedComponents';
 import { getEventById, rsvpToEvent } from '@Services/EventService';
 import { EventResponse, AppUserEventRequest } from '@Services/api/models';
 
+interface ParamTypes {
+  id: string;
+}
+
 function EventRsvpPage(): JSX.Element {
-  const { id } = useParams();
+  const { id } = useParams<ParamTypes>();
+  const eventID = parseInt(id, 10);
   const [event, setEvent] = useState<EventResponse | null>(null);
   const classes = useStyles();
 
   useEffect(() => {
     const getEvent = async () => {
-      const eventResponse = await getEventById(id);
+      const eventResponse = await getEventById(eventID);
       setEvent(eventResponse);
     };
     getEvent();
-  }, [id]);
+  }, [eventID]);
 
   return event == null ? (
     <Loading />
@@ -54,7 +59,7 @@ function EventRsvpPage(): JSX.Element {
           <Grid item>
             <EventRsvpForm
               handleSubmit={(appUserEventRequest: AppUserEventRequest) =>
-                rsvpToEvent(id, appUserEventRequest)
+                rsvpToEvent(eventID, appUserEventRequest)
               }
             />
           </Grid>

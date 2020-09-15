@@ -10,18 +10,23 @@ import { Loading, Card, PublicPageLayout } from '@SharedComponents';
 import { getEventById, signInToEvent } from '@Services/EventService';
 import { EventResponse, AppUserEventRequest } from '@Services/api/models';
 
+interface ParamTypes {
+  id: string;
+}
+
 function EventSignInPage(): JSX.Element {
-  const { id } = useParams();
+  const { id } = useParams<ParamTypes>();
+  const eventID = parseInt(id, 10);
   const [event, setEvent] = useState<EventResponse | null>(null);
   const classes = useStyles();
 
   useEffect(() => {
     const getEvent = async () => {
-      const eventResponse: EventResponse = await getEventById(id);
+      const eventResponse: EventResponse = await getEventById(eventID);
       setEvent(eventResponse);
     };
     getEvent();
-  }, [id]);
+  }, [eventID]);
 
   return event == null ? (
     <Loading />
@@ -54,7 +59,7 @@ function EventSignInPage(): JSX.Element {
           <Grid item>
             <EventSignInForm
               handleSubmit={(values: AppUserEventRequest) =>
-                signInToEvent(id, values)
+                signInToEvent(eventID, values)
               }
             />
           </Grid>

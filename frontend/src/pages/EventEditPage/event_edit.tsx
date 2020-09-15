@@ -7,8 +7,13 @@ import { Card } from '@SharedComponents';
 import { getEventById, updateEvent } from '@Services/EventService';
 import { EventResponse, EventRequest } from '@Services/api/models';
 
+interface ParamTypes {
+  eventId: string;
+}
+
 function EventEditPage(): JSX.Element {
-  const { eventId: id } = useParams();
+  const { eventId } = useParams<ParamTypes>();
+  const id = parseInt(eventId, 10);
   const history = useHistory();
   const [event, setEvent] = useState<EventResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);

@@ -9,12 +9,13 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import * as Yup from 'yup';
 
-import EventTypeDropdownField from '../EventTypeDropdownField';
-import EventStatusDropdownField from '../EventStatusDropdownField';
-
 import styles from './styles';
 
-import { OfficerNameAutocomplete } from '@SharedComponents';
+import {
+  EventTypeDropdownField,
+  EventStatusDropdownField,
+  OfficerNameAutocomplete,
+} from '@SharedComponents';
 
 const schema = Yup.object({
   name: Yup.string().required('Required'),
