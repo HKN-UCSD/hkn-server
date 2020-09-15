@@ -4,7 +4,7 @@ import { BaseAutocomplete } from '../base';
 
 import { getMultipleUsers, getUserNames } from '@Services/UserService';
 
-type OfficerNameData = {
+export type OfficerNameData = {
   id: number;
   firstName: string;
   lastName: string;
@@ -13,11 +13,11 @@ type OfficerNameData = {
 type OfficerAutocompleteProp = {
   name: string;
   label: string;
-  fullWidth: boolean;
+  fullWidth?: boolean;
 };
 
 export const OfficerNameAutocomplete = (props: OfficerAutocompleteProp) => {
-  const { name, label, fullWidth } = props;
+  const { name, label, fullWidth = false } = props;
   const [officerNames, setOfficerNames] = useState<OfficerNameData[]>([]);
 
   useEffect(() => {
@@ -45,4 +45,8 @@ export const OfficerNameAutocomplete = (props: OfficerAutocompleteProp) => {
       fullWidth={fullWidth}
     />
   );
+};
+
+OfficerNameAutocomplete.defaultProps = {
+  fullWidth: false,
 };

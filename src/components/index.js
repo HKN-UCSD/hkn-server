@@ -3,6 +3,8 @@ import {
   MajorDropdownField,
   YearDropdownField,
   AffiliateDropdownField,
+  EventStatusDropdownField,
+  EventTypeDropdownField,
 } from './dropdowns';
 import FormLayout from './FormLayout';
 import InputField from './InputField';
@@ -22,6 +24,8 @@ export {
   MajorDropdownField,
   YearDropdownField,
   AffiliateDropdownField,
+  EventTypeDropdownField,
+  EventStatusDropdownField,
   FormLayout,
   InputField,
   Loading,
