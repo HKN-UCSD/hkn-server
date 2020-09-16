@@ -31,7 +31,7 @@ import {
   doSignOut,
   doSendVerificationEmail,
   doPasswordReset,
-  getCurrentUserClaims,
+  getCurrentUserIDAndToken,
 } from '@Services/auth';
 
 const styles = theme => ({
@@ -118,29 +118,17 @@ class SignInPage extends React.Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  componentDidMount() {
-    const { history } = this.props;
-    this.listener = firebase.auth().onAuthStateChanged(authUser => {
-      if (authUser && authUser.isEmailVerified) {
-        history.push(ROUTES.HOME);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.listener();
-  }
-
   handleSignIn = event => {
     const { email, password, checked } = this.state;
     const { history, setClaims } = this.props;
 
     doSignInWithEmailAndPassword(email, password, checked)
       .then(() => {
-        return getCurrentUserClaims();
+        return getCurrentUserIDAndToken();
       })
-      .then(claims => {
-        return setClaims(claims);
+      .then(authObj => {
+        const { userID, token } = authObj;
+        return setClaims(userID, token);
       })
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {
