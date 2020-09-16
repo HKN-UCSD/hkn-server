@@ -17,7 +17,16 @@ function EventCreationPage(): JSX.Element {
     values: EventRequest,
     setSubmitting: (_: boolean) => void
   ) => {
-    const createdEvent = await createEvent(values);
+    const submission = {
+      ...values,
+      hosts: values.hosts.map(host => {
+        return { id: host.id };
+      }),
+      fbURL: values.fbURL === '' ? undefined : values.fbURL,
+      canvaURL: values.canvaURL === '' ? undefined : values.canvaURL,
+    };
+
+    const createdEvent = await createEvent(submission);
     const { id } = createdEvent;
 
     setSubmitting(false);
