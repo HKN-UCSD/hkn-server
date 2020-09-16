@@ -8,8 +8,10 @@ const schema = Yup.object({
   location: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
   hosts: Yup.array().required('Required'),
-  fbURL: Yup.string(),
-  canvaURL: Yup.string(),
+  fbURL: Yup.string().url('Please either enter a valid URL or leave it blank'),
+  canvaURL: Yup.string().url(
+    'Please either enter a valid URL or leave it blank'
+  ),
 });
 
 export default schema;
