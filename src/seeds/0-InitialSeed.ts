@@ -51,7 +51,27 @@ const events = [
     startDate: '2020-08-30T18:00:00+00:00',
     endDate: '2020-08-30T19:00:00+00:00',
     type: EventType.SOCIAL,
-    status: EventStatus.PENDING,
+    status: EventStatus.COMPLETE,
+    hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
+  },
+  {
+    name: 'Resume Critique',
+    description: 'We have free pizza!',
+    location: 'In n Out',
+    startDate: '2020-08-31T18:00:00+00:00',
+    endDate: '2020-08-31T19:00:00+00:00',
+    type: EventType.PROFESSIONAL,
+    status: EventStatus.COMPLETE,
+    hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
+  },
+  {
+    name: 'Mentor 1:1',
+    description: 'We have free pizza!',
+    location: 'In n Out',
+    startDate: '2020-09-01T18:00:00+00:00',
+    endDate: '2020-09-01T19:00:00+00:00',
+    type: EventType.MENTORSHIP,
+    status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
   },
 ];
@@ -61,6 +81,20 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
+    duration: 1,
+    isInductee: true,
+  },
+  {
+    attendee: { id: 3 },
+    officer: { id: 1 },
+    event: { id: 2 },
+    duration: 1,
+    isInductee: true,
+  },
+  {
+    attendee: { id: 3 },
+    officer: { id: 1 },
+    event: { id: 3 },
     duration: 1,
     isInductee: true,
   },
