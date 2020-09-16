@@ -35,9 +35,10 @@ const doSendVerificationEmail = () => {
   return firebase.auth().currentUser.sendEmailVerification();
 };
 
-const getCurrentUserClaims = async () => {
-  const tokenResult = await firebase.auth().currentUser.getIdTokenResult();
-  return tokenResult.claims;
+const getCurrentUserIDAndToken = async () => {
+  const { uid } = firebase.auth().currentUser;
+  const token = await firebase.auth().currentUser.getIdToken();
+  return { userID: uid, token };
 };
 
 export {
@@ -47,5 +48,5 @@ export {
   doPasswordReset,
   doSendVerificationEmail,
   doPasswordUpdate,
-  getCurrentUserClaims,
+  getCurrentUserIDAndToken,
 };

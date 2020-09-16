@@ -21,7 +21,7 @@ import {
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
-import { getRolesFromClaims } from '@Services/claims';
+import { getUserRole } from '@Services/UserService';
 import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
@@ -31,7 +31,6 @@ import { config } from '@Config';
 
 function App(): JSX.Element {
   const [userClaims, setUserClaims] = useState<UserContextValues | null>(null);
-  const [userToken, setUserToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -40,27 +39,39 @@ function App(): JSX.Element {
         const tokenResult = await user.getIdTokenResult();
         const { claims, token } = tokenResult;
 
+        // TODO if there's no change then don't set state to
+        // save a rerender
+        ApiConfigStore.setToken(token || '');
+
+        const id = parseInt(claims.user_id, 10);
+        const userRole = await getUserRole(id);
+
         setUserClaims({
           userId: claims.user_id,
-          userRoles: getRolesFromClaims(claims),
+          userRoles: [userRole.role],
         });
-        setUserToken(token);
         setIsLoading(false);
       } else {
         setUserClaims(null);
-        setUserToken(null);
         setIsLoading(false);
       }
     });
   }, []);
 
   // eslint-disable-next-line camelcase
-  const setClaims = (claims: { user_id: string }) => {
-    ApiConfigStore.setToken(userToken || '');
+  const setClaims = async (
+    // eslint-disable-next-line camelcase
+    userID: string,
+    token: string
+  ): Promise<void> => {
+    ApiConfigStore.setToken(token);
+
+    const id = parseInt(userID, 10);
+    const userRole = await getUserRole(id);
 
     setUserClaims({
-      userId: claims.user_id,
-      userRoles: getRolesFromClaims(claims),
+      userId: userID,
+      userRoles: [userRole.role],
     });
   };
 
