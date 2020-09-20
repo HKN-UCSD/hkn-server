@@ -11,7 +11,7 @@ import {
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
-import { AppUser, AppUserRole } from '@Entities';
+import { AppUser } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 import {
   AppUserPostRequest,
@@ -52,7 +52,6 @@ export class UserController {
     return this.appUserMapper.entityToResponse(savedAppUser);
   }
 
-  // TODO: Add auth
   @Get('/:userID')
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserProfileResponse)
