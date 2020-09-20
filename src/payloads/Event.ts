@@ -13,7 +13,11 @@ import { Type } from 'class-transformer';
 import { AppUser, EventType, EventStatus } from '@Entities';
 import { AppUserPKPayload } from './AppUser';
 
-abstract class BaseEventPayload {
+export class EventRequest {
+  @ValidateNested({ each: true })
+  @Type(() => AppUserPKPayload)
+  readonly hosts: AppUserPKPayload[];
+
   @IsString()
   readonly name: string;
 
@@ -44,13 +48,7 @@ abstract class BaseEventPayload {
   readonly canvaURL: string;
 }
 
-export class EventRequest extends BaseEventPayload {
-  @ValidateNested({ each: true })
-  @Type(() => AppUserPKPayload)
-  readonly hosts: AppUserPKPayload[];
-}
-
-export class EventResponse extends BaseEventPayload {
+export class EventResponse {
   @IsInt()
   id: number;
 
@@ -66,6 +64,35 @@ export class EventResponse extends BaseEventPayload {
   @IsString()
   @IsEnum(EventStatus)
   status: string;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  @IsOptional()
+  location: string;
+
+  @IsDateString()
+  startDate: string;
+
+  @IsDateString()
+  endDate: string;
+
+  @IsString()
+  @IsEnum(EventType)
+  @IsOptional()
+  type: string;
+
+  @IsUrl()
+  @IsOptional()
+  fbURL: string;
+
+  @IsUrl()
+  @IsOptional()
+  canvaURL: string;
 }
 
 export class MultipleEventResponse {
@@ -74,20 +101,78 @@ export class MultipleEventResponse {
   events: EventResponse[];
 }
 
-export class EventAttendanceResponse extends BaseEventPayload {
+export class EventAttendanceResponse {
   @IsArray()
   hosts: AppUser[];
 
   @IsString()
   @IsEnum(EventStatus)
   status: string;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  @IsOptional()
+  location: string;
+
+  @IsDateString()
+  startDate: string;
+
+  @IsDateString()
+  endDate: string;
+
+  @IsString()
+  @IsEnum(EventType)
+  @IsOptional()
+  type: string;
+
+  @IsUrl()
+  @IsOptional()
+  fbURL: string;
+
+  @IsUrl()
+  @IsOptional()
+  canvaURL: string;
 }
 
-export class EventRSVPResponse extends BaseEventPayload {
+export class EventRSVPResponse {
   @IsArray()
   hosts: AppUser[];
 
   @IsString()
   @IsEnum(EventStatus)
   status: string;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  @IsOptional()
+  location: string;
+
+  @IsDateString()
+  startDate: string;
+
+  @IsDateString()
+  endDate: string;
+
+  @IsString()
+  @IsEnum(EventType)
+  @IsOptional()
+  type: string;
+
+  @IsUrl()
+  @IsOptional()
+  fbURL: string;
+
+  @IsUrl()
+  @IsOptional()
+  canvaURL: string;
 }
