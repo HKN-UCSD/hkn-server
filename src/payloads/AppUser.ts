@@ -43,9 +43,11 @@ export class AppUserPostRequest {
   readonly lastName: string;
 
   @IsString()
+  @IsOptional()
   readonly major: string;
 
   @IsString()
+  @IsOptional()
   readonly graduationYear: string;
 
   @IsInstance(AppUserInductionClass)
