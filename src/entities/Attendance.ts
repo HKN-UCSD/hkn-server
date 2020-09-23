@@ -13,7 +13,7 @@ export class Attendance {
   attendee: AppUser;
 
   // Officer who checked off attendee
-  @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED' })
+  @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED', nullable: true })
   officer: AppUser;
 
   @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED' })
