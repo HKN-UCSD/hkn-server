@@ -59,6 +59,7 @@ class SignUpPage extends React.Component {
 
     await doSignOut();
     setSubmitting(false);
+    alert('You have successfully signed up for an account.');
   };
 
   render() {
