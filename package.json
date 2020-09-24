@@ -57,7 +57,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "precodegen": "rimraf src/api/*",
-    "codegen": "npx openapi-generator generate -i https://dev-api.hknucsd.com/api/docs/json -g typescript-fetch --additional-properties=typescriptThreePlus=true -o src/services/api"
+    "codegen": "npx openapi-generator generate -i https://api.hknucsd.com/api/docs/json -g typescript-fetch --additional-properties=typescriptThreePlus=true -o src/services/api"
   },
   "eslintConfig": {
     "extends": "react-app"
