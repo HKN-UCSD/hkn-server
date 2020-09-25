@@ -1,10 +1,13 @@
 import { EventRequest, EventResponse } from '@Payloads';
+import { AppUserService, AppUserServiceImpl } from '@Services';
 import { Event } from '@Entities';
 
 import { classToPlain, plainToClass } from 'class-transformer';
 import { getRepository } from 'typeorm';
 
 export class EventMapper {
+  constructor(private appUserService: AppUserService) {}
+
   requestToNewEntity(eventRequest: EventRequest): Event {
     const eventRepository = getRepository(Event);
     const plainEventRequest: object = classToPlain(eventRequest);
@@ -24,6 +27,7 @@ export class EventMapper {
     eventID: number
   ): Promise<Event | undefined> {
     const eventObj: Event = eventRequest as Event;
+    const { hosts } = eventObj;
     eventObj.id = eventID; // preload expects an id.
 
     const eventRepository = getRepository(Event);
@@ -36,6 +40,10 @@ export class EventMapper {
     // preload ignores empty arrays and loads arrays anyways.
     if (eventObj.hosts.length == 0) {
       event.hosts = [];
+    } else {
+      event.hosts = await Promise.all(
+        hosts.map(host => this.appUserService.getAppUserById(host.id))
+      );
     }
 
     return event;
@@ -50,4 +58,4 @@ export class EventMapper {
   }
 }
 
-export const EventMapperImpl = new EventMapper();
+export const EventMapperImpl = new EventMapper(AppUserServiceImpl);
