@@ -1,26 +1,13 @@
-const getRolesFromClaims = claims => {
-  const keys = Object.keys(claims);
-  const roleClaims = [];
+const isAdmin = userContext => {
+  const { userRoles } = userContext;
 
-  if (keys.includes('officer')) {
-    roleClaims.push('officer');
-  }
-
-  if (keys.includes('member')) {
-    roleClaims.push('member');
-  }
-
-  if (keys.includes('inductee')) {
-    roleClaims.push('inductee');
-  }
-
-  return roleClaims;
+  return userRoles.includes('admin');
 };
 
 const isOfficer = userContext => {
   const { userRoles } = userContext;
 
-  return userRoles.includes('officer');
+  return userRoles.includes('admin') || userRoles.includes('officer');
 };
 
 const isMember = userContext => {
@@ -39,4 +26,4 @@ const isInductee = userContext => {
   );
 };
 
-export { getRolesFromClaims, isOfficer, isMember, isInductee };
+export { isAdmin, isOfficer, isMember, isInductee };
