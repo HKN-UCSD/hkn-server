@@ -1,66 +1,79 @@
 import React from 'react';
-import { Typography, Button, Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Typography, Grid } from '@material-ui/core';
+import { useHistory } from 'react-router';
 import { format, parseISO } from 'date-fns';
-import PropTypes from 'prop-types';
 
 import DeleteEditButtons from '../DeleteEditButtons';
+import Links from '../Links/Links';
+import SignInButton from '../SignInButton';
+import RSVPButton from '../RSVPButton';
 
-import Links from './Links';
-import styles from './styles';
+import useStyles from './styles';
 
-import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
-import { Tags, Card } from '@SharedComponents';
+import {
+  OfficerRenderPermission,
+  InducteeRenderPermission,
+} from '@HOCs/RenderPermissions';
 import * as ROUTES from '@Constants/routes';
+import { Tags, Card, Button } from '@SharedComponents';
+import { EventResponse as EventInfo } from '@Services/api/models';
 
-function EventDetailsComponent(props) {
-  const { classes, eventInfo, eventId } = props;
+interface EventDetailsComponentProps {
+  eventInfo: EventInfo;
+  eventId: number;
+}
+
+function EventDetailsComponent(props: EventDetailsComponentProps) {
+  const { eventInfo, eventId } = props;
+  const classes = useStyles();
+  const history = useHistory();
+
   const {
     endDate,
     hosts,
-    location,
+    location = '',
     description,
     name,
     startDate,
-    type,
-    fbURL,
-    canvaURL,
+    type = 'Event',
+    fbURL = null,
+    canvaURL = null,
     signInURL,
     rsvpURL,
   } = eventInfo;
 
   const urls = {
-    fb: fbURL,
-    canva: canvaURL,
-    signin: signInURL,
-    rsvp: rsvpURL,
+    fb: {
+      url: fbURL,
+      label: 'Facebook',
+    },
+    canva: { url: canvaURL, label: 'Canva' },
   };
 
-  const eventType = type || 'Event';
-
   return (
-    <Grid container direction='column' alignItems='center'>
+    <Grid container direction='column' alignItems='center' spacing={3}>
       <Grid item>
         <Card className={classes.eventDetailsCard}>
           <Grid container direction='column' justify='center' spacing={3}>
-            <Grid item className={classes.firstRow}>
+            <Grid item>
               <Grid container direction='row' justify='center'>
-                <Grid item xs={6}>
+                <Grid item xs>
                   <Typography className={classes.title} variant='h4'>
                     {name}
-                    <Tags tags={[eventType]} />
+                    <Tags tags={[type]} />
                   </Typography>
                 </Grid>
 
-                <Grid item xs={5}>
-                  {OfficerRenderPermission(DeleteEditButtons)({ eventId })}
+                <Grid item>
+                  {OfficerRenderPermission(DeleteEditButtons)({
+                    eventId,
+                  })}
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid item>
-              <Grid container direction='row' justify='center'>
+              <Grid container direction='row' justify='center' spacing={3}>
                 <Grid item xs={6}>
                   <Typography className={classes.hosts} variant='h6'>
                     Hosts:{' '}
@@ -72,7 +85,7 @@ function EventDetailsComponent(props) {
                   </Typography>
                 </Grid>
 
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                   <Grid container direction='column'>
                     <Grid item>
                       <Typography variant='h6'>
@@ -104,11 +117,33 @@ function EventDetailsComponent(props) {
 
             <Grid item>
               <Grid container direction='row' justify='center' spacing={3}>
-                <Grid item xs={3}>
-                  {OfficerRenderPermission(Links)({ urls })}
+                <Grid item>
+                  <Grid
+                    container
+                    direction='column'
+                    justify='center'
+                    alignItems='center'
+                    spacing={3}
+                  >
+                    <Grid item>
+                      {InducteeRenderPermission(Links)({
+                        urls,
+                        signIn: { url: signInURL, label: 'Sign In Form' },
+                        rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                      })}
+                    </Grid>
+
+                    <Grid item>
+                      <SignInButton eventId={eventId} />
+                    </Grid>
+
+                    <Grid item>
+                      <RSVPButton eventId={eventId} />
+                    </Grid>
+                  </Grid>
                 </Grid>
 
-                <Grid item xs={8}>
+                <Grid item xs>
                   <Typography variant='h6'>
                     Description: <Typography>{description}</Typography>
                   </Typography>
@@ -121,11 +156,11 @@ function EventDetailsComponent(props) {
 
       <Grid item>
         <Button
-          className={classes.calendarButton}
-          variant='outlined'
-          color='secondary'
-          to={ROUTES.CALENDAR}
-          component={Link}
+          secondary
+          negative
+          onClick={() => {
+            history.push(ROUTES.CALENDAR);
+          }}
         >
           Back To Calendar
         </Button>
@@ -134,32 +169,4 @@ function EventDetailsComponent(props) {
   );
 }
 
-EventDetailsComponent.propTypes = {
-  eventInfo: PropTypes.shape({
-    startDate: PropTypes.string.isRequired,
-    endDate: PropTypes.string.isRequired,
-    hosts: PropTypes.arrayOf(
-      PropTypes.shape({ id: PropTypes.number.isRequired })
-    ).isRequired,
-    location: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    description: PropTypes.string.isRequired,
-    fbURL: PropTypes.string,
-    canvaURL: PropTypes.string,
-    rsvpURL: PropTypes.string.isRequired,
-    signInURL: PropTypes.string.isRequired,
-  }),
-  eventId: PropTypes.string.isRequired,
-};
-
-EventDetailsComponent.defaultProps = {
-  eventInfo: {
-    location: '',
-    type: '',
-    fbURL: '',
-    canvaURL: '',
-  },
-};
-
-export default withStyles(styles)(EventDetailsComponent);
+export default EventDetailsComponent;
