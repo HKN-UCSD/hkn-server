@@ -26,14 +26,23 @@ const schema = Yup.object({
   description: Yup.string(),
   fbURL: Yup.string(),
   canvaURL: Yup.string(),
-  rsvpURL: Yup.string(),
-  signInURL: Yup.string(),
 });
 
 const EventEditForm = props => {
   const { handleSubmit, handleCancel, classes, initialValues } = props;
-  const { fbURL, canvaURL, rsvpURL, signInURL } = initialValues;
-  const urls = { fbURL, canvaURL, rsvpURL, signInURL };
+  const { fbURL, canvaURL } = initialValues;
+  const urlObjects = [
+    {
+      name: 'fbURL',
+      label: 'Facebook URL',
+      url: fbURL,
+    },
+    {
+      name: 'canvaURL',
+      label: 'Canva URL',
+      url: canvaURL,
+    },
+  ];
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -117,16 +126,21 @@ const EventEditForm = props => {
                 </Grid>
 
                 <Grid className={classes.urls}>
-                  {Object.keys(urls).map(url => (
-                    <Field
-                      key={url}
-                      className={classes.field}
-                      name={`${url}`}
-                      type='text'
-                      component={TextField}
-                      label={url}
-                    />
-                  ))}
+                  {urlObjects.map(urlObject => {
+                    const { name, label, url } = urlObject;
+
+                    return (
+                      <Field
+                        className={classes.field}
+                        component={TextField}
+                        key={name}
+                        name={name}
+                        label={label}
+                        value={url}
+                        fullWidth
+                      />
+                    );
+                  })}
                 </Grid>
               </Grid>
 

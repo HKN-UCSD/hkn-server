@@ -7,9 +7,10 @@ import EventCard from './components/EventCard';
 import EventList from './components/EventList';
 import styles from './styles';
 
+import * as ROUTES from '@Constants/routes';
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { getAllEvents } from '@Services/EventService';
 import { Button } from '@SharedComponents';
-import * as ROUTES from '@Constants/routes';
 
 class CalendarPage extends React.Component {
   constructor() {
@@ -65,15 +66,14 @@ class CalendarPage extends React.Component {
       <Grid className={classes.root} container direction='column'>
         <Grid className={classes.buttons} container justify='space-between'>
           <Grid item>
-            <Button
-              secondary
-              positive
-              onClick={() => {
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              positive: true,
+              children: 'Create Event',
+              onClick: () => {
                 history.push(ROUTES.EVENT_CREATION);
-              }}
-            >
-              Create Event
-            </Button>
+              },
+            })}
           </Grid>
           <Grid item>
             <MuiButton

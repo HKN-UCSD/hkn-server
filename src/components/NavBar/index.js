@@ -40,8 +40,8 @@ const INITIAL_STATES = {
 };
 
 class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { ...INITIAL_STATES };
   }
 
