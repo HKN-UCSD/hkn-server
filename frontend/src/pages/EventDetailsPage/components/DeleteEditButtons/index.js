@@ -70,7 +70,7 @@ const DeleteEditButtons = props => {
 };
 
 DeleteEditButtons.propTypes = {
-  eventId: PropTypes.string.isRequired,
+  eventId: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles)(DeleteEditButtons);

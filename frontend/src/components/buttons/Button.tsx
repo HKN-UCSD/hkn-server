@@ -4,7 +4,7 @@ import {
   ButtonProps as MuiButtonProps,
 } from '@material-ui/core';
 
-export interface ButtonProps {
+export interface ButtonProps extends MuiButtonProps {
   primary?: boolean;
   secondary?: boolean;
   positive?: boolean;

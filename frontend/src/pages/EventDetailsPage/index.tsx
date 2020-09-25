@@ -7,23 +7,28 @@ import { Loading } from '@SharedComponents';
 import { getEventById } from '@Services/EventService';
 import { EventResponse } from '@Services/api/models';
 
+interface EventID {
+  id: string;
+}
+
 function EventDetailsPage(): JSX.Element {
-  const { id } = useParams();
+  const { id } = useParams<EventID>();
+  const eventId = parseInt(id, 10);
   const [eventInfo, setEventInfo] = useState<EventResponse | null>(null);
 
   useEffect(() => {
     const getEvent = async () => {
-      const eventResponse = await getEventById(id);
+      const eventResponse = await getEventById(eventId);
       setEventInfo(eventResponse);
     };
 
     getEvent();
-  }, [id]);
+  }, [eventId]);
 
   return eventInfo == null ? (
     <Loading />
   ) : (
-    <EventDetailsComponent eventId={id} eventInfo={eventInfo} />
+    <EventDetailsComponent eventId={eventId} eventInfo={eventInfo} />
   );
 }
 
