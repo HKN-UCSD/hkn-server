@@ -2,8 +2,8 @@
 
 ## Deploys
 
-- `Production`: http://api.hknucsd.com/
-- `Development`: http://dev.api.hknucsd.com/
+- `Production`: https://api.hknucsd.com/
+- `Development`: https://dev-api.hknucsd.com/
 
 **tl;dr**
 
@@ -18,22 +18,42 @@ npm run start
 - `npm run clean`: rm -rf dist/\* but has cross-env support
 - `npm run typeorm`: runs typeorm cli (npx typeorm doesn't work because typeorm doesn't play well with typescript)
 - `npm run typeorm:sync`: sync your entities with the postgres db to update database schema
+- `npm run postgres:start`: Stops the current postgres container if there is one currently running and starts up a new postgres container.
+- `npm run postgres:stop`: Stops the current postgres container if there is one currently running.
+- `npm run localpg:start`: Starts up the local postgres docker container, then runs TypeORM's database migration and seeding
 
 ## Dependency Injection(DI)
 
 DI is essentially passing in your dependencies as arguments in your constructor. See [this](https://www.sarulabs.com/post/2/2018-06-12/what-is-a-dependency-injection-container-and-why-use-one.html) for further explanation.
 
-In this project, unlike in the above article, we use [tsyringe](https://github.com/microsoft/tsyringe) as our DI framework of choice. While [TypeDI](https://github.com/typestack/typedi) plays better with the typestack ecosystem (routing-controllers, typeorm etc.), TypeDI does not have strong support for dependency resolution when registering named services. (For more details @godwinpang)
+Currently in our codebase, for any class that needs DI, we export both the class and an instance of that class, with all the dependencies
+passed into the constructor arguments, where the dependencies are also an instance of their respective class.
 
-We use DI to inject our controllers and our services by decorating those classes with the @injectable decorator. Note that we skip injecting repositories not because it is the right thing to do, but tsyringe has no good way of injecting generic type repositories.
+Examples:
+
+In **src/controllers/UserController.ts**, we need AppUserService and AppUserMapper, so UserController's constructor has two arguments
+for that. So, we imported AppUserService/Mapper class and their respective instance (denoted as AppUserServiceImpl and AppUserMapperImpl)
+as dependencies to create an instance of UserController (denoted as UserControllerImpl). The result is an instance of the UserController
+class:
+
+- `export const UserControllerImpl = new UserController(AppUserServiceImpl, AppUserMapperImpl);`
+
+In **src/services/AppUserService.ts**, we do not need any other dependency for the Service class to work properly, so we can just export
+an instance of AppUserService class without needing to import any dependency:
+
+- `export const AppUserServiceImpl = new AppUserService();`
 
 ## Directory Structure + Terms
 
-All typescript code should be located inside of src for the tsc compiler to pick up the changes. For development hot reloading, we use tsc-watch to do incremental compilation and server rebooting. For further instructions on adding any of the following, _please_ read the corresponding guide in guides/
+All TypeScript code should be located inside of src for the tsc compiler to pick up the changes. For development hot reloading, we use tsc-watch to do incremental compilation and server rebooting. For further instructions on adding any of the following, _please_ read the corresponding guide in guides/
 
 ### index.ts
 
-Entry point of server that delegates to loaders (in Loaders folder). Loader pattern is still WIP - see https://softwareontheroad.com/ideal-nodejs-project-structure/ for more details.
+Entry point of server that delegates to _app.ts_ for initializing and setting up the backend server.
+
+### app.ts
+
+Responsible for applying middlewares onto the server (Express app), running [loaders](https://softwareontheroad.com/ideal-nodejs-project-structure/) to establish resources used in the code, connecting to controllers set up using [routing-controllers](https://github.com/typestack/routing-controllers) and establish any remaining routers separate from controllers.
 
 ### config.ts
 
@@ -73,6 +93,23 @@ Again, these things should be interfaces (since they're used similar to C style 
 
 A service encapsulates business logic either pertaining to a db entity, or a group of actions (a.k.a sending emails through sendgrid or fetching+saving resumes). See guides/add_new_service.md for more details.
 
+### Middlewares
+
+We use custom [middlewares](https://expressjs.com/en/guide/using-middleware.html) (which are functions) to process information in a certain way and/or for a certain purpose in a sequence of functions/middlewares when making an HTTP request to an endpoint.
+
+Examples:
+
+In our codebase, the most prominent use case we have for middlewares so far is role-based access control (RBAC). This allows us to assign and enforce access rights to endpoints based on a user's role, giving users with permitted roles access to an endpoint (or at least access to a type of HTTP request on an endpoint) and denying access to those without. We have five auth middlewares for the five roles that we use in
+our system, created via the factory pattern.
+
+- `AdminAuthMiddleware`: Gives access only to users with admin role.
+- `OfficerAuthMiddleware`: Gives access only to users with admin/officer role.
+- `MemberAuthMiddleware`: Gives access only to users with admin/officer/member role.
+- `InducteeAuthMiddleware`: Gives access only to users with admin/officer/member/inductee role.
+- `GuestAuthMiddleware` or no auth middleware: Gives access to all roles.
+
+Check out **src/middlewares/auth** to see how they are implemented and **src/controllers** to see how they are used.
+
 ### Mappers
 
 A mapper is responsible for mapping request payloads to entities, and entities to response payloads.
@@ -85,7 +122,13 @@ The OpenAPI spec is served as a json file at the /api/docs/json endpoint (should
 
 ### Migrations
 
-A db migration encapsulates a change to the database schema. We'll set this up when we need to, but it allows us to do schema rollbacks and modifications.
+A db migration encapsulates a change to the database schema. Migration files are stored in **src/migrations**. Please visit [TypeORM's page](https://github.com/typeorm/typeorm/blob/master/docs/migrations.md) on migrations to learn more about them and how to write a migration file. This is part of the 3-step process we have for local testing (_npm run localpg:start_) that guarantees idempotence of tests (when starting
+up the postgres container, we will always have the same testing data).
+
+### Seeds
+
+Seeding a DB means providing initial data to a DB when the DB is set up initially. Seed files are stored in **src/seeds**. We currently use
+this to populate a DB with initial data after a migration. This is also part of the 3-step process we have for local testing (_npm run localpg:start_) that guarantees idempotence of tests.
 
 ### Tests
 
