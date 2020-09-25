@@ -65,7 +65,7 @@ export class EventService {
       return undefined;
     }
 
-    const attendances = await this.attendanceService.getAllAttendancesOfEvent(
+    const attendances = await this.attendanceService.getAllEventAttendances(
       event,
       multipleAttendanceQuery
     );

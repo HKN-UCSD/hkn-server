@@ -3,6 +3,18 @@ import { MultipleAttendanceQuery } from '@Payloads';
 
 import { getRepository, FindManyOptions } from 'typeorm';
 
+interface ID {
+  id: number;
+}
+
+interface AttendanceWithIDs {
+  attendee: ID;
+  event: ID;
+  officer: ID;
+  duration: number;
+  isInductee: boolean;
+}
+
 export class AttendanceService {
   /**
    * Builds a query object for TypeORM to filter rows when calling find() on Attendance table.
@@ -39,7 +51,7 @@ export class AttendanceService {
    * @param {MultipleAttendanceQuery} multipleAttendanceQuery Query parameters to filter attendances.
    * @returns {Promise} Array of attendances from the specified event.
    */
-  async getAllAttendancesOfEvent(
+  async getAllEventAttendances(
     event: Event,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {
@@ -49,7 +61,9 @@ export class AttendanceService {
     return attendanceRepository.find(query);
   }
 
-  async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
+  async saveAttendance(
+    attendance: Attendance | AttendanceWithIDs
+  ): Promise<Attendance | undefined> {
     const attendanceRepository = getRepository(Attendance);
 
     return attendanceRepository.save(attendance);

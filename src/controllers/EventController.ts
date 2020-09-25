@@ -130,7 +130,7 @@ export class EventController {
       multipleAttendanceQuery
     );
 
-    return attendances ? { attendances } : undefined;
+    return { attendances };
   }
 
   @Post('/:eventID/attendance')
@@ -143,17 +143,12 @@ export class EventController {
   ): Promise<AttendanceResponse | undefined> {
     const { attendeeId, officerId, ...otherValues } = attendanceCheckOffRequest;
 
-    if (officerId == undefined) {
-      return undefined;
-    }
-
-    const [event, attendee, officer] = await Promise.all([
-      this.eventService.getEventById(eventID),
-      this.appUserService.getAppUserById(attendeeId),
-      this.appUserService.getAppUserById(officerId),
-    ]);
-
-    return this.attendanceService.saveAttendance({ ...otherValues, attendee, officer, event });
+    return this.attendanceService.saveAttendance({
+      ...otherValues,
+      attendee: { id: attendeeId },
+      event: { id: eventID },
+      officer: { id: officerId },
+    });
   }
 
   @Post('/:eventID/signin')

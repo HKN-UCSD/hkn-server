@@ -16,7 +16,6 @@ export class AttendanceCheckOffRequest {
   readonly attendeeId: number;
 
   @IsInt()
-  @IsOptional()
   readonly officerId: number;
 
   @IsBoolean()
