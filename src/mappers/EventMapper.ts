@@ -1,6 +1,6 @@
 import { EventRequest, EventResponse } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from '@Services';
-import { Event } from '@Entities';
+import { Event, AppUser } from '@Entities';
 
 import { classToPlain, plainToClass } from 'class-transformer';
 import { getRepository } from 'typeorm';
@@ -31,20 +31,15 @@ export class EventMapper {
     eventObj.id = eventID; // preload expects an id.
 
     const eventRepository = getRepository(Event);
-    const event: Event = await eventRepository.preload(eventObj);
+    const event = await eventRepository.preload(eventObj);
 
     if (event === undefined) {
       return undefined;
     }
 
-    // preload ignores empty arrays and loads arrays anyways.
-    if (eventObj.hosts.length == 0) {
-      event.hosts = [];
-    } else {
-      event.hosts = await Promise.all(
-        hosts.map(host => this.appUserService.getAppUserById(host.id))
-      );
-    }
+    // Typecasting to pass array of ids to hosts, of which TypeORM should have supported.
+    // This has to be done because preload merges for many-to-many relations instead of replaces.
+    event.hosts = hosts as AppUser[];
 
     return event;
   }
