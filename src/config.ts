@@ -1,10 +1,3 @@
-import dotenv from 'dotenv';
-
-// Load env vars using dotenv only if in development mode.
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  dotenv.config();
-}
-
 type FirebaseConfig = {
   project_id: string;
   clientEmail: string;

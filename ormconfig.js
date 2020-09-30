@@ -3,8 +3,6 @@
 // great question! change this file and face the wrath of the mess that is
 // js/ts build systems
 // need to call .env here because typeorm cli uses this config
-const dotenv = require('dotenv');
-dotenv.config();
 
 let entities = 'dist/entities/**/*.js';
 
@@ -20,8 +18,8 @@ module.exports = [
   {
     type: 'postgres',
     url: process.env.DATABASE_URL,
-    ssl: sslConfig.ssl,
-    extra: sslConfig.extra,
+    ssl: prodSSLConfig.ssl,
+    extra: prodSSLConfig.extra,
     synchronize: false,
     logging: false,
     entities: [entities],

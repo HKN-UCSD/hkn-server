@@ -1,11 +1,12 @@
 import * as SendGridMail from '@sendgrid/mail';
-import * as dotenv from 'dotenv';
 
 import { EmailInfo } from './email.definition';
 
-dotenv.config();
 SendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 const senderEmail: string = process.env.SENDER_EMAIL_ADDRESS;
+
+console.log(process.env.SENDGRID_API_KEY);
+console.log(process.env.SENDGRID_EMAIL_ADDRESS);
 
 /*
  * Send one or more emails to one or more respective recipients
