@@ -52,6 +52,7 @@ export class MultipleAttendanceResponse {
 }
 
 export class MultipleAttendanceQuery {
+  // If unchecked is true, then query only for attendances that are not checked off by officers
   @IsBoolean()
   @IsOptional()
   unchecked: boolean;

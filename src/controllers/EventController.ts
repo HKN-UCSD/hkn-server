@@ -125,7 +125,7 @@ export class EventController {
     @Param('eventID') eventID: number,
     @QueryParams() multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<MultipleAttendanceResponse | undefined> {
-    const attendances = await this.eventService.getAttendancesFromEvent(
+    const attendances = await this.eventService.getEventAttendances(
       eventID,
       multipleAttendanceQuery
     );

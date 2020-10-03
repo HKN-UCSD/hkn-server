@@ -55,7 +55,7 @@ export class EventService {
     return event ? eventRepository.remove(event) : undefined;
   }
 
-  async getAttendancesFromEvent(
+  async getEventAttendances(
     eventId: number,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[] | undefined> {
