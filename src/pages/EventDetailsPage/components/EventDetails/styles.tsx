@@ -13,6 +13,10 @@ const useStyles = makeStyles({
   hostName: {
     marginBottom: '5px',
   },
+  location: {
+    wordWrap: 'break-word',
+    maxWidth: 240,
+  },
 });
 
 export default useStyles;
