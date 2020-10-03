@@ -87,7 +87,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
 
                 <Grid item xs={6}>
                   <Grid container direction='column'>
-                    <Grid item>
+                    <Grid item className={classes.location}>
                       <Typography variant='h6'>
                         Location: <Typography>{location}</Typography>
                       </Typography>
