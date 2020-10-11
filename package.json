@@ -29,7 +29,7 @@
     "seed:revert": "npm run typeorm migration:revert -- -c seed -t=each",
     "postgres:start": "docker rm --force postgres || true && docker run -t -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=user postgres:12.3",
     "postgres:stop": "docker rm --force postgres",
-    "localpg:start": "npm run postgres:start && cross-env NODE_ENV=development npm run migration:run && cross-env NODE_ENV=development npm run seed:run"
+    "localpg:start": "docker run -t -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=user postgres:12.3 && cross-env NODE_ENV=development npm run migration:run && cross-env NODE_ENV=development npm run seed:run"
   },
   "author": "",
   "type": "commonjs",

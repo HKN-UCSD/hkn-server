@@ -144,10 +144,6 @@ export class AppUserService {
   isGuest(appUser: AppUser): boolean {
     return appUser.role === AppUserRole.GUEST;
   }
-
-  isInductee(appUser: AppUser): boolean {
-    return appUser.role === AppUserRole.INDUCTEE;
-  }
 }
 
 export const AppUserServiceImpl = new AppUserService();

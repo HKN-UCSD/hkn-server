@@ -5,18 +5,6 @@ import { AppUserService, AppUserServiceImpl } from './AppUserService';
 import { getRepository, FindManyOptions } from 'typeorm';
 import { differenceInMinutes } from 'date-fns';
 
-interface ID {
-  id: number;
-}
-
-interface AttendanceWithIDs {
-  attendee: ID;
-  event: ID;
-  officer: ID;
-  duration: number;
-  isInductee: boolean;
-}
-
 export class AttendanceService {
   constructor(private appUserService: AppUserService) {}
 
