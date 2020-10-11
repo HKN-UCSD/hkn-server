@@ -1,5 +1,4 @@
-import { IsOptional } from 'class-validator';
-import { Entity, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { AppUser } from './AppUser';
 import { Event } from './Event';
 
@@ -20,13 +19,13 @@ export class Attendance {
   @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED' })
   event: Event;
 
-  @CreateDateColumn({ nullable: true })
-  startTime?: Date;
+  @Column()
+  startTime: Date;
 
   @Column('timestamp', { nullable: true })
   endTime?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   points?: number;
 
   // indicates whether or not attendee was inductee at time of attendance

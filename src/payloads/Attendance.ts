@@ -1,5 +1,6 @@
 import {
   IsOptional,
+  IsDate,
   IsBoolean,
   IsNumber,
   IsInstance,
@@ -14,9 +15,6 @@ import { EventAttendanceResponse } from './Event';
 export class AttendanceCheckOffRequest {
   @IsInt()
   readonly attendeeId: number;
-
-  @IsInt()
-  readonly officerId: number;
 }
 
 export class AttendanceResponse {
@@ -33,9 +31,17 @@ export class AttendanceResponse {
   @IsOptional()
   officer: AppUserEventResponse;
 
+  @IsDate()
+  @IsOptional()
+  startTime?: Date;
+
+  @IsDate()
+  @IsOptional()
+  endTime?: Date;
+
   @IsNumber()
   @IsOptional()
-  duration?: number;
+  points?: number;
 }
 
 export class MultipleAttendanceResponse {

@@ -138,11 +138,12 @@ export class EventController {
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async checkOffEventAttendance(
     @Param('eventID') eventID: number,
-    @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest
+    @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest,
+    @CurrentUser() officer: AppUser
   ): Promise<AttendanceResponse | undefined> {
-    const { attendeeId, officerId } = attendanceCheckOffRequest;
+    const { attendeeId } = attendanceCheckOffRequest;
 
-    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officerId);
+    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officer.id);
   }
 
   @Post('/:eventID/signin')

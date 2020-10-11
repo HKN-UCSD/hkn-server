@@ -1,5 +1,6 @@
 import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
 import { MultipleAttendanceQuery } from '@Payloads';
+import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
 import { getRepository, FindManyOptions } from 'typeorm';
 import { differenceInMinutes } from 'date-fns';
@@ -17,6 +18,8 @@ interface AttendanceWithIDs {
 }
 
 export class AttendanceService {
+  constructor(private appUserService: AppUserService) {}
+
   /**
    * Builds a query object for TypeORM to filter rows when calling find() on Attendance table.
    *
@@ -47,10 +50,14 @@ export class AttendanceService {
 
   async getAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
     const attendanceRepository = getRepository(Attendance);
-    return attendanceRepository.findOne({
-      attendee: { id: attendeeId } as AppUser,
-      event: { id: eventId } as Event,
-    });
+    return attendanceRepository.findOne(
+      {
+        attendee: { id: attendeeId } as AppUser,
+        event: { id: eventId } as Event,
+      },
+
+      { relations: ['attendee', 'event'] }
+    );
   }
 
   /**
@@ -83,7 +90,8 @@ export class AttendanceService {
     }
 
     attendance.endTime = new Date();
-    attendance.officer = { id: officerId } as AppUser;
+    attendance.officer = await this.appUserService.getAppUserById(officerId);
+    attendance.points = this.getAttendancePoints(attendance);
 
     return attendanceRepository.save(attendance);
   }
@@ -91,7 +99,7 @@ export class AttendanceService {
   getAttendancePoints(attendance: Attendance): number {
     const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
     const numHalfHours: number = diffMinutes / 30;
-    const points: number = numHalfHours / 2;
+    const points: number = Math.round(numHalfHours / 2);
     if (points > 2) {
       return 2;
     }
@@ -117,6 +125,7 @@ export class AttendanceService {
     const { role } = attendee;
     const attendance = { event, attendee, isInductee: role === AppUserRole.INDUCTEE };
     const newAttendance = attendanceRepository.create(attendance);
+    newAttendance.startTime = new Date();
 
     try {
       await attendanceRepository.insert(newAttendance);
@@ -128,4 +137,4 @@ export class AttendanceService {
   }
 }
 
-export const AttendanceServiceImpl = new AttendanceService();
+export const AttendanceServiceImpl = new AttendanceService(AppUserServiceImpl);
