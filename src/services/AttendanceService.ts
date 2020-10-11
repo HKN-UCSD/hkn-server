@@ -2,6 +2,7 @@ import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
 import { MultipleAttendanceQuery } from '@Payloads';
 
 import { getRepository, FindManyOptions } from 'typeorm';
+import { differenceInMinutes } from 'date-fns';
 
 interface ID {
   id: number;
@@ -44,6 +45,14 @@ export class AttendanceService {
     return query;
   }
 
+  async getAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+    return attendanceRepository.findOne({
+      attendee: { id: attendeeId } as AppUser,
+      event: { id: eventId } as Event,
+    });
+  }
+
   /**
    * Gets all attendances of a specified that are filtered based on passed in query parameters.
    *
@@ -59,6 +68,34 @@ export class AttendanceService {
     const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery);
 
     return attendanceRepository.find(query);
+  }
+
+  async checkOffAttendance(
+    eventId: number,
+    attendeeId: number,
+    officerId: number
+  ): Promise<Attendance | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+    const attendance: Attendance = await this.getAttendance(attendeeId, eventId);
+
+    if (attendance === undefined) {
+      return undefined;
+    }
+
+    attendance.endTime = new Date();
+    attendance.officer = { id: officerId } as AppUser;
+
+    return attendanceRepository.save(attendance);
+  }
+
+  getAttendancePoints(attendance: Attendance): number {
+    const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
+    const numHalfHours: number = diffMinutes / 30;
+    const points: number = numHalfHours / 2;
+    if (points > 2) {
+      return 2;
+    }
+    return points;
   }
 
   async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {

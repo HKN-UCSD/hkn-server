@@ -140,14 +140,9 @@ export class EventController {
     @Param('eventID') eventID: number,
     @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest
   ): Promise<AttendanceResponse | undefined> {
-    const { attendeeId, officerId, ...otherValues } = attendanceCheckOffRequest;
+    const { attendeeId, officerId } = attendanceCheckOffRequest;
 
-    return this.attendanceService.saveAttendance({
-      ...otherValues,
-      attendee: { id: attendeeId } as AppUser,
-      officer: { id: officerId } as AppUser,
-      event: { id: eventID } as Event,
-    });
+    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officerId);
   }
 
   @Post('/:eventID/signin')

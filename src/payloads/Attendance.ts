@@ -17,9 +17,6 @@ export class AttendanceCheckOffRequest {
 
   @IsInt()
   readonly officerId: number;
-
-  @IsBoolean()
-  readonly isInductee: boolean;
 }
 
 export class AttendanceResponse {
