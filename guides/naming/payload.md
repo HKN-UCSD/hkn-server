@@ -2,6 +2,10 @@
 
 Keep in mind that **all payloads have to be based off of an existing Entity (./src/entities) in the database.** This means all files in the payloads folder have to be named after an existing Entity.
 
+## Casing
+
+Have to be UpperCamelCase/PascalCase
+
 ## Optional Default Payload Classes
 
 For all files in ./src/payloads, if you want, you can always have a default payload class for request and response stemming from the respective Entity. There should only be two of these for each file in ./src/paylods, one for request and one for response. They should be named **XRequest** and **XResponse**, respectively, with X being the name of an Entity.
