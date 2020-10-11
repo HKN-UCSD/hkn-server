@@ -4,7 +4,7 @@ import { Any, getRepository, FindManyOptions } from 'typeorm';
 
 export class AppUserService {
   /**
-   * Builds a query object for TypeOrm to filter rows when calling find() on AppUser table.
+   * Builds a query object for TypeORM to filter rows when calling find() on AppUser table.
    *
    * @param {MultipleUserQuery} multipleUserQuery The available query parameters for getting multiple users.
    * @returns {FindManyOptions<AppUser>} The query object used by TypeORM to filter rows by the query parameters.
@@ -18,7 +18,7 @@ export class AppUserService {
     }
 
     if (officers) {
-      query.where = { role: 'officer' };
+      query.where = [{ role: 'officer' }, { role: 'admin' }];
     }
 
     return query;

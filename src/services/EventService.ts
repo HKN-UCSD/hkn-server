@@ -3,6 +3,7 @@ import { AttendanceService, AttendanceServiceImpl } from './AttendanceService';
 import { RSVPService, RSVPServiceImpl } from './RSVPService';
 
 import { getRepository } from 'typeorm';
+import { MultipleAttendanceQuery } from '@Payloads';
 
 export class EventService {
   constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
@@ -52,6 +53,24 @@ export class EventService {
     const event = await eventRepository.findOne({ id });
 
     return event ? eventRepository.remove(event) : undefined;
+  }
+
+  async getEventAttendances(
+    eventId: number,
+    multipleAttendanceQuery: MultipleAttendanceQuery
+  ): Promise<Attendance[] | undefined> {
+    const event = await this.getEventById(eventId);
+
+    if (event === undefined) {
+      return undefined;
+    }
+
+    const attendances = await this.attendanceService.getAllEventAttendances(
+      event,
+      multipleAttendanceQuery
+    );
+
+    return attendances;
   }
 
   /**
