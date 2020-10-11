@@ -26,6 +26,9 @@ export class Attendance {
   @Column('timestamp', { nullable: true })
   endTime?: Date;
 
+  @Column()
+  points?: number;
+
   // indicates whether or not attendee was inductee at time of attendance
   @Column()
   isInductee: boolean;

@@ -11,7 +11,7 @@ import { Attendance } from './Attendance';
     connection
       .createQueryBuilder()
       .select('appUser.id', 'user')
-      .addSelect('SUM(attendance.duration)', 'points')
+      .addSelect('SUM(attendance.points)', 'points')
       .from(AppUser, 'appUser')
       .innerJoin(Attendance, 'attendance', 'appUser.id = attendance.attendee')
       .groupBy('appUser.id')
