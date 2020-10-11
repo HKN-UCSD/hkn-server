@@ -61,9 +61,7 @@ export class AttendanceService {
     return attendanceRepository.find(query);
   }
 
-  async saveAttendance(
-    attendance: Attendance | AttendanceWithIDs
-  ): Promise<Attendance | undefined> {
+  async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
     const attendanceRepository = getRepository(Attendance);
 
     return attendanceRepository.save(attendance);

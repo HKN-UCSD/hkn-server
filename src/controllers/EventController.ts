@@ -5,7 +5,6 @@ import {
   Post,
   Delete,
   Body,
-  OnUndefined,
   UseBefore,
   CurrentUser,
   QueryParams,
@@ -145,9 +144,9 @@ export class EventController {
 
     return this.attendanceService.saveAttendance({
       ...otherValues,
-      attendee: { id: attendeeId },
-      event: { id: eventID },
-      officer: { id: officerId },
+      attendee: { id: attendeeId } as AppUser,
+      officer: { id: officerId } as AppUser,
+      event: { id: eventID } as Event,
     });
   }
 

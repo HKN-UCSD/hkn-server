@@ -20,10 +20,6 @@ export class AttendanceCheckOffRequest {
 
   @IsBoolean()
   readonly isInductee: boolean;
-
-  @IsNumber()
-  @IsOptional()
-  readonly duration: number;
 }
 
 export class AttendanceResponse {
@@ -42,7 +38,7 @@ export class AttendanceResponse {
 
   @IsNumber()
   @IsOptional()
-  duration: number;
+  duration?: number;
 }
 
 export class MultipleAttendanceResponse {
