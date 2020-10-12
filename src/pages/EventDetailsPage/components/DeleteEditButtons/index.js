@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-
-import styles from './styles';
+import { Grid } from '@material-ui/core';
 
 import { Button, ButtonWithConfirmationModal } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 import { deleteEvent } from '@Services/EventService';
 
 const DeleteEditButtons = props => {
-  const { classes, eventId } = props;
+  const { eventId } = props;
 
   const handleDeleteEvent = eventToDeleteId => {
     deleteEvent(eventToDeleteId)
@@ -42,30 +38,30 @@ const DeleteEditButtons = props => {
   };
 
   return (
-    <div className={classes.root}>
-      <ButtonWithConfirmationModal
-        title='Delete this event?'
-        contentText='Do you want to delete this event permanently?'
-        confirmButtonProps={confirmButtonProps}
-        cancelButtonProps={cancelButtonProps}
-        name='Delete'
-        className={classes.delete}
-        startIcon={<DeleteIcon />}
-        primary
-        negative
-      />
+    <Grid container justify='flex-end' spacing={1}>
+      <Grid item>
+        <ButtonWithConfirmationModal
+          title='Delete this event?'
+          contentText='Do you want to delete this event permanently?'
+          confirmButtonProps={confirmButtonProps}
+          cancelButtonProps={cancelButtonProps}
+          name='Delete'
+          secondary
+          negative
+        />
+      </Grid>
 
-      <Button
-        className={classes.edit}
-        variant='contained'
-        color='primary'
-        to={`/events/${eventId}/edit`}
-        component={Link}
-        startIcon={<EditIcon />}
-      >
-        Edit
-      </Button>
-    </div>
+      <Grid item>
+        <Button
+          primary
+          positive
+          to={`/events/${eventId}/edit`}
+          component={Link}
+        >
+          Edit
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -73,4 +69,4 @@ DeleteEditButtons.propTypes = {
   eventId: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles)(DeleteEditButtons);
+export default DeleteEditButtons;

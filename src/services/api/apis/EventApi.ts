@@ -17,6 +17,9 @@ import {
   AppUserEventRequest,
   AppUserEventRequestFromJSON,
   AppUserEventRequestToJSON,
+  AttendanceCheckOffRequest,
+  AttendanceCheckOffRequestFromJSON,
+  AttendanceCheckOffRequestToJSON,
   AttendanceResponse,
   AttendanceResponseFromJSON,
   AttendanceResponseToJSON,
@@ -26,6 +29,9 @@ import {
   EventResponse,
   EventResponseFromJSON,
   EventResponseToJSON,
+  MultipleAttendanceResponse,
+  MultipleAttendanceResponseFromJSON,
+  MultipleAttendanceResponseToJSON,
   MultipleEventResponse,
   MultipleEventResponseFromJSON,
   MultipleEventResponseToJSON,
@@ -33,6 +39,11 @@ import {
   RSVPResponseFromJSON,
   RSVPResponseToJSON,
 } from '../models';
+
+export interface EventControllerCheckOffEventAttendanceRequest {
+  eventID: number;
+  attendanceCheckOffRequest?: AttendanceCheckOffRequest;
+}
 
 export interface EventControllerCreateEventRequest {
   eventRequest?: EventRequest;
@@ -44,6 +55,12 @@ export interface EventControllerDeleteEventRequest {
 
 export interface EventControllerGetEventRequest {
   eventID: number;
+}
+
+export interface EventControllerGetEventAttendanceRequest {
+  eventID: number;
+  unchecked?: boolean;
+  inductee?: boolean;
 }
 
 export interface EventControllerRsvpForEventRequest {
@@ -65,6 +82,67 @@ export interface EventControllerUpdateEventRequest {
  *
  */
 export class EventApi extends runtime.BaseAPI {
+  /**
+   * Check off event attendance
+   */
+  async eventControllerCheckOffEventAttendanceRaw(
+    requestParameters: EventControllerCheckOffEventAttendanceRequest
+  ): Promise<runtime.ApiResponse<AttendanceResponse>> {
+    if (
+      requestParameters.eventID === null ||
+      requestParameters.eventID === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'eventID',
+        'Required parameter requestParameters.eventID was null or undefined when calling eventControllerCheckOffEventAttendance.'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters['Content-Type'] = 'application/json';
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/events/{eventID}/attendance`.replace(
+        `{${'eventID'}}`,
+        encodeURIComponent(String(requestParameters.eventID))
+      ),
+      method: 'POST',
+      headers: headerParameters,
+      query: queryParameters,
+      body: AttendanceCheckOffRequestToJSON(
+        requestParameters.attendanceCheckOffRequest
+      ),
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      AttendanceResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Check off event attendance
+   */
+  async eventControllerCheckOffEventAttendance(
+    requestParameters: EventControllerCheckOffEventAttendanceRequest
+  ): Promise<AttendanceResponse> {
+    const response = await this.eventControllerCheckOffEventAttendanceRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
   /**
    * Create event
    */
@@ -209,6 +287,70 @@ export class EventApi extends runtime.BaseAPI {
     requestParameters: EventControllerGetEventRequest
   ): Promise<EventResponse> {
     const response = await this.eventControllerGetEventRaw(requestParameters);
+    return await response.value();
+  }
+
+  /**
+   * Get event attendance
+   */
+  async eventControllerGetEventAttendanceRaw(
+    requestParameters: EventControllerGetEventAttendanceRequest
+  ): Promise<runtime.ApiResponse<MultipleAttendanceResponse>> {
+    if (
+      requestParameters.eventID === null ||
+      requestParameters.eventID === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'eventID',
+        'Required parameter requestParameters.eventID was null or undefined when calling eventControllerGetEventAttendance.'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters.unchecked !== undefined) {
+      queryParameters['unchecked'] = requestParameters.unchecked;
+    }
+
+    if (requestParameters.inductee !== undefined) {
+      queryParameters['inductee'] = requestParameters.inductee;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/events/{eventID}/attendance`.replace(
+        `{${'eventID'}}`,
+        encodeURIComponent(String(requestParameters.eventID))
+      ),
+      method: 'GET',
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      MultipleAttendanceResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Get event attendance
+   */
+  async eventControllerGetEventAttendance(
+    requestParameters: EventControllerGetEventAttendanceRequest
+  ): Promise<MultipleAttendanceResponse> {
+    const response = await this.eventControllerGetEventAttendanceRaw(
+      requestParameters
+    );
     return await response.value();
   }
 

@@ -10,7 +10,7 @@ import FormLayout from './FormLayout';
 import InputField from './InputField';
 import Loading from './Loading';
 import { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
-import { Card } from './cards';
+import { Card, CardWithVerticalTabs } from './cards';
 import { PublicPageLayout } from './layouts';
 import NavBar from './NavBar';
 import Table from './Table';
@@ -21,6 +21,7 @@ export { OfficerNameAutocomplete } from './autocomplete';
 export {
   Button,
   Card,
+  CardWithVerticalTabs,
   MajorDropdownField,
   YearDropdownField,
   AffiliateDropdownField,

@@ -82,6 +82,10 @@
           {
             "pattern": "@Config/*",
             "group": "internal"
+          },
+          {
+            "pattern": "@Hooks/*",
+            "group": "internal"
           }
         ]
       }

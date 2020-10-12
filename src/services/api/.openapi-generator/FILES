@@ -13,13 +13,15 @@ models\AppUserProfileResponse.ts
 models\AppUserResponse.ts
 models\AppUserRolesResponse.ts
 models\AppUserSignupRequest.ts
+models\AttendanceCheckOffRequest.ts
 models\AttendanceResponse.ts
-models\BaseEventPayload.ts
 models\EventAttendanceResponse.ts
 models\EventRSVPResponse.ts
 models\EventRequest.ts
 models\EventResponse.ts
 models\MultipleAppUserResponse.ts
+models\MultipleAttendanceQuery.ts
+models\MultipleAttendanceResponse.ts
 models\MultipleEventResponse.ts
 models\MultipleUserNameResponse.ts
 models\MultipleUserQuery.ts

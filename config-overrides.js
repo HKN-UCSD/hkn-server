@@ -20,5 +20,6 @@ module.exports = override(
     '@Images': path.resolve(__dirname, './src/images'),
     '@Contexts': path.resolve(__dirname, './src/contexts'),
     '@Config': path.resolve(__dirname, './src/config'),
+    '@Hooks': path.resolve(__dirname, './src/hooks'),
   })
 );
