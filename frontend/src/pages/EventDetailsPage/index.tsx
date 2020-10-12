@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import { Grid } from '@material-ui/core';
 
+import BackToCalendarButton from './components/BackToCalendarButton';
 import EventDetailsComponent from './components/EventDetails';
+import CheckOffTable from './components/CheckOffTable';
 
 import { Loading } from '@SharedComponents';
-import { getEventById } from '@Services/EventService';
+import {
+  getEventById,
+  getEventAttendances,
+  checkOffAttendance,
+} from '@Services/EventService';
 import { EventResponse } from '@Services/api/models';
 
 interface EventID {
@@ -28,7 +35,23 @@ function EventDetailsPage(): JSX.Element {
   return eventInfo == null ? (
     <Loading />
   ) : (
-    <EventDetailsComponent eventId={eventId} eventInfo={eventInfo} />
+    <Grid container justify='center' spacing={3}>
+      <Grid item xs={12}>
+        <EventDetailsComponent eventId={eventId} eventInfo={eventInfo} />
+      </Grid>
+
+      <Grid item xs={12}>
+        <CheckOffTable
+          getAttendances={() => getEventAttendances(eventId, true, false)}
+          checkOffAttendance={checkOffAttendance}
+          eventId={eventId}
+        />
+      </Grid>
+
+      <Grid item>
+        <BackToCalendarButton />
+      </Grid>
+    </Grid>
   );
 }
 

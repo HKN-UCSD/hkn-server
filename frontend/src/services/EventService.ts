@@ -6,6 +6,8 @@ import {
   EventControllerUpdateEventRequest,
   EventControllerSignInToEventRequest,
   EventControllerRsvpForEventRequest,
+  EventControllerGetEventAttendanceRequest,
+  EventControllerCheckOffEventAttendanceRequest,
 } from './api/apis/EventApi';
 import {
   MultipleEventResponse,
@@ -13,6 +15,7 @@ import {
   EventRequest,
   AppUserEventRequest,
   AttendanceResponse,
+  MultipleAttendanceResponse,
   RSVPResponse,
 } from './api/models';
 import ApiConfigStore from './ApiConfigStore';
@@ -27,6 +30,36 @@ export async function getAllEvents(): Promise<MultipleEventResponse> {
   const apiConfig: Configuration = ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   return eventApi.eventControllerGetMultipleEvents();
+}
+
+export async function getEventAttendances(
+  eventID: number,
+  unchecked?: boolean,
+  inductee?: boolean
+): Promise<MultipleAttendanceResponse> {
+  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerGetEventAttendanceRequest = {
+    eventID,
+    unchecked,
+    inductee,
+  };
+
+  return eventApi.eventControllerGetEventAttendance(request);
+}
+
+export async function checkOffAttendance(
+  eventID: number,
+  attendeeID: number
+): Promise<AttendanceResponse> {
+  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerCheckOffEventAttendanceRequest = {
+    eventID,
+    attendanceCheckOffRequest: { attendeeId: attendeeID },
+  };
+
+  return eventApi.eventControllerCheckOffEventAttendance(request);
 }
 
 export async function getEventById(eventID: number): Promise<EventResponse> {

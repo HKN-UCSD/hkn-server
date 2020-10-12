@@ -49,13 +49,13 @@ export interface AppUserPostRequest {
    * @type {string}
    * @memberof AppUserPostRequest
    */
-  major: string;
+  major?: string;
   /**
    *
    * @type {string}
    * @memberof AppUserPostRequest
    */
-  graduationYear: string;
+  graduationYear?: string;
   /**
    *
    * @type {AppUserInductionClass}
@@ -85,8 +85,10 @@ export function AppUserPostRequestFromJSONTyped(
     email: json['email'],
     firstName: json['firstName'],
     lastName: json['lastName'],
-    major: json['major'],
-    graduationYear: json['graduationYear'],
+    major: !exists(json, 'major') ? undefined : json['major'],
+    graduationYear: !exists(json, 'graduationYear')
+      ? undefined
+      : json['graduationYear'],
     inductionClass: !exists(json, 'inductionClass')
       ? undefined
       : AppUserInductionClassFromJSON(json['inductionClass']),
