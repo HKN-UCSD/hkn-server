@@ -21,6 +21,7 @@ The database URL will be the URL of the local Postgres database hosted in a Dock
 - `npm run localpg:start`
 
   - This runs `npm run postgres:start`, `npm run migration:run` and `npm run seed:run`, which starts up a Postgres container with the local Postgres DB, then runs a migration script on that local DB to initialize the structure of the DB, then runs a seed script on that local DB to insert initial data to the DB.
+  - Note for Windows VSCode users: `npm run postgres:start` won't work on Windows VSCode, so copy paste the right clause of the && statement (`docker run -t -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=user postgres:12.3`) in `npm run postgres:start` to replace `npm run postgres:start` in `npm run localpg:start`.
 
 - `npm run start`
   - This is to start up the server, served on `localhost:3001` by default.
