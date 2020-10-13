@@ -5,7 +5,7 @@ import {
   AppUserProfileResponse,
   AppUserPostRequest,
 } from '@Payloads';
-import { AppUser } from '@Entities';
+import { AppUser, InductionClass } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
 
 import { classToPlain, plainToClass } from 'class-transformer';
@@ -21,8 +21,24 @@ export class AppUserMapper {
    * @param {AppUserPostRequest | AppUserEventRequest} appUserRequest The request payload from which the AppUser entity is created.
    * @returns {AppUser} A newly created AppUser entity.
    */
-  requestToNewEntity(appUserRequest: AppUserPostRequest | AppUserEventRequest): AppUser {
+  async requestToNewEntity(
+    appUserRequest: AppUserPostRequest | AppUserEventRequest
+  ): Promise<AppUser> {
     const appUserRepository = getRepository(AppUser);
+    const inductionClassRepository = getRepository(InductionClass);
+
+    if (appUserRequest instanceof AppUserPostRequest) {
+      const inductionClass = await inductionClassRepository.findOne({
+        quarter: appUserRequest.inductionClassQuarter,
+      });
+      const plainAppUserRequest: Object = classToPlain(appUserRequest);
+
+      const appUser = appUserRepository.create(plainAppUserRequest);
+      appUser.inductionClass = inductionClass;
+
+      return appUser;
+    }
+
     const plainAppUserRequest: Object = classToPlain(appUserRequest);
 
     return appUserRepository.create(plainAppUserRequest);
