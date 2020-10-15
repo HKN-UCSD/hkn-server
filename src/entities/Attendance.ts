@@ -16,7 +16,7 @@ export class Attendance {
   @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED', nullable: true })
   officer: AppUser;
 
-  @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED' })
+  @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED', onDelete: 'CASCADE' })
   event: Event;
 
   @Column()
