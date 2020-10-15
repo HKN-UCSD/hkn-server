@@ -62,7 +62,7 @@ export class AttendanceService {
     const attendanceRepository = getRepository(Attendance);
     const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery);
 
-    return attendanceRepository.find(query);
+    return attendanceRepository.find({ where: { ...query }, cache: true });
   }
 
   async checkOffAttendance(
