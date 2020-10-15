@@ -24,7 +24,8 @@ export class AccountService {
       });
 
       return newFirebaseUser.uid;
-    } catch {
+    } catch (error) {
+      console.log(error);
       // TODO log error
       return undefined;
     }
