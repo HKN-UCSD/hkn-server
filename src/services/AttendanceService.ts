@@ -17,7 +17,8 @@ export class AttendanceService {
    */
   private buildMultipleAttendanceQuery(
     event: Event,
-    multipleAttendanceQuery: MultipleAttendanceQuery
+    multipleAttendanceQuery: MultipleAttendanceQuery,
+    cacheOn: boolean
   ): FindManyOptions<Attendance> {
     const { unchecked, inductee } = multipleAttendanceQuery;
     const query: FindManyOptions<Attendance> = {};
@@ -31,6 +32,10 @@ export class AttendanceService {
 
     if (inductee) {
       query.where = { ...query.where, isInductee: true };
+    }
+
+    if (cacheOn) {
+      query.cache = true;
     }
 
     return query;
@@ -60,9 +65,9 @@ export class AttendanceService {
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {
     const attendanceRepository = getRepository(Attendance);
-    const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery);
+    const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery, true);
 
-    return attendanceRepository.find({ where: { ...query }, cache: true });
+    return attendanceRepository.find(query);
   }
 
   async checkOffAttendance(
