@@ -21,9 +21,11 @@ import {
   MultipleUserQuery,
   MultipleAppUserResponse,
   MultipleUserNameResponse,
+  AppUserMemberPointsResponse,
+  AppUserInducteePointsResponse,
 } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
-import { InducteeAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
+import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
 
 @JsonController('/api/users')
 export class UserController {
@@ -116,6 +118,41 @@ export class UserController {
     }
 
     return { role: queriedRoleFromId };
+  }
+
+  @Get('/:userID/inductee-points')
+  @UseBefore(InducteeAuthMiddleware)
+  @ResponseSchema(AppUserInducteePointsResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getUserInducteePoints(
+    @Param('userID') userID: number,
+    @CurrentUser({ required: true }) requestAppUser: AppUser
+  ): Promise<AppUserInducteePointsResponse | undefined> {
+    if (this.appUserService.isInvalidNonOfficerAccess(requestAppUser, userID)) {
+      throw new ForbiddenError();
+    }
+
+    const points = await this.appUserService.getInducteePoints(userID);
+
+    // I don't like this but I'll take it for now - Godwin Oct 24 2020
+    return points;
+  }
+
+  @Get('/:userID/member-points')
+  @UseBefore(MemberAuthMiddleware)
+  @ResponseSchema(AppUserMemberPointsResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getUserMemberPoints(
+    @Param('userID') userID: number,
+    @CurrentUser({ required: true }) requestAppUser: AppUser
+  ): Promise<AppUserMemberPointsResponse | undefined> {
+    if (this.appUserService.isInvalidNonOfficerAccess(requestAppUser, userID)) {
+      throw new ForbiddenError();
+    }
+
+    const points = await this.appUserService.getMemberPoints(userID);
+
+    return points;
   }
 }
 
