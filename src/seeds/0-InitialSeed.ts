@@ -76,27 +76,37 @@ const events = [
   },
 ];
 
+const startTime = new Date();
+const endTime = new Date();
+endTime.setHours(startTime.getHours() + 1);
+
 const attendances = [
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: new Date(),
+    startTime: startTime,
+    endTime: endTime,
     isInductee: true,
+    points: 1,
   },
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: new Date(),
+    startTime: startTime,
+    endTime: endTime,
     isInductee: true,
+    points: 2,
   },
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: new Date(),
+    startTime: startTime,
+    endTime: endTime,
     isInductee: true,
+    points: 1.5,
   },
 ];
 
