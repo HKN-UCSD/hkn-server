@@ -18,5 +18,10 @@ export {
   MultipleAppUserResponse,
   MultipleUserNameResponse,
 } from './AppUser';
-export { AttendanceResponse } from './Attendance';
+export {
+  AttendanceCheckOffRequest,
+  AttendanceResponse,
+  MultipleAttendanceResponse,
+  MultipleAttendanceQuery,
+} from './Attendance';
 export { RSVPResponse } from './RSVP';

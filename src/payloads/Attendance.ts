@@ -1,22 +1,62 @@
-import { IsOptional, IsBoolean, IsNumber, IsInstance } from 'class-validator';
+import {
+  IsOptional,
+  IsDate,
+  IsBoolean,
+  IsNumber,
+  IsInstance,
+  ValidateNested,
+  IsInt,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
 import { AppUserEventResponse } from './AppUser';
 import { EventAttendanceResponse } from './Event';
 
+export class AttendanceCheckOffRequest {
+  @IsInt()
+  readonly attendeeId: number;
+}
+
 export class AttendanceResponse {
   @IsInstance(AppUserEventResponse)
-  readonly attendee: AppUserEventResponse;
+  attendee: AppUserEventResponse;
 
   @IsInstance(EventAttendanceResponse)
-  readonly event: EventAttendanceResponse;
+  event: EventAttendanceResponse;
 
   @IsBoolean()
-  readonly isInductee: Boolean;
+  isInductee: Boolean;
 
   @IsInstance(AppUserEventResponse)
   @IsOptional()
-  readonly officer: AppUserEventResponse;
+  officer: AppUserEventResponse;
+
+  @IsDate()
+  @IsOptional()
+  startTime?: Date;
+
+  @IsDate()
+  @IsOptional()
+  endTime?: Date;
 
   @IsNumber()
   @IsOptional()
-  readonly duration: number;
+  points?: number;
+}
+
+export class MultipleAttendanceResponse {
+  @ValidateNested({ each: true })
+  @Type(() => AttendanceResponse)
+  attendances: AttendanceResponse[];
+}
+
+export class MultipleAttendanceQuery {
+  // If unchecked is true, then query only for attendances that are not checked off by officers
+  @IsBoolean()
+  @IsOptional()
+  unchecked: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  inductee: boolean;
 }
