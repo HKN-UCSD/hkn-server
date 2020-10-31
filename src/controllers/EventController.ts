@@ -20,6 +20,7 @@ import {
   EventRequest,
   EventResponse,
   MultipleEventResponse,
+  MultipleEventQuery,
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
@@ -67,8 +68,20 @@ export class EventController {
 
   @Get('/')
   @ResponseSchema(MultipleEventResponse)
-  async getMultipleEvents(): Promise<MultipleEventResponse> {
-    const events: Event[] = await this.eventService.getAllEvents();
+  async getMultipleEvents(
+    @QueryParams() multipleEventQuery: MultipleEventQuery,
+    @CurrentUser() appUser: AppUser
+  ): Promise<MultipleEventResponse | undefined> {
+    let canShowPending = true;
+
+    if (appUser === undefined || !this.appUserService.isOfficer(appUser)) {
+      canShowPending = false;
+    }
+
+    const events: Event[] = await this.eventService.getAllEvents(
+      multipleEventQuery,
+      canShowPending
+    );
     const eventResponses = events.map(event => this.eventMapper.entityToResponse(event));
 
     const multipleEventResponse = new MultipleEventResponse();

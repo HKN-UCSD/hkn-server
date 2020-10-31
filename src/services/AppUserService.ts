@@ -136,6 +136,16 @@ export class AppUserService {
   }
 
   /**
+   * Checks if the passed-in AppUser is an officer (so officer + admin).
+   *
+   * @param {AppUser} appUser The AppUser entity whose role is to be checked.
+   * @returns {boolean} Whether the passed-in AppUser has officer or admin role or not.
+   */
+  isOfficer(appUser: AppUser): boolean {
+    return appUser.role === AppUserRole.OFFICER || appUser.role === AppUserRole.ADMIN;
+  }
+
+  /**
    * Checks if the passed-in AppUser is a guest.
    *
    * @param {AppUser} appUser The AppUser entity whose role is to be checked.

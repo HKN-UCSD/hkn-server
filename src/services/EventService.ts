@@ -2,11 +2,42 @@ import { Event, AppUser, Attendance, RSVP } from '@Entities';
 import { AttendanceService, AttendanceServiceImpl } from './AttendanceService';
 import { RSVPService, RSVPServiceImpl } from './RSVPService';
 
-import { getRepository } from 'typeorm';
-import { MultipleAttendanceQuery } from '@Payloads';
+import { getRepository, FindManyOptions, Not } from 'typeorm';
+import { MultipleAttendanceQuery, MultipleEventQuery } from '@Payloads';
 
 export class EventService {
   constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
+
+  private buildMultipleEventQuery(
+    multipleEventQuery: MultipleEventQuery,
+    canShowPending: boolean
+  ): FindManyOptions<Event> {
+    const { pending, ready, complete } = multipleEventQuery;
+    const query: FindManyOptions<Event> = {};
+    const whereArr = [];
+
+    if (canShowPending) {
+      if (pending) {
+        whereArr.push({ status: 'pending' });
+      }
+    } else {
+      if ((ready && complete) || (!ready && !complete)) {
+        whereArr.push({ status: Not('pending') });
+      }
+    }
+
+    if (ready) {
+      whereArr.push({ status: 'ready' });
+    }
+
+    if (complete) {
+      whereArr.push({ status: 'complete' });
+    }
+
+    query.where = whereArr;
+
+    return query;
+  }
 
   /**
    * Persists event to db.
@@ -24,10 +55,11 @@ export class EventService {
    *
    * @returns {Event[]} Array of all events.
    */
-  getAllEvents(): Promise<Event[]> {
+  getAllEvents(multipleEventQuery: MultipleEventQuery, canShowPending: boolean): Promise<Event[]> {
     const eventRepository = getRepository(Event);
+    const query = this.buildMultipleEventQuery(multipleEventQuery, canShowPending);
 
-    return eventRepository.find();
+    return eventRepository.find(query);
   }
 
   /**

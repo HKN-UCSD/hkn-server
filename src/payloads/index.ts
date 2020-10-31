@@ -4,6 +4,7 @@ export {
   MultipleEventResponse,
   EventAttendanceResponse,
   EventRSVPResponse,
+  MultipleEventQuery,
 } from './Event';
 export {
   AppUserPKPayload,
