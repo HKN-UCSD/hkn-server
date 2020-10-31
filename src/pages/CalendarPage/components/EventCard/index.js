@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './styles';
 
-import { Card } from '@SharedComponents';
+import { Card, GetLocation } from '@SharedComponents';
 
 function EventCard({ event, classes }) {
   return (
@@ -22,7 +22,7 @@ function EventCard({ event, classes }) {
           </Typography>
           <Box className={classes.locationContainer}>
             <RoomIcon color='disabled' />
-            <Typography color='textSecondary'>{event.location}</Typography>
+            <GetLocation location={event.location} />
           </Box>
           <Button
             variant='outlined'

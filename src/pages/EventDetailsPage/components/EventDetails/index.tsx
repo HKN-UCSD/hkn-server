@@ -13,7 +13,7 @@ import {
   OfficerRenderPermission,
   InducteeRenderPermission,
 } from '@HOCs/RenderPermissions';
-import { Tags, Card } from '@SharedComponents';
+import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
 
 interface EventDetailsComponentProps {
@@ -101,7 +101,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                     </Grid>
                     <Grid item>
                       <Typography className={classes.detail} variant='h6'>
-                        Location: <Typography>{location}</Typography>
+                        Location: <GetLocation location={location} />
                       </Typography>
                     </Grid>
                     <Grid item>

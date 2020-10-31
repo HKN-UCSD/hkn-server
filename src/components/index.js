@@ -15,6 +15,7 @@ import { PublicPageLayout } from './layouts';
 import NavBar from './NavBar';
 import Table from './Table';
 import Tags from './Tags';
+import GetLocation from './GetLocation';
 
 export { OfficerNameAutocomplete } from './autocomplete';
 
@@ -36,4 +37,5 @@ export {
   Table,
   Tags,
   PublicPageLayout,
+  GetLocation,
 };
