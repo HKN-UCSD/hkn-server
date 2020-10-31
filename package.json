@@ -36,6 +36,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.2.1",
+    "aws-sdk": "^2.773.0",
     "body-parser": "^1.19.0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
@@ -50,6 +51,7 @@
     "firebase-admin": "^8.9.2",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "pg": "^8.3.0",
     "redoc-express": "^1.0.0",
     "reflect-metadata": "^0.1.13",
@@ -67,6 +69,7 @@
     "@types/express-rate-limit": "^5.0.0",
     "@types/jest": "^26.0.10",
     "@types/morgan": "^1.9.1",
+    "@types/multer": "^1.4.4",
     "@types/node": "^14.0.26",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^3.1.0",

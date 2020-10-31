@@ -16,6 +16,13 @@ import morgan from 'morgan';
 
 import { checkCurrentUserToken } from './decorators';
 
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10),
