@@ -5,22 +5,32 @@ import {
   Post,
   Delete,
   Body,
-  OnUndefined,
   UseBefore,
   CurrentUser,
+  QueryParams,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { Event, AppUser } from '@Entities';
 import {
+  AttendanceCheckOffRequest,
   AttendanceResponse,
+  MultipleAttendanceResponse,
+  MultipleAttendanceQuery,
   EventRequest,
   EventResponse,
   MultipleEventResponse,
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
-import { AppUserService, AppUserServiceImpl, EventService, EventServiceImpl } from '@Services';
+import {
+  AttendanceService,
+  AttendanceServiceImpl,
+  AppUserService,
+  AppUserServiceImpl,
+  EventService,
+  EventServiceImpl,
+} from '@Services';
 import {
   AppUserMapper,
   AppUserMapperImpl,
@@ -40,6 +50,7 @@ export class EventController {
     private appUserMapper: AppUserMapper,
     private eventService: EventService,
     private eventMapper: EventMapper,
+    private attendanceService: AttendanceService,
     private attendanceMapper: AttendanceMapper,
     private rsvpMapper: RSVPMapper
   ) {}
@@ -105,8 +116,37 @@ export class EventController {
     return this.eventMapper.entityToResponse(deletedEvent);
   }
 
+  @Get('/:eventID/attendance')
+  @ResponseSchema(MultipleAttendanceResponse)
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getEventAttendance(
+    @Param('eventID') eventID: number,
+    @QueryParams() multipleAttendanceQuery: MultipleAttendanceQuery
+  ): Promise<MultipleAttendanceResponse | undefined> {
+    const attendances = await this.eventService.getEventAttendances(
+      eventID,
+      multipleAttendanceQuery
+    );
+
+    return { attendances };
+  }
+
+  @Post('/:eventID/attendance')
+  @ResponseSchema(AttendanceResponse)
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async checkOffEventAttendance(
+    @Param('eventID') eventID: number,
+    @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest,
+    @CurrentUser() officer: AppUser
+  ): Promise<AttendanceResponse | undefined> {
+    const { attendeeId } = attendanceCheckOffRequest;
+
+    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officer.id);
+  }
+
   @Post('/:eventID/signin')
-  @OnUndefined(409)
   @ResponseSchema(AttendanceResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async signInToEvent(
@@ -127,7 +167,6 @@ export class EventController {
   }
 
   @Post('/:eventID/rsvp')
-  @OnUndefined(409)
   @ResponseSchema(RSVPResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async rsvpForEvent(
@@ -153,6 +192,7 @@ export const EventControllerImpl = new EventController(
   AppUserMapperImpl,
   EventServiceImpl,
   EventMapperImpl,
+  AttendanceServiceImpl,
   AttendanceMapperImpl,
   RSVPMapperImpl
 );

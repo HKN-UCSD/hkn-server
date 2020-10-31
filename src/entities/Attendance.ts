@@ -13,15 +13,20 @@ export class Attendance {
   attendee: AppUser;
 
   // Officer who checked off attendee
-  @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED' })
+  @ManyToOne(() => AppUser, { deferrable: 'INITIALLY DEFERRED', nullable: true })
   officer: AppUser;
 
-  @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED' })
+  @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED', onDelete: 'CASCADE' })
   event: Event;
 
-  // num_hours
-  @Column('float', { nullable: true })
-  duration: number;
+  @Column()
+  startTime: Date;
+
+  @Column('timestamp', { nullable: true })
+  endTime?: Date;
+
+  @Column({ nullable: true })
+  points?: number;
 
   // indicates whether or not attendee was inductee at time of attendance
   @Column()

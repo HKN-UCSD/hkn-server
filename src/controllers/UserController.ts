@@ -46,7 +46,7 @@ export class UserController {
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createUser(@Body() appUserCreateRequest: AppUserPostRequest): Promise<AppUserResponse> {
-    const newAppUser = this.appUserMapper.requestToNewEntity(appUserCreateRequest);
+    const newAppUser = await this.appUserMapper.requestToNewEntity(appUserCreateRequest);
     const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
 
     return this.appUserMapper.entityToResponse(savedAppUser);

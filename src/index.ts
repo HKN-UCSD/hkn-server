@@ -6,4 +6,4 @@ getExpressApp()
   .then(({ app }) => {
     app.listen(port);
   })
-  .catch(err => err);
+  .catch(err => console.log(err));

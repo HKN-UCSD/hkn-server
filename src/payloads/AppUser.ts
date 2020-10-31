@@ -4,7 +4,6 @@ import {
   IsString,
   IsEmail,
   IsInstance,
-  IsDateString,
   IsOptional,
   ValidateNested,
   IsBoolean,
@@ -21,15 +20,6 @@ export class AppUserPKPayload {
 export class AppUserInductionClass {
   @IsString()
   quarter: string;
-
-  @IsString()
-  name: string;
-
-  @IsDateString()
-  startDate: string;
-
-  @IsDateString()
-  endDate: string;
 }
 
 export class AppUserPostRequest {
@@ -50,9 +40,9 @@ export class AppUserPostRequest {
   @IsOptional()
   readonly graduationYear: string;
 
-  @IsInstance(AppUserInductionClass)
+  @IsString()
   @IsOptional()
-  readonly inductionClass: AppUserInductionClass;
+  readonly inductionClassQuarter: string;
 
   @IsEnum(AppUserRole)
   @IsOptional()
