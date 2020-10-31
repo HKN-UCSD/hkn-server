@@ -1,11 +1,11 @@
 import {
   IsOptional,
-  IsDate,
   IsBoolean,
   IsNumber,
   IsInstance,
   ValidateNested,
   IsInt,
+  IsDateString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -31,13 +31,13 @@ export class AttendanceResponse {
   @IsOptional()
   officer: AppUserEventResponse;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  startTime?: Date;
+  startTime?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
-  endTime?: Date;
+  endTime?: string;
 
   @IsNumber()
   @IsOptional()
