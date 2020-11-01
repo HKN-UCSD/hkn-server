@@ -22,6 +22,7 @@ module.exports = [
     extra: sslConfig.extra,
     synchronize: false,
     logging: false,
+    cache: true,
     entities: [entities],
     migrations: ['dist/migrations/**/*.js'],
     subscribers: ['dist/subscribers/**/*.js'],

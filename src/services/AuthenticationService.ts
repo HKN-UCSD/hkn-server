@@ -51,15 +51,11 @@ export class AuthenticationService {
   async verifyToken(token: string): Promise<AppUser | undefined> {
     const { devAuth } = config;
 
-    if (devAuth === 'development') {
+    if (devAuth) {
       return await this.localVerifyIdToken(token);
-    }
-
-    if (devAuth === 'production') {
+    } else {
       return await this.firebaseVerifyIdToken(token);
     }
-
-    return undefined;
   }
 }
 
