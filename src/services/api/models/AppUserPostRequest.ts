@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-  AppUserInductionClass,
-  AppUserInductionClassFromJSON,
-  AppUserInductionClassFromJSONTyped,
-  AppUserInductionClassToJSON,
-} from './';
-
 /**
  *
  * @export
@@ -58,10 +51,10 @@ export interface AppUserPostRequest {
   graduationYear?: string;
   /**
    *
-   * @type {AppUserInductionClass}
+   * @type {string}
    * @memberof AppUserPostRequest
    */
-  inductionClass?: AppUserInductionClass;
+  inductionClassQuarter?: string;
   /**
    *
    * @type {string}
@@ -89,9 +82,9 @@ export function AppUserPostRequestFromJSONTyped(
     graduationYear: !exists(json, 'graduationYear')
       ? undefined
       : json['graduationYear'],
-    inductionClass: !exists(json, 'inductionClass')
+    inductionClassQuarter: !exists(json, 'inductionClassQuarter')
       ? undefined
-      : AppUserInductionClassFromJSON(json['inductionClass']),
+      : json['inductionClassQuarter'],
     role: !exists(json, 'role') ? undefined : json['role'],
   };
 }
@@ -111,7 +104,7 @@ export function AppUserPostRequestToJSON(
     lastName: value.lastName,
     major: value.major,
     graduationYear: value.graduationYear,
-    inductionClass: AppUserInductionClassToJSON(value.inductionClass),
+    inductionClassQuarter: value.inductionClassQuarter,
     role: value.role,
   };
 }
