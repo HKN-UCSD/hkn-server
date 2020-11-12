@@ -19,11 +19,11 @@ export class Attendance {
   @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED', onDelete: 'CASCADE' })
   event: Event;
 
-  @Column()
-  startTime: Date;
+  @Column('timestamp')
+  startTime: string;
 
   @Column('timestamp', { nullable: true })
-  endTime?: Date;
+  endTime?: string;
 
   @Column({ nullable: true })
   points?: number;
