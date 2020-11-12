@@ -32,8 +32,7 @@ export class AttendanceResponse {
   officer: AppUserEventResponse;
 
   @IsDateString()
-  @IsOptional()
-  startTime?: string;
+  startTime: string;
 
   @IsDateString()
   @IsOptional()
