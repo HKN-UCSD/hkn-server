@@ -42,7 +42,7 @@ function EventDetailsPage(): JSX.Element {
 
       <Grid item xs={12}>
         <CheckOffTable
-          getAttendances={() => getEventAttendances(eventId, true, false)}
+          getAttendances={() => getEventAttendances(eventId, true, true)}
           checkOffAttendance={checkOffAttendance}
           eventId={eventId}
         />
