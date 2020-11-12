@@ -1,5 +1,6 @@
 apis\AuthApi.ts
 apis\EventApi.ts
+apis\TeapotApi.ts
 apis\UserApi.ts
 apis\index.ts
 index.ts

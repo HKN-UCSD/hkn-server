@@ -25,24 +25,6 @@ export interface AppUserInductionClass {
    * @memberof AppUserInductionClass
    */
   quarter: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppUserInductionClass
-   */
-  name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppUserInductionClass
-   */
-  startDate: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AppUserInductionClass
-   */
-  endDate: string;
 }
 
 export function AppUserInductionClassFromJSON(
@@ -60,9 +42,6 @@ export function AppUserInductionClassFromJSONTyped(
   }
   return {
     quarter: json['quarter'],
-    name: json['name'],
-    startDate: json['startDate'],
-    endDate: json['endDate'],
   };
 }
 
@@ -77,8 +56,5 @@ export function AppUserInductionClassToJSON(
   }
   return {
     quarter: value.quarter,
-    name: value.name,
-    startDate: value.startDate,
-    endDate: value.endDate,
   };
 }

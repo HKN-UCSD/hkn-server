@@ -56,16 +56,16 @@ export interface AttendanceResponse {
   officer?: AppUserEventResponse;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof AttendanceResponse
    */
-  startTime?: Date;
+  startTime: string;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof AttendanceResponse
    */
-  endTime?: Date;
+  endTime?: string;
   /**
    *
    * @type {number}
@@ -92,7 +92,7 @@ export function AttendanceResponseFromJSONTyped(
     officer: !exists(json, 'officer')
       ? undefined
       : AppUserEventResponseFromJSON(json['officer']),
-    startTime: !exists(json, 'startTime') ? undefined : json['startTime'],
+    startTime: json['startTime'],
     endTime: !exists(json, 'endTime') ? undefined : json['endTime'],
     points: !exists(json, 'points') ? undefined : json['points'],
   };

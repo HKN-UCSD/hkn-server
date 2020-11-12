@@ -65,7 +65,7 @@ function CheckOffTable(props: CheckOffTableProps) {
         data: attendances.map(attendance => {
           const fullName = `${attendance.attendee.firstName} ${attendance.attendee.lastName}`;
           const startTimeString = format(
-            parseISO((attendance.startTime as unknown) as string),
+            parseISO(attendance.startTime),
             'PPP h:mm aaaa'
           );
           const attendanceToDisplay = {
