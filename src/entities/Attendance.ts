@@ -20,10 +20,10 @@ export class Attendance {
   event: Event;
 
   @Column('timestamp')
-  startTime: string;
+  startTime: Date;
 
   @Column('timestamp', { nullable: true })
-  endTime?: string;
+  endTime?: Date;
 
   @Column({ nullable: true })
   points?: number;

@@ -129,7 +129,11 @@ export class EventController {
       multipleAttendanceQuery
     );
 
-    return { attendances };
+    const mappedAttendances = attendances.map(attendance =>
+      this.attendanceMapper.entityToResponse(attendance)
+    );
+
+    return { attendances: mappedAttendances };
   }
 
   @Post('/:eventID/attendance')
@@ -142,8 +146,13 @@ export class EventController {
     @CurrentUser() officer: AppUser
   ): Promise<AttendanceResponse | undefined> {
     const { attendeeId } = attendanceCheckOffRequest;
+    const checkedOffAttendance = await this.attendanceService.checkOffAttendance(
+      eventID,
+      attendeeId,
+      officer.id
+    );
 
-    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officer.id);
+    return this.attendanceMapper.entityToResponse(checkedOffAttendance);
   }
 
   @Post('/:eventID/signin')
