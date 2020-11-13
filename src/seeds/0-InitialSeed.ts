@@ -9,6 +9,8 @@ import {
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
+import { formatISO } from 'date-fns';
+
 const appUsers = [
   {
     firstName: 'Olivia',
@@ -85,8 +87,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: startTime,
-    endTime: endTime,
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
     points: 1,
   },
@@ -94,8 +96,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: startTime,
-    endTime: endTime,
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
     points: 2,
   },
@@ -103,8 +105,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: startTime,
-    endTime: endTime,
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
     points: 1.5,
   },

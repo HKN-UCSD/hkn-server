@@ -3,7 +3,7 @@ import { MultipleAttendanceQuery } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
 import { getRepository, FindManyOptions } from 'typeorm';
-import { differenceInMinutes } from 'date-fns';
+import { differenceInMinutes, formatISO, parseISO } from 'date-fns';
 
 export class AttendanceService {
   constructor(private appUserService: AppUserService) {}
@@ -17,7 +17,8 @@ export class AttendanceService {
    */
   private buildMultipleAttendanceQuery(
     event: Event,
-    multipleAttendanceQuery: MultipleAttendanceQuery
+    multipleAttendanceQuery: MultipleAttendanceQuery,
+    cacheOn: boolean
   ): FindManyOptions<Attendance> {
     const { unchecked, inductee } = multipleAttendanceQuery;
     const query: FindManyOptions<Attendance> = {};
@@ -31,6 +32,10 @@ export class AttendanceService {
 
     if (inductee) {
       query.where = { ...query.where, isInductee: true };
+    }
+
+    if (cacheOn) {
+      query.cache = true;
     }
 
     return query;
@@ -60,7 +65,7 @@ export class AttendanceService {
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {
     const attendanceRepository = getRepository(Attendance);
-    const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery);
+    const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery, true);
 
     return attendanceRepository.find(query);
   }
@@ -77,7 +82,7 @@ export class AttendanceService {
       return undefined;
     }
 
-    attendance.endTime = new Date();
+    attendance.endTime = formatISO(new Date());
     attendance.officer = await this.appUserService.getAppUserById(officerId);
     attendance.points = this.getAttendancePoints(attendance);
 
@@ -85,7 +90,10 @@ export class AttendanceService {
   }
 
   getAttendancePoints(attendance: Attendance): number {
-    const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
+    const diffMinutes: number = differenceInMinutes(
+      parseISO(attendance.endTime),
+      parseISO(attendance.startTime)
+    );
     const numHalfHours: number = diffMinutes / 30;
     const points: number = Math.round(numHalfHours / 2);
     if (points > 2) {
@@ -113,7 +121,7 @@ export class AttendanceService {
     const { role } = attendee;
     const attendance = { event, attendee, isInductee: role === AppUserRole.INDUCTEE };
     const newAttendance = attendanceRepository.create(attendance);
-    newAttendance.startTime = new Date();
+    newAttendance.startTime = formatISO(new Date());
 
     try {
       await attendanceRepository.insert(newAttendance);
