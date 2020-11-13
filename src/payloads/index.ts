@@ -17,6 +17,8 @@ export {
   MultipleUserQuery,
   MultipleAppUserResponse,
   MultipleUserNameResponse,
+  AppUserInducteePointsResponse,
+  AppUserMemberPointsResponse,
 } from './AppUser';
 export {
   AttendanceCheckOffRequest,
