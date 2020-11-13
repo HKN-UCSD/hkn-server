@@ -26,7 +26,7 @@ import { Event } from './Event';
 })
 export class InducteePointsView {
   @ViewColumn()
-  user: AppUser;
+  user: number;
 
   @ViewColumn()
   points: number;

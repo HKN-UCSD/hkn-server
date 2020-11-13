@@ -191,3 +191,25 @@ export class MultipleUserNameResponse {
   @Type(() => AppUserNameResponse)
   users: AppUserNameResponse[];
 }
+
+export class AppUserInducteePointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
+
+  @IsBoolean()
+  hasProfessionalRequirement: boolean;
+
+  @IsBoolean()
+  hasMentorshipRequirement: boolean;
+}
+
+export class AppUserMemberPointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
+}
