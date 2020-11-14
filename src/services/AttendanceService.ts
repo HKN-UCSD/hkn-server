@@ -53,6 +53,21 @@ export class AttendanceService {
     );
   }
 
+  // TODO need to fix up induction class as well later
+  /**
+   * Gets all attendances of specified user. Fetches events as well.
+   */
+  async getUserAttendance(attendeeId: number): Promise<Attendance[] | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+
+    return attendanceRepository.find({
+      where: {
+        attendee: { id: attendeeId } as AppUser,
+      },
+      relations: ['event'],
+    });
+  }
+
   /**
    * Gets all attendances of a specified that are filtered based on passed in query parameters.
    *
