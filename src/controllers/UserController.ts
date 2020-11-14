@@ -12,7 +12,12 @@ import {
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { AppUser } from '@Entities';
-import { AppUserService, AppUserServiceImpl } from '@Services';
+import {
+  AppUserService,
+  AppUserServiceImpl,
+  AttendanceService,
+  AttendanceServiceImpl,
+} from '@Services';
 import {
   AppUserPostRequest,
   AppUserResponse,
@@ -23,13 +28,19 @@ import {
   MultipleUserNameResponse,
   AppUserMemberPointsResponse,
   AppUserInducteePointsResponse,
+  AttendanceResponse,
 } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
+import { formatISO } from 'date-fns';
 
 @JsonController('/api/users')
 export class UserController {
-  constructor(private appUserService: AppUserService, private appUserMapper: AppUserMapper) {}
+  constructor(
+    private appUserService: AppUserService,
+    private attendanceService: AttendanceService,
+    private appUserMapper: AppUserMapper
+  ) {}
 
   @Get('/')
   @UseBefore(OfficerAuthMiddleware)
@@ -133,9 +144,35 @@ export class UserController {
     }
 
     const points = await this.appUserService.getInducteePoints(userID);
+    const attendances = await this.attendanceService.getUserAttendance(userID);
+
+    if (points == undefined || attendances == undefined) {
+      // return undefined if someone has no points
+      return undefined;
+    }
+
+    // Still don't like this - Godwin Nov 14 2020 :)
+    const attendanceObjs = attendances.map(attendance => {
+      const res = new AttendanceResponse();
+      res.startTime = formatISO(attendance.startTime);
+      res.endTime = formatISO(attendance.endTime);
+
+      res.event = attendance.event;
+      res.officer = attendance.officer;
+      res.points = attendance.points;
+      res.attendee = attendance.attendee;
+      res.isInductee = attendance.isInductee;
+      return res;
+    });
 
     // I don't like this but I'll take it for now - Godwin Oct 24 2020
-    return points;
+    const res: AppUserInducteePointsResponse = new AppUserInducteePointsResponse();
+    res.points = points.points;
+    res.user = userID;
+    res.hasMentorshipRequirement = points.hasMentorshipRequirement;
+    res.hasProfessionalRequirement = points.hasProfessionalRequirement;
+    res.attendance = attendanceObjs;
+    return res;
   }
 
   @Get('/:userID/member-points')
@@ -156,4 +193,8 @@ export class UserController {
   }
 }
 
-export const UserControllerImpl = new UserController(AppUserServiceImpl, AppUserMapperImpl);
+export const UserControllerImpl = new UserController(
+  AppUserServiceImpl,
+  AttendanceServiceImpl,
+  AppUserMapperImpl
+);
