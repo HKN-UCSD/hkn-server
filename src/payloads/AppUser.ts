@@ -11,6 +11,7 @@ import {
 
 import { AppUserRole } from '@Entities';
 import { Type } from 'class-transformer';
+import { AttendanceResponse, MultipleAttendanceResponse } from './Attendance';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -204,6 +205,9 @@ export class AppUserInducteePointsResponse {
 
   @IsBoolean()
   hasMentorshipRequirement: boolean;
+
+  @IsInstance(MultipleAttendanceResponse)
+  attendance: AttendanceResponse[];
 }
 
 export class AppUserMemberPointsResponse {
