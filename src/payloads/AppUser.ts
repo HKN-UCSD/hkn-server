@@ -206,7 +206,8 @@ export class AppUserInducteePointsResponse {
   @IsBoolean()
   hasMentorshipRequirement: boolean;
 
-  @IsInstance(MultipleAttendanceResponse)
+  @ValidateNested({ each: true })
+  @Type(() => AttendanceResponse)
   attendance: AttendanceResponse[];
 }
 
