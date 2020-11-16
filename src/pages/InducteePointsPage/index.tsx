@@ -41,7 +41,7 @@ export default function InducteePointsPage() {
         columns={columns}
         data={inducteePoints}
         title='Inductee Points'
-        options={{ filtering: true }}
+        options={{ filtering: true, exportButton: true }}
       />
     </div>
   );
