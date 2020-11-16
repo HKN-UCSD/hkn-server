@@ -106,10 +106,10 @@ export class AttendanceService {
 
   getAttendancePoints(attendance: Attendance): number {
     const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
-    const numHalfHours: number = diffMinutes / 30;
-    const points: number = Math.round(numHalfHours / 2);
-    if (points > 2) {
-      return 2;
+    const numHalfHours: number = diffMinutes / 30.0;
+    const points: number = Math.round(numHalfHours) / 2.0;
+    if (points > 2.0) {
+      return 2.0;
     }
     return points;
   }
