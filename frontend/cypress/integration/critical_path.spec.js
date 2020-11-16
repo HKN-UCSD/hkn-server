@@ -23,6 +23,6 @@ describe('Inductee Sign In', function() {
 
     cy.url().should('include', '/');
 
-    cy.get('a[href="/points"]').click();
+    cy.get('a[href="/points/me"]').click();
   });
 });

@@ -5,6 +5,7 @@ import {
   UserControllerCreateUserRequest,
   UserControllerGetMultipleUsersRequest,
   UserControllerUpdateUserProfileRequest,
+  UserControllerGetUserInducteePointsRequest,
 } from './api/apis/UserApi';
 import {
   AppUserPostRequest,
@@ -14,6 +15,7 @@ import {
   MultipleAppUserResponse,
   MultipleUserNameResponse,
   AppUserNameResponse,
+  AppUserInducteePointsResponse,
 } from './api/models';
 import { Configuration } from './api/runtime';
 import ApiConfigStore from './ApiConfigStore';
@@ -97,4 +99,17 @@ export async function getUserRole(
   };
 
   return userApi.userControllerGetUserRole(request);
+}
+
+export async function getInductionPoints(
+  userID: number
+): Promise<AppUserInducteePointsResponse> {
+  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const userApi = new UserApi(apiConfig);
+
+  const request: UserControllerGetUserInducteePointsRequest = {
+    userID,
+  };
+
+  return userApi.userControllerGetUserInducteePoints(request);
 }
