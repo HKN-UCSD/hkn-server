@@ -1,4 +1,4 @@
-import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
+import { Attendance, AppUser, AppUserRole, Event, EventType } from '@Entities';
 import { MultipleAttendanceQuery } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
@@ -104,7 +104,12 @@ export class AttendanceService {
     return attendanceRepository.save(attendance);
   }
 
+  // Precondition: event is fetched within attendance
   getAttendancePoints(attendance: Attendance): number {
+    if (attendance.event.type === EventType.MENTORSHIP) {
+      return 1.0;
+    }
+
     const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
     const numHalfHours: number = diffMinutes / 30;
     const points: number = Math.round(numHalfHours / 2);
