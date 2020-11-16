@@ -38,7 +38,7 @@ const InducteesTab = {
 };
 
 const PointsTab = {
-  route: ROUTES.POINTS,
+  route: ROUTES.POINTS_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
   icon: <AssessmentOutlinedIcon />,
   text: 'Points',
 };
