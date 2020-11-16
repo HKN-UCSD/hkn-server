@@ -1,4 +1,5 @@
 // Disclaimer: This is horrible naming but I shall fix it later
+// Update: You're getting removed! soon tm
 
 import React from 'react';
 import { compose } from 'recompose';

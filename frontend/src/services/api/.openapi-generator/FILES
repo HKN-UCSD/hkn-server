@@ -1,5 +1,6 @@
 apis/AuthApi.ts
 apis/EventApi.ts
+apis/PointsApi.ts
 apis/TeapotApi.ts
 apis/UserApi.ts
 apis/index.ts
@@ -22,10 +23,12 @@ models/EventAttendanceResponse.ts
 models/EventRSVPResponse.ts
 models/EventRequest.ts
 models/EventResponse.ts
+models/InducteePointsResponse.ts
 models/MultipleAppUserResponse.ts
 models/MultipleAttendanceQuery.ts
 models/MultipleAttendanceResponse.ts
 models/MultipleEventResponse.ts
+models/MultipleInducteePointsResponse.ts
 models/MultipleUserNameResponse.ts
 models/MultipleUserQuery.ts
 models/RSVPResponse.ts
