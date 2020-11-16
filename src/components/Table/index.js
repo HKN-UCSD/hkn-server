@@ -41,5 +41,10 @@ const tableIcons = {
 };
 
 export default function Table(props) {
+  // eslint-disable-next-line react/prop-types
+  const { data } = props;
+  if (!data) {
+    return <></>;
+  }
   return <MaterialTable icons={tableIcons} {...props} />;
 }
