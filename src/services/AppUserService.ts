@@ -145,6 +145,11 @@ export class AppUserService {
     return appUser.role === AppUserRole.GUEST;
   }
 
+  async getAllInducteePoints(): Promise<InducteePointsView[] | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.find({});
+  }
+
   /**
    * Gets inductee points for user
    * @param {number} appUserID ID of AppUser to get points for.

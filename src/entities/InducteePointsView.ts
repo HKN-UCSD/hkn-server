@@ -9,6 +9,7 @@ import { Event } from './Event';
     connection
       .createQueryBuilder()
       .select('appUser.id', 'user')
+      .addSelect('appUser.email', 'email')
       .addSelect('SUM(attendance.points)', 'points')
       .addSelect(
         "SUM(CASE WHEN event.type = 'professional' THEN 1 ELSE 0 END)::int::bool",
@@ -27,6 +28,9 @@ import { Event } from './Event';
 export class InducteePointsView {
   @ViewColumn()
   user: number;
+
+  @ViewColumn()
+  email: string;
 
   @ViewColumn()
   points: number;
