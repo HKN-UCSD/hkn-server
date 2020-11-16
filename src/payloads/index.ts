@@ -27,3 +27,4 @@ export {
   MultipleAttendanceQuery,
 } from './Attendance';
 export { RSVPResponse } from './RSVP';
+export { InducteePointsResponse, MultipleInducteePointsResponse } from './Points';
