@@ -27,7 +27,7 @@ AppointmentWithClick.propTypes = {
 
 export default function Calendar({ events, handleEventClick }) {
   return (
-    <Scheduler data={events}>
+    <Scheduler data={events} firstDayOfWeek={1}>
       <ViewState defaultCurrentViewName='Week' />
       <DayView cellDuration={60} startDayHour={9} endDayHour={22} />
       <WeekView cellDuration={60} startDayHour={9} endDayHour={22} />
