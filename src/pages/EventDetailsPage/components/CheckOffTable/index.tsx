@@ -3,7 +3,6 @@ import { parseISO, format } from 'date-fns';
 
 import { useInterval } from '../../../../hooks/index';
 
-import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { Button, Table } from '@SharedComponents';
 import {
   AttendanceResponse,
@@ -57,28 +56,24 @@ function CheckOffTable(props: CheckOffTableProps) {
     delay: 1000,
   });
 
-  // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
-  return (
-    <>
-      {OfficerRenderPermission(Table)({
-        columns,
-        data: attendances.map(attendance => {
-          const fullName = `${attendance.attendee.firstName} ${attendance.attendee.lastName}`;
-          const startTimeString = format(
-            parseISO(attendance.startTime),
-            'PPP h:mm aaaa'
-          );
-          const attendanceToDisplay = {
-            ...attendance,
-            name: fullName,
-            startTimeString,
-          };
+  const attendanceData = attendances.map(attendance => {
+    const fullName = `${attendance.attendee.firstName} ${attendance.attendee.lastName}`;
+    // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
+    const startTimeString = format(
+      parseISO((attendance.startTime as unknown) as string),
+      'PPP h:mm aaaa'
+    );
+    const attendanceToDisplay = {
+      ...attendance,
+      name: fullName,
+      startTimeString,
+    };
+      
+    return attendanceToDisplay;
+  });
 
-          return attendanceToDisplay;
-        }),
-        title: 'Check Off Table',
-      })}
-    </>
+  return (
+    <Table columns={columns} data={attendanceData} title='Check Off Table' />
   );
 }
 

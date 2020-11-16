@@ -7,6 +7,7 @@ import EventDetailsComponent from './components/EventDetails';
 import CheckOffTable from './components/CheckOffTable';
 
 import { Loading } from '@SharedComponents';
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import {
   getEventById,
   getEventAttendances,
@@ -41,11 +42,11 @@ function EventDetailsPage(): JSX.Element {
       </Grid>
 
       <Grid item xs={12}>
-        <CheckOffTable
-          getAttendances={() => getEventAttendances(eventId, true, true)}
-          checkOffAttendance={checkOffAttendance}
-          eventId={eventId}
-        />
+        {OfficerRenderPermission(CheckOffTable)({
+          getAttendances: () => getEventAttendances(eventId, true, false),
+          checkOffAttendance,
+          eventId,
+        })}
       </Grid>
 
       <Grid item>
