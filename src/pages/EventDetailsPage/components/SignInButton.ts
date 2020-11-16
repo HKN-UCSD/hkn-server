@@ -19,7 +19,14 @@ function SignInButton({ eventId, children = 'Sign In' }: SignInButtonProps) {
     children,
     primary: true,
     positive: true,
-    onClick: () => signInToEvent(eventId, eventRequestPayloadFiller),
+    onClick: () => {
+      try {
+        signInToEvent(eventId, eventRequestPayloadFiller);
+        alert("You've successfully signed in!");
+      } catch {
+        alert('Your sign in request could not be processed.');
+      }
+    },
   });
 }
 
