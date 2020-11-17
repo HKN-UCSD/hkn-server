@@ -152,18 +152,20 @@ export class UserController {
     }
 
     // Still don't like this - Godwin Nov 14 2020 :)
-    const attendanceObjs = attendances.map(attendance => {
-      const res = new AttendanceResponse();
-      res.startTime = formatISO(attendance.startTime);
-      res.endTime = formatISO(attendance.endTime);
+    const attendanceObjs = attendances
+      .filter(attendance => attendance.endTime)
+      .map(attendance => {
+        const res = new AttendanceResponse();
+        res.startTime = formatISO(attendance.startTime);
+        res.endTime = formatISO(attendance.endTime);
 
-      res.event = attendance.event;
-      res.officer = attendance.officer;
-      res.points = attendance.points;
-      res.attendee = attendance.attendee;
-      res.isInductee = attendance.isInductee;
-      return res;
-    });
+        res.event = attendance.event;
+        res.officer = attendance.officer;
+        res.points = attendance.points;
+        res.attendee = attendance.attendee;
+        res.isInductee = attendance.isInductee;
+        return res;
+      });
 
     // I don't like this but I'll take it for now - Godwin Oct 24 2020
     const res: AppUserInducteePointsResponse = new AppUserInducteePointsResponse();
