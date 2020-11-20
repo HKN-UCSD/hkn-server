@@ -11,6 +11,7 @@ import {
 
 import { AppUserRole } from '@Entities';
 import { Type } from 'class-transformer';
+import { AttendanceResponse, MultipleAttendanceResponse } from './Attendance';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -190,4 +191,30 @@ export class MultipleUserNameResponse {
   @ValidateNested({ each: true })
   @Type(() => AppUserNameResponse)
   users: AppUserNameResponse[];
+}
+
+export class AppUserInducteePointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
+
+  @IsBoolean()
+  hasProfessionalRequirement: boolean;
+
+  @IsBoolean()
+  hasMentorshipRequirement: boolean;
+
+  @ValidateNested({ each: true })
+  @Type(() => AttendanceResponse)
+  attendance: AttendanceResponse[];
+}
+
+export class AppUserMemberPointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
 }

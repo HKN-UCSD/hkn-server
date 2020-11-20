@@ -1,4 +1,4 @@
-import { AppUser, AppUserRole } from '@Entities';
+import { AppUser, AppUserRole, InducteePointsView, MemberPointsView } from '@Entities';
 import { MultipleUserQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
 
@@ -143,6 +143,31 @@ export class AppUserService {
    */
   isGuest(appUser: AppUser): boolean {
     return appUser.role === AppUserRole.GUEST;
+  }
+
+  async getAllInducteePoints(): Promise<InducteePointsView[] | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.find({});
+  }
+
+  /**
+   * Gets inductee points for user
+   * @param {number} appUserID ID of AppUser to get points for.
+   * @returns {InducteePoints}
+   */
+  async getInducteePoints(appUserID: number): Promise<InducteePointsView | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.findOne({ user: appUserID });
+  }
+
+  /**
+   * Gets member points for user
+   * @param {number} appUserID ID of AppUser to get points for.
+   * @returns {InducteePoints}
+   */
+  async getMemberPoints(appUserID: number): Promise<MemberPointsView | undefined> {
+    const memberPointsRepo = getRepository(MemberPointsView);
+    return await memberPointsRepo.findOne({ user: appUserID });
   }
 }
 

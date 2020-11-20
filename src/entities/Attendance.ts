@@ -19,13 +19,13 @@ export class Attendance {
   @ManyToOne(() => Event, { primary: true, deferrable: 'INITIALLY DEFERRED', onDelete: 'CASCADE' })
   event: Event;
 
-  @Column()
+  @Column('timestamp')
   startTime: Date;
 
   @Column('timestamp', { nullable: true })
   endTime?: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'float4', nullable: true })
   points?: number;
 
   // indicates whether or not attendee was inductee at time of attendance

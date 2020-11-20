@@ -3,8 +3,6 @@
 // great question! change this file and face the wrath of the mess that is
 // js/ts build systems
 // need to call .env here because typeorm cli uses this config
-const dotenv = require('dotenv');
-dotenv.config();
 
 let entities = 'dist/entities/**/*.js';
 
