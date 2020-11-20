@@ -24,6 +24,9 @@ export class InductionClass {
   @Column('date')
   endDate: string;
 
-  @Column('simple-json')
+  @Column({
+    type: 'simple-json',
+    nullable: true,
+  })
   interviewDates: Date[];
 }

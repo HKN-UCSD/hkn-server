@@ -4,7 +4,7 @@ export class addInterviewDatesToInductionclass1604770294566 implements Migration
   name = 'addInterviewDatesToInductionclass1604770294566';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "induction_class" ADD "interviewDates" text NOT NULL`);
+    await queryRunner.query(`ALTER TABLE "induction_class" ADD "interviewDates" text`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
