@@ -16,6 +16,7 @@
     "lint": "eslint . --ext .ts --fix",
     "format": "prettier --write src/**/*.ts",
     "test": "jest",
+    "local:test": "jest --setupFiles dotenv/config",
     "pretypeorm": "npm-run-all clean build:no-check",
     "typeorm": "cross-env NODE_ENV=development node -r module-alias/register ./node_modules/typeorm/cli.js",
     "typeorm:sync": "npm run typeorm schema:sync",
