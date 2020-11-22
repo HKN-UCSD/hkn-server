@@ -19,6 +19,13 @@ const appUsers = [
     major: 'Computer Science',
     graduationYear: '2020',
     role: 'officer',
+    availabilities: {
+      '2020-11-14': [
+        { start: '2020-11-14 11:08:43.741', end: '2020-11-14 11:08:43.741' },
+        { start: '2020-11-14 14:00:00.000', end: '2020-11-14 15:00:00.000' },
+      ],
+      '2020-11-15': [{ start: '2020-11-14 14:00:00.000', end: '2020-11-14 15:00:00.000' }],
+    },
   },
   {
     firstName: 'Mac',

@@ -1,3 +1,4 @@
+import { Availabilities } from '@Services/interfaces';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
@@ -45,4 +46,7 @@ export class AppUser {
     default: AppUserRole.GUEST,
   })
   role: string;
+
+  @Column({ nullable: true, type: 'json' })
+  availabilities: Availabilities;
 }

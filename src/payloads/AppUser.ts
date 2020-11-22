@@ -12,6 +12,7 @@ import {
 import { AppUserRole } from '@Entities';
 import { Type } from 'class-transformer';
 import { AttendanceResponse, MultipleAttendanceResponse } from './Attendance';
+import { Availabilities } from '@Services/interfaces';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -48,6 +49,9 @@ export class AppUserPostRequest {
   @IsEnum(AppUserRole)
   @IsOptional()
   readonly role: string;
+
+  @IsOptional()
+  readonly availabilities: Availabilities;
 }
 
 export class AppUserEventRequest {
@@ -109,6 +113,9 @@ export class AppUserResponse {
 
   @IsEnum(AppUserRole)
   role: string;
+
+  @IsOptional()
+  availabilities?: Availabilities;
 }
 
 export class AppUserEventResponse {
@@ -153,6 +160,9 @@ export class AppUserProfileResponse {
 
   @IsEnum(AppUserRole)
   role: string;
+
+  @IsOptional()
+  availabilities: Availabilities;
 }
 
 export class AppUserRolesResponse {
