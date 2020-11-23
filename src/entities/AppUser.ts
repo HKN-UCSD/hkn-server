@@ -1,4 +1,3 @@
-import { Availabilities } from '@Services/interfaces';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
@@ -49,4 +48,11 @@ export class AppUser {
 
   @Column({ nullable: true, type: 'json' })
   availabilities: Availabilities;
+}
+
+export type Availabilities = TimeRange[];
+
+interface TimeRange {
+  start: string;
+  end: string;
 }

@@ -9,10 +9,9 @@ import {
   IsBoolean,
 } from 'class-validator';
 
-import { AppUserRole } from '@Entities';
+import { AppUserRole, Availabilities } from '@Entities';
 import { Type } from 'class-transformer';
-import { AttendanceResponse, MultipleAttendanceResponse } from './Attendance';
-import { Availabilities } from '@Services/interfaces';
+import { AttendanceResponse } from './Attendance';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -49,9 +48,6 @@ export class AppUserPostRequest {
   @IsEnum(AppUserRole)
   @IsOptional()
   readonly role: string;
-
-  @IsOptional()
-  readonly availabilities: Availabilities;
 }
 
 export class AppUserEventRequest {

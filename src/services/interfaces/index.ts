@@ -1,1 +1,1 @@
-export { Availabilities } from './availabilities.definition';
+export {};
