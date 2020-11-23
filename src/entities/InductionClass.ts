@@ -8,7 +8,7 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 export class InductionClass {
   // TODO add validation for what strings are allowed.
 
-  // e.g. fa20 (lower case to match string in url)
+  // e.g. FA20
   @PrimaryColumn()
   quarter: string;
 
@@ -25,7 +25,7 @@ export class InductionClass {
   endDate: string;
 
   @Column({
-    type: 'simple-json',
+    type: 'json',
     nullable: true,
   })
   interviewDates: Date[];

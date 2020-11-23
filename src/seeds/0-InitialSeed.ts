@@ -39,7 +39,7 @@ const appUsers = [
 ];
 
 const inductionClass = {
-  quarter: 'fa20',
+  quarter: 'FA20',
   name: 'Alpha Beta',
   startDate: '2020-08-30',
   endDate: '2020-12-30',
