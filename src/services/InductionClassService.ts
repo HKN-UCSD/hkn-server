@@ -12,12 +12,12 @@ export class InductionClassService {
    * @param {number} id ID of event to fetch.
    * @returns {Promise} Event with given id.
    */
-  async getInterviewDatesByQuarter(quarter: string): Promise<Date[] | undefined> {
+  async getInterviewDatesByQuarter(quarter: string): Promise<string | undefined> {
     const inductionClassRepository = getRepository(InductionClass);
 
     const inductionclass = await inductionClassRepository.findOne({ quarter });
 
-    return inductionclass.interviewDates;
+    return inductionclass.interviewDates.toString();
   }
 }
 export const InductionClassServiceImpl = new InductionClassService();

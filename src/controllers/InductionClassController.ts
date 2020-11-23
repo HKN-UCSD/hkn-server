@@ -14,7 +14,7 @@ export class InductionClassController {
   async getInterviewDates(
     @Param('inductionClassID') quarter: string
   ): Promise<InterviewDatesResponse> {
-    const interviewDates: Date[] = await this.inductionClassService.getInterviewDatesByQuarter(
+    const interviewDates: string = await this.inductionClassService.getInterviewDatesByQuarter(
       // e.g. converting from fa20 to FA20 to transform the string in the url to the
       // format used to store the quarter string in the datbase
       quarter.toUpperCase()
