@@ -20,6 +20,7 @@ import {
 } from '@Services';
 import {
   AppUserPostRequest,
+  AppUserInterviewAvailabilitiesRequest,
   AppUserResponse,
   AppUserRolesResponse,
   AppUserProfileResponse,
@@ -192,6 +193,28 @@ export class UserController {
     const points = await this.appUserService.getMemberPoints(userID);
 
     return points;
+  }
+
+  @Post('/:userID/interview-availabilities')
+  @UseBefore(InducteeAuthMiddleware)
+  @ResponseSchema(AppUserResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async updateUserInterviewAvailabilities(
+    @Param('userID') userID: number,
+    @Body() appUserInterviewAvailabilities: AppUserInterviewAvailabilitiesRequest,
+    @CurrentUser({ required: true }) requestingAppUser: AppUser
+  ): Promise<AppUserResponse | undefined> {
+    if (this.appUserService.isInvalidNonOfficerAccess(requestingAppUser, userID)) {
+      throw new ForbiddenError();
+    }
+
+    const appUserAvailabilities = appUserInterviewAvailabilities.availabilities;
+    const updatedAppUser = await this.appUserService.updateInterviewAvailabilities(
+      requestingAppUser,
+      appUserAvailabilities
+    );
+
+    return this.appUserMapper.entityToResponse(updatedAppUser);
   }
 }
 

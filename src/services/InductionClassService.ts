@@ -1,9 +1,5 @@
-import { Event, AppUser, Attendance, RSVP, InductionClass } from '@Entities';
-import { AttendanceService, AttendanceServiceImpl } from './AttendanceService';
-import { RSVPService, RSVPServiceImpl } from './RSVPService';
-
+import { InductionClass } from '@Entities';
 import { getRepository } from 'typeorm';
-import { MultipleAttendanceQuery } from '@Payloads';
 
 export class InductionClassService {
   /**
@@ -14,7 +10,6 @@ export class InductionClassService {
    */
   async getInterviewDatesByQuarter(quarter: string): Promise<Date[] | undefined> {
     const inductionClassRepository = getRepository(InductionClass);
-
     const inductionclass = await inductionClassRepository.findOne({ quarter });
 
     return inductionclass.interviewDates;
