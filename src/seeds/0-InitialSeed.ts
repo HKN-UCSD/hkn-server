@@ -19,6 +19,11 @@ const appUsers = [
     major: 'Computer Science',
     graduationYear: '2020',
     role: 'officer',
+    availabilities: [
+      { start: '2020-11-14 11:00:00.000', end: '2020-11-14 12:00:00.000' },
+      { start: '2020-11-15 14:00:00.000', end: '2020-11-15 16:00:00.000' },
+      { start: '2020-11-17 15:00:00.000', end: '2020-11-17 18:00:00.000' },
+    ],
   },
   {
     firstName: 'Mac',
@@ -35,6 +40,11 @@ const appUsers = [
     major: 'Computer Science',
     graduationYear: '2022',
     role: 'inductee',
+    availabilities: [
+      { start: '2020-11-15 12:00:00.000', end: '2020-11-15 15:00:00.000' },
+      { start: '2020-11-16 11:00:00.000', end: '2020-11-16 12:00:00.000' },
+      { start: '2020-11-17 16:00:00.000', end: '2020-11-14 17:00:00.000' },
+    ],
   },
 ];
 
