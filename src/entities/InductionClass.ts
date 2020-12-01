@@ -7,6 +7,7 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 @Entity()
 export class InductionClass {
   // TODO add validation for what strings are allowed.
+
   // e.g. FA20
   @PrimaryColumn()
   quarter: string;
@@ -22,4 +23,10 @@ export class InductionClass {
   // Starting date of the induction cycle for said class
   @Column('date')
   endDate: string;
+
+  @Column({
+    type: 'json',
+    nullable: true,
+  })
+  interviewDates: Date[];
 }
