@@ -2,6 +2,7 @@ import { EventController, EventControllerImpl } from './EventController';
 import { UserController, UserControllerImpl } from './UserController';
 import { AuthController, AuthControllerImpl } from './AuthController';
 import { TeapotController, TeapotControllerImpl } from './TeapotController';
+import { InductionClassController, InductionClassControllerImpl } from './InductionClassController';
 import { PointsController, PointsControllerImpl } from './PointsController';
 
 export const controllers = [
@@ -9,6 +10,7 @@ export const controllers = [
   UserController,
   AuthController,
   TeapotController,
+  InductionClassController,
   PointsController,
 ];
 
@@ -19,6 +21,7 @@ controllerMap.set(EventController.name, EventControllerImpl);
 controllerMap.set(UserController.name, UserControllerImpl);
 controllerMap.set(AuthController.name, AuthControllerImpl);
 controllerMap.set(TeapotController.name, TeapotControllerImpl);
+controllerMap.set(InductionClassController.name, InductionClassControllerImpl);
 controllerMap.set(PointsController.name, PointsControllerImpl);
 
 export const ControllerContainer = {
