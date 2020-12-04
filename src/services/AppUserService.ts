@@ -1,4 +1,10 @@
-import { AppUser, AppUserRole, InducteePointsView, MemberPointsView } from '@Entities';
+import {
+  AppUser,
+  AppUserRole,
+  InducteePointsView,
+  MemberPointsView,
+  Availabilities,
+} from '@Entities';
 import { MultipleUserQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
 
@@ -168,6 +174,14 @@ export class AppUserService {
   async getMemberPoints(appUserID: number): Promise<MemberPointsView | undefined> {
     const memberPointsRepo = getRepository(MemberPointsView);
     return await memberPointsRepo.findOne({ user: appUserID });
+  }
+
+  async updateInterviewAvailabilities(
+    appUser: AppUser,
+    availabilities: Availabilities
+  ): Promise<AppUser | undefined> {
+    appUser.availabilities = availabilities;
+    return this.saveAppUser(appUser);
   }
 }
 

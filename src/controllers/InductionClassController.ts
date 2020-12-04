@@ -20,8 +20,15 @@ export class InductionClassController {
       quarter.toUpperCase()
     );
 
+    const interviewDateStrings = interviewDates.map(interviewDate => {
+      // Jank type assertion for it to work, will need to come back to this later - Thai 12/01/20
+      const interviewDateString = { startDate: (interviewDate as unknown) as string };
+      return interviewDateString;
+    });
+
     const interviewDatesResponse = new InterviewDatesResponse();
-    interviewDatesResponse.interview = interviewDates.toString();
+    interviewDatesResponse.interviewWeeks = interviewDateStrings;
+
     return interviewDatesResponse;
   }
 }
