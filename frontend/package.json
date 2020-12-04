@@ -20,6 +20,7 @@
     "@types/yup": "^0.29.6",
     "@typescript-eslint/parser": "^3.9.1",
     "classnames": "^2.2.6",
+    "core-js": "^3.7.0",
     "customize-cra": "^0.9.1",
     "date-fns": "^2.15.0",
     "dotenv": "^6.2.0",
@@ -42,8 +43,10 @@
     "react-hot-loader": "^4.12.21",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "react-schedule-selector": "^3.0.0",
     "react-scripts": "3.4.0",
     "recompose": "^0.30.0",
+    "styled-components": "^5.2.1",
     "typescript": "^3.9.7",
     "webpack": "4.41.5",
     "yup": "^0.28.5"

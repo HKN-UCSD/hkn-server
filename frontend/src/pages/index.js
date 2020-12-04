@@ -11,6 +11,7 @@ import EventSignInPage from '@Pages/EventSignInPage';
 import EventRsvpPage from '@Pages/EventRsvpPage';
 import EventCreationPage from '@Pages/EventCreationPage';
 import QueriedEventPage from '@Pages/QueriedEventPage';
+import InterviewSchedulingPage from '@Pages/InterviewSchedulingPage';
 
 export {
   SignInPage,
@@ -26,4 +27,5 @@ export {
   EventRsvpPage,
   EventCreationPage,
   QueriedEventPage,
+  InterviewSchedulingPage,
 };
