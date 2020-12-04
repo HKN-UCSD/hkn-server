@@ -17,6 +17,7 @@ import {
   EventSignInPage,
   EventRsvpPage,
   QueriedEventPage,
+  InterviewSchedulingPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -125,6 +126,13 @@ function App(): JSX.Element {
             exact
             path={ROUTES.CALENDAR}
             render={props => InducteeRoutingPermission(CalendarPage)(props)}
+          />
+          <Route
+            exact
+            path={ROUTES.INTERVIEW_SCHEDULING}
+            render={props =>
+              InducteeRoutingPermission(InterviewSchedulingPage)(props)
+            }
           />
           <Route
             exact

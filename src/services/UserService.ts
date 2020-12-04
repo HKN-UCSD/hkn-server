@@ -6,6 +6,7 @@ import {
   UserControllerGetMultipleUsersRequest,
   UserControllerUpdateUserProfileRequest,
   UserControllerGetUserInducteePointsRequest,
+  UserControllerUpdateUserInterviewAvailabilitiesRequest,
 } from './api/apis/UserApi';
 import {
   AppUserPostRequest,
@@ -16,9 +17,15 @@ import {
   MultipleUserNameResponse,
   AppUserNameResponse,
   AppUserInducteePointsResponse,
+  AppUserInterviewAvailabilitiesRequest,
 } from './api/models';
 import { Configuration } from './api/runtime';
 import ApiConfigStore from './ApiConfigStore';
+
+export interface InterviewAvailability {
+  start: string;
+  end: string;
+}
 
 export async function getUserProfile(
   userID: number
@@ -112,4 +119,23 @@ export async function getInductionPoints(
   };
 
   return userApi.userControllerGetUserInducteePoints(request);
+}
+
+export async function updateUserInterviewAvailabilities(
+  userID: number,
+  interviewAvailability: InterviewAvailability[]
+): Promise<AppUserResponse> {
+  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const userApi = new UserApi(apiConfig);
+
+  const availabilitiesRequest: AppUserInterviewAvailabilitiesRequest = {
+    availabilities: interviewAvailability,
+  };
+
+  const request: UserControllerUpdateUserInterviewAvailabilitiesRequest = {
+    userID,
+    appUserInterviewAvailabilitiesRequest: availabilitiesRequest,
+  };
+
+  return userApi.userControllerUpdateUserInterviewAvailabilities(request);
 }

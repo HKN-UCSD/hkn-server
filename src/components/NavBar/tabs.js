@@ -4,6 +4,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
+import AlarmIcon from '@material-ui/icons/Alarm';
 
 import * as ROUTES from '@Constants/routes';
 
@@ -17,6 +18,12 @@ const ResumeTab = {
   route: ROUTES.RESUME,
   icon: <AttachmentIcon />,
   text: 'Resume',
+};
+
+const InterviewTab = {
+  route: ROUTES.INTERVIEW_SCHEDULING,
+  icon: <AlarmIcon />,
+  text: 'Interview Availability',
 };
 
 // const ProfileTab = {
@@ -50,6 +57,7 @@ export const OfficerTabs = [
   ResumeTab,
   InducteesTab,
   PointsTab,
+  InterviewTab,
 ];
 
 export const InducteeTabs = [
@@ -58,4 +66,5 @@ export const InducteeTabs = [
   CalendarTab,
   ResumeTab,
   PointsTab,
+  InterviewTab,
 ];

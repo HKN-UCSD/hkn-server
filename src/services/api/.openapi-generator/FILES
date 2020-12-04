@@ -1,5 +1,6 @@
 apis/AuthApi.ts
 apis/EventApi.ts
+apis/InductionClassApi.ts
 apis/PointsApi.ts
 apis/TeapotApi.ts
 apis/UserApi.ts
@@ -9,6 +10,8 @@ models/AppUserEventRequest.ts
 models/AppUserEventResponse.ts
 models/AppUserInducteePointsResponse.ts
 models/AppUserInductionClass.ts
+models/AppUserInterviewAvailabilitiesRequest.ts
+models/AppUserInterviewAvailability.ts
 models/AppUserMemberPointsResponse.ts
 models/AppUserNameResponse.ts
 models/AppUserPKPayload.ts
@@ -24,6 +27,8 @@ models/EventRSVPResponse.ts
 models/EventRequest.ts
 models/EventResponse.ts
 models/InducteePointsResponse.ts
+models/InterviewDatesResponse.ts
+models/InterviewWeekStartDate.ts
 models/MultipleAppUserResponse.ts
 models/MultipleAttendanceQuery.ts
 models/MultipleAttendanceResponse.ts
