@@ -10,6 +10,7 @@ export {
   AppUserPostRequest,
   AppUserEventRequest,
   AppUserSignupRequest,
+  AppUserInterviewAvailabilitiesRequest,
   AppUserResponse,
   AppUserEventResponse,
   AppUserRolesResponse,
