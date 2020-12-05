@@ -21,11 +21,23 @@ export class StorageService {
           console.log(`File uploaded successfully. ${data.Location}`);
           return data.Location;
         },
-        function(err: Error) {
-          console.log(`Error while uploading file: ${err}`);
-          return '';
+        function(e: Error) {
+          throw new Error(`Error while uploading file: ${e.message}`);
         }
       );
+  }
+
+  downloadFile(fileName: string): NodeJS.ReadableStream {
+    try {
+      const params = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: fileName,
+      };
+
+      return s3.getObject(params).createReadStream();
+    } catch (e) {
+      throw new Error(`Could not retrieve file from S3: ${e.message}`);
+    }
   }
 }
 

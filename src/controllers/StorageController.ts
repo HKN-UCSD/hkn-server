@@ -1,13 +1,17 @@
 import {
   JsonController,
+  Get,
   Post,
+  QueryParam,
   UploadedFile,
   Req,
+  Res,
   BadRequestError,
   HttpCode,
 } from 'routing-controllers';
 import { StorageService, StorageServiceImpl } from '@Services';
 import multer from 'multer';
+import { Readable } from 'typeorm/platform/PlatformTools';
 
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function) => {
   if (
@@ -37,7 +41,7 @@ export class StorageController {
 
   @HttpCode(201)
   @Post('/upload')
-  async saveFile(
+  async uploadFile(
     @Req() req: Express.Request,
     @UploadedFile('file', {
       options: fileUploadOptions,
@@ -48,7 +52,33 @@ export class StorageController {
       throw new BadRequestError('Invalid file');
     }
     const name = Date.now() + '-' + file.originalname;
-    return this.storageService.uploadFile(name, file.buffer);
+    try {
+      return this.storageService.uploadFile(name, file.buffer);
+    } catch (e) {
+      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
+    }
+  }
+
+  @HttpCode(200)
+  @Get('/download')
+  downloadFile(@QueryParam('fileName') fileName: string): NodeJS.ReadableStream {
+    const filepathRegex =
+      '^(?:[w]:|\\)(\\[a-z_-s0-9.]+)+.(txt|gif|pdf|doc|docx|xls|xlsx|png|jpg|jpeg)$';
+
+    if (fileName.match(filepathRegex)) {
+      try {
+        return this.storageService.downloadFile(fileName);
+      } catch (e) {
+        throw new BadRequestError(`Error loading from storage: ${e.message}`);
+      }
+    }
+    throw new BadRequestError('Invalid file path');
+  }
+
+  @HttpCode(200)
+  @Get('/index')
+  async getFileIndex(): Promise<string> {
+    return '';
   }
 }
 
