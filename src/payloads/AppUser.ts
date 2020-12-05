@@ -2,6 +2,7 @@ import {
   IsEnum,
   IsInt,
   IsString,
+  IsDateString,
   IsEmail,
   IsInstance,
   IsOptional,
@@ -11,6 +12,7 @@ import {
 
 import { AppUserRole } from '@Entities';
 import { Type } from 'class-transformer';
+import { AttendanceResponse } from './Attendance';
 
 export class AppUserPKPayload {
   @IsInt()
@@ -83,6 +85,12 @@ export class AppUserSignupRequest {
   readonly password: string;
 }
 
+export class AppUserInterviewAvailabilitiesRequest {
+  @ValidateNested({ each: true })
+  @Type(() => AppUserInterviewAvailability)
+  availabilities: AppUserInterviewAvailability[];
+}
+
 export class AppUserResponse {
   @IsInt()
   id: number;
@@ -108,6 +116,11 @@ export class AppUserResponse {
 
   @IsEnum(AppUserRole)
   role: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => AppUserInterviewAvailability)
+  @IsOptional()
+  availabilities?: AppUserInterviewAvailability[];
 }
 
 export class AppUserEventResponse {
@@ -152,6 +165,11 @@ export class AppUserProfileResponse {
 
   @IsEnum(AppUserRole)
   role: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => AppUserInterviewAvailability)
+  @IsOptional()
+  availabilities?: AppUserInterviewAvailability[];
 }
 
 export class AppUserRolesResponse {
@@ -190,4 +208,38 @@ export class MultipleUserNameResponse {
   @ValidateNested({ each: true })
   @Type(() => AppUserNameResponse)
   users: AppUserNameResponse[];
+}
+
+export class AppUserInducteePointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
+
+  @IsBoolean()
+  hasProfessionalRequirement: boolean;
+
+  @IsBoolean()
+  hasMentorshipRequirement: boolean;
+
+  @ValidateNested({ each: true })
+  @Type(() => AttendanceResponse)
+  attendance: AttendanceResponse[];
+}
+
+export class AppUserMemberPointsResponse {
+  @IsInt()
+  user: number;
+
+  @IsInt()
+  points: number;
+}
+
+export class AppUserInterviewAvailability {
+  @IsDateString()
+  start: string;
+
+  @IsDateString()
+  end: string;
 }

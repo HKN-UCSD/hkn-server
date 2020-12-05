@@ -1,9 +1,7 @@
 import * as SendGridMail from '@sendgrid/mail';
-import * as dotenv from 'dotenv';
 
 import { EmailInfo } from './email.definition';
 
-dotenv.config();
 SendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 const senderEmail: string = process.env.SENDER_EMAIL_ADDRESS;
 
