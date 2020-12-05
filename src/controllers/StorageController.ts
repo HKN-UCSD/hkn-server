@@ -62,10 +62,7 @@ export class StorageController {
   @HttpCode(200)
   @Get('/download')
   downloadFile(@QueryParam('fileName') fileName: string): NodeJS.ReadableStream {
-    const filepathRegex =
-      '^(?:[w]:|\\)(\\[a-z_-s0-9.]+)+.(txt|gif|pdf|doc|docx|xls|xlsx|png|jpg|jpeg)$';
-
-    if (fileName.match(filepathRegex)) {
+    if (fileName) {
       try {
         return this.storageService.downloadFile(fileName);
       } catch (e) {
