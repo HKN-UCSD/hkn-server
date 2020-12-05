@@ -12,16 +12,33 @@ class ApiConfigStoreClass {
 
   private config: Configuration = new Configuration(this.configParams);
 
-  getApiConfig(): Configuration {
-    return this.config;
+  private getTokenFunc: () => Promise<string>;
+
+  constructor(getTokenFunc: () => Promise<string>) {
+    this.getTokenFunc = getTokenFunc;
   }
 
-  // this is gonna be called on login
-  setToken(token: string) {
-    this.configParams.accessToken = token;
+  async getApiConfig(): Promise<Configuration> {
+    const newToken = await this.getTokenFunc();
+    if (newToken === this.configParams.accessToken) {
+      return Promise.resolve(this.config);
+    }
+
+    this.configParams.accessToken = newToken;
     this.config = new Configuration(this.configParams);
+
+    return Promise.resolve(this.config);
+  }
+
+  setGetTokenFunc(getTokenFunc: () => Promise<string>) {
+    this.getTokenFunc = getTokenFunc;
   }
 }
 
-const ApiConfigStore = new ApiConfigStoreClass();
+export const emptyGetTokenFunc: () => Promise<string> = () => {
+  return Promise.resolve('');
+};
+
+// default to empty token
+const ApiConfigStore = new ApiConfigStoreClass(emptyGetTokenFunc);
 export default ApiConfigStore;

@@ -127,8 +127,8 @@ class SignInPage extends React.Component {
         return getCurrentUserIDAndToken();
       })
       .then(authObj => {
-        const { userID, token } = authObj;
-        return setClaims(userID, token);
+        const { userID } = authObj;
+        return setClaims(userID);
       })
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {

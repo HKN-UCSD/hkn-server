@@ -27,7 +27,7 @@ import {
   InducteeRoutingPermission,
   OfficerRoutingPermission,
 } from '@HOCs/RoutingPermissions';
-import ApiConfigStore from '@Services/ApiConfigStore';
+import ApiConfigStore, { emptyGetTokenFunc } from '@Services/ApiConfigStore';
 import { config } from '@Config';
 
 function App(): JSX.Element {
@@ -40,9 +40,15 @@ function App(): JSX.Element {
         const tokenResult = await user.getIdTokenResult();
         const { claims, token } = tokenResult;
 
+        const getTokenFunc = token
+          ? async () => {
+              return user.getIdToken();
+            }
+          : emptyGetTokenFunc;
+
         // TODO if there's no change then don't set state to
         // save a rerender
-        ApiConfigStore.setToken(token || '');
+        ApiConfigStore.setGetTokenFunc(getTokenFunc);
 
         const id = parseInt(claims.user_id, 10);
         const userRole = await getUserRole(id);
@@ -53,6 +59,7 @@ function App(): JSX.Element {
         });
         setIsLoading(false);
       } else {
+        ApiConfigStore.setGetTokenFunc(emptyGetTokenFunc);
         setUserClaims(null);
         setIsLoading(false);
       }
@@ -60,12 +67,20 @@ function App(): JSX.Element {
   }, []);
 
   // eslint-disable-next-line camelcase
+  // only called on login
   const setClaims = async (
     // eslint-disable-next-line camelcase
-    userID: string,
-    token: string
+    userID: string
   ): Promise<void> => {
-    ApiConfigStore.setToken(token);
+    // I'm too tired - just rewrite the whole login/logout flow this is a mess
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      return;
+    }
+
+    ApiConfigStore.setGetTokenFunc(() => {
+      return user.getIdToken();
+    });
 
     const id = parseInt(userID, 10);
     const userRole = await getUserRole(id);

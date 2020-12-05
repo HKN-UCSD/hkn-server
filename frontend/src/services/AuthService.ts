@@ -6,7 +6,7 @@ import { Configuration } from './api/runtime';
 export async function createNewUser(
   appUserSignupRequest: AppUserSignupRequest
 ): Promise<AppUserResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const authApi: AuthApi = new AuthApi(apiConfig);
   const request: AuthControllerSignUpUserRequest = { appUserSignupRequest };
 

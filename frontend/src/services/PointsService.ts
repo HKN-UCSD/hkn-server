@@ -13,7 +13,7 @@ export interface InducteePoint {
 
 // nit: might be better to move the bool => string conversion out into page/component later
 export async function getAllInducteePoints(): Promise<InducteePoint[]> {
-  const apiConfig = ApiConfigStore.getApiConfig();
+  const apiConfig = await ApiConfigStore.getApiConfig();
   const pointsApi: PointsApi = new PointsApi(apiConfig);
 
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
