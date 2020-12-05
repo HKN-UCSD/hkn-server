@@ -14,7 +14,7 @@ export {
 export async function getInterviewStartDates(
   inductionClassID: string
 ): Promise<InterviewDatesResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const inductionClassApi: InductionClassApi = new InductionClassApi(apiConfig);
   const req: InductionClassControllerGetInterviewDatesRequest = {
     inductionClassID,

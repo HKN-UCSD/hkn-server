@@ -27,7 +27,7 @@ export {
 } from './api/models';
 
 export async function getAllEvents(): Promise<MultipleEventResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   return eventApi.eventControllerGetMultipleEvents();
 }
@@ -37,7 +37,7 @@ export async function getEventAttendances(
   unchecked?: boolean,
   inductee?: boolean
 ): Promise<MultipleAttendanceResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerGetEventAttendanceRequest = {
     eventID,
@@ -52,7 +52,7 @@ export async function checkOffAttendance(
   eventID: number,
   attendeeID: number
 ): Promise<AttendanceResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerCheckOffEventAttendanceRequest = {
     eventID,
@@ -63,7 +63,7 @@ export async function checkOffAttendance(
 }
 
 export async function getEventById(eventID: number): Promise<EventResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerGetEventRequest = {
     eventID,
@@ -74,7 +74,7 @@ export async function getEventById(eventID: number): Promise<EventResponse> {
 export async function createEvent(
   eventRequest: EventRequest
 ): Promise<EventResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerCreateEventRequest = {
     eventRequest,
@@ -84,7 +84,7 @@ export async function createEvent(
 }
 
 export async function updateEvent(eventID: number, eventRequest: EventRequest) {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerUpdateEventRequest = {
     eventID,
@@ -95,7 +95,7 @@ export async function updateEvent(eventID: number, eventRequest: EventRequest) {
 }
 
 export async function deleteEvent(eventID: number): Promise<EventResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerDeleteEventRequest = {
     eventID,
@@ -108,7 +108,7 @@ export async function signInToEvent(
   eventID: number,
   appUserEventRequest: AppUserEventRequest
 ): Promise<AttendanceResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerSignInToEventRequest = {
     eventID,
@@ -122,7 +122,7 @@ export async function rsvpToEvent(
   eventID: number,
   appUserEventRequest: AppUserEventRequest
 ): Promise<RSVPResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const eventApi: EventApi = new EventApi(apiConfig);
   const request: EventControllerRsvpForEventRequest = {
     eventID,

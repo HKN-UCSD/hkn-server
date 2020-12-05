@@ -30,7 +30,7 @@ export interface InterviewAvailability {
 export async function getUserProfile(
   userID: number
 ): Promise<AppUserProfileResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
   const request: UserControllerGetUserProfileRequest = {
     userID,
@@ -42,7 +42,7 @@ export async function getUserProfile(
 export async function getMultipleUsers(
   queryParams: UserControllerGetMultipleUsersRequest
 ): Promise<MultipleAppUserResponse | MultipleUserNameResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
 
   return userApi.userControllerGetMultipleUsers(queryParams);
@@ -73,7 +73,7 @@ export function getUserNames(
 export async function createNewUser(
   appUserPostRequest: AppUserPostRequest
 ): Promise<AppUserResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
   const request: UserControllerCreateUserRequest = {
     appUserPostRequest,
@@ -86,7 +86,7 @@ export async function updateUserProfile(
   userID: number,
   appUserPostRequest: AppUserPostRequest
 ) {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
   const request: UserControllerUpdateUserProfileRequest = {
     userID,
@@ -99,7 +99,7 @@ export async function updateUserProfile(
 export async function getUserRole(
   userID: number
 ): Promise<AppUserRolesResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
   const request: UserControllerGetUserRoleRequest = {
     userID,
@@ -111,7 +111,7 @@ export async function getUserRole(
 export async function getInductionPoints(
   userID: number
 ): Promise<AppUserInducteePointsResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
 
   const request: UserControllerGetUserInducteePointsRequest = {
@@ -125,7 +125,7 @@ export async function updateUserInterviewAvailabilities(
   userID: number,
   interviewAvailability: InterviewAvailability[]
 ): Promise<AppUserResponse> {
-  const apiConfig: Configuration = ApiConfigStore.getApiConfig();
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
 
   const availabilitiesRequest: AppUserInterviewAvailabilitiesRequest = {
