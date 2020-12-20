@@ -133,7 +133,7 @@ export class AppUserService {
    * @returns {boolean} True if the user has role lower than officer or their userID does not match with
    * the one they put in the URL parameter userID.
    */
-  isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
+  unauthedUserOrNonOfficer(appUser: AppUser, urlUserID: number): boolean {
     const { role, id: requesterID } = appUser;
 
     return (

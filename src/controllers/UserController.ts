@@ -74,7 +74,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserProfileResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -97,7 +97,7 @@ export class UserController {
     @CurrentUser({ required: true })
     appUser: AppUser
   ): Promise<AppUserResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -119,7 +119,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserRolesResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(appUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -140,7 +140,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
   ): Promise<AppUserInducteePointsResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(requestAppUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(requestAppUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -186,7 +186,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
   ): Promise<AppUserMemberPointsResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(requestAppUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(requestAppUser, userID)) {
       throw new ForbiddenError();
     }
 
@@ -204,7 +204,7 @@ export class UserController {
     @Body() appUserInterviewAvailabilities: AppUserInterviewAvailabilitiesRequest,
     @CurrentUser({ required: true }) requestingAppUser: AppUser
   ): Promise<AppUserResponse | undefined> {
-    if (this.appUserService.isInvalidNonOfficerAccess(requestingAppUser, userID)) {
+    if (this.appUserService.unauthedUserOrNonOfficer(requestingAppUser, userID)) {
       throw new ForbiddenError();
     }
 
