@@ -72,16 +72,15 @@ export class EventController {
     @QueryParams() multipleEventQuery: MultipleEventQuery,
     @CurrentUser() appUser: AppUser
   ): Promise<MultipleEventResponse | undefined> {
-    let canShowPending = true;
+    let isOfficer = true;
 
+    // Check if user is an officer to see if we should show pending events to them
+    // if there are any and if they are requesting for pending events
     if (appUser === undefined || !this.appUserService.isOfficer(appUser)) {
-      canShowPending = false;
+      isOfficer = false;
     }
 
-    const events: Event[] = await this.eventService.getAllEvents(
-      multipleEventQuery,
-      canShowPending
-    );
+    const events: Event[] = await this.eventService.getAllEvents(multipleEventQuery, isOfficer);
     const eventResponses = events.map(event => this.eventMapper.entityToResponse(event));
 
     const multipleEventResponse = new MultipleEventResponse();
