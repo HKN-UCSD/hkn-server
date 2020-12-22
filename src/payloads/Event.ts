@@ -13,6 +13,11 @@ import { Type } from 'class-transformer';
 import { AppUser, EventType, EventStatus } from '@Entities';
 import { AppUserPKPayload } from './AppUser';
 
+export class EventIDRequest {
+  @IsInt()
+  readonly eventID: number;
+}
+
 export class EventRequest {
   @ValidateNested({ each: true })
   @Type(() => AppUserPKPayload)

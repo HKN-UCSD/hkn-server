@@ -7,30 +7,19 @@ import {
   Body,
   UseBefore,
   CurrentUser,
-  QueryParams,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { Event, AppUser } from '@Entities';
 import {
-  AttendanceCheckOffRequest,
   AttendanceResponse,
-  MultipleAttendanceResponse,
-  MultipleAttendanceQuery,
   EventRequest,
   EventResponse,
   MultipleEventResponse,
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
-import {
-  AttendanceService,
-  AttendanceServiceImpl,
-  AppUserService,
-  AppUserServiceImpl,
-  EventService,
-  EventServiceImpl,
-} from '@Services';
+import { AppUserService, AppUserServiceImpl, EventService, EventServiceImpl } from '@Services';
 import {
   AppUserMapper,
   AppUserMapperImpl,
@@ -50,7 +39,6 @@ export class EventController {
     private appUserMapper: AppUserMapper,
     private eventService: EventService,
     private eventMapper: EventMapper,
-    private attendanceService: AttendanceService,
     private attendanceMapper: AttendanceMapper,
     private rsvpMapper: RSVPMapper
   ) {}
@@ -116,45 +104,6 @@ export class EventController {
     return this.eventMapper.entityToResponse(deletedEvent);
   }
 
-  @Get('/:eventID/attendance')
-  @ResponseSchema(MultipleAttendanceResponse)
-  @UseBefore(OfficerAuthMiddleware)
-  @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async getEventAttendance(
-    @Param('eventID') eventID: number,
-    @QueryParams() multipleAttendanceQuery: MultipleAttendanceQuery
-  ): Promise<MultipleAttendanceResponse | undefined> {
-    const attendances = await this.eventService.getEventAttendances(
-      eventID,
-      multipleAttendanceQuery
-    );
-
-    const mappedAttendances = attendances.map(attendance =>
-      this.attendanceMapper.entityToResponse(attendance)
-    );
-
-    return { attendances: mappedAttendances };
-  }
-
-  @Post('/:eventID/attendance')
-  @ResponseSchema(AttendanceResponse)
-  @UseBefore(OfficerAuthMiddleware)
-  @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async checkOffEventAttendance(
-    @Param('eventID') eventID: number,
-    @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest,
-    @CurrentUser() officer: AppUser
-  ): Promise<AttendanceResponse | undefined> {
-    const { attendeeId } = attendanceCheckOffRequest;
-    const checkedOffAttendance = await this.attendanceService.checkOffAttendance(
-      eventID,
-      attendeeId,
-      officer.id
-    );
-
-    return this.attendanceMapper.entityToResponse(checkedOffAttendance);
-  }
-
   @Post('/:eventID/signin')
   @ResponseSchema(AttendanceResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
@@ -201,7 +150,6 @@ export const EventControllerImpl = new EventController(
   AppUserMapperImpl,
   EventServiceImpl,
   EventMapperImpl,
-  AttendanceServiceImpl,
   AttendanceMapperImpl,
   RSVPMapperImpl
 );

@@ -1,4 +1,5 @@
 export {
+  EventIDRequest,
   EventRequest,
   EventResponse,
   MultipleEventResponse,

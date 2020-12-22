@@ -14,7 +14,10 @@ import { EventAttendanceResponse } from './Event';
 
 export class AttendanceCheckOffRequest {
   @IsInt()
-  readonly attendeeId: number;
+  readonly attendeeID: number;
+
+  @IsInt()
+  readonly eventID: number;
 }
 
 export class AttendanceResponse {
