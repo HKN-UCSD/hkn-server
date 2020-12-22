@@ -7,9 +7,24 @@
 
 **tl;dr**
 
+## First Time?
+
 ```
-npm run start
+docker-compose build
+docker-compose up
 ```
+
+## Been here before?
+
+```
+docker-compose up
+```
+
+We only need to rebuild when there's been any change to the Dockerfile, which would happen if
+there's any changes to the files specified within the Dockerfile (e.g. package.json, ormconfig.js)
+
+Your `src` directory is mounted onto the Docker container, so hot reloading works without you having
+to do anything.
 
 ## Commands
 

@@ -1,0 +1,19 @@
+services:
+  server:
+    build:
+      context: .
+    env_file:
+      - .env
+    command: ["npm", "run", "compose:start"]
+    container_name: server
+    ports:
+      - '3001:3001'
+    volumes:
+      - './src:/run/src'
+  db:
+    image: "postgres:12.3"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
