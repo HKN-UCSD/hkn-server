@@ -6,7 +6,6 @@ COPY package*.json ./
 
 RUN npm i --silent --no-progress --no-audit --unsafe-perm
 
-COPY .eslintignore .eslintignore
 COPY .eslintrc .eslintrc
 COPY .prettierrc .prettierrc
 COPY tsconfig.json tsconfig.json
