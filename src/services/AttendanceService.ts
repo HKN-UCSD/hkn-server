@@ -1,4 +1,4 @@
-import { Attendance, AppUser, AppUserRole, Event } from '@Entities';
+import { Attendance, AppUser, AppUserRole, Event, EventType } from '@Entities';
 import { MultipleAttendanceQuery } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
@@ -53,6 +53,21 @@ export class AttendanceService {
     );
   }
 
+  // TODO need to fix up induction class as well later
+  /**
+   * Gets all attendances of specified user. Fetches events as well.
+   */
+  async getUserAttendance(attendeeId: number): Promise<Attendance[] | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+
+    return attendanceRepository.find({
+      where: {
+        attendee: { id: attendeeId } as AppUser,
+      },
+      relations: ['event'],
+    });
+  }
+
   /**
    * Gets all attendances of a specified that are filtered based on passed in query parameters.
    *
@@ -89,12 +104,17 @@ export class AttendanceService {
     return attendanceRepository.save(attendance);
   }
 
+  // Precondition: event is fetched within attendance
   getAttendancePoints(attendance: Attendance): number {
+    if (attendance.event.type === EventType.MENTORSHIP) {
+      return 1.0;
+    }
+
     const diffMinutes: number = differenceInMinutes(attendance.endTime, attendance.startTime);
-    const numHalfHours: number = diffMinutes / 30;
-    const points: number = Math.round(numHalfHours / 2);
-    if (points > 2) {
-      return 2;
+    const numHalfHours: number = diffMinutes / 30.0;
+    const points: number = Math.round(numHalfHours) / 2.0;
+    if (points > 2.0) {
+      return 2.0;
     }
     return points;
   }

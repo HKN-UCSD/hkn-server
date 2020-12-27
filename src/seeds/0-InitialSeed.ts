@@ -9,6 +9,8 @@ import {
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
+import { formatISO } from 'date-fns';
+
 const appUsers = [
   {
     firstName: 'Olivia',
@@ -17,6 +19,11 @@ const appUsers = [
     major: 'Computer Science',
     graduationYear: '2020',
     role: 'officer',
+    availabilities: [
+      { start: '2020-11-14 11:00:00.000', end: '2020-11-14 12:00:00.000' },
+      { start: '2020-11-15 14:00:00.000', end: '2020-11-15 16:00:00.000' },
+      { start: '2020-11-17 15:00:00.000', end: '2020-11-17 18:00:00.000' },
+    ],
   },
   {
     firstName: 'Mac',
@@ -33,6 +40,11 @@ const appUsers = [
     major: 'Computer Science',
     graduationYear: '2022',
     role: 'inductee',
+    availabilities: [
+      { start: '2020-11-15 12:00:00.000', end: '2020-11-15 15:00:00.000' },
+      { start: '2020-11-16 11:00:00.000', end: '2020-11-16 12:00:00.000' },
+      { start: '2020-11-17 16:00:00.000', end: '2020-11-14 17:00:00.000' },
+    ],
   },
 ];
 
@@ -41,6 +53,7 @@ const inductionClass = {
   name: 'Alpha Beta',
   startDate: '2020-08-30',
   endDate: '2020-12-30',
+  interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
 };
 
 const events = [
@@ -76,27 +89,37 @@ const events = [
   },
 ];
 
+const startTime = new Date();
+const endTime = new Date();
+endTime.setHours(startTime.getHours() + 1);
+
 const attendances = [
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: new Date(),
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
+    points: 1,
   },
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: new Date(),
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
+    points: 2,
   },
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: new Date(),
+    startTime: formatISO(startTime),
+    endTime: formatISO(endTime),
     isInductee: true,
+    points: 1.5,
   },
 ];
 

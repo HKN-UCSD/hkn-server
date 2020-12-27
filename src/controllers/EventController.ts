@@ -8,6 +8,8 @@ import {
   UseBefore,
   CurrentUser,
   QueryParams,
+  ForbiddenError,
+  UnauthorizedError,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
@@ -141,7 +143,11 @@ export class EventController {
       multipleAttendanceQuery
     );
 
-    return { attendances };
+    const mappedAttendances = attendances.map(attendance =>
+      this.attendanceMapper.entityToResponse(attendance)
+    );
+
+    return { attendances: mappedAttendances };
   }
 
   @Post('/:eventID/attendance')
@@ -154,8 +160,13 @@ export class EventController {
     @CurrentUser() officer: AppUser
   ): Promise<AttendanceResponse | undefined> {
     const { attendeeId } = attendanceCheckOffRequest;
+    const checkedOffAttendance = await this.attendanceService.checkOffAttendance(
+      eventID,
+      attendeeId,
+      officer.id
+    );
 
-    return this.attendanceService.checkOffAttendance(eventID, attendeeId, officer.id);
+    return this.attendanceMapper.entityToResponse(checkedOffAttendance);
   }
 
   @Post('/:eventID/signin')
@@ -171,9 +182,28 @@ export class EventController {
     if (appUser === undefined) {
       const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
       currAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+    } else {
+      // Affiliates have to use the signin endpoint for affiliates
+      throw new ForbiddenError();
     }
 
     const newAttendance = await this.eventService.registerEventAttendance(eventID, currAppUser);
+
+    return this.attendanceMapper.entityToResponse(newAttendance);
+  }
+
+  @Post('/:eventID/signin/affiliate')
+  @ResponseSchema(AttendanceResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async affiliateEventSignin(
+    @Param('eventID') eventID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<AttendanceResponse | undefined> {
+    if (appUser === undefined) {
+      throw new UnauthorizedError();
+    }
+
+    const newAttendance = await this.eventService.registerEventAttendance(eventID, appUser);
 
     return this.attendanceMapper.entityToResponse(newAttendance);
   }
@@ -191,9 +221,28 @@ export class EventController {
     if (appUser === undefined) {
       const appUserToSave = await this.appUserMapper.requestToEntityByEmail(appUserRequest);
       currAppUser = await this.appUserService.saveNonAffiliate(appUserToSave);
+    } else {
+      // Affiliates have to use the rsvp endpoint for affiliates
+      throw new ForbiddenError();
     }
 
     const newRSVP = await this.eventService.registerEventRSVP(eventID, currAppUser);
+
+    return this.rsvpMapper.entityToResponse(newRSVP);
+  }
+
+  @Post('/:eventID/rsvp/affiliate')
+  @ResponseSchema(RSVPResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async affiliateEventRSVP(
+    @Param('eventID') eventID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<RSVPResponse | undefined> {
+    if (appUser === undefined) {
+      throw new UnauthorizedError();
+    }
+
+    const newRSVP = await this.eventService.registerEventRSVP(eventID, appUser);
 
     return this.rsvpMapper.entityToResponse(newRSVP);
   }

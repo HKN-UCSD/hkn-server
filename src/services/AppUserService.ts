@@ -1,4 +1,10 @@
-import { AppUser, AppUserRole } from '@Entities';
+import {
+  AppUser,
+  AppUserRole,
+  InducteePointsView,
+  MemberPointsView,
+  Availabilities,
+} from '@Entities';
 import { MultipleUserQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
 
@@ -127,7 +133,7 @@ export class AppUserService {
    * @returns {boolean} True if the user has role lower than officer or their userID does not match with
    * the one they put in the URL parameter userID.
    */
-  isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
+  isUnauthedUserOrNonOfficer(appUser: AppUser, urlUserID: number): boolean {
     const { role, id: requesterID } = appUser;
 
     return (
@@ -153,6 +159,39 @@ export class AppUserService {
    */
   isGuest(appUser: AppUser): boolean {
     return appUser.role === AppUserRole.GUEST;
+  }
+
+  async getAllInducteePoints(): Promise<InducteePointsView[] | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.find({});
+  }
+
+  /**
+   * Gets inductee points for user
+   * @param {number} appUserID ID of AppUser to get points for.
+   * @returns {InducteePoints}
+   */
+  async getInducteePoints(appUserID: number): Promise<InducteePointsView | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.findOne({ user: appUserID });
+  }
+
+  /**
+   * Gets member points for user
+   * @param {number} appUserID ID of AppUser to get points for.
+   * @returns {InducteePoints}
+   */
+  async getMemberPoints(appUserID: number): Promise<MemberPointsView | undefined> {
+    const memberPointsRepo = getRepository(MemberPointsView);
+    return await memberPointsRepo.findOne({ user: appUserID });
+  }
+
+  async updateInterviewAvailabilities(
+    appUser: AppUser,
+    availabilities: Availabilities
+  ): Promise<AppUser | undefined> {
+    appUser.availabilities = availabilities;
+    return this.saveAppUser(appUser);
   }
 }
 

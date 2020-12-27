@@ -19,7 +19,7 @@ import { Attendance } from './Attendance';
 })
 export class MemberPointsView {
   @ViewColumn()
-  user: AppUser;
+  user: number;
 
   @ViewColumn()
   points: number;

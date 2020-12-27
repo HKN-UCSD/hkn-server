@@ -1,10 +1,3 @@
-import dotenv from 'dotenv';
-
-// Load env vars using dotenv only if in development mode.
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  dotenv.config();
-}
-
 type FirebaseConfig = {
   project_id: string;
   clientEmail: string;
@@ -17,6 +10,8 @@ type Config = {
   clientAppID: string;
   clientApiKey: string;
   devAuth: boolean;
+  ddMetricTag: string;
+  nodeEnv: string;
 };
 
 const {
@@ -27,6 +22,8 @@ const {
   FIREBASE_CLIENT_ID,
   FIREBASE_CLIENT_API_KEY,
   DEV_AUTH,
+  DD_METRIC_TAG,
+  NODE_ENV,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
@@ -41,4 +38,6 @@ export const config: Config = {
   clientAppID: FIREBASE_CLIENT_ID,
   clientApiKey: FIREBASE_CLIENT_API_KEY,
   devAuth: DEV_AUTH === 'true',
+  ddMetricTag: DD_METRIC_TAG,
+  nodeEnv: NODE_ENV,
 };
