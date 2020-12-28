@@ -22,6 +22,7 @@ import {
   EventRequest,
   EventResponse,
   MultipleEventResponse,
+  MultipleEventQuery,
   AppUserEventRequest,
   RSVPResponse,
 } from '@Payloads';
@@ -69,8 +70,19 @@ export class EventController {
 
   @Get('/')
   @ResponseSchema(MultipleEventResponse)
-  async getMultipleEvents(): Promise<MultipleEventResponse> {
-    const events: Event[] = await this.eventService.getAllEvents();
+  async getMultipleEvents(
+    @QueryParams() multipleEventQuery: MultipleEventQuery,
+    @CurrentUser() appUser: AppUser
+  ): Promise<MultipleEventResponse | undefined> {
+    let isOfficer = true;
+
+    // Check if user is an officer to see if we should show pending events to them
+    // if there are any and if they are requesting for pending events
+    if (appUser === undefined || !this.appUserService.isOfficer(appUser)) {
+      isOfficer = false;
+    }
+
+    const events: Event[] = await this.eventService.getAllEvents(multipleEventQuery, isOfficer);
     const eventResponses = events.map(event => this.eventMapper.entityToResponse(event));
 
     const multipleEventResponse = new MultipleEventResponse();
