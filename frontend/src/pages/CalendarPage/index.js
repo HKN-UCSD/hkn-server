@@ -1,6 +1,13 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Container, Button as MuiButton } from '@material-ui/core';
+import {
+  Grid,
+  Paper,
+  Container,
+  Button as MuiButton,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core';
 
 import Calendar from './components/Calendar';
 import EventCard from './components/EventCard';
@@ -19,11 +26,16 @@ class CalendarPage extends React.Component {
       events: [],
       selectedEvent: null,
       view: 'calendar',
+      pending: true,
+      ready: true,
+      complete: true,
     };
   }
 
   componentDidMount() {
-    getAllEvents().then(multipleEventResponse => {
+    const { pending, ready, complete } = this.state;
+
+    getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
       const { events } = multipleEventResponse;
       const calendarEvents = [];
 
@@ -39,6 +51,33 @@ class CalendarPage extends React.Component {
 
       this.setState({ events: calendarEvents });
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { pending, ready, complete } = this.state;
+
+    if (
+      pending !== prevState.pending ||
+      ready !== prevState.ready ||
+      complete !== prevState.complete
+    ) {
+      getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
+        const { events } = multipleEventResponse;
+        const calendarEvents = [];
+
+        events.forEach(event => {
+          // make a copy of the event
+          const newEvent = Object.assign(event);
+
+          // For EventList
+          newEvent.title = newEvent.name;
+
+          calendarEvents.push(newEvent);
+        });
+
+        this.setState({ events: calendarEvents });
+      });
+    }
   }
 
   toggleView() {
@@ -58,8 +97,30 @@ class CalendarPage extends React.Component {
     }
   }
 
+  handlePendingChange() {
+    const { pending } = this.state;
+    this.setState({ pending: !pending });
+  }
+
+  handleReadyChange() {
+    const { ready } = this.state;
+    this.setState({ ready: !ready });
+  }
+
+  handleCompleteChange() {
+    const { complete } = this.state;
+    this.setState({ complete: !complete });
+  }
+
   render() {
-    const { selectedEvent, events, view } = this.state;
+    const {
+      selectedEvent,
+      events,
+      view,
+      pending,
+      ready,
+      complete,
+    } = this.state;
     const { classes, history } = this.props;
 
     return (
@@ -75,6 +136,40 @@ class CalendarPage extends React.Component {
               },
             })}
           </Grid>
+
+          <Grid item>
+            {OfficerRenderPermission(FormControlLabel)({
+              control: (
+                <Checkbox
+                  name='pending'
+                  onChange={() => this.handlePendingChange()}
+                  checked={pending}
+                />
+              ),
+              label: 'Pending',
+            })}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name='ready'
+                  onChange={() => this.handleReadyChange()}
+                  checked={ready}
+                />
+              }
+              label='Ready'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name='complete'
+                  onChange={() => this.handleCompleteChange()}
+                  checked={complete}
+                />
+              }
+              label='Complete'
+            />
+          </Grid>
+
           <Grid item>
             <MuiButton
               onClick={() => {

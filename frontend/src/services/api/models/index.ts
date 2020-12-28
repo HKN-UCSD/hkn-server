@@ -24,6 +24,7 @@ export * from './InterviewWeekStartDate';
 export * from './MultipleAppUserResponse';
 export * from './MultipleAttendanceQuery';
 export * from './MultipleAttendanceResponse';
+export * from './MultipleEventQuery';
 export * from './MultipleEventResponse';
 export * from './MultipleInducteePointsResponse';
 export * from './MultipleUserNameResponse';
