@@ -70,6 +70,7 @@ export class EventController {
 
   @Get('/')
   @ResponseSchema(MultipleEventResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getMultipleEvents(
     @QueryParams() multipleEventQuery: MultipleEventQuery,
     @CurrentUser() appUser: AppUser
