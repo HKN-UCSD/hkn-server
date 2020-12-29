@@ -47,6 +47,11 @@ export class EventRequest {
   @IsUrl()
   @IsOptional()
   readonly canvaURL: string;
+
+  @IsString()
+  @IsEnum(EventStatus)
+  @IsOptional()
+  readonly status: string;
 }
 
 export class EventResponse {
