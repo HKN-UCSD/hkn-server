@@ -1,6 +1,6 @@
 import { InducteeRenderPermission } from '@HOCs/RenderPermissions';
 import { Button } from '@SharedComponents';
-import { rsvpToEvent } from '@Services/EventService';
+import { affiliateRSVPToEvent } from '@Services/EventService';
 
 interface SignInButtonProps {
   eventId: number;
@@ -8,18 +8,11 @@ interface SignInButtonProps {
 }
 
 function RSVPButton({ eventId, children = 'RSVP' }: SignInButtonProps) {
-  const eventRequestPayloadFiller = {
-    email: 'filler@filler.filler',
-    firstName: '',
-    lastName: '',
-    major: '',
-  };
-
   return InducteeRenderPermission(Button)({
     children,
     primary: true,
     positive: true,
-    onClick: () => rsvpToEvent(eventId, eventRequestPayloadFiller),
+    onClick: () => affiliateRSVPToEvent(eventId),
   });
 }
 
