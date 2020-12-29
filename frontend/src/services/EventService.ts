@@ -8,6 +8,8 @@ import {
   EventControllerRsvpForEventRequest,
   EventControllerGetEventAttendanceRequest,
   EventControllerCheckOffEventAttendanceRequest,
+  EventControllerAffiliateEventSigninRequest,
+  EventControllerAffiliateEventRSVPRequest,
   EventControllerGetMultipleEventsRequest,
 } from './api/apis/EventApi';
 import {
@@ -134,4 +136,28 @@ export async function rsvpToEvent(
   };
 
   return eventApi.eventControllerRsvpForEvent(request);
+}
+
+export async function affiliateSignInToEvent(
+  eventID: number
+): Promise<AttendanceResponse> {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerAffiliateEventSigninRequest = {
+    eventID,
+  };
+
+  return eventApi.eventControllerAffiliateEventSignin(request);
+}
+
+export async function affiliateRSVPToEvent(
+  eventID: number
+): Promise<RSVPResponse> {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerAffiliateEventRSVPRequest = {
+    eventID,
+  };
+
+  return eventApi.eventControllerAffiliateEventRSVP(request);
 }
