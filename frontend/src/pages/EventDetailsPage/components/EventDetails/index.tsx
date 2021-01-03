@@ -15,6 +15,7 @@ import {
 } from '@HOCs/RenderPermissions';
 import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
+import { EventStatusEnum } from '@Services/EventService';
 
 interface EventDetailsComponentProps {
   eventInfo: EventInfo;
@@ -37,6 +38,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
     canvaURL = null,
     signInURL,
     rsvpURL,
+    status,
   } = eventInfo;
 
   const urls = {
@@ -46,6 +48,21 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
     },
     canva: { url: canvaURL, label: 'Canva' },
   };
+
+  const renderSignInRSVPButtons = () =>
+    status === EventStatusEnum.Ready ? (
+      <Grid container justify='flex-end' spacing={1}>
+        <Grid item>
+          <SignInButton eventId={eventId} />
+        </Grid>
+
+        <Grid item>
+          <RSVPButton eventId={eventId} />
+        </Grid>
+      </Grid>
+    ) : (
+      <></>
+    );
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -70,16 +87,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                       })}
                     </Grid>
 
-                    <Grid item>
-                      <Grid container justify='flex-end' spacing={1}>
-                        <Grid item>
-                          <SignInButton eventId={eventId} />
-                        </Grid>
-                        <Grid item>
-                          <RSVPButton eventId={eventId} />
-                        </Grid>
-                      </Grid>
-                    </Grid>
+                    <Grid item>{renderSignInRSVPButtons()}</Grid>
                   </Grid>
                 </Grid>
               </Grid>
