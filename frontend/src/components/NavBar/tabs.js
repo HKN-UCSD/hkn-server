@@ -1,6 +1,5 @@
 import React from 'react';
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
-import AttachmentIcon from '@material-ui/icons/Attachment';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
@@ -14,23 +13,11 @@ const CalendarTab = {
   text: 'Calendar',
 };
 
-const ResumeTab = {
-  route: ROUTES.RESUME,
-  icon: <AttachmentIcon />,
-  text: 'Resume',
-};
-
 const InterviewTab = {
   route: ROUTES.INTERVIEW_SCHEDULING,
   icon: <AlarmIcon />,
   text: 'Interview Availability',
 };
-
-// const ProfileTab = {
-//   route: ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
-//   icon: <AccountBoxIcon />,
-//   text: 'Profile',
-// };
 
 const HomeTab = {
   route: ROUTES.HOME,
@@ -52,19 +39,10 @@ const PointsTab = {
 
 export const OfficerTabs = [
   HomeTab,
-  // ProfileTab,
   CalendarTab,
-  ResumeTab,
   InducteesTab,
   PointsTab,
   InterviewTab,
 ];
 
-export const InducteeTabs = [
-  HomeTab,
-  // ProfileTab,
-  CalendarTab,
-  ResumeTab,
-  PointsTab,
-  InterviewTab,
-];
+export const InducteeTabs = [HomeTab, CalendarTab, PointsTab, InterviewTab];
