@@ -9,7 +9,6 @@ import {
   SignUpPage,
   PointsPage,
   InducteePointsPage,
-  ResumePage,
   EventsPage,
   CalendarPage,
   EventEditPage,
@@ -124,11 +123,6 @@ function App(): JSX.Element {
             exact
             path={ROUTES.POINTS}
             render={props => InducteeRoutingPermission(PointsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.RESUME}
-            render={props => InducteeRoutingPermission(ResumePage)(props)}
           />
           <Route
             exact
