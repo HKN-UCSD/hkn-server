@@ -10,6 +10,8 @@ type Config = {
   clientAppID: string;
   clientApiKey: string;
   devAuth: boolean;
+  ddMetricTag: string;
+  nodeEnv: string;
 };
 
 const {
@@ -20,6 +22,8 @@ const {
   FIREBASE_CLIENT_ID,
   FIREBASE_CLIENT_API_KEY,
   DEV_AUTH,
+  DD_METRIC_TAG,
+  NODE_ENV,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
@@ -34,4 +38,6 @@ export const config: Config = {
   clientAppID: FIREBASE_CLIENT_ID,
   clientApiKey: FIREBASE_CLIENT_API_KEY,
   devAuth: DEV_AUTH === 'true',
+  ddMetricTag: DD_METRIC_TAG,
+  nodeEnv: NODE_ENV,
 };

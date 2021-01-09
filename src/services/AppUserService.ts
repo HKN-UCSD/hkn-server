@@ -133,12 +133,22 @@ export class AppUserService {
    * @returns {boolean} True if the user has role lower than officer or their userID does not match with
    * the one they put in the URL parameter userID.
    */
-  isInvalidNonOfficerAccess(appUser: AppUser, urlUserID: number): boolean {
+  isUnauthedUserOrNonOfficer(appUser: AppUser, urlUserID: number): boolean {
     const { role, id: requesterID } = appUser;
 
     return (
       !(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID
     );
+  }
+
+  /**
+   * Checks if the passed-in AppUser is an officer (so officer + admin).
+   *
+   * @param {AppUser} appUser The AppUser entity whose role is to be checked.
+   * @returns {boolean} Whether the passed-in AppUser has officer or admin role or not.
+   */
+  isOfficer(appUser: AppUser): boolean {
+    return appUser.role === AppUserRole.OFFICER || appUser.role === AppUserRole.ADMIN;
   }
 
   /**
