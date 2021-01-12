@@ -10,6 +10,13 @@ export enum AppUserRole {
   GUEST = 'guest',
 }
 
+export type Availabilities = TimeRange[];
+
+interface TimeRange {
+  start: string;
+  end: string;
+}
+
 /**
  * The AppUser table represents an AppUser entity in the db.
  *
@@ -45,4 +52,7 @@ export class AppUser {
     default: AppUserRole.GUEST,
   })
   role: string;
+
+  @Column({ nullable: true, type: 'json' })
+  availabilities: Availabilities;
 }

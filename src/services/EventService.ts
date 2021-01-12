@@ -1,12 +1,56 @@
-import { Event, AppUser, Attendance, RSVP } from '@Entities';
+import { Event, AppUser, Attendance, RSVP, EventStatus } from '@Entities';
 import { AttendanceService, AttendanceServiceImpl } from './AttendanceService';
 import { RSVPService, RSVPServiceImpl } from './RSVPService';
 
-import { getRepository } from 'typeorm';
-import { MultipleAttendanceQuery } from '@Payloads';
+import { getRepository, FindManyOptions, Not } from 'typeorm';
+import { MultipleAttendanceQuery, MultipleEventQuery } from '@Payloads';
 
 export class EventService {
   constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
+
+  // Only officers can see pending events
+  private buildMultipleEventQuery(
+    multipleEventQuery: MultipleEventQuery,
+    isOfficer: boolean
+  ): FindManyOptions<Event> {
+    const { pending, ready, complete } = multipleEventQuery;
+    const query: FindManyOptions<Event> = {};
+    const whereArr = [];
+
+    if (isOfficer) {
+      if (pending) {
+        whereArr.push({ status: EventStatus.PENDING });
+      }
+    } else {
+      /*
+       * This is because Not('pending') queries include 'ready' and 'complete' statuses (so it gets anything
+       * that is not 'pending'). So let's say a user is not permitted to see pending events, but say they only
+       * want to see events that are ready but not events that are complete. Then, without this check,
+       * Not('pending') will erroneously return both events that are ready and events that are complete,
+       * even though we only wanted events that are ready. By having this check, we are making sure that
+       * Not('pending') = 'ready' + 'complete' query is made only when we have both ready and complete = true in
+       * query params or when we don't have either of them, since (no query params = show every event)
+       * but for some users we don't want them to see pending so they'll only be seeing ready and complete with this.
+       *
+       * Thai, 12/22/2020
+       */
+      if ((ready && complete) || (!ready && !complete)) {
+        whereArr.push({ status: Not(EventStatus.PENDING) });
+      }
+    }
+
+    if (ready) {
+      whereArr.push({ status: EventStatus.READY });
+    }
+
+    if (complete) {
+      whereArr.push({ status: EventStatus.COMPLETE });
+    }
+
+    query.where = whereArr;
+
+    return query;
+  }
 
   /**
    * Persists event to db.
@@ -24,10 +68,11 @@ export class EventService {
    *
    * @returns {Event[]} Array of all events.
    */
-  getAllEvents(): Promise<Event[]> {
+  getAllEvents(multipleEventQuery: MultipleEventQuery, isOfficer: boolean): Promise<Event[]> {
     const eventRepository = getRepository(Event);
+    const query = this.buildMultipleEventQuery(multipleEventQuery, isOfficer);
 
-    return eventRepository.find();
+    return eventRepository.find(query);
   }
 
   /**
