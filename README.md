@@ -95,20 +95,7 @@ A service encapsulates business logic either pertaining to a db entity, or a gro
 
 ### Middlewares
 
-We use custom [middlewares](https://expressjs.com/en/guide/using-middleware.html) (which are functions) to process information in a certain way and/or for a certain purpose in a sequence of functions/middlewares when making an HTTP request to an endpoint.
-
-Examples:
-
-In our codebase, the most prominent use case we have for middlewares so far is role-based access control (RBAC). This allows us to assign and enforce access rights to endpoints based on a user's role, giving users with permitted roles access to an endpoint (or at least access to a type of HTTP request on an endpoint) and denying access to those without. We have five auth middlewares for the five roles that we use in
-our system, created via the factory pattern.
-
-- `AdminAuthMiddleware`: Gives access only to users with admin role.
-- `OfficerAuthMiddleware`: Gives access only to users with admin/officer role.
-- `MemberAuthMiddleware`: Gives access only to users with admin/officer/member role.
-- `InducteeAuthMiddleware`: Gives access only to users with admin/officer/member/inductee role.
-- `GuestAuthMiddleware` or no auth middleware: Gives access to all roles.
-
-Check out **src/middlewares/auth** to see how they are implemented and **src/controllers** to see how they are used.
+Check out this [doc](./guides/middlewares/index.md) on middlewares for more information about middlewares and how we use them. Also check out **src/middlewares/auth** if you want to see how they are implemented and **src/controllers** if you want to see how they are used.
 
 ### Mappers
 
