@@ -118,6 +118,18 @@ export class EventService {
     return attendances;
   }
 
+  async getEventRSVPs(eventId: number): Promise<RSVP[] | undefined> {
+    const event = await this.getEventById(eventId);
+
+    if (event === undefined) {
+      return undefined;
+    }
+
+    const rsvps = await this.rsvpService.getAllEventRSVPs(event);
+
+    return rsvps;
+  }
+
   /**
    * Creates an Attendance entity using the event obtained from eventId and
    * the passed-in AppUser entity, then stores that Attendance entity to the
