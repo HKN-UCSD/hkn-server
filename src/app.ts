@@ -3,15 +3,15 @@ import 'module-alias/register'; // required for aliases
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
+import connect_datadog from 'connect-datadog';
 
-import { UserRouter } from './routers/UserRouter';
 import { DocsRouter } from './routers/DocsRouter';
-import { AuthRouter } from './routers/AuthRouter';
 
 import { useExpressServer, useContainer as routingUseContainer } from 'routing-controllers';
 import { controllers, ControllerContainer } from './controllers';
 
 import { loadFirebase, loadORM } from './loaders';
+import { config } from './config';
 import morgan from 'morgan';
 
 import { checkCurrentUserToken } from './decorators';
@@ -31,6 +31,15 @@ export const getExpressApp = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('tiny'));
   app.use(limiter);
+  if (config.nodeEnv !== 'development') {
+    app.use(
+      connect_datadog({
+        method: true,
+        response_code: true,
+        tags: [config.ddMetricTag],
+      })
+    );
+  }
 
   // load controllers; maybe move into loader?
 
@@ -45,11 +54,6 @@ export const getExpressApp = async () => {
   app.use(compression());
 
   app.use('/api/docs', DocsRouter);
-
-  // following two routers will be deprecated and moved into
-  // routing-controllers
-  //app.use('/api/user', UserRouter);
-  //app.use('/api/auth', AuthRouter);
 
   return { app, connection };
 };

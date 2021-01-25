@@ -7,6 +7,7 @@ import {
   IsInt,
   ValidateNested,
   IsEnum,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -51,6 +52,11 @@ export class EventRequest {
   @IsUrl()
   @IsOptional()
   readonly canvaURL: string;
+
+  @IsString()
+  @IsEnum(EventStatus)
+  @IsOptional()
+  readonly status: string;
 }
 
 export class EventResponse {
@@ -180,4 +186,18 @@ export class EventRSVPResponse {
   @IsUrl()
   @IsOptional()
   canvaURL: string;
+}
+
+export class MultipleEventQuery {
+  @IsBoolean()
+  @IsOptional()
+  pending: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  ready: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  complete: boolean;
 }
