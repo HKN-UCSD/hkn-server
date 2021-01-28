@@ -7,3 +7,5 @@ export { AuthorizationService, AuthorizationServiceImpl } from './AuthorizationS
 export { AccountService, AccountServiceImpl } from './AccountService';
 export { StorageService, StorageServiceImpl } from './StorageService';
 export { InductionClassService, InductionClassServiceImpl } from './InductionClassService';
+export { LocalStorageService, LocalStorageServiceImpl } from './LocalStorageService';
+export { ResumeService, ResumeServiceImpl } from './ResumeService';

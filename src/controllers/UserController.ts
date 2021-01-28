@@ -8,6 +8,10 @@ import {
   Body,
   UseBefore,
   QueryParams,
+  UploadedFile,
+  BadRequestError,
+  OnUndefined,
+  Res,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
@@ -17,6 +21,8 @@ import {
   AppUserServiceImpl,
   AttendanceService,
   AttendanceServiceImpl,
+  ResumeService,
+  ResumeServiceImpl,
 } from '@Services';
 import {
   AppUserPostRequest,
@@ -34,13 +40,33 @@ import {
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
 import { formatISO } from 'date-fns';
+import multer from 'multer';
+
+const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+  if (file.mimetype.includes('pdf') || file.mimetype.includes('word')) {
+    cb(null, true);
+  } else {
+    console.log('Invalid file type');
+    cb(null, false);
+  }
+};
+
+const fileUploadOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter: fileFilter,
+  limits: {
+    fieldNameSize: 255,
+    fileSize: 1024 * 1024 * 5,
+  },
+};
 
 @JsonController('/api/users')
 export class UserController {
   constructor(
     private appUserService: AppUserService,
     private attendanceService: AttendanceService,
-    private appUserMapper: AppUserMapper
+    private appUserMapper: AppUserMapper,
+    private resumeService: ResumeService
   ) {}
 
   @Get('/')
@@ -216,10 +242,53 @@ export class UserController {
 
     return this.appUserMapper.entityToResponse(updatedAppUser);
   }
+
+  @Post('/:userID/resume')
+  @UseBefore(InducteeAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async uploadResume(
+    @Param('userID') userID: number,
+    @CurrentUser({ required: true }) appUser: AppUser,
+    @UploadedFile('file', {
+      options: fileUploadOptions,
+    })
+    file: Express.Multer.File
+  ): Promise<string | null> {
+    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
+      throw new ForbiddenError();
+    }
+    if (!file) {
+      throw new BadRequestError('Invalid file');
+    }
+    try {
+      return this.resumeService.uploadResume(appUser, file);
+    } catch (e) {
+      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
+    }
+  }
+
+  @Get('/:userID/resume')
+  @UseBefore(InducteeAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async downloadResume(
+    @Param('userID') userID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<Buffer | null> {
+    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
+      throw new ForbiddenError();
+    }
+
+    try {
+      return this.resumeService.downloadResume(appUser);
+    } catch (e) {
+      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
+    }
+  }
 }
 
 export const UserControllerImpl = new UserController(
   AppUserServiceImpl,
   AttendanceServiceImpl,
-  AppUserMapperImpl
+  AppUserMapperImpl,
+  ResumeServiceImpl
 );

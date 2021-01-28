@@ -4,14 +4,13 @@ import {
   Post,
   QueryParam,
   UploadedFile,
-  Req,
-  Res,
   BadRequestError,
-  HttpCode,
+  UseBefore,
 } from 'routing-controllers';
-import { StorageService, StorageServiceImpl } from '@Services';
+import { AppUserService, AppUserServiceImpl, StorageService, StorageServiceImpl } from '@Services';
 import multer from 'multer';
-import { Readable } from 'typeorm/platform/PlatformTools';
+import { OfficerAuthMiddleware } from '@Middlewares';
+import { OpenAPI } from 'routing-controllers-openapi';
 
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function) => {
   if (
@@ -31,37 +30,39 @@ const fileUploadOptions = {
   fileFilter: fileFilter,
   limits: {
     fieldNameSize: 255,
-    fileSize: 1024 * 1024 * 5,
+    fileSize: 1024 * 1024 * 50,
   },
 };
 
 @JsonController('/api/storage')
 export class StorageController {
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService, private appUserService: AppUserService) {}
 
-  @HttpCode(201)
   @Post('/upload')
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
   async uploadFile(
-    @Req() req: Express.Request,
     @UploadedFile('file', {
       options: fileUploadOptions,
     })
     file: Express.Multer.File
-  ): Promise<string> {
+  ): Promise<string | null> {
     if (!file) {
       throw new BadRequestError('Invalid file');
     }
-    const name = Date.now() + '-' + file.originalname;
+    const name =
+      Date.now() + '-' + file.originalname.substring(0, file.originalname.lastIndexOf('.'));
     try {
-      return this.storageService.uploadFile(name, file.buffer);
+      return this.storageService.uploadFile(name, file);
     } catch (e) {
       throw new BadRequestError(`Error uploading to storage: ${e.message}`);
     }
   }
 
-  @HttpCode(200)
   @Get('/download')
-  downloadFile(@QueryParam('fileName') fileName: string): NodeJS.ReadableStream {
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async downloadFile(@QueryParam('fileName') fileName: string): Promise<Buffer | null> {
     if (fileName) {
       try {
         return this.storageService.downloadFile(fileName);
@@ -72,11 +73,16 @@ export class StorageController {
     throw new BadRequestError('Invalid file path');
   }
 
-  @HttpCode(200)
   @Get('/index')
-  async getFileIndex(): Promise<string> {
-    return '';
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getFileIndex(): Promise<Array<string> | null> {
+    try {
+      return this.storageService.getFileIndex();
+    } catch (e) {
+      throw new BadRequestError(`Error loading from storage: ${e.message}`);
+    }
   }
 }
 
-export const StorageControllerImpl = new StorageController(StorageServiceImpl);
+export const StorageControllerImpl = new StorageController(StorageServiceImpl, AppUserServiceImpl);
