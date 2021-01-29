@@ -5,9 +5,7 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import connect_datadog from 'connect-datadog';
 
-import { UserRouter } from './routers/UserRouter';
 import { DocsRouter } from './routers/DocsRouter';
-import { AuthRouter } from './routers/AuthRouter';
 
 import { useExpressServer, useContainer as routingUseContainer } from 'routing-controllers';
 import { controllers, ControllerContainer } from './controllers';
@@ -63,11 +61,6 @@ export const getExpressApp = async () => {
   app.use(compression());
 
   app.use('/api/docs', DocsRouter);
-
-  // following two routers will be deprecated and moved into
-  // routing-controllers
-  //app.use('/api/user', UserRouter);
-  //app.use('/api/auth', AuthRouter);
 
   return { app, connection };
 };
