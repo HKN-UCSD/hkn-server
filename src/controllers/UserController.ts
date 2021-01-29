@@ -10,8 +10,6 @@ import {
   QueryParams,
   UploadedFile,
   BadRequestError,
-  OnUndefined,
-  Res,
 } from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
