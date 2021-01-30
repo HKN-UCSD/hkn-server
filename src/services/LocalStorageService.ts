@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { Response } from 'express';
 
 const dir_path = process.cwd() + '/local_fs/';
 
@@ -7,20 +8,31 @@ if (!fs.existsSync(dir_path)) {
 }
 
 export class LocalStorageService {
-  async uploadFile(
-    fileName: string,
-    fileContent: string | Buffer | Blob | NodeJS.TypedArray | NodeJS.ReadableStream
-  ): Promise<string> {
-    fs.writeFile(dir_path + fileName, Buffer.from(fileContent), function(err) {
-      if (err) {
-        throw new Error(`Could not write file to ${dir_path + fileName}: ${err.message}`);
+  async uploadFile(fileName: string, file: Express.Multer.File, options?: Object): Promise<string> {
+    let fileNameKey = fileName;
+    if (options) {
+      if ('appendFileName' in options) {
+        fileNameKey = `${fileName}_${options['appendFileName']}`;
       }
-    });
+    }
+
+    fs.writeFile(
+      dir_path + fileNameKey + file.originalname.substring(file.originalname.lastIndexOf('.')),
+      file.buffer,
+      function(err) {
+        if (err) {
+          throw new Error(`Could not write file to ${dir_path + fileName}: ${err.message}`);
+        }
+      }
+    );
     return `Uploaded file to ${dir_path + fileName}`;
   }
 
-  async downloadFile(fileName: string): Promise<Buffer | null> {
+  async downloadFile(fileName: string, res: Response): Promise<Buffer | null> {
     try {
+      res.set({
+        'content-disposition': `attachment; filename="${fileName}"`,
+      });
       return fs.promises.readFile(dir_path + fileName);
     } catch (e) {
       throw new Error(`Could not retrieve file from fs at ${dir_path + fileName}: ${e.message}`);

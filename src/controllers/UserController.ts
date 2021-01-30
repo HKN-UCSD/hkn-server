@@ -1,6 +1,7 @@
 import {
   JsonController,
   Get,
+  Res,
   Param,
   CurrentUser,
   ForbiddenError,
@@ -11,6 +12,7 @@ import {
   UploadedFile,
   BadRequestError,
 } from 'routing-controllers';
+import { Response } from 'express';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { AppUser } from '@Entities';
@@ -259,7 +261,7 @@ export class UserController {
       throw new BadRequestError('Invalid file');
     }
     try {
-      return this.resumeService.uploadResume(appUser, file);
+      return await this.resumeService.uploadResume(appUser, file);
     } catch (e) {
       throw new BadRequestError(`Error uploading to storage: ${e.message}`);
     }
@@ -269,17 +271,17 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async downloadResume(
+    @Res() res: Response,
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<Buffer | null> {
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
-
     try {
-      return this.resumeService.downloadResume(appUser);
+      return await this.resumeService.downloadResume(appUser, res);
     } catch (e) {
-      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
+      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }
   }
 }

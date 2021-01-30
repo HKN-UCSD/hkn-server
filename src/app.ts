@@ -10,18 +10,11 @@ import { DocsRouter } from './routers/DocsRouter';
 import { useExpressServer, useContainer as routingUseContainer } from 'routing-controllers';
 import { controllers, ControllerContainer } from './controllers';
 
-import { loadFirebase, loadORM } from './loaders';
+import { loadAWS, loadFirebase, loadORM } from './loaders';
 import { config } from './config';
 import morgan from 'morgan';
 
 import { checkCurrentUserToken } from './decorators';
-
-import AWS from 'aws-sdk';
-
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
 
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_TIMEFRAME, 10),
@@ -31,6 +24,7 @@ const limiter = rateLimit({
 export const getExpressApp = async () => {
   const connection = await loadORM();
   loadFirebase();
+  loadAWS();
 
   const app = express();
 
