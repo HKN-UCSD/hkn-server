@@ -61,7 +61,16 @@ export class AppUserMapper {
     appUserObj.id = appUserId;
 
     const appUserRepository = getRepository(AppUser);
+    const inductionClassRepository = getRepository(InductionClass);
     const appUser: AppUser = await appUserRepository.preload(appUserObj);
+
+    if (appUserRequest instanceof AppUserPostRequest) {
+      const inductionClass = await inductionClassRepository.findOne({
+        quarter: appUserRequest.inductionClassQuarter,
+      });
+
+      appUser.inductionClass = inductionClass;
+    }
 
     return appUser;
   }
