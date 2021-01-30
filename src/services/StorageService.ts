@@ -4,6 +4,10 @@ import { loadAWS_S3 } from '../loaders';
 import { config } from '../config';
 
 const s3 = loadAWS_S3();
+
+type UploadOptions = {
+  appendFileName: string;
+};
 export class StorageService {
   /**
    * Uploads a file to the S3 bucket, given a filename and the file itself
@@ -18,7 +22,7 @@ export class StorageService {
   async uploadFile(
     fileName: string,
     file: Express.Multer.File,
-    options?: Object
+    options?: UploadOptions
   ): Promise<string | null> {
     let fileNameKey = fileName;
     if (options) {

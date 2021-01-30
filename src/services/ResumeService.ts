@@ -18,7 +18,7 @@ export class ResumeService {
   async uploadResume(appUser: AppUser, file: Express.Multer.File): Promise<string | null> {
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume`;
     const options = {
-      appendFileName: appUser.id,
+      appendFileName: `${appUser.id}`,
     };
     try {
       return this.storageService.uploadFile(storedfileName, file, options);
