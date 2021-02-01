@@ -36,7 +36,7 @@ export class RSVPService {
     return newRSVP;
   }
 
-  async getAllEventRSVPs(event: Event): Promise<RSVP[]> {
+  async getEventRSVPs(event: Event): Promise<RSVP[]> {
     const rsvpRepository = getRepository(RSVP);
     const query = this.buildMultipleRSVPQuery(event, true);
 

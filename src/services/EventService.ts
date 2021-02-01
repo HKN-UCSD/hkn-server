@@ -110,7 +110,7 @@ export class EventService {
       return undefined;
     }
 
-    const attendances = await this.attendanceService.getAllEventAttendances(
+    const attendances = await this.attendanceService.getEventAttendances(
       event,
       multipleAttendanceQuery
     );
@@ -125,7 +125,7 @@ export class EventService {
       return undefined;
     }
 
-    const rsvps = await this.rsvpService.getAllEventRSVPs(event);
+    const rsvps = await this.rsvpService.getEventRSVPs(event);
 
     return rsvps;
   }

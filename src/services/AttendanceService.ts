@@ -79,7 +79,7 @@ export class AttendanceService {
    * @param {MultipleAttendanceQuery} multipleAttendanceQuery Query parameters to filter attendances.
    * @returns {Promise} Array of attendances from the specified event.
    */
-  async getAllEventAttendances(
+  async getEventAttendances(
     event: Event,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {
