@@ -20,12 +20,8 @@ export class ResumeService {
     const options = {
       appendFileName: `${appUser.id}`,
     };
-    try {
-      return this.storageService.uploadFile(storedfileName, file, options);
-    } catch (e) {
-      console.log(`Error uploading to resume storage: ${e.message}`);
-      return null;
-    }
+
+    return this.storageService.uploadFile(storedfileName, file, options);
   }
 
   /**
@@ -36,13 +32,8 @@ export class ResumeService {
    * @param {Response} res The response object.
    */
   async downloadResume(appUser: AppUser, res: Response): Promise<Buffer | null> {
-    try {
-      const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume_${appUser.id}`;
-      return this.storageService.downloadFile(storedfileName, res);
-    } catch (e) {
-      console.log(`Could not retrieve file from S3: ${e.message}`);
-      return null;
-    }
+    const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume_${appUser.id}`;
+    return this.storageService.downloadFile(storedfileName, res);
   }
 }
 

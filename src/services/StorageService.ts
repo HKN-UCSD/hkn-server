@@ -2,6 +2,7 @@ import { Response } from 'express';
 
 import { loadAWS_S3 } from '../loaders';
 import { config } from '../config';
+import { BadRequestError } from 'routing-controllers';
 
 const s3 = loadAWS_S3();
 
@@ -24,39 +25,39 @@ export class StorageService {
     file: Express.Multer.File,
     options?: UploadOptions
   ): Promise<string | null> {
-    let fileNameKey = fileName;
-    if (options) {
-      if ('appendFileName' in options) {
-        fileNameKey = `${fileName}_${options['appendFileName']}`;
+    try {
+      let fileNameKey = fileName;
+      if (options) {
+        if ('appendFileName' in options) {
+          fileNameKey = `${fileName}_${options['appendFileName']}`;
+        }
       }
+
+      /**
+       * We store the key as a string without extension, since when we retrieve we
+       * do not know the extension of file.  But, we can set content disposition and
+       * mimetype so that when we download, the file will be downloaded correctly.
+       */
+      const params = {
+        Bucket: config.awsConfig.bucketName,
+        Key: fileNameKey,
+        Body: file.buffer,
+        ContentDisposition: `attachment; filename="${fileName}${file.originalname.substring(
+          file.originalname.lastIndexOf('.')
+        )}"`,
+        ContentType: `${file.mimetype}`,
+      };
+
+      return await s3
+        .upload(params)
+        .promise()
+        .then(data => {
+          console.log(`File uploaded successfully. ${data.Location}`);
+          return 'File uploaded successfully';
+        });
+    } catch (e) {
+      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }
-
-    /**
-     * We store the key as a string without extension, since when we retrieve we
-     * do not know the extension of file.  But, we can set content disposition and
-     * mimetype so that when we download, the file will be downloaded correctly.
-     */
-    const params = {
-      Bucket: config.awsConfig.bucketName,
-      Key: fileNameKey,
-      Body: file.buffer,
-      ContentDisposition: `attachment; filename="${fileName}${file.originalname.substring(
-        file.originalname.lastIndexOf('.')
-      )}"`,
-      ContentType: `${file.mimetype}`,
-    };
-
-    return s3
-      .upload(params)
-      .promise()
-      .then(data => {
-        console.log(`File uploaded successfully. ${data.Location}`);
-        return 'File uploaded successfully';
-      });
-    // .catch(e => {
-    //   console.log(`Error while uploading file: ${e.message}`);
-    //   return null;
-    // }); // TODO cleanup
   }
 
   /**
@@ -75,7 +76,7 @@ export class StorageService {
         Key: fileName,
       };
 
-      return s3
+      return await s3
         .getObject(params)
         .promise()
         .then(data => {
@@ -85,13 +86,8 @@ export class StorageService {
           });
           return Buffer.from(data.Body);
         });
-      // .catch(e => {
-      //   console.log(`Could not retrieve file: ${e.message}`);
-      //   return null;
-      // }); // TODO cleanup
     } catch (e) {
-      console.log(`Could not retrieve file from S3: ${e.message}`);
-      return null;
+      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }
   }
 
@@ -106,15 +102,7 @@ export class StorageService {
         Bucket: config.awsConfig.bucketName,
       };
       return s3
-        .listObjectsV2(
-          params
-          //   err => {
-          //   if (err) {
-          //     console.log(`Could not retrieve file from S3: ${err.message}`);
-          //     return null;
-          //   }
-          // } // TODO cleanup
-        )
+        .listObjectsV2(params)
         .promise()
         .then(data => {
           if (!data) {
@@ -125,13 +113,8 @@ export class StorageService {
             return content.Key;
           });
         });
-      // .catch(e => {
-      //   console.log(`Could not retrieve file from S3: ${e.message}`);
-      //   return null;
-      // });  // TODO cleanup
     } catch (e) {
-      console.log(`Could not retrieve index from S3: ${e.message}`);
-      return null;
+      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }
   }
 }

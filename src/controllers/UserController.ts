@@ -260,11 +260,8 @@ export class UserController {
     if (!file) {
       throw new BadRequestError('Invalid file');
     }
-    try {
-      return await this.resumeService.uploadResume(appUser, file);
-    } catch (e) {
-      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
-    }
+
+    return this.resumeService.uploadResume(appUser, file);
   }
 
   @Get('/:userID/resume')
@@ -278,11 +275,8 @@ export class UserController {
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
-    try {
-      return await this.resumeService.downloadResume(appUser, res);
-    } catch (e) {
-      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
-    }
+    // this call modifies the response object
+    return this.resumeService.downloadResume(appUser, res);
   }
 }
 
