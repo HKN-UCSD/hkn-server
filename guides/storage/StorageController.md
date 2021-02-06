@@ -1,3 +1,7 @@
+Here is an example of a storage controller, using the storage service to upload
+and download files from a storage filesystem.
+
+```js
 import {
   JsonController,
   Get,
@@ -106,3 +110,4 @@ export class StorageController {
 }
 
 export const StorageControllerImpl = new StorageController(StorageServiceImpl, AppUserServiceImpl);
+```
