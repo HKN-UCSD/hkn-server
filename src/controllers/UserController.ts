@@ -23,6 +23,7 @@ import {
   AttendanceServiceImpl,
   ResumeService,
   ResumeServiceImpl,
+  resumeFileUploadOptions,
 } from '@Services';
 import {
   AppUserPostRequest,
@@ -40,25 +41,6 @@ import {
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
 import { formatISO } from 'date-fns';
-import multer from 'multer';
-
-const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function) => {
-  if (file.mimetype.includes('pdf') || file.mimetype.includes('word')) {
-    cb(null, true);
-  } else {
-    console.log('Invalid file type');
-    cb(null, false);
-  }
-};
-
-const fileUploadOptions = {
-  storage: multer.memoryStorage(),
-  fileFilter: fileFilter,
-  limits: {
-    fieldNameSize: 255,
-    fileSize: 1024 * 1024 * 5,
-  },
-};
 
 @JsonController('/api/users')
 export class UserController {
@@ -250,7 +232,7 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser,
     @UploadedFile('file', {
-      options: fileUploadOptions,
+      options: resumeFileUploadOptions,
     })
     file: Express.Multer.File
   ): Promise<string | null> {

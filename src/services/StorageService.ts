@@ -25,6 +25,7 @@ export class StorageService {
     file: Express.Multer.File,
     options?: UploadOptions
   ): Promise<string | null> {
+    let params;
     try {
       let fileNameKey = fileName;
       if (options) {
@@ -38,7 +39,7 @@ export class StorageService {
        * do not know the extension of file.  But, we can set content disposition and
        * mimetype so that when we download, the file will be downloaded correctly.
        */
-      const params = {
+      params = {
         Bucket: config.awsConfig.bucketName,
         Key: fileNameKey,
         Body: file.buffer,
@@ -47,7 +48,11 @@ export class StorageService {
         )}"`,
         ContentType: `${file.mimetype}`,
       };
+    } catch (e) {
+      throw new BadRequestError(`Error in storage parameters: ${e.message}`);
+    }
 
+    try {
       return await s3
         .upload(params)
         .promise()
@@ -76,16 +81,12 @@ export class StorageService {
         Key: fileName,
       };
 
-      return await s3
-        .getObject(params)
-        .promise()
-        .then(data => {
-          res.set({
-            'content-disposition': data.ContentDisposition,
-            'content-type': data.ContentType,
-          });
-          return Buffer.from(data.Body);
-        });
+      const data = await s3.getObject(params).promise();
+      res.set({
+        'content-disposition': data.ContentDisposition,
+        'content-type': data.ContentType,
+      });
+      return Buffer.from(data.Body);
     } catch (e) {
       throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }

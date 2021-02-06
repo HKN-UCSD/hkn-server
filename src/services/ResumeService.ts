@@ -1,8 +1,26 @@
 import { Response } from 'express';
+import multer from 'multer';
 
 import { AppUser } from '@Entities';
-
 import { StorageService, StorageServiceImpl } from '@Services';
+
+const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function): void => {
+  if (file.mimetype.includes('pdf')) {
+    cb(null, true);
+  } else {
+    console.log('Invalid file type');
+    cb(null, false);
+  }
+};
+
+export const resumeFileUploadOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter: fileFilter,
+  limits: {
+    fieldNameSize: 255,
+    fileSize: 1024 * 1024 * 5,
+  },
+};
 
 export class ResumeService {
   constructor(private storageService: StorageService) {}
