@@ -4,7 +4,7 @@ services:
       context: .
     env_file:
       - .env
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm run compose:start'
+    command: bash -c 'while !</dev/tcp/db/5432 > /dev/null; do sleep 1; done; npm run compose:start'
     container_name: server
     ports:
       - '3001:3001'

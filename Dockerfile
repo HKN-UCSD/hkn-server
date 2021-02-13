@@ -4,7 +4,7 @@ WORKDIR /run
 
 COPY package*.json ./
 
-RUN npm i --silent --no-progress --no-audit --unsafe-perm
+RUN npm i --no-audit --unsafe-perm
 
 COPY .eslintrc .eslintrc
 COPY .prettierrc .prettierrc
