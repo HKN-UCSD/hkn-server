@@ -10,7 +10,7 @@ import { DocsRouter } from './routers/DocsRouter';
 import { useExpressServer, useContainer as routingUseContainer } from 'routing-controllers';
 import { controllers, ControllerContainer } from './controllers';
 
-import { loadAWS, loadFirebase, loadORM } from './loaders';
+import { loadFirebase, loadORM } from './loaders';
 import { config } from './config';
 import morgan from 'morgan';
 
@@ -24,7 +24,6 @@ const limiter = rateLimit({
 export const getExpressApp = async () => {
   const connection = await loadORM();
   loadFirebase();
-  loadAWS();
 
   const app = express();
 

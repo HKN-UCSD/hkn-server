@@ -1,7 +1,6 @@
 import {
   JsonController,
   Get,
-  Res,
   Param,
   CurrentUser,
   ForbiddenError,
@@ -9,10 +8,7 @@ import {
   Body,
   UseBefore,
   QueryParams,
-  UploadedFile,
-  BadRequestError,
 } from 'routing-controllers';
-import { Response } from 'express';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { AppUser } from '@Entities';
@@ -21,9 +17,6 @@ import {
   AppUserServiceImpl,
   AttendanceService,
   AttendanceServiceImpl,
-  ResumeService,
-  ResumeServiceImpl,
-  resumeFileUploadOptions,
 } from '@Services';
 import {
   AppUserPostRequest,
@@ -47,8 +40,7 @@ export class UserController {
   constructor(
     private appUserService: AppUserService,
     private attendanceService: AttendanceService,
-    private appUserMapper: AppUserMapper,
-    private resumeService: ResumeService
+    private appUserMapper: AppUserMapper
   ) {}
 
   @Get('/')
@@ -224,47 +216,10 @@ export class UserController {
 
     return this.appUserMapper.entityToResponse(updatedAppUser);
   }
-
-  @Post('/:userID/resume')
-  @UseBefore(InducteeAuthMiddleware)
-  @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async uploadResume(
-    @Param('userID') userID: number,
-    @CurrentUser({ required: true }) appUser: AppUser,
-    @UploadedFile('file', {
-      options: resumeFileUploadOptions,
-    })
-    file: Express.Multer.File
-  ): Promise<string | null> {
-    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
-      throw new ForbiddenError();
-    }
-    if (!file) {
-      throw new BadRequestError('Invalid file');
-    }
-
-    return this.resumeService.uploadResume(appUser, file);
-  }
-
-  @Get('/:userID/resume')
-  @UseBefore(InducteeAuthMiddleware)
-  @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async downloadResume(
-    @Res() res: Response,
-    @Param('userID') userID: number,
-    @CurrentUser({ required: true }) appUser: AppUser
-  ): Promise<Buffer | null> {
-    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
-      throw new ForbiddenError();
-    }
-    // this call modifies the response object
-    return this.resumeService.downloadResume(appUser, res);
-  }
 }
 
 export const UserControllerImpl = new UserController(
   AppUserServiceImpl,
   AttendanceServiceImpl,
-  AppUserMapperImpl,
-  ResumeServiceImpl
+  AppUserMapperImpl
 );
