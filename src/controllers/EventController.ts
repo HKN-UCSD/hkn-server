@@ -25,6 +25,7 @@ import {
   MultipleEventQuery,
   AppUserEventRequest,
   RSVPResponse,
+  MultipleRSVPResponse,
 } from '@Payloads';
 import {
   AttendanceService,
@@ -144,11 +145,31 @@ export class EventController {
       multipleAttendanceQuery
     );
 
+    if (attendances === undefined) {
+      return undefined;
+    }
+
     const mappedAttendances = attendances.map(attendance =>
       this.attendanceMapper.entityToResponse(attendance)
     );
 
     return { attendances: mappedAttendances };
+  }
+
+  @Get('/:eventID/rsvp')
+  @ResponseSchema(MultipleRSVPResponse)
+  @UseBefore(OfficerAuthMiddleware)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getEventRSVP(@Param('eventID') eventID: number): Promise<MultipleRSVPResponse | undefined> {
+    const rsvps = await this.eventService.getEventRSVPs(eventID);
+
+    if (rsvps === undefined) {
+      return undefined;
+    }
+
+    const mappedRSVPs = rsvps.map(rsvp => this.rsvpMapper.entityToResponse(rsvp));
+
+    return { rsvps: mappedRSVPs };
   }
 
   @Post('/:eventID/attendance')

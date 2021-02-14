@@ -1,7 +1,20 @@
 import { AppUser, Event, RSVP } from '@Entities';
-import { getRepository } from 'typeorm';
+import { getRepository, FindManyOptions } from 'typeorm';
 
 export class RSVPService {
+  private buildMultipleRSVPQuery(event: Event, cacheOn: boolean): FindManyOptions<RSVP> {
+    const query: FindManyOptions<RSVP> = {};
+
+    query.where = { event: event };
+    query.relations = ['appUser', 'event'];
+
+    if (cacheOn) {
+      query.cache = true;
+    }
+
+    return query;
+  }
+
   /**
    * Creates a new RSVP entity, then attempts to insert it into the DB.
    *
@@ -21,6 +34,13 @@ export class RSVPService {
     }
 
     return newRSVP;
+  }
+
+  async getEventRSVPs(event: Event): Promise<RSVP[]> {
+    const rsvpRepository = getRepository(RSVP);
+    const query = this.buildMultipleRSVPQuery(event, true);
+
+    return rsvpRepository.find(query);
   }
 }
 

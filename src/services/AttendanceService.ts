@@ -2,7 +2,7 @@ import { Attendance, AppUser, AppUserRole, Event, EventType } from '@Entities';
 import { MultipleAttendanceQuery } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
-import { getRepository, FindManyOptions } from 'typeorm';
+import { getRepository, FindManyOptions, Not, IsNull } from 'typeorm';
 import { differenceInMinutes } from 'date-fns';
 
 export class AttendanceService {
@@ -26,8 +26,12 @@ export class AttendanceService {
     query.where = { event: event };
     query.relations = ['attendee', 'officer', 'event'];
 
-    if (unchecked) {
-      query.where = { ...query.where, officer: null };
+    if (unchecked !== undefined) {
+      if (unchecked) {
+        query.where = { ...query.where, officer: IsNull() };
+      } else {
+        query.where = { ...query.where, officer: Not(IsNull()) };
+      }
     }
 
     if (inductee) {
@@ -75,7 +79,7 @@ export class AttendanceService {
    * @param {MultipleAttendanceQuery} multipleAttendanceQuery Query parameters to filter attendances.
    * @returns {Promise} Array of attendances from the specified event.
    */
-  async getAllEventAttendances(
+  async getEventAttendances(
     event: Event,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {

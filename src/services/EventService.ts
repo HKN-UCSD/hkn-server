@@ -110,12 +110,24 @@ export class EventService {
       return undefined;
     }
 
-    const attendances = await this.attendanceService.getAllEventAttendances(
+    const attendances = await this.attendanceService.getEventAttendances(
       event,
       multipleAttendanceQuery
     );
 
     return attendances;
+  }
+
+  async getEventRSVPs(eventId: number): Promise<RSVP[] | undefined> {
+    const event = await this.getEventById(eventId);
+
+    if (event === undefined) {
+      return undefined;
+    }
+
+    const rsvps = await this.rsvpService.getEventRSVPs(event);
+
+    return rsvps;
   }
 
   /**
