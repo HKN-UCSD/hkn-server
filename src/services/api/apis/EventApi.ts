@@ -35,6 +35,9 @@ import {
   MultipleEventResponse,
   MultipleEventResponseFromJSON,
   MultipleEventResponseToJSON,
+  MultipleRSVPResponse,
+  MultipleRSVPResponseFromJSON,
+  MultipleRSVPResponseToJSON,
   RSVPResponse,
   RSVPResponseFromJSON,
   RSVPResponseToJSON,
@@ -69,6 +72,10 @@ export interface EventControllerGetEventAttendanceRequest {
   eventID: number;
   unchecked?: boolean;
   inductee?: boolean;
+}
+
+export interface EventControllerGetEventRSVPRequest {
+  eventID: number;
 }
 
 export interface EventControllerGetMultipleEventsRequest {
@@ -475,6 +482,62 @@ export class EventApi extends runtime.BaseAPI {
     requestParameters: EventControllerGetEventAttendanceRequest
   ): Promise<MultipleAttendanceResponse> {
     const response = await this.eventControllerGetEventAttendanceRaw(
+      requestParameters
+    );
+    return await response.value();
+  }
+
+  /**
+   * Get event rsvp
+   */
+  async eventControllerGetEventRSVPRaw(
+    requestParameters: EventControllerGetEventRSVPRequest
+  ): Promise<runtime.ApiResponse<MultipleRSVPResponse>> {
+    if (
+      requestParameters.eventID === null ||
+      requestParameters.eventID === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'eventID',
+        'Required parameter requestParameters.eventID was null or undefined when calling eventControllerGetEventRSVP.'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString =
+        typeof token === 'function' ? token('TokenAuth', []) : token;
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request({
+      path: `/api/events/{eventID}/rsvp`.replace(
+        `{${'eventID'}}`,
+        encodeURIComponent(String(requestParameters.eventID))
+      ),
+      method: 'GET',
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      MultipleRSVPResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Get event rsvp
+   */
+  async eventControllerGetEventRSVP(
+    requestParameters: EventControllerGetEventRSVPRequest
+  ): Promise<MultipleRSVPResponse> {
+    const response = await this.eventControllerGetEventRSVPRaw(
       requestParameters
     );
     return await response.value();

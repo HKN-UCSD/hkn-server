@@ -4,15 +4,10 @@ import { Grid } from '@material-ui/core';
 
 import BackToCalendarButton from './components/BackToCalendarButton';
 import EventDetailsComponent from './components/EventDetails';
-import CheckOffTable from './components/CheckOffTable';
+import AttendanceRSVPCard from './components/AttendanceRSVPCard';
 
 import { Loading } from '@SharedComponents';
-import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
-import {
-  getEventById,
-  getEventAttendances,
-  checkOffAttendance,
-} from '@Services/EventService';
+import { getEventById } from '@Services/EventService';
 import { EventResponse } from '@Services/api/models';
 
 interface EventID {
@@ -42,11 +37,7 @@ function EventDetailsPage(): JSX.Element {
       </Grid>
 
       <Grid item xs={12}>
-        {OfficerRenderPermission(CheckOffTable)({
-          getAttendances: () => getEventAttendances(eventId, true, false),
-          checkOffAttendance,
-          eventId,
-        })}
+        <AttendanceRSVPCard eventID={eventId} />
       </Grid>
 
       <Grid item>

@@ -22,6 +22,8 @@ import {
 import { Configuration } from './api/runtime';
 import ApiConfigStore from './ApiConfigStore';
 
+export { AppUserEventResponseRoleEnum as AppUserRoleEnum } from './api/models';
+
 export interface InterviewAvailability {
   start: string;
   end: string;

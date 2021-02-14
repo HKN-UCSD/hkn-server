@@ -23,7 +23,10 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
@@ -34,7 +37,12 @@
     "react/prop-types": [
       2,
       {
-        "ignore": ["firebase", "classes", "history", "children"]
+        "ignore": [
+          "firebase",
+          "classes",
+          "history",
+          "children"
+        ]
       }
     ],
     "import/extensions": [
@@ -92,26 +100,68 @@
       }
     ]
   },
-  "ignorePatterns": ["cypress"],
+  "ignorePatterns": [
+    "cypress"
+  ],
   "settings": {
     "import/resolver": {
       "alias": {
         "map": [
-          ["@Constants", "./src/constants"],
-          ["@SharedComponents", "./src/components"],
-          ["@Services", "./src/services"],
-          ["@Pages", "./src/pages"],
-          ["@HOCs", "./src/HOCs"],
-          ["@Images", "./src/images"],
-          ["@Contexts", "./src/contexts"],
-          ["@Config", "./src/config"]
+          [
+            "@Constants",
+            "./src/constants"
+          ],
+          [
+            "@SharedComponents",
+            "./src/components"
+          ],
+          [
+            "@Services",
+            "./src/services"
+          ],
+          [
+            "@Pages",
+            "./src/pages"
+          ],
+          [
+            "@HOCs",
+            "./src/HOCs"
+          ],
+          [
+            "@Images",
+            "./src/images"
+          ],
+          [
+            "@Contexts",
+            "./src/contexts"
+          ],
+          [
+            "@Config",
+            "./src/config"
+          ],
+          [
+            "@Hooks",
+            "./src/hooks"
+          ]
         ],
-        "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".json",
+          ".ts",
+          ".tsx"
+        ]
       },
       "webpack": {
         "config": {
           "resolve": {
-            "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"]
+            "extensions": [
+              ".js",
+              ".jsx",
+              ".json",
+              ".ts",
+              ".tsx"
+            ]
           }
         }
       }

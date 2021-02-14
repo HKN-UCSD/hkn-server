@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { parseISO, format } from 'date-fns';
 
-import { useInterval } from '../../../../hooks/index';
-
+import { useInterval } from '@Hooks';
 import { Button, Table } from '@SharedComponents';
 import {
   AttendanceResponse,
@@ -61,19 +60,24 @@ function CheckOffTable(props: CheckOffTableProps) {
     // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
     const startTimeString = format(
       parseISO((attendance.startTime as unknown) as string),
-      'PPP h:mm aaaa'
+      'p'
     );
     const attendanceToDisplay = {
       ...attendance,
       name: fullName,
       startTimeString,
     };
-      
+
     return attendanceToDisplay;
   });
 
   return (
-    <Table columns={columns} data={attendanceData} title='Check Off Table' />
+    <Table
+      columns={columns}
+      data={attendanceData}
+      title=''
+      options={{ exportButton: true }}
+    />
   );
 }
 

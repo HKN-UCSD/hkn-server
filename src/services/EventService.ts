@@ -7,6 +7,7 @@ import {
   EventControllerSignInToEventRequest,
   EventControllerRsvpForEventRequest,
   EventControllerGetEventAttendanceRequest,
+  EventControllerGetEventRSVPRequest,
   EventControllerCheckOffEventAttendanceRequest,
   EventControllerAffiliateEventSigninRequest,
   EventControllerAffiliateEventRSVPRequest,
@@ -19,6 +20,7 @@ import {
   AppUserEventRequest,
   AttendanceResponse,
   MultipleAttendanceResponse,
+  MultipleRSVPResponse,
   RSVPResponse,
 } from './api/models';
 import ApiConfigStore from './ApiConfigStore';
@@ -52,6 +54,18 @@ export async function getEventAttendances(
   };
 
   return eventApi.eventControllerGetEventAttendance(request);
+}
+
+export async function getEventRSVPs(
+  eventID: number
+): Promise<MultipleRSVPResponse> {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerGetEventRSVPRequest = {
+    eventID,
+  };
+
+  return eventApi.eventControllerGetEventRSVP(request);
 }
 
 export async function checkOffAttendance(

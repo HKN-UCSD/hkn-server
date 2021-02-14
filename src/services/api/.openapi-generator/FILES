@@ -35,6 +35,7 @@ models\MultipleAttendanceResponse.ts
 models\MultipleEventQuery.ts
 models\MultipleEventResponse.ts
 models\MultipleInducteePointsResponse.ts
+models\MultipleRSVPResponse.ts
 models\MultipleUserNameResponse.ts
 models\MultipleUserQuery.ts
 models\RSVPResponse.ts
