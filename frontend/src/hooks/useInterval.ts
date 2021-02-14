@@ -7,6 +7,8 @@ interface UseIntervalParams {
   delay: number;
 }
 
+// Source: https://overreacted.io/making-setinterval-declarative-with-react-hooks/#extracting-a-hook
+// This is used to execute a callback every <delay> ms
 export function useInterval(params: UseIntervalParams) {
   const { callback, delay } = params;
   // eslint-disable-next-line

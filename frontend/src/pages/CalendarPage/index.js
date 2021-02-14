@@ -80,6 +80,21 @@ class CalendarPage extends React.Component {
     }
   }
 
+  handlePendingChange() {
+    const { pending } = this.state;
+    this.setState({ pending: !pending });
+  }
+
+  handleReadyChange() {
+    const { ready } = this.state;
+    this.setState({ ready: !ready });
+  }
+
+  handleCompleteChange() {
+    const { complete } = this.state;
+    this.setState({ complete: !complete });
+  }
+
   toggleView() {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
@@ -95,21 +110,6 @@ class CalendarPage extends React.Component {
     } else {
       this.setState({ selectedEvent: event });
     }
-  }
-
-  handlePendingChange() {
-    const { pending } = this.state;
-    this.setState({ pending: !pending });
-  }
-
-  handleReadyChange() {
-    const { ready } = this.state;
-    this.setState({ ready: !ready });
-  }
-
-  handleCompleteChange() {
-    const { complete } = this.state;
-    this.setState({ complete: !complete });
   }
 
   render() {

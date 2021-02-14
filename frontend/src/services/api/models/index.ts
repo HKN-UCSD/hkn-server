@@ -27,6 +27,7 @@ export * from './MultipleAttendanceResponse';
 export * from './MultipleEventQuery';
 export * from './MultipleEventResponse';
 export * from './MultipleInducteePointsResponse';
+export * from './MultipleRSVPResponse';
 export * from './MultipleUserNameResponse';
 export * from './MultipleUserQuery';
 export * from './RSVPResponse';

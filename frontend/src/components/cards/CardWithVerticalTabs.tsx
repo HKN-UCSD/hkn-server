@@ -26,13 +26,19 @@ export function CardWithVerticalTabs({ items }: CardWithVerticalTabsProps) {
   };
 
   const tabElements: JSX.Element[] = items.map(item => (
-    <MuiTab disableRipple label={item.title} key={item.title} />
+    <MuiTab
+      disableRipple
+      label={item.title}
+      key={item.title}
+      wrapped
+      style={{ minWidth: 0 }}
+    />
   ));
 
   return (
     <Card>
       <Grid container spacing={2}>
-        <Grid item>
+        <Grid item xs={2}>
           <MuiTabs
             orientation='vertical'
             value={index}
@@ -42,7 +48,9 @@ export function CardWithVerticalTabs({ items }: CardWithVerticalTabsProps) {
             {tabElements}
           </MuiTabs>
         </Grid>
-        <Grid item>{items[index].element}</Grid>
+        <Grid item xs>
+          {items[index].element}
+        </Grid>
       </Grid>
     </Card>
   );
