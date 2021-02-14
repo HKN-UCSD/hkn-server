@@ -1,4 +1,5 @@
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk/global';
+import S3 from 'aws-sdk/clients/s3';
 import { config } from '../config';
 
 export function loadAWS(): void {
@@ -8,6 +9,6 @@ export function loadAWS(): void {
   });
 }
 
-export function loadAWS_S3(): AWS.S3 {
-  return new AWS.S3({ region: config.awsConfig.bucketRegion });
+export function loadAWS_S3(): S3 {
+  return new S3({ region: config.awsConfig.bucketRegion });
 }
