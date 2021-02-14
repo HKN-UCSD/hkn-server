@@ -5,7 +5,4 @@ export { RSVPService, RSVPServiceImpl } from './RSVPService';
 export { AuthenticationService, AuthenticationServiceImpl } from './AuthenticationService';
 export { AuthorizationService, AuthorizationServiceImpl } from './AuthorizationService';
 export { AccountService, AccountServiceImpl } from './AccountService';
-export { StorageService, StorageServiceImpl } from './StorageService';
 export { InductionClassService, InductionClassServiceImpl } from './InductionClassService';
-export { LocalStorageService, LocalStorageServiceImpl } from './LocalStorageService';
-export { ResumeService, ResumeServiceImpl, resumeFileUploadOptions } from './ResumeService';
