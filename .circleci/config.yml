@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  node: circleci/node@2.0.2
 jobs:
   run_lint_prettier:
     docker:
@@ -8,42 +6,42 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "backend/package.json"}}
           paths:
-            - node_modules
+            - backend/node_modules
       - run:
           command: |
-            npm run lint
-            npx prettier --check ./src/**/*.ts
+            npm run --prefix backend lint
+            cd backend; npx prettier --check ./src/**/*.ts
   run_build:
     docker:
       - image: circleci/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "backend/package.json"}}
           paths:
-            - node_modules
-      - run: npm run build:no-check
+            - backend/node_modules
+      - run: npm run --prefix backend build:no-check
   run_test:
     docker:
       - image: circleci/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "backend/package.json"}}
           paths:
-            - node_modules
-      - run: npm run test
+            - backend/node_modules
+      - run: npm run --prefix backend test
 
 workflows:
   lint_and_build:
