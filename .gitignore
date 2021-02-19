@@ -1,6 +1,9 @@
 backend/node_modules
 backend/dist
+
 **/.env
+.env
+
 .DS_Store
 .eslintignore
 .eslintcache
