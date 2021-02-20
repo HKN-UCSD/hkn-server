@@ -1,8 +1,8 @@
 import { ViewEntity, Connection, ViewColumn } from 'typeorm';
-import { Quarter } from './Quarter';
+import { InductionClass } from './InductionClass';
 import { Event, EventType } from './Event';
 
-// later do some grouping by quarter
+// later do some grouping by cycle
 @ViewEntity({
   expression: (connection: Connection) =>
     connection
@@ -10,13 +10,13 @@ import { Event, EventType } from './Event';
       .select('event.id', 'eventId')
       .addSelect('event.name', 'eventName')
       .addSelect('event.type', 'eventType')
-      .addSelect('quarter.name', 'eventQuarter')
-      .addSelect('quarter.cycle', 'eventCycle')
+      .addSelect('induction_class.name', 'eventCycle')
+      .addSelect('induction_class.year', 'eventYear')
       .from(Event, 'event')
       .innerJoin(
-        Quarter,
-        'quarter',
-        'event.startDate >= quarter.startDate AND event.endDate < quarter.endDate'
+        InductionClass,
+        'induction_class',
+        'event.startDate >= induction_class.startDate AND event.endDate < induction_class.endDate'
       ),
 })
 export class EventsView {
@@ -30,8 +30,8 @@ export class EventsView {
   eventType: EventType;
 
   @ViewColumn()
-  eventQuarter: string;
+  eventCycle: string;
 
   @ViewColumn()
-  eventCycle: string;
+  eventYear: string;
 }

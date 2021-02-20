@@ -6,7 +6,6 @@ import {
   Attendance,
   RSVP,
   InductionClass,
-  Quarter,
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
@@ -49,13 +48,31 @@ const appUsers = [
   },
 ];
 
-const inductionClass = {
-  quarter: 'FA20',
-  name: 'Alpha Beta',
-  startDate: '2020-08-30',
-  endDate: '2020-12-30',
-  interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
-};
+const inductionClasses = [
+  // {
+  //   quarter: 'FA20',
+  //   name: 'Alpha Beta',
+  //   startDate: '2020-08-30',
+  //   endDate: '2020-12-30',
+  //   interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+  // },
+  {
+    quarter: 'FA20',
+    name: 'Alpha Beta',
+    startDate: '2020-08-31',
+    endDate: '2021-03-30',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'SU20',
+    name: 'Alpha Beta',
+    startDate: '2020-06-30',
+    endDate: '2020-08-31',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2019',
+  },
+];
 
 const events = [
   {
@@ -131,27 +148,6 @@ const rsvps = [
   },
 ];
 
-const quarters = [
-  {
-    name: 'SU20',
-    startDate: '2020-08-30T07:00:00+00:00',
-    endDate: '2020-08-31T07:00:00+00:00',
-    cycle: '2019-2020',
-  },
-  {
-    name: 'FA20',
-    startDate: '2020-08-31T07:00:00+00:00',
-    endDate: '2020-09-01T07:00:00+00:00',
-    cycle: '2020-2021',
-  },
-  {
-    name: 'WI21',
-    startDate: '2020-09-01T07:00:00+00:00',
-    endDate: '2020-09-02T07:00:00+00:00',
-    cycle: '2020-2021',
-  },
-];
-
 export class InitialSeed1598821691476 implements MigrationInterface {
   name = 'InitialSeed1598821691476';
 
@@ -159,8 +155,14 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     const manager: EntityManager = queryRunner.manager;
 
     // InductionClass
-    const inductionClassEntity: InductionClass = manager.create(InductionClass, inductionClass);
-    await manager.insert(InductionClass, inductionClassEntity);
+    const inductionClassPromises = inductionClasses.map(async inductionClass =>
+      manager.insert(InductionClass, inductionClass)
+    );
+    await Promise.all(inductionClassPromises);
+    const inductionClassEntity: InductionClass = manager.create(
+      InductionClass,
+      inductionClasses[0]
+    );
 
     // AppUsers
     const appUserPromises = appUsers.map(appUser => {
@@ -186,10 +188,6 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     // RSVP
     const rsvpPromises = rsvps.map(async rsvp => manager.insert(RSVP, rsvp));
     await Promise.all(rsvpPromises);
-
-    // Quarter
-    const quarterPromises = quarters.map(async quarter => manager.insert(Quarter, quarter));
-    await Promise.all(quarterPromises);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -198,6 +196,5 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     await queryRunner.query(`DELETE from event_hosts_app_user`);
     await queryRunner.query(`DELETE from app_user`);
     await queryRunner.query(`DELETE from induction_class`);
-    await queryRunner.query(`DELETE from quarter`);
   }
 }

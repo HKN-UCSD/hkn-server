@@ -4,7 +4,7 @@ import { Attendance } from './Attendance';
 import { Event } from './Event';
 import { EventsView } from './EventsView';
 
-// later do some grouping by quarter
+// later do some grouping by cycle
 @ViewEntity({
   expression: (connection: Connection) =>
     connection
@@ -20,12 +20,12 @@ import { EventsView } from './EventsView';
         "SUM(CASE WHEN event.type = 'mentorship' THEN 1 ELSE 0 END)::int::bool",
         'hasMentorshipRequirement'
       )
-      .addSelect('event_view.eventCycle')
+      .addSelect('event_view.eventYear', 'eventYear')
       .from(AppUser, 'appUser')
       .innerJoin(Attendance, 'attendance', 'appUser.id = attendance.attendee')
       .innerJoin(Event, 'event', 'event.id = attendance.event')
       .innerJoin(EventsView, 'event_view', 'event.id = event_view.eventId')
-      .groupBy('appUser.id, event_view.eventCycle')
+      .groupBy('appUser.id, event_view.eventYear')
       .where('attendance.isInductee'),
 })
 export class InducteePointsView {
@@ -45,5 +45,5 @@ export class InducteePointsView {
   hasMentorshipRequirement: boolean;
 
   @ViewColumn()
-  eventCycle: string;
+  eventYear: string;
 }

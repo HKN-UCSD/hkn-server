@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, Index } from 'typeorm';
 
 /**
  * The InductionClass table is meant to represent an induction class.
@@ -29,4 +29,8 @@ export class InductionClass {
     nullable: true,
   })
   interviewDates: Date[];
+
+  @Index()
+  @Column()
+  year: string;
 }
