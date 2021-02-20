@@ -9,8 +9,6 @@ import {
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
-import { formatISO } from 'date-fns';
-
 const appUsers = [
   {
     firstName: 'Olivia',
@@ -49,13 +47,6 @@ const appUsers = [
 ];
 
 const inductionClasses = [
-  // {
-  //   quarter: 'FA20',
-  //   name: 'Alpha Beta',
-  //   startDate: '2020-08-30',
-  //   endDate: '2020-12-30',
-  //   interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
-  // },
   {
     quarter: 'FA20',
     name: 'Alpha Beta',
@@ -107,17 +98,13 @@ const events = [
   },
 ];
 
-const startTime = new Date();
-const endTime = new Date();
-endTime.setHours(startTime.getHours() + 1);
-
 const attendances = [
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2020-08-30T18:00:00+00:00',
+    endTime: '2020-08-30T19:00:00+00:00',
     isInductee: true,
     points: 1,
   },
@@ -125,8 +112,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2020-08-31T18:00:00+00:00',
+    endTime: '2020-08-31T19:00:00+00:00',
     isInductee: true,
     points: 2,
   },
@@ -134,8 +121,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2020-09-01T18:00:00+00:00',
+    endTime: '2020-09-01T19:00:00+00:00',
     isInductee: true,
     points: 1.5,
   },

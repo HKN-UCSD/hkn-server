@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, ValidateNested, IsEmail } from 'class-validator';
+import { IsBoolean, IsInt, ValidateNested, IsEmail, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class InducteePointsResponse {
@@ -16,6 +16,9 @@ export class InducteePointsResponse {
 
   @IsBoolean()
   hasMentorshipRequirement: boolean;
+
+  @IsString()
+  year: string;
 }
 
 export class MultipleInducteePointsResponse {
