@@ -1,53 +1,108 @@
 version: 2.1
 orbs:
-  node: circleci/node@2.0.2
+  cypress: cypress-io/cypress@1.24.0
 jobs:
-  run_lint_prettier:
+  frontend_format:
     docker:
       - image: circleci/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "frontend/package.json"}}
+      - run: npm install --prefix frontend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "frontend/package.json"}}
           paths:
-            - node_modules
+            - frontend/node_modules
       - run:
           command: |
-            npm run lint
-            npx prettier --check ./src/**/*.ts
-  run_build:
+            npm run --prefix frontend lint
+            cd frontend; npx prettier --check ./src/**/*.js
+  frontend_cypress:
+    executor: cypress/base-12-14-0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "frontend/package.json"}}
+      - run: npm ci --prefix frontend
+      - save_cache:
+          key: package-cache-{{checksum "frontend/package.json"}}
+          paths:
+            - frontend/node_modules
+      - run: npm i -g wait-on
+      - run:
+          command: npm run --prefix frontend start
+          background: true
+      - run: wait-on "${REACT_APP_API_URL}/api/docs"
+      - run: wait-on http://localhost:3000
+      - run: npm run --prefix frontend cypress -- --env circle=true
+
+  frontend_test:
     docker:
       - image: circleci/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "frontend/package.json"}}
+      - run: npm install --prefix frontend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "frontend/package.json"}}
           paths:
-            - node_modules
-      - run: npm run build:no-check
-  run_test:
+            - frontend/node_modules
+      - run: npm run --prefix frontend test
+  backend_format:
     docker:
       - image: circleci/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-{{checksum "package.json"}}
-      - run: npm install
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-{{checksum "package.json"}}
+          key: package-cache-{{checksum "backend/package.json"}}
           paths:
-            - node_modules
-      - run: npm run test
+            - backend/node_modules
+      - run:
+          command: |
+            npm run --prefix backend lint
+            cd backend; npx prettier --check ./src/**/*.ts
+  backend_build:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
+      - save_cache:
+          key: package-cache-{{checksum "backend/package.json"}}
+          paths:
+            - backend/node_modules
+      - run: npm run --prefix backend build:no-check
+  backend_test:
+    docker:
+      - image: circleci/node:12.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: package-cache-{{checksum "backend/package.json"}}
+      - run: npm install --prefix backend
+      - save_cache:
+          key: package-cache-{{checksum "backend/package.json"}}
+          paths:
+            - backend/node_modules
+      - run: npm run --prefix backend test
 
 workflows:
-  lint_and_build:
+  backend:
     jobs:
-      - run_lint_prettier
-      - run_build
-      - run_test
+      - backend_format
+      - backend_build
+      - backend_test
+  frontend:
+    jobs:
+      - frontend_format
+      - frontend_cypress:
+          requires:
+            - frontend_format
+      - frontend_test

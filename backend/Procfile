@@ -1,0 +1,2 @@
+release: NODE_ENV=development npm i ; npm run migration:run
+web: node dist/index.js
