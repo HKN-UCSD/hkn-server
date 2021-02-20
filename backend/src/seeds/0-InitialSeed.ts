@@ -6,6 +6,7 @@ import {
   Attendance,
   RSVP,
   InductionClass,
+  Quarter,
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
@@ -130,6 +131,27 @@ const rsvps = [
   },
 ];
 
+const quarters = [
+  {
+    name: 'SU20',
+    startDate: '2020-08-30T07:00:00+00:00',
+    endDate: '2020-08-31T07:00:00+00:00',
+    cycle: '2019-2020',
+  },
+  {
+    name: 'FA20',
+    startDate: '2020-08-31T07:00:00+00:00',
+    endDate: '2020-09-01T07:00:00+00:00',
+    cycle: '2020-2021',
+  },
+  {
+    name: 'WI21',
+    startDate: '2020-09-01T07:00:00+00:00',
+    endDate: '2020-09-02T07:00:00+00:00',
+    cycle: '2020-2021',
+  },
+];
+
 export class InitialSeed1598821691476 implements MigrationInterface {
   name = 'InitialSeed1598821691476';
 
@@ -164,6 +186,10 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     // RSVP
     const rsvpPromises = rsvps.map(async rsvp => manager.insert(RSVP, rsvp));
     await Promise.all(rsvpPromises);
+
+    // Quarter
+    const quarterPromises = quarters.map(async quarter => manager.insert(Quarter, quarter));
+    await Promise.all(quarterPromises);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -172,5 +198,6 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     await queryRunner.query(`DELETE from event_hosts_app_user`);
     await queryRunner.query(`DELETE from app_user`);
     await queryRunner.query(`DELETE from induction_class`);
+    await queryRunner.query(`DELETE from quarter`);
   }
 }
