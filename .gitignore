@@ -7,3 +7,4 @@ backend/dist
 .DS_Store
 .eslintignore
 .eslintcache
+local_fs/
