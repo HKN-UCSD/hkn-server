@@ -1,6 +1,6 @@
 # HKN Portal Monorepo
 
-All code related to the HKN portal belongs here.
+Hello all code related to the HKN portal belongs here.
 
 ## To install dependencies
 
