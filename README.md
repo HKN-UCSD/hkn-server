@@ -20,3 +20,5 @@ Make sure that the api url in your .env file points to our hosted dev-api server
 develop frontend in isolation
 
 `cd frontend; npm run start`
+
+t
