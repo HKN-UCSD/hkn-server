@@ -50,16 +50,32 @@ const inductionClasses = [
   {
     quarter: 'FA20',
     name: 'Alpha Beta',
-    startDate: '2020-08-31',
-    endDate: '2021-03-30',
+    startDate: '2020-09-28',
+    endDate: '2020-12-20',
     interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
     year: '2020',
   },
   {
-    quarter: 'SU20',
-    name: 'Alpha Beta',
-    startDate: '2020-06-30',
-    endDate: '2020-08-31',
+    quarter: 'WI21',
+    name: 'Beta Gamma',
+    startDate: '2021-01-04',
+    endDate: '2021-03-21',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'SP21',
+    name: 'Gamma Delta',
+    startDate: '2021-03-24',
+    endDate: '2021-06-11',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'SP20',
+    name: 'Omega Alpha',
+    startDate: '2020-03-25',
+    endDate: '2020-06-13',
     interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
     year: '2019',
   },
@@ -70,8 +86,8 @@ const events = [
     name: 'Laser Tag',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-08-30T18:00:00+00:00',
-    endDate: '2020-08-30T19:00:00+00:00',
+    startDate: '2020-03-25T18:00:00+00:00',
+    endDate: '2020-03-25T19:00:00+00:00',
     type: EventType.SOCIAL,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
@@ -80,8 +96,8 @@ const events = [
     name: 'Resume Critique',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-08-31T18:00:00+00:00',
-    endDate: '2020-08-31T19:00:00+00:00',
+    startDate: '2020-12-19T18:00:00+00:00',
+    endDate: '2020-12-19T19:00:00+00:00',
     type: EventType.PROFESSIONAL,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
@@ -90,8 +106,8 @@ const events = [
     name: 'Mentor 1:1',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-09-01T18:00:00+00:00',
-    endDate: '2020-09-01T19:00:00+00:00',
+    startDate: '2021-02-23T18:00:00+00:00',
+    endDate: '2021-02-23T19:00:00+00:00',
     type: EventType.MENTORSHIP,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
@@ -103,8 +119,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: '2020-08-30T18:00:00+00:00',
-    endTime: '2020-08-30T19:00:00+00:00',
+    startTime: '2020-03-25T18:00:00+00:00',
+    endTime: '2020-03-25T19:00:00+00:00',
     isInductee: true,
     points: 1,
   },
@@ -112,8 +128,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: '2020-08-31T18:00:00+00:00',
-    endTime: '2020-08-31T19:00:00+00:00',
+    startTime: '2020-12-19T18:00:00+00:00',
+    endTime: '2020-12-19T19:00:00+00:00',
     isInductee: true,
     points: 2,
   },
@@ -121,8 +137,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: '2020-09-01T18:00:00+00:00',
-    endTime: '2020-09-01T19:00:00+00:00',
+    startTime: '2021-02-23T18:00:00+00:00',
+    endTime: '2021-02-23T19:00:00+00:00',
     isInductee: true,
     points: 1.5,
   },
@@ -146,10 +162,8 @@ export class InitialSeed1598821691476 implements MigrationInterface {
       manager.insert(InductionClass, inductionClass)
     );
     await Promise.all(inductionClassPromises);
-    const inductionClassEntity: InductionClass = manager.create(
-      InductionClass,
-      inductionClasses[0]
-    );
+    const induct_class = inductionClasses.find(x => x.quarter == 'WI21');
+    const inductionClassEntity: InductionClass = manager.create(InductionClass, induct_class);
 
     // AppUsers
     const appUserPromises = appUsers.map(appUser => {
