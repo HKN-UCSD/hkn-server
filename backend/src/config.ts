@@ -24,6 +24,7 @@ const {
   DEV_AUTH,
   DD_METRIC_TAG,
   NODE_ENV,
+  MAX_LOG_LEVEL,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {

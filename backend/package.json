@@ -109,6 +109,7 @@
     "@Middlewares": "dist/middlewares",
     "@Mappers": "dist/mappers",
     "@Repositories": "dist/repositories",
-    "@Config": "dist/config.js"
+    "@Config": "dist/config.js",
+    "@Logger": "dist/logging.js"
   }
 }

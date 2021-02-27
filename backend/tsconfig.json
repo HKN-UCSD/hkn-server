@@ -24,6 +24,7 @@
       "@Repositories": ["src/repositories"],
       "@Middlewares": ["src/middlewares"],
       "@Config": ["src/config.ts"],
+      "@Logger": ["src/logging.ts"],
       "*": ["node_modules/*"]
     },
     "emitDecoratorMetadata": true,
