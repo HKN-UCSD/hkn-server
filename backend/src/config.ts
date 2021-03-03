@@ -12,6 +12,7 @@ type Config = {
   devAuth: boolean;
   ddMetricTag: string;
   nodeEnv: string;
+  maxLogLevel: string;
 };
 
 const {
@@ -41,4 +42,5 @@ export const config: Config = {
   devAuth: DEV_AUTH === 'true',
   ddMetricTag: DD_METRIC_TAG,
   nodeEnv: NODE_ENV,
+  maxLogLevel: MAX_LOG_LEVEL,
 };

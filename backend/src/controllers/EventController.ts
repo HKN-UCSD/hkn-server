@@ -46,7 +46,6 @@ import {
   RSVPMapperImpl,
 } from '@Mappers';
 import { OfficerAuthMiddleware } from '@Middlewares';
-import logger from '@Logger';
 
 @JsonController('/api/events')
 export class EventController {
@@ -96,10 +95,6 @@ export class EventController {
   @Get('/:eventID')
   @ResponseSchema(EventResponse)
   async getEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
-    logger.info({
-      message: 'getting event ' + eventID,
-      customTags: 'event',
-    });
     const event = await this.eventService.getEventById(eventID);
     if (event === undefined) {
       return undefined;
