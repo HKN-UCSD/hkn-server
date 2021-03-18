@@ -94,7 +94,7 @@ export default function InterviewSchedulingPage(): JSX.Element {
   useEffect(() => {
     const getInterviewWeekStartDateFunc = async () => {
       // hardcoded induction class for now
-      const res: InterviewDatesResponse = await getInterviewStartDates('FA20');
+      const res: InterviewDatesResponse = await getInterviewStartDates('WI21');
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
         (interviewWeekStartDate: InterviewWeekStartDate) => {
           return parseISO(interviewWeekStartDate.startDate);
