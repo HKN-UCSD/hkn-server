@@ -1,0 +1,54 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+CODEOWNER
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Firebase ###
+.idea
+**/database.rules.json
+**/node_modules/*
+**/.firebaserc
+**/firestore-debug.log
+**/firestore.indexes.json
+**/firestore.rules
+**/serviceAccount.json
+**/storage.rules
+
+### Credentials ###
+serviceAccount.json
+hkn-viewer-credentials.json
+hkn-editor-credentials.json
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+### VisualStudioCode ###
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
