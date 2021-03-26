@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@Pages": ["src/pages"],
+      "@Pages/*": ["src/pages/*"],
+      "@Constants": ["src/constants"],
+      "@Constants/*": ["src/constants/*"],
+      "@SharedComponents": ["src/components"],
+      "@SharedComponents/*": ["src/components/*"],
+      "@Services": ["src/services"],
+      "@Services/*": ["src/services/*"],
+      "@HOCs": ["src/HOCs"],
+      "@HOCs/*": ["src/HOCs/*"],
+      "@Images": ["src/images"],
+      "@Images/*": ["src/images/*"],
+      "@Contexts": ["src/contexts"],
+      "@Config": ["src/config"],
+      "@Hooks": ["src/hooks"],
+      "@Hooks/*": ["src/hooks/*"]
+    }
+  }
+}

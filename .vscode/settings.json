@@ -18,6 +18,9 @@
     "editor.tabSize": 2,
     "editor.formatOnSave": true
   },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
   "[html]": {
     "editor.tabSize": 2
   },
