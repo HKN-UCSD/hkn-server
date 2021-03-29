@@ -10,6 +10,7 @@ import {
   ViewSwitcher,
   TodayButton,
   DateNavigator,
+  Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 
@@ -25,7 +26,7 @@ AppointmentWithClick.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default function Calendar({ events, handleEventClick }) {
+export default function Calendar({ events, handleEventClick, resources }) {
   return (
     <Scheduler data={events} firstDayOfWeek={1}>
       <ViewState defaultCurrentViewName='Week' />
@@ -41,6 +42,7 @@ export default function Calendar({ events, handleEventClick }) {
           handleEventClick(appointment)
         )}
       />
+      <Resources data={resources} mainResourceName='status' />
     </Scheduler>
   );
 }
@@ -54,4 +56,5 @@ Calendar.propTypes = {
     })
   ).isRequired,
   handleEventClick: PropTypes.func.isRequired,
+  resources: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };

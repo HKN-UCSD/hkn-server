@@ -123,6 +123,18 @@ class CalendarPage extends React.Component {
     } = this.state;
     const { classes, history } = this.props;
 
+    // color of events based on status
+    const resources = [
+      {
+        fieldName: 'status',
+        title: 'Status',
+        instances: [
+          { id: 'complete', text: 'Laser Tag', color: 'cadetBlue' },
+          { id: 'pending', text: 'Test Event', color: 'plum' },
+          { id: 'ready', text: 'Test Event', color: 'tomato' },
+        ],
+      },
+    ];
     return (
       <Grid className={classes.root} container direction='column'>
         <Grid className={classes.buttons} container justify='space-between'>
@@ -138,36 +150,41 @@ class CalendarPage extends React.Component {
           </Grid>
 
           <Grid item>
-            {OfficerRenderPermission(FormControlLabel)({
-              control: (
-                <Checkbox
-                  name='pending'
-                  onChange={() => this.handlePendingChange()}
-                  checked={pending}
-                />
-              ),
-              label: 'Pending',
-            })}
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name='ready'
-                  onChange={() => this.handleReadyChange()}
-                  checked={ready}
-                />
-              }
-              label='Ready'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name='complete'
-                  onChange={() => this.handleCompleteChange()}
-                  checked={complete}
-                />
-              }
-              label='Complete'
-            />
+            {view === 'calendar' &&
+              OfficerRenderPermission(FormControlLabel)({
+                control: (
+                  <Checkbox
+                    name='pending'
+                    onChange={() => this.handlePendingChange()}
+                    checked={pending}
+                  />
+                ),
+                label: 'Pending',
+              })}
+            {view === 'calendar' && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='ready'
+                    onChange={() => this.handleReadyChange()}
+                    checked={ready}
+                  />
+                }
+                label='Ready'
+              />
+            )}
+            {view === 'calendar' && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='complete'
+                    onChange={() => this.handleCompleteChange()}
+                    checked={complete}
+                  />
+                }
+                label='Complete'
+              />
+            )}
           </Grid>
 
           <Grid item>
@@ -189,6 +206,7 @@ class CalendarPage extends React.Component {
                   <Calendar
                     events={events}
                     handleEventClick={event => this.toggleEventClick(event)}
+                    resources={resources}
                   />
                 ) : (
                   <EventList

@@ -25,6 +25,10 @@ const columns = [
     customSort: (eventA, eventB) =>
       eventDateComparator(eventA.endDate, eventB.endDate),
   },
+  {
+    title: 'Event Status',
+    field: 'status',
+  },
 ];
 
 function EventList({ events, handleEventClick }) {
@@ -41,6 +45,7 @@ function EventList({ events, handleEventClick }) {
       location: events[i].location,
       startDate: events[i].startDate,
       endDate: events[i].endDate,
+      status: events[i].status,
     };
     listEvents.push(listEvent);
   }
@@ -67,6 +72,7 @@ EventList.propTypes = {
       title: PropTypes.string.isRequired,
       location: PropTypes.string,
       id: PropTypes.number.isRequired,
+      status: PropTypes.string.isRequired,
     })
   ),
   handleEventClick: PropTypes.func.isRequired,
