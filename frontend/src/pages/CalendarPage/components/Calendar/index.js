@@ -14,6 +14,25 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 
+// color of events based on status
+const resources = [
+  {
+    fieldName: 'status',
+    instances: [
+      { id: 'complete', color: '#b3cce6' },
+      { id: 'pending', color: '#e6b3cc' },
+      { id: 'ready', color: '#f28c8c' },
+    ],
+  },
+];
+
+const mainResource = 'status';
+
+resources.propTypes = {
+  fieldName: PropTypes.string.isRequired,
+  instances: PropTypes.object.isRequired,
+};
+
 const AppointmentWithClick = handleClick => props => (
   <Appointments.Appointment
     {...props}
@@ -26,7 +45,7 @@ AppointmentWithClick.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default function Calendar({ events, handleEventClick, resources }) {
+export default function Calendar({ events, handleEventClick }) {
   return (
     <Scheduler data={events} firstDayOfWeek={1}>
       <ViewState defaultCurrentViewName='Week' />
@@ -42,7 +61,7 @@ export default function Calendar({ events, handleEventClick, resources }) {
           handleEventClick(appointment)
         )}
       />
-      <Resources data={resources} mainResourceName='status' />
+      <Resources data={resources} mainResourceName={mainResource} />
     </Scheduler>
   );
 }
@@ -56,5 +75,4 @@ Calendar.propTypes = {
     })
   ).isRequired,
   handleEventClick: PropTypes.func.isRequired,
-  resources: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };

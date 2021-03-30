@@ -122,19 +122,6 @@ class CalendarPage extends React.Component {
       complete,
     } = this.state;
     const { classes, history } = this.props;
-
-    // color of events based on status
-    const resources = [
-      {
-        fieldName: 'status',
-        title: 'Status',
-        instances: [
-          { id: 'complete', text: 'Laser Tag', color: 'cadetBlue' },
-          { id: 'pending', text: 'Test Event', color: 'plum' },
-          { id: 'ready', text: 'Test Event', color: 'tomato' },
-        ],
-      },
-    ];
     return (
       <Grid className={classes.root} container direction='column'>
         <Grid className={classes.buttons} container justify='space-between'>
@@ -149,9 +136,9 @@ class CalendarPage extends React.Component {
             })}
           </Grid>
 
-          <Grid item>
-            {view === 'calendar' &&
-              OfficerRenderPermission(FormControlLabel)({
+          {view === 'calendar' && (
+            <Grid item>
+              {OfficerRenderPermission(FormControlLabel)({
                 control: (
                   <Checkbox
                     name='pending'
@@ -161,7 +148,6 @@ class CalendarPage extends React.Component {
                 ),
                 label: 'Pending',
               })}
-            {view === 'calendar' && (
               <FormControlLabel
                 control={
                   <Checkbox
@@ -172,8 +158,6 @@ class CalendarPage extends React.Component {
                 }
                 label='Ready'
               />
-            )}
-            {view === 'calendar' && (
               <FormControlLabel
                 control={
                   <Checkbox
@@ -184,8 +168,8 @@ class CalendarPage extends React.Component {
                 }
                 label='Complete'
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
 
           <Grid item>
             <MuiButton
@@ -206,7 +190,6 @@ class CalendarPage extends React.Component {
                   <Calendar
                     events={events}
                     handleEventClick={event => this.toggleEventClick(event)}
-                    resources={resources}
                   />
                 ) : (
                   <EventList
