@@ -28,11 +28,6 @@ const resources = [
 
 const mainResource = 'status';
 
-resources.propTypes = {
-  fieldName: PropTypes.string.isRequired,
-  instances: PropTypes.object.isRequired,
-};
-
 const AppointmentWithClick = handleClick => props => (
   <Appointments.Appointment
     {...props}
