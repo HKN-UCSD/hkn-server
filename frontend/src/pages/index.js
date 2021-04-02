@@ -1,3 +1,5 @@
+import ProfilePage from './ProfilePage';
+
 import SignInPage from '@Pages/SignInPage';
 import SignUpPage from '@Pages/SignUpPage';
 import PointsPage from '@Pages/PointsPage';
@@ -26,4 +28,5 @@ export {
   EventCreationPage,
   QueriedEventPage,
   InterviewSchedulingPage,
+  ProfilePage,
 };

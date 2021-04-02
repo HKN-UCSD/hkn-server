@@ -10,6 +10,7 @@ import {
   PointsPage,
   InducteePointsPage,
   EventsPage,
+  ProfilePage,
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
@@ -158,16 +159,16 @@ function App(): JSX.Element {
             path={ROUTES.EVENT_EDIT}
             render={props => OfficerRoutingPermission(EventEditPage)(props)}
           />
-          {/* <Route
-              exact
-              path={ROUTES.PROFILE}
-              render={props => InducteeRoutingPermission(ProfilePage)(props)}
-            />
-            <Route
-              exact
-              path={ROUTES.PROFILE_EDIT}
-              render={props => InducteeRoutingPermission(ProfileEditPage)(props)}
-            /> */}
+          <Route
+            exact
+            path={ROUTES.PROFILE}
+            render={props => InducteeRoutingPermission(ProfilePage)(props)}
+          />
+          {/* <Route */}
+          {/*   exact */}
+          {/*   path={ROUTES.PROFILE_EDIT} */}
+          {/*   render={props => InducteeRoutingPermission(ProfileEditPage)(props)} */}
+          {/* /> */}
           <Route render={() => <Redirect to={ROUTES.HOME} />} />
         </Switch>
       </BrowserRouter>
