@@ -10,8 +10,23 @@ import {
   ViewSwitcher,
   TodayButton,
   DateNavigator,
+  Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
+
+// color of events based on status
+const resources = [
+  {
+    fieldName: 'status',
+    instances: [
+      { id: 'complete', color: '#b3cce6' },
+      { id: 'pending', color: '#e6b3cc' },
+      { id: 'ready', color: '#f28c8c' },
+    ],
+  },
+];
+
+const mainResource = 'status';
 
 const AppointmentWithClick = handleClick => props => (
   <Appointments.Appointment
@@ -41,6 +56,7 @@ export default function Calendar({ events, handleEventClick }) {
           handleEventClick(appointment)
         )}
       />
+      <Resources data={resources} mainResourceName={mainResource} />
     </Scheduler>
   );
 }
