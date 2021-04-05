@@ -19,7 +19,7 @@ export class LocalStorageService {
     fs.writeFile(
       dir_path + fileNameKey + file.originalname.substring(file.originalname.lastIndexOf('.')),
       file.buffer,
-      function (err) {
+      function(err) {
         if (err) {
           throw new Error(`Could not write file to ${dir_path + fileName}: ${err.message}`);
         }

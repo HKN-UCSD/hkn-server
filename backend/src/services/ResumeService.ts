@@ -24,7 +24,7 @@ export const resumeFileUploadOptions = {
 };
 
 export class ResumeService {
-  constructor(private storageService: StorageService) { }
+  constructor(private storageService: StorageService) {}
 
   /**
    * Uploads a document as the resume for the current signed in user.  Returns
@@ -38,7 +38,7 @@ export class ResumeService {
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume`;
     const options = {
       appendFileName: `${appUser.id}`,
-      bucketName: config.awsConfig.resumeBucketName
+      bucketName: config.awsConfig.resumeBucketName,
     };
 
     return this.storageService.uploadFile(storedfileName, file, options);
@@ -54,8 +54,8 @@ export class ResumeService {
   async downloadResume(appUser: AppUser, res: Response): Promise<Buffer | null> {
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume_${appUser.id}`;
     const options = {
-      bucketName: config.awsConfig.resumeBucketName
-    }
+      bucketName: config.awsConfig.resumeBucketName,
+    };
     return this.storageService.downloadFile(storedfileName, res, options);
   }
 }
