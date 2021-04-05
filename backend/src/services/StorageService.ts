@@ -11,7 +11,7 @@ type UploadOptions = {
 };
 
 type DownloadOptions = {
-  bucketName: string
+  bucketName: string;
 };
 export class StorageService {
   /**
@@ -82,7 +82,11 @@ export class StorageService {
    * @param {string} bucketName The bucket to download from.
    * @returns {Promise<Buffer | null>} A Promise that returns the contents of the file in a Buffer.
    */
-  async downloadFile(fileName: string, res: Response, options: DownloadOptions): Promise<Buffer | null> {
+  async downloadFile(
+    fileName: string,
+    res: Response,
+    options: DownloadOptions
+  ): Promise<Buffer | null> {
     try {
       if (options) {
         if (!options.bucketName) {
