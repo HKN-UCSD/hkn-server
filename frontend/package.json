@@ -30,6 +30,7 @@
     "formik-material-ui-lab": "0.0.5",
     "formik-material-ui-pickers": "0.0.8",
     "material-table": "1.68.0",
+    "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
     "react": "^16.13.1",
@@ -88,6 +89,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.10",
     "prettier": "^1.19.1",
+    "react-dev-utils": "^11.0.4",
     "rimraf": "^3.0.2",
     "tsconfig-paths-webpack-plugin": "^3.3.0"
   },
