@@ -94,7 +94,8 @@
     "lint-staged": "^10.2.10",
     "prettier": "^1.19.1",
     "react-dev-utils": "^11.0.4",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "tsconfig-paths-webpack-plugin": "^3.3.0"
   },
   "husky": {
     "hooks": {
