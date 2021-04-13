@@ -37,6 +37,9 @@ export class AggregatePointCycle1618297874071 implements MigrationInterface {
         'SELECT "appUser"."id" AS "user", "appUser"."email" AS "email", "event_view"."eventYear" AS "eventYear", SUM("attendance"."points") AS "points", SUM(CASE WHEN "event"."type" = \'professional\' THEN 1 ELSE 0 END)::int::bool AS "hasProfessionalRequirement", SUM(CASE WHEN "event"."type" = \'mentorship\' THEN 1 ELSE 0 END)::int::bool AS "hasMentorshipRequirement" FROM "app_user" "appUser" INNER JOIN "attendance" "attendance" ON "appUser"."id" = "attendance"."attendeeId"  INNER JOIN "event" "event" ON "event"."id" = "attendance"."eventId"  INNER JOIN "events_view" "event_view" ON "event"."id" = "event_view"."eventId" WHERE "attendance"."isInductee" GROUP BY "appUser"."id", "event_view"."eventYear"',
       ]
     );
+    await queryRunner.query(
+      `UPDATE "induction_class" SET "year" = CONCAT('20', SUBSTRING(quarter, 3, 2))`
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
