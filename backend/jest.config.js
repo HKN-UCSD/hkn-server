@@ -15,5 +15,6 @@ module.exports = {
     '@Repositories': '<rootDir>/src/repositories',
     '@Middlewares': '<rootDir>/src/middlewares',
     '@Config': '<rootDir>/src/config.ts',
+    '@Logger': '<rootDir>/src/logging.ts',
   },
 };
