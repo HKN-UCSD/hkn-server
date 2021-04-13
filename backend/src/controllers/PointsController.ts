@@ -3,7 +3,7 @@ import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { AppUserService, AppUserServiceImpl } from '@Services';
 import { OfficerAuthMiddleware } from '@Middlewares';
-import { MultipleInducteePointsResponse, InducteePointsResponse, AppUserResponse } from '@Payloads';
+import { MultipleInducteePointsResponse, InducteePointsResponse } from '@Payloads';
 import { InducteePointsView } from '@Entities';
 
 @JsonController('/api/points')
@@ -26,6 +26,7 @@ export class PointsController {
       res.email = point.email;
       res.hasMentorshipRequirement = point.hasMentorshipRequirement;
       res.hasProfessionalRequirement = point.hasProfessionalRequirement;
+      res.year = point.eventYear;
       return res;
     });
 

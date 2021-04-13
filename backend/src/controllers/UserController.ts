@@ -21,6 +21,8 @@ import {
   AppUserServiceImpl,
   AttendanceService,
   AttendanceServiceImpl,
+  InductionClassService,
+  InductionClassServiceImpl,
   ResumeService,
   ResumeServiceImpl,
   resumeFileUploadOptions,
@@ -48,6 +50,7 @@ export class UserController {
     private appUserService: AppUserService,
     private attendanceService: AttendanceService,
     private appUserMapper: AppUserMapper,
+    private inductionClassService: InductionClassService,
     private resumeService: ResumeService
   ) {}
 
@@ -155,6 +158,12 @@ export class UserController {
     const points = await this.appUserService.getInducteePoints(userID);
     const attendances = await this.attendanceService.getUserAttendance(userID);
 
+    const induction_class = await this.appUserService.getAppUserInductionClassById(userID);
+    let date_range: string[][] = [];
+    if (induction_class) {
+      date_range = await this.inductionClassService.getYearDatesByQuarter(induction_class.quarter);
+    }
+
     if (points == undefined || attendances == undefined) {
       // return undefined if someone has no points
       return undefined;
@@ -163,6 +172,19 @@ export class UserController {
     // Still don't like this - Godwin Nov 14 2020 :)
     const attendanceObjs = attendances
       .filter(attendance => attendance.endTime)
+      .filter(attendance => {
+        if (!induction_class) {
+          return true;
+        }
+        for (let i = 0; i < date_range.length; i++) {
+          if (
+            attendance.startTime >= new Date(date_range[i][0]) &&
+            attendance.endTime < new Date(date_range[i][1])
+          ) {
+            return true;
+          }
+        }
+      })
       .map(attendance => {
         const res = new AttendanceResponse();
         res.startTime = formatISO(attendance.startTime);
@@ -266,5 +288,6 @@ export const UserControllerImpl = new UserController(
   AppUserServiceImpl,
   AttendanceServiceImpl,
   AppUserMapperImpl,
+  InductionClassServiceImpl,
   ResumeServiceImpl
 );

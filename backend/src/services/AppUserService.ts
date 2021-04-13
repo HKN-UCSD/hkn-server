@@ -4,6 +4,7 @@ import {
   InducteePointsView,
   MemberPointsView,
   Availabilities,
+  InductionClass,
 } from '@Entities';
 import { MultipleUserQuery } from '@Payloads';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
@@ -93,6 +94,19 @@ export class AppUserService {
   }
 
   /**
+   * Get the induction class of an existing AppUser by their id.
+   *
+   * @param id The number used to query for an AppUser entity by ID.
+   * @returns {Promise} The induction class of the user if they exist in the AppUser table.
+   */
+  async getAppUserInductionClassById(id: number): Promise<InductionClass | undefined> {
+    const appUserRepository = getRepository(AppUser);
+
+    const user = await appUserRepository.findOne({ id }, { relations: ['inductionClass'] });
+    return user.inductionClass;
+  }
+
+  /**
    * Get an existing AppUser by their email address.
    *
    * @param {string} email The email used to look for the corresponding AppUser.
@@ -164,6 +178,16 @@ export class AppUserService {
   async getAllInducteePoints(): Promise<InducteePointsView[] | undefined> {
     const inducteePointsRepo = getRepository(InducteePointsView);
     return await inducteePointsRepo.find({});
+  }
+
+  /**
+   * Gets inductee points for all users in a given year
+   * @param {string} eventYear year to get points for
+   * @returns {InducteePoints}
+   */
+  async getAllInducteePointsByYear(eventYear: string): Promise<InducteePointsView[] | undefined> {
+    const inducteePointsRepo = getRepository(InducteePointsView);
+    return await inducteePointsRepo.find({ eventYear });
   }
 
   /**

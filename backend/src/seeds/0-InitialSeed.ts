@@ -9,8 +9,6 @@ import {
 } from '@Entities';
 import { MigrationInterface, QueryRunner, EntityManager } from 'typeorm';
 
-import { formatISO } from 'date-fns';
-
 const appUsers = [
   {
     firstName: 'Olivia',
@@ -48,21 +46,48 @@ const appUsers = [
   },
 ];
 
-const inductionClass = {
-  quarter: 'FA20',
-  name: 'Alpha Beta',
-  startDate: '2020-08-30',
-  endDate: '2020-12-30',
-  interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
-};
+const inductionClasses = [
+  {
+    quarter: 'FA20',
+    name: 'Alpha Beta',
+    startDate: '2020-09-28',
+    endDate: '2020-12-20',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'WI21',
+    name: 'Beta Gamma',
+    startDate: '2021-01-04',
+    endDate: '2021-03-21',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'SP21',
+    name: 'Gamma Delta',
+    startDate: '2021-03-24',
+    endDate: '2021-06-11',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2020',
+  },
+  {
+    quarter: 'SP20',
+    name: 'Omega Alpha',
+    startDate: '2020-03-25',
+    endDate: '2020-06-13',
+    interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+    year: '2019',
+  },
+];
 
 const events = [
   {
     name: 'Laser Tag',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-08-30T18:00:00+00:00',
-    endDate: '2020-08-30T19:00:00+00:00',
+    startDate: '2020-03-25T18:00:00+00:00',
+    endDate: '2020-03-25T19:00:00+00:00',
     type: EventType.SOCIAL,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
@@ -71,8 +96,8 @@ const events = [
     name: 'Resume Critique',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-08-31T18:00:00+00:00',
-    endDate: '2020-08-31T19:00:00+00:00',
+    startDate: '2020-12-19T18:00:00+00:00',
+    endDate: '2020-12-19T19:00:00+00:00',
     type: EventType.PROFESSIONAL,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
@@ -81,25 +106,21 @@ const events = [
     name: 'Mentor 1:1',
     description: 'We have free pizza!',
     location: 'In n Out',
-    startDate: '2020-09-01T18:00:00+00:00',
-    endDate: '2020-09-01T19:00:00+00:00',
+    startDate: '2021-02-23T18:00:00+00:00',
+    endDate: '2021-02-23T19:00:00+00:00',
     type: EventType.MENTORSHIP,
     status: EventStatus.COMPLETE,
     hosts: [{ id: 1 }], // hardcoded to assume officer is id 1
   },
 ];
 
-const startTime = new Date();
-const endTime = new Date();
-endTime.setHours(startTime.getHours() + 1);
-
 const attendances = [
   {
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 1 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2020-03-25T18:00:00+00:00',
+    endTime: '2020-03-25T19:00:00+00:00',
     isInductee: true,
     points: 1,
   },
@@ -107,8 +128,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 2 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2020-12-19T18:00:00+00:00',
+    endTime: '2020-12-19T19:00:00+00:00',
     isInductee: true,
     points: 2,
   },
@@ -116,8 +137,8 @@ const attendances = [
     attendee: { id: 3 },
     officer: { id: 1 },
     event: { id: 3 },
-    startTime: formatISO(startTime),
-    endTime: formatISO(endTime),
+    startTime: '2021-02-23T18:00:00+00:00',
+    endTime: '2021-02-23T19:00:00+00:00',
     isInductee: true,
     points: 1.5,
   },
@@ -137,8 +158,12 @@ export class InitialSeed1598821691476 implements MigrationInterface {
     const manager: EntityManager = queryRunner.manager;
 
     // InductionClass
-    const inductionClassEntity: InductionClass = manager.create(InductionClass, inductionClass);
-    await manager.insert(InductionClass, inductionClassEntity);
+    const inductionClassPromises = inductionClasses.map(async inductionClass =>
+      manager.insert(InductionClass, inductionClass)
+    );
+    await Promise.all(inductionClassPromises);
+    const induct_class = inductionClasses.find(x => x.quarter == 'WI21');
+    const inductionClassEntity: InductionClass = manager.create(InductionClass, induct_class);
 
     // AppUsers
     const appUserPromises = appUsers.map(appUser => {
