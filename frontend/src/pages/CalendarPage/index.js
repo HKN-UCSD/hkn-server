@@ -122,7 +122,6 @@ class CalendarPage extends React.Component {
       complete,
     } = this.state;
     const { classes, history } = this.props;
-
     return (
       <Grid className={classes.root} container direction='column'>
         <Grid className={classes.buttons} container justify='space-between'>
@@ -137,38 +136,40 @@ class CalendarPage extends React.Component {
             })}
           </Grid>
 
-          <Grid item>
-            {OfficerRenderPermission(FormControlLabel)({
-              control: (
-                <Checkbox
-                  name='pending'
-                  onChange={() => this.handlePendingChange()}
-                  checked={pending}
-                />
-              ),
-              label: 'Pending',
-            })}
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name='ready'
-                  onChange={() => this.handleReadyChange()}
-                  checked={ready}
-                />
-              }
-              label='Ready'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name='complete'
-                  onChange={() => this.handleCompleteChange()}
-                  checked={complete}
-                />
-              }
-              label='Complete'
-            />
-          </Grid>
+          {view === 'calendar' && (
+            <Grid item>
+              {OfficerRenderPermission(FormControlLabel)({
+                control: (
+                  <Checkbox
+                    name='pending'
+                    onChange={() => this.handlePendingChange()}
+                    checked={pending}
+                  />
+                ),
+                label: 'Pending',
+              })}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='ready'
+                    onChange={() => this.handleReadyChange()}
+                    checked={ready}
+                  />
+                }
+                label='Ready'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='complete'
+                    onChange={() => this.handleCompleteChange()}
+                    checked={complete}
+                  />
+                }
+                label='Complete'
+              />
+            </Grid>
+          )}
 
           <Grid item>
             <MuiButton
