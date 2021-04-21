@@ -29,9 +29,29 @@ interface InitialValuesType {
   hosts: OfficerNameData[];
 }
 
+function findNearestHour(date, isStartDate) {
+  let hour = date.getHours();
+  let startMinutes = date.getMinutes();
+  if (startMinutes === 0) {
+    startMinutes = '00';
+  } else if (startMinutes <= 30) {
+    startMinutes = '30';
+  } else if (startMinutes > 30) {
+    startMinutes = '00';
+    hour += 1;
+  }
+
+  date.setMinutes(startMinutes);
+  date.setHours(hour);
+  if (!isStartDate) {
+    date.setHours(date.getHours() + 1);
+  }
+  return date;
+}
+
 const INITIAL_VALUES: InitialValuesType = {
-  startDate: formatISO(new Date()),
-  endDate: formatISO(new Date()),
+  startDate: formatISO(findNearestHour(new Date(), true)),
+  endDate: formatISO(findNearestHour(new Date(), false)),
   name: '',
   type: EventTypeEnum.Social,
   hosts: [],
