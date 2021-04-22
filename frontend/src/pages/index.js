@@ -1,4 +1,6 @@
 import ProfilePage from './ProfilePage';
+import NotFoundPage from './NotFoundPage';
+import ForbiddenPage from './ForbiddenPage';
 
 import SignInPage from '@Pages/SignInPage';
 import SignUpPage from '@Pages/SignUpPage';
