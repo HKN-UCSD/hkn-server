@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import firebase from 'firebase/app';
@@ -90,6 +91,38 @@ function App(): JSX.Element {
     });
   };
 
+  // Add new pages here :)
+  const pages: Map<string, (props?: any) => JSX.Element> = new Map([
+    [ROUTES.SIGN_IN, () => <SignInPage setClaims={setClaims} />],
+    [ROUTES.SIGN_UP, () => <SignUpPage />],
+    [ROUTES.EVENT_SIGN_IN, () => <EventSignInPage />],
+    [ROUTES.EVENT_RSVP, () => <EventRsvpPage />],
+
+    [ROUTES.HOME, (props: any) => InducteeRoutingPermission(EventsPage)(props)],
+    [
+      ROUTES.POINTS,
+      (props: any) => InducteeRoutingPermission(PointsPage)(props),
+    ],
+    [
+      ROUTES.INDUCTEES,
+      props => OfficerRoutingPermission(InducteePointsPage)(props),
+    ],
+    [ROUTES.CALENDAR, props => InducteeRoutingPermission(CalendarPage)(props)],
+    [
+      ROUTES.INTERVIEW_SCHEDULING,
+      props => InducteeRoutingPermission(InterviewSchedulingPage)(props),
+    ],
+    [ROUTES.EVENTS, () => <QueriedEventPage />],
+    [
+      ROUTES.EVENT_DETAILS,
+      props => InducteeRoutingPermission(EventDetailsPage)(props),
+    ],
+    [
+      ROUTES.EVENT_EDIT,
+      props => InducteeRoutingPermission(EventEditPage)(props),
+    ],
+  ]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -98,76 +131,9 @@ function App(): JSX.Element {
     <UserContext.Provider value={userClaims}>
       <BrowserRouter>
         <Switch>
-          <Route
-            exact
-            path={ROUTES.SIGN_IN}
-            render={() => <SignInPage setClaims={setClaims} />}
-          />
-          <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
-          <Route
-            exact
-            path={ROUTES.EVENT_SIGN_IN}
-            render={() => <EventSignInPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_RSVP}
-            render={() => <EventRsvpPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.HOME}
-            render={props => InducteeRoutingPermission(EventsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.POINTS}
-            render={props => InducteeRoutingPermission(PointsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.INDUCTEES}
-            render={props =>
-              OfficerRoutingPermission(InducteePointsPage)(props)
-            }
-          />
-          <Route
-            exact
-            path={ROUTES.CALENDAR}
-            render={props => InducteeRoutingPermission(CalendarPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.INTERVIEW_SCHEDULING}
-            render={props =>
-              InducteeRoutingPermission(InterviewSchedulingPage)(props)
-            }
-          />
-          <Route
-            exact
-            path={ROUTES.EVENTS}
-            render={() => <QueriedEventPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_DETAILS}
-            render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_EDIT}
-            render={props => OfficerRoutingPermission(EventEditPage)(props)}
-          />
-          {/* <Route
-              exact
-              path={ROUTES.PROFILE}
-              render={props => InducteeRoutingPermission(ProfilePage)(props)}
-            />
-            <Route
-              exact
-              path={ROUTES.PROFILE_EDIT}
-              render={props => InducteeRoutingPermission(ProfileEditPage)(props)}
-            /> */}
+          {Array.from(pages).map(([path, renderFunc]) => (
+            <Route exact path={path} render={renderFunc} />
+          ))}
           <Route render={() => <Redirect to={ROUTES.HOME} />} />
         </Switch>
       </BrowserRouter>
