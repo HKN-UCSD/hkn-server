@@ -182,7 +182,7 @@ class CalendarPage extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid item>
+        <Grid item className={classes.calendar}>
           <Grid container>
             <Grid item xs>
               <Paper>

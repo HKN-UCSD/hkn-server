@@ -5,6 +5,9 @@ const styles = () => ({
   buttons: {
     marginBottom: '10px',
   },
+  calendar: {
+    width: '100%',
+  },
 });
 
 export default styles;
