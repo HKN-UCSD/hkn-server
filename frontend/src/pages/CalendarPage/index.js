@@ -30,7 +30,6 @@ class CalendarPage extends React.Component {
       ready: true,
       complete: true,
     };
-    this.calendarRef = React.createRef();
   }
 
   componentDidMount() {
@@ -190,7 +189,7 @@ class CalendarPage extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid item>
+        <Grid item className={classes.calendar}>
           <Grid container>
             <Grid item xs>
               <Paper>
@@ -209,11 +208,9 @@ class CalendarPage extends React.Component {
             </Grid>
 
             {selectedEvent && (
-              // <Grid item xs={4}>
-                 <Container>
-                  <EventCard event={selectedEvent} onClose={() => this.handleModalClose()}/>
-                 </Container>
-              // </Grid>
+              <Container>
+                <EventCard event={selectedEvent} onClose={() => this.handleModalClose()} />
+              </Container>
             )}
           </Grid>
         </Grid>
