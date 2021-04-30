@@ -95,6 +95,12 @@ class CalendarPage extends React.Component {
     this.setState({ complete: !complete });
   }
 
+  handleModalClose() {
+    this.setState({
+      selectedEvent: null,
+    });
+  }
+
   toggleView() {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
@@ -111,13 +117,6 @@ class CalendarPage extends React.Component {
       this.setState({ selectedEvent: event });
     }
   }
-
-  handleModalClose() {
-    this.setState({
-      selectedEvent: null,
-    });
-  }
-
 
   render() {
     const {
@@ -209,7 +208,10 @@ class CalendarPage extends React.Component {
 
             {selectedEvent && (
               <Container>
-                <EventCard event={selectedEvent} onClose={() => this.handleModalClose()} />
+                <EventCard
+                  event={selectedEvent}
+                  onClose={() => this.handleModalClose()}
+                />
               </Container>
             )}
           </Grid>

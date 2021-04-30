@@ -7,21 +7,19 @@ import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 import Fade from '@material-ui/core/Fade';
 
-
 import styles from './styles';
 
 import { Card, GetLocation } from '@SharedComponents';
 
-
-function EventCard({ event, onClose, classes}) {
+function EventCard({ event, onClose, classes }) {
   // Listens to whether an event is selected or not from Calendar parent comp
-  let open = event ? true : false; // is this good practice??
+  const open = !!event;
 
-  const ref = React.createRef(); // is this how I use refs??
+  const ref = React.createRef();
 
-  const ModalContent = React.forwardRef((props, ref) =>        
-    <Fade in={open}>    
-      <div className="classes.modalDiv">
+  const ModalContent = React.forwardRef(() => (
+    <Fade in={open}>
+      <div className='classes.modalDiv'>
         <Card title={event.name}>
           <Typography variant='h6' color='textSecondary' gutterBottom>
             {format(parseISO(event.startDate), 'PP')} -{' '}
@@ -42,20 +40,21 @@ function EventCard({ event, onClose, classes}) {
           </Button>
         </Card>
       </div>
-    </Fade> 
-  );
+    </Fade>
+  ));
 
   return (
     <>
       {event && (
-      <Modal
-        open={open}
-        onClose={onClose}
-        ref={ref}
-        className={classes.modal}
-      >
-        <ModalContent></ModalContent>
-      </Modal>)}
+        <Modal
+          open={open}
+          onClose={onClose}
+          ref={ref}
+          className={classes.modal}
+        >
+          <ModalContent />
+        </Modal>
+      )}
     </>
   );
 }
@@ -68,6 +67,7 @@ EventCard.propTypes = {
     location: PropTypes.string,
     id: PropTypes.number.isRequired,
   }),
+  onClose: PropTypes.func,
 };
 
 EventCard.defaultProps = {
