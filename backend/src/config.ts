@@ -20,6 +20,7 @@ type Config = {
   devAuth: boolean;
   ddMetricTag: string;
   nodeEnv: string;
+  maxLogLevel: string;
 };
 
 const {
@@ -36,6 +37,7 @@ const {
   DEV_AUTH,
   DD_METRIC_TAG,
   NODE_ENV,
+  MAX_LOG_LEVEL,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
@@ -60,4 +62,5 @@ export const config: Config = {
   devAuth: DEV_AUTH === 'true',
   ddMetricTag: DD_METRIC_TAG,
   nodeEnv: NODE_ENV,
+  maxLogLevel: MAX_LOG_LEVEL,
 };
