@@ -30,7 +30,7 @@
     "seed:create": "npm run typeorm migration:create -- -c seed --",
     "seed:run": "npm run typeorm migration:run -- -c seed -t=each",
     "seed:revert": "npm run typeorm migration:revert -- -c seed -t=each",
-    "compose:seed": "NODE_ENV=development npm run migration:run; npm run typeorm:no-build migration:run -- -c seed -t=each",
+    "compose:seed": "NODE_ENV=development npm run migration:run; npm run typeorm migration:run -- -c seed -t=each",
     "compose:start": "npm-run-all compose:seed start"
   },
   "author": "",
