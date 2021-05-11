@@ -6,13 +6,11 @@ All code related to the HKN portal belongs here.
 
 Do this before you build/start the project!
 
-`npm i`
+`cd frontend; npm i; cd ../backend; npm i; cd ..`
 
 ## To start fullstack
 
-`cd backend; npm run localpg:start; npm run start`
-
-In another terminal: `cd frontend; npm run start`
+`docker compose up`
 
 ## To develop frontend in isolation
 
