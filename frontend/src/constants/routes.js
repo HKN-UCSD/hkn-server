@@ -16,6 +16,8 @@ export const PROFILE_EDIT = '/profile/:id/edit';
 export const EVENT_SIGN_IN = '/events/:id/signin';
 export const EVENT_RSVP = '/events/:id/rsvp';
 export const INTERVIEW_SCHEDULING = '/interview-scheduling';
+export const FORBIDDEN = '/403';
+export const NOT_FOUND = '/404';
 
 export const PROFILE_WITH_ID = id => `/profile/${id}`;
 export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;
