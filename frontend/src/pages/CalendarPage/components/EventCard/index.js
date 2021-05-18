@@ -1,11 +1,10 @@
 import React from 'react';
-import { Typography, Box, Button, Modal } from '@material-ui/core';
+import { Typography, Box, Button, Grid, Modal, Fade } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
-import Fade from '@material-ui/core/Fade';
 
 import styles from './styles';
 
@@ -13,13 +12,16 @@ import { Card, GetLocation } from '@SharedComponents';
 
 function EventCard({ event, onClose, classes }) {
   // Listens to whether an event is selected or not from Calendar parent comp
-  const open = !!event;
+  const isOpen = event ? true : false;
 
   const ref = React.createRef();
 
   const ModalContent = React.forwardRef(() => (
-    <Fade in={open}>
-      <div className='classes.modalDiv'>
+    <Fade in={isOpen}>
+      <Grid container
+        justify="center"
+        alignItems="center"
+      >
         <Card title={event.name}>
           <Typography variant='h6' color='textSecondary' gutterBottom>
             {format(parseISO(event.startDate), 'PP')} -{' '}
@@ -39,7 +41,7 @@ function EventCard({ event, onClose, classes }) {
             See More
           </Button>
         </Card>
-      </div>
+      </Grid>
     </Fade>
   ));
 
@@ -47,7 +49,7 @@ function EventCard({ event, onClose, classes }) {
     <>
       {event && (
         <Modal
-          open={open}
+          open={isOpen}
           onClose={onClose}
           ref={ref}
           className={classes.modal}

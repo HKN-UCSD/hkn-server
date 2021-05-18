@@ -9,12 +9,7 @@ const styles = theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     margin: 'auto 10%',
-  },
-  modalDiv: {
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
 });
 
