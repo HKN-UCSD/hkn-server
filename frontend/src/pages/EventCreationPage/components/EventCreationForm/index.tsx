@@ -5,7 +5,7 @@ import { DateTimePicker } from 'formik-material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { Button, LinearProgress, Grid } from '@material-ui/core';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { formatISO } from 'date-fns';
+import { formatISO, getHours, getMinutes, add, sub } from 'date-fns';
 
 import schema from './schema';
 
@@ -29,29 +29,29 @@ interface InitialValuesType {
   hosts: OfficerNameData[];
 }
 
-function findNearestHour(date, isStartDate) {
-  let hour = date.getHours();
-  let startMinutes = date.getMinutes();
+let findNearestHalfHour = (date: Date) => {
+  let startMinutes = getMinutes(date);
   if (startMinutes === 0) {
-    startMinutes = '00';
-  } else if (startMinutes <= 30) {
-    startMinutes = '30';
-  } else if (startMinutes > 30) {
-    startMinutes = '00';
-    hour += 1;
+    startMinutes = 0;
   }
-
-  date.setMinutes(startMinutes);
-  date.setHours(hour);
-  if (!isStartDate) {
-    date.setHours(date.getHours() + 1);
+  else if (startMinutes != 0 && startMinutes <= 30) {
+    date = add(date, { minutes: (30 - startMinutes) });
+  } else {
+    date = sub(date, { minutes: startMinutes });
+    date = add(date, { hours: 1 });
   }
   return date;
 }
 
+let findEndhour = (date: Date) => {
+  date = findNearestHalfHour(date);
+  date = add(date, { hours: 1 });
+  return date;
+}
+
 const INITIAL_VALUES: InitialValuesType = {
-  startDate: formatISO(findNearestHour(new Date(), true)),
-  endDate: formatISO(findNearestHour(new Date(), false)),
+  startDate: formatISO(findNearestHalfHour(new Date())),
+  endDate: formatISO(findEndhour(new Date())),
   name: '',
   type: EventTypeEnum.Social,
   hosts: [],
