@@ -17,6 +17,8 @@ import {
   EventRsvpPage,
   QueriedEventPage,
   InterviewSchedulingPage,
+  ForbiddenPage,
+  NotFoundPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -157,6 +159,16 @@ function App(): JSX.Element {
             exact
             path={ROUTES.EVENT_EDIT}
             render={props => OfficerRoutingPermission(EventEditPage)(props)}
+          />
+          <Route
+            exact
+            path={ROUTES.FORBIDDEN}
+            render={props => InducteeRoutingPermission(ForbiddenPage)(props)}
+          />
+          <Route
+            exact
+            path={ROUTES.NOT_FOUND}
+            render={props => InducteeRoutingPermission(NotFoundPage)(props)}
           />
           {/* <Route
               exact

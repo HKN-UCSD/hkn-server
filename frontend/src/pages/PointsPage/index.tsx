@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import { Grid } from '@material-ui/core';
 
 import { PointDisplay } from './components/PointDisplay';
@@ -9,7 +9,7 @@ import { getInductionPoints } from '@Services/UserService';
 import { AppUserInducteePointsResponse } from '@Services/api';
 import { isOfficer } from '@Services/claims';
 import { UserContext } from '@Contexts';
-import { CURR_USER_ID_ALIAS } from '@Constants/routes';
+import { CURR_USER_ID_ALIAS, FORBIDDEN } from '@Constants/routes';
 
 interface EventID {
   id: string;
@@ -37,7 +37,7 @@ export default function PointsPage() {
         id !== CURR_USER_ID_ALIAS &&
         id !== userId
       ) {
-        setPointObj('404');
+        setPointObj('403');
         return;
       }
 
@@ -54,8 +54,8 @@ export default function PointsPage() {
   if (pointObj === undefined) {
     return <h1>You have no points yet :(</h1>;
   }
-  if (pointObj === '404') {
-    return <h1>Permission denied.</h1>;
+  if (pointObj === '403') {
+    return <Redirect to={FORBIDDEN} />;
   }
 
   const {
