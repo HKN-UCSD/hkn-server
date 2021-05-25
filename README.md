@@ -12,6 +12,14 @@ Do this before you build/start the project!
 
 `docker compose up`
 
+## To rebuild containers from images
+
+`docker compose up --build`
+
+## To remove containers
+
+`docker compose down`
+
 ## To develop frontend in isolation
 
 Make sure that the api url in your .env file points to our hosted dev-api server if you'd like to
