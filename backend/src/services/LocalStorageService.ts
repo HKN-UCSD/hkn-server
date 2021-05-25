@@ -8,7 +8,7 @@ if (!fs.existsSync(dir_path)) {
 }
 
 export class LocalStorageService {
-  async uploadFile(fileName: string, file: Express.Multer.File, options?: Object): Promise<string> {
+  async uploadFile(fileName: string, file: Express.Multer.File, options: Object): Promise<string> {
     let fileNameKey = fileName;
     if (options) {
       if ('appendFileName' in options) {
@@ -28,8 +28,11 @@ export class LocalStorageService {
     return `Uploaded file to ${dir_path + fileName}`;
   }
 
-  async downloadFile(fileName: string, res: Response): Promise<Buffer | null> {
+  async downloadFile(fileName: string, res: Response, options: Object): Promise<Buffer | null> {
     try {
+      if (!options) {
+        throw new Error('Options for bucket/container not specified');
+      }
       res.set({
         'content-disposition': `attachment; filename="${fileName}"`,
       });
