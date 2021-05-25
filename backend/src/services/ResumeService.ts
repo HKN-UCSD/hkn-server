@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import { AppUser } from '@Entities';
 import { StorageService, StorageServiceImpl } from '@Services';
+import { config } from '@Config';
 
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function): void => {
   if (file.mimetype.includes('pdf')) {
@@ -37,6 +38,7 @@ export class ResumeService {
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume`;
     const options = {
       appendFileName: `${appUser.id}`,
+      bucketName: config.awsConfig.resumeBucketName,
     };
 
     return this.storageService.uploadFile(storedfileName, file, options);
@@ -51,7 +53,10 @@ export class ResumeService {
    */
   async downloadResume(appUser: AppUser, res: Response): Promise<Buffer | null> {
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume_${appUser.id}`;
-    return this.storageService.downloadFile(storedfileName, res);
+    const options = {
+      bucketName: config.awsConfig.resumeBucketName,
+    };
+    return this.storageService.downloadFile(storedfileName, res, options);
   }
 }
 

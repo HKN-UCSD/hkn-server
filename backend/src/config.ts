@@ -7,7 +7,7 @@ type FirebaseConfig = {
 type AWSConfig = {
   accessKeyId: string;
   secretKey: string;
-  bucketName: string;
+  resumeBucketName: string;
   bucketRegion: string;
 };
 
@@ -20,6 +20,7 @@ type Config = {
   devAuth: boolean;
   ddMetricTag: string;
   nodeEnv: string;
+  maxLogLevel: string;
 };
 
 const {
@@ -31,11 +32,12 @@ const {
   FIREBASE_CLIENT_API_KEY,
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
-  BUCKET_NAME,
+  RESUME_BUCKET_NAME,
   BUCKET_REGION,
   DEV_AUTH,
   DD_METRIC_TAG,
   NODE_ENV,
+  MAX_LOG_LEVEL,
 } = process.env;
 
 const firebaseConfig: FirebaseConfig = {
@@ -47,7 +49,7 @@ const firebaseConfig: FirebaseConfig = {
 const awsConfig: AWSConfig = {
   accessKeyId: AWS_ACCESS_KEY_ID,
   secretKey: AWS_SECRET_ACCESS_KEY,
-  bucketName: BUCKET_NAME,
+  resumeBucketName: RESUME_BUCKET_NAME,
   bucketRegion: BUCKET_REGION,
 };
 
@@ -60,4 +62,5 @@ export const config: Config = {
   devAuth: DEV_AUTH === 'true',
   ddMetricTag: DD_METRIC_TAG,
   nodeEnv: NODE_ENV,
+  maxLogLevel: MAX_LOG_LEVEL,
 };
