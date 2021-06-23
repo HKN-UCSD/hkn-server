@@ -29,7 +29,7 @@
     "formik-material-ui": "^2.0.0-beta.1",
     "formik-material-ui-lab": "0.0.5",
     "formik-material-ui-pickers": "0.0.8",
-    "material-table": "1.68.0",
+    "material-table": "^1.69.3",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
     "react": "^16.13.1",

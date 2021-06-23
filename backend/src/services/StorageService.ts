@@ -68,7 +68,7 @@ export class StorageService {
           return 'File uploaded successfully';
         });
     } catch (e) {
-      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
+      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
     }
   }
 
