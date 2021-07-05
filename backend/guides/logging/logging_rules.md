@@ -2,7 +2,6 @@
 
 ## 1. Logging a method:
 
-- Always use @LogMethod decorator to log a method, whether that method be a handler for an endpoint (in controllers) or a service method.
 - For @LogMethod, you must include a level which is one of **error, warn, info** or **debug**, and a message.
 - Optionally, you can include a third parameter to add more information to the log. This third parameter is a JS object, where the key is the label of the info you want to include, and value is the info itself (of type string).
 
@@ -14,6 +13,7 @@
 
 ## 3. Logging endpoints (in src/controllers, at the method level):
 
+- Always use `@LogMethod` when logging endpoints.
 - Remember to include the endpoint route (i.e. /api/events/) and the method of the request on the endpoint (i.e. GET, POST).
 - For the `message` portion of the log, the format should be `Requested endpoint to [what the endpoint does]`
 - All logs for our endpoints at the method level (`@LogMethod`) should only ever be logged at `info` or `debug`.
