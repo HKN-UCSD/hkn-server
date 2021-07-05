@@ -5,13 +5,19 @@ export interface AdditionalLogContent {
   [key: string]: string;
 }
 
+export interface Log {
+  level?: string;
+  message?: string;
+  moreLogContent?: AdditionalLogContent;
+}
+
+const { combine, json, timestamp, colorize, prettyPrint } = format;
+const logLevels = { error: 0, warn: 1, info: 2, debug: 3 };
+
 export const GENERIC_METHOD = 0,
   SERVICE_METHOD = 1,
   ENDPOINT_HANDLER = 2,
   MAPPER_METHOD = 3;
-
-const logLevels = { error: 0, warn: 1, info: 2, debug: 3 };
-const { combine, json, timestamp, colorize, prettyPrint } = format;
 
 export const isLogLevel = (level: string): boolean => {
   return ['error', 'warn', 'info', 'debug'].includes(level);
@@ -31,3 +37,63 @@ export const logger = createLogger({
   ),
   transports: [new transports.Console({ level: config.maxLogLevel })],
 });
+
+export const fillOptionalProperties = (log: Log) => {
+  const { level, message, moreLogContent } = log;
+
+  log.level = level === undefined ? 'info' : level;
+  log.message = message === undefined ? '' : message;
+  log.moreLogContent = moreLogContent === undefined ? {} : moreLogContent;
+};
+
+export const createNewLog = (): Log => {
+  const newLog: Log = {
+    level: 'info',
+    message: '',
+    moreLogContent: {},
+  };
+
+  return newLog;
+};
+
+export const logVar = (
+  variableName: string,
+  variableValue: any,
+  level = 'info',
+  message = '',
+  moreLogContent = {}
+) => {
+  const additionalLogContent = {
+    variableName,
+    variableValue,
+    ...moreLogContent,
+  };
+
+  logger.log(level, message, additionalLogContent);
+};
+
+export const logFunction = (
+  functionName: string,
+  functionParams: any[],
+  level = 'info',
+  message = '',
+  moreLogContent = {}
+) => {
+  const funcParams = functionParams === undefined ? [] : functionParams;
+  const additionalLogContent = {
+    functionName,
+    functionParams,
+    ...moreLogContent,
+  };
+
+  logger.log(level, message, additionalLogContent);
+};
+
+export const logMany = (logs: Log[]) => {
+  logs.forEach(log => {
+    fillOptionalProperties(log);
+    const { level, message, moreLogContent } = log;
+
+    logger.log(level, message, moreLogContent);
+  });
+};

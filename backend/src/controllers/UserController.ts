@@ -41,12 +41,6 @@ import {
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
 import { formatISO } from 'date-fns';
-import { LogMethod } from '@Decorators';
-import { ENDPOINT_HANDLER } from '@Logger';
-
-const userEndpointRoute = (ending: string) => {
-  return `/api/users${ending}`;
-};
 
 @JsonController('/api/users')
 export class UserController {
@@ -61,10 +55,6 @@ export class UserController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(MultipleAppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get all existing users', {
-    endpointRoute: userEndpointRoute('/'),
-    method: 'GET',
-  })
   async getMultipleUsers(
     @QueryParams() multipleUserQuery: MultipleUserQuery
   ): Promise<MultipleAppUserResponse | MultipleUserNameResponse> {
@@ -77,10 +67,6 @@ export class UserController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to create a new user', {
-    endpointRoute: userEndpointRoute('/'),
-    method: 'POST',
-  })
   async createUser(@Body() appUserCreateRequest: AppUserPostRequest): Promise<AppUserResponse> {
     const newAppUser = await this.appUserMapper.requestToNewEntity(appUserCreateRequest);
     const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
@@ -92,10 +78,6 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserProfileResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get an existing user by their ID', {
-    endpointRoute: userEndpointRoute('/:userID'),
-    method: 'GET',
-  })
   async getUserProfile(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
@@ -117,10 +99,6 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to update an existing user', {
-    endpointRoute: userEndpointRoute('/:userID'),
-    method: 'POST',
-  })
   async updateUserProfile(
     @Param('userID') userID: number,
     @Body() appUserUpdateRequest: AppUserPostRequest,
@@ -145,10 +123,6 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserRolesResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get the role of an existing user', {
-    endpointRoute: userEndpointRoute('/:userID/roles'),
-    method: 'GET',
-  })
   async getUserRole(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
@@ -170,12 +144,6 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserInducteePointsResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(
-    ENDPOINT_HANDLER,
-    'info',
-    'Requested endpoint to get the inductee points of an existing user',
-    { endpointRoute: userEndpointRoute('/:userID/inductee-points'), method: 'GET' }
-  )
   async getUserInducteePoints(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
@@ -222,12 +190,6 @@ export class UserController {
   @UseBefore(MemberAuthMiddleware)
   @ResponseSchema(AppUserMemberPointsResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(
-    ENDPOINT_HANDLER,
-    'info',
-    'Requested endpoint to get the member points of an existing user',
-    { endpointRoute: userEndpointRoute('/:userID/member-points'), method: 'GET' }
-  )
   async getUserMemberPoints(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
@@ -245,12 +207,6 @@ export class UserController {
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(
-    ENDPOINT_HANDLER,
-    'info',
-    'Requested endpoint to update interview availabilities of an existing user',
-    { endpointRoute: userEndpointRoute('/:userID/interview-availabilities'), method: 'POST' }
-  )
   async updateUserInterviewAvailabilities(
     @Param('userID') userID: number,
     @Body() appUserInterviewAvailabilities: AppUserInterviewAvailabilitiesRequest,
@@ -272,12 +228,6 @@ export class UserController {
   @Post('/:userID/resume')
   @UseBefore(InducteeAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(
-    ENDPOINT_HANDLER,
-    'info',
-    'Requested endpoint to upload the resume of an existing user to S3',
-    { endpointRoute: userEndpointRoute('/:userID/resume'), method: 'POST' }
-  )
   async uploadResume(
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser,
@@ -299,12 +249,6 @@ export class UserController {
   @Get('/:userID/resume')
   @UseBefore(InducteeAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  @LogMethod(
-    ENDPOINT_HANDLER,
-    'info',
-    'Requested endpoint to download the resume of an existing user from S3',
-    { endpointRoute: userEndpointRoute('/:userID/resume'), method: 'GET' }
-  )
   async downloadResume(
     @Res() res: Response,
     @Param('userID') userID: number,
