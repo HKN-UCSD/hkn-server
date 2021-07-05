@@ -1,13 +1,17 @@
 import { Response } from 'express';
 
 import { loadAWS_S3 } from '../loaders';
-import { config } from '../config';
 import { BadRequestError } from 'routing-controllers';
 
 const s3 = loadAWS_S3();
 
 type UploadOptions = {
   appendFileName: string;
+  bucketName: string;
+};
+
+type DownloadOptions = {
+  bucketName: string;
 };
 export class StorageService {
   /**
@@ -23,7 +27,7 @@ export class StorageService {
   async uploadFile(
     fileName: string,
     file: Express.Multer.File,
-    options?: UploadOptions
+    options: UploadOptions
   ): Promise<string | null> {
     let params;
     try {
@@ -31,6 +35,9 @@ export class StorageService {
       if (options) {
         if ('appendFileName' in options) {
           fileNameKey = `${fileName}_${options['appendFileName']}`;
+        }
+        if (!options.bucketName) {
+          throw new Error('No bucket specified in upload');
         }
       }
 
@@ -40,7 +47,7 @@ export class StorageService {
        * mimetype so that when we download, the file will be downloaded correctly.
        */
       params = {
-        Bucket: config.awsConfig.bucketName,
+        Bucket: options.bucketName,
         Key: fileNameKey,
         Body: file.buffer,
         ContentDisposition: `attachment; filename="${fileName}${file.originalname.substring(
@@ -61,7 +68,7 @@ export class StorageService {
           return 'File uploaded successfully';
         });
     } catch (e) {
-      throw new BadRequestError(`Error downloading from storage: ${e.message}`);
+      throw new BadRequestError(`Error uploading to storage: ${e.message}`);
     }
   }
 
@@ -72,12 +79,25 @@ export class StorageService {
    *
    * @param {string} fileName The fileName as it appears in the key of the bucket.
    * @param {Response} res The response object.
+   * @param {string} bucketName The bucket to download from.
    * @returns {Promise<Buffer | null>} A Promise that returns the contents of the file in a Buffer.
    */
-  async downloadFile(fileName: string, res: Response): Promise<Buffer | null> {
+  async downloadFile(
+    fileName: string,
+    res: Response,
+    options: DownloadOptions
+  ): Promise<Buffer | null> {
     try {
+      if (options) {
+        if (!options.bucketName) {
+          throw new Error('No bucket specified in download');
+        }
+      } else {
+        throw new Error('Missing required options');
+      }
+
       const params = {
-        Bucket: config.awsConfig.bucketName,
+        Bucket: options.bucketName,
         Key: fileName,
       };
 
@@ -93,14 +113,15 @@ export class StorageService {
   }
 
   /**
-   * Lists all of the files currently present in the S3 bucket.
+   * Lists all of the files currently present in the S3 bucket. (utility function)
    *
+   * @param {string} bucketName The name of bucket to get index of.
    * @returns {Promise<Array<string> | null>} A Promise that returns the list of all objects in the bucket.
    */
-  async getFileIndex(): Promise<Array<string> | null> {
+  async getFileIndex(bucketName: string): Promise<Array<string> | null> {
     try {
       const params = {
-        Bucket: config.awsConfig.bucketName,
+        Bucket: bucketName,
       };
       return s3
         .listObjectsV2(params)

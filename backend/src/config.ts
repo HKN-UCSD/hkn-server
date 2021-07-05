@@ -7,7 +7,7 @@ type FirebaseConfig = {
 type AWSConfig = {
   accessKeyId: string;
   secretKey: string;
-  bucketName: string;
+  resumeBucketName: string;
   bucketRegion: string;
 };
 
@@ -32,7 +32,7 @@ const {
   FIREBASE_CLIENT_API_KEY,
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
-  BUCKET_NAME,
+  RESUME_BUCKET_NAME,
   BUCKET_REGION,
   DEV_AUTH,
   DD_METRIC_TAG,
@@ -49,7 +49,7 @@ const firebaseConfig: FirebaseConfig = {
 const awsConfig: AWSConfig = {
   accessKeyId: AWS_ACCESS_KEY_ID,
   secretKey: AWS_SECRET_ACCESS_KEY,
-  bucketName: BUCKET_NAME,
+  resumeBucketName: RESUME_BUCKET_NAME,
   bucketRegion: BUCKET_REGION,
 };
 
