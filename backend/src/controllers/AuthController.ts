@@ -5,6 +5,12 @@ import { AppUser } from '@Entities';
 import { AppUserSignupRequest, AppUserResponse } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { AppUserService, AppUserServiceImpl, AccountService, AccountServiceImpl } from '@Services';
+import { LogMethod } from '@Decorators';
+import { ENDPOINT_HANDLER } from '@Logger';
+
+const authEndpointRoute = (ending: string) => {
+  return `/api/auth${ending}`;
+};
 
 @JsonController('/api/auth')
 export class AuthController {
@@ -16,6 +22,10 @@ export class AuthController {
 
   @Post('/signup')
   @ResponseSchema(AppUserResponse)
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to create a new user account', {
+    endpointRoute: authEndpointRoute('/signup'),
+    method: 'POST',
+  })
   async signUpUser(
     @Body() appUserSignupRequest: AppUserSignupRequest
   ): Promise<AppUserResponse | undefined> {

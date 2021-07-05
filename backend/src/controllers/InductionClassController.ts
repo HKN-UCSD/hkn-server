@@ -4,6 +4,12 @@ import { InductionClassService, InductionClassServiceImpl } from '@Services';
 
 import { InterviewDatesResponse } from '@Payloads';
 import { ResponseSchema } from 'routing-controllers-openapi';
+import { LogMethod } from '@Decorators';
+import { ENDPOINT_HANDLER } from '@Logger';
+
+const inductionClassEndpointRoute = (ending: string) => {
+  return `/api/inductionclass${ending}`;
+};
 
 @JsonController('/api/inductionclass')
 export class InductionClassController {
@@ -11,6 +17,15 @@ export class InductionClassController {
 
   @Get('/:inductionClassID/interviewdates')
   @ResponseSchema(InterviewDatesResponse)
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to get the interview dates of an HKN affiliate',
+    {
+      endpointRoute: inductionClassEndpointRoute('/:inductionClassID/interviewdates'),
+      method: 'GET',
+    }
+  )
   async getInterviewDates(
     @Param('inductionClassID') quarter: string
   ): Promise<InterviewDatesResponse> {

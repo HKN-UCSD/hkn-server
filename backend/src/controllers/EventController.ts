@@ -46,6 +46,12 @@ import {
   RSVPMapperImpl,
 } from '@Mappers';
 import { OfficerAuthMiddleware } from '@Middlewares';
+import { LogMethod } from '@Decorators';
+import { ENDPOINT_HANDLER } from '@Logger';
+
+const eventEndpointRoute = (ending: string) => {
+  return `/api/events${ending}`;
+};
 
 @JsonController('/api/events')
 export class EventController {
@@ -63,6 +69,10 @@ export class EventController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to create new event', {
+    endpointRoute: eventEndpointRoute('/'),
+    method: 'POST',
+  })
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
     const event = this.eventMapper.requestToNewEntity(eventRequest);
     const savedEvent = await this.eventService.saveEvent(event);
@@ -72,6 +82,10 @@ export class EventController {
   @Get('/')
   @ResponseSchema(MultipleEventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get multiple events', {
+    endpointRoute: eventEndpointRoute('/'),
+    method: 'GET',
+  })
   async getMultipleEvents(
     @QueryParams() multipleEventQuery: MultipleEventQuery,
     @CurrentUser() appUser: AppUser
@@ -94,6 +108,10 @@ export class EventController {
 
   @Get('/:eventID')
   @ResponseSchema(EventResponse)
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get a single event by event ID', {
+    endpointRoute: eventEndpointRoute('/:eventID'),
+    method: 'GET',
+  })
   async getEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
     const event = await this.eventService.getEventById(eventID);
     if (event === undefined) {
@@ -106,6 +124,12 @@ export class EventController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to update an event obtained from event ID',
+    { endpointRoute: eventEndpointRoute('/:eventID'), method: 'POST' }
+  )
   async updateEvent(
     @Param('eventID') id: number,
     @Body() eventRequest: EventRequest
@@ -123,6 +147,12 @@ export class EventController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(EventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to delete an event obtained from event ID',
+    { endpointRoute: eventEndpointRoute('/:eventID'), method: 'DELETE' }
+  )
   async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
     const deletedEvent = await this.eventService.deleteEvent(eventID);
     if (deletedEvent === undefined) {
@@ -136,6 +166,10 @@ export class EventController {
   @ResponseSchema(MultipleAttendanceResponse)
   @UseBefore(OfficerAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get attendances of an event', {
+    endpointRoute: eventEndpointRoute('/:eventID/attendance'),
+    method: 'GET',
+  })
   async getEventAttendance(
     @Param('eventID') eventID: number,
     @QueryParams() multipleAttendanceQuery: MultipleAttendanceQuery
@@ -160,6 +194,10 @@ export class EventController {
   @ResponseSchema(MultipleRSVPResponse)
   @UseBefore(OfficerAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to get RSVPs of an event', {
+    endpointRoute: eventEndpointRoute('/:eventID/rsvp'),
+    method: 'GET',
+  })
   async getEventRSVP(@Param('eventID') eventID: number): Promise<MultipleRSVPResponse | undefined> {
     const rsvps = await this.eventService.getEventRSVPs(eventID);
 
@@ -176,6 +214,12 @@ export class EventController {
   @ResponseSchema(AttendanceResponse)
   @UseBefore(OfficerAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to check off an attendee for a specified event',
+    { endpointRoute: eventEndpointRoute('/:eventID/attendance'), method: 'POST' }
+  )
   async checkOffEventAttendance(
     @Param('eventID') eventID: number,
     @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest,
@@ -194,6 +238,10 @@ export class EventController {
   @Post('/:eventID/signin')
   @ResponseSchema(AttendanceResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(ENDPOINT_HANDLER, 'info', 'Requested endpoint to sign a (guest) user into an event', {
+    endpointRoute: eventEndpointRoute('/:eventID/signin'),
+    method: 'POST',
+  })
   async signInToEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,
@@ -217,6 +265,12 @@ export class EventController {
   @Post('/:eventID/signin/affiliate')
   @ResponseSchema(AttendanceResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to sign an HKN affiliate into an event',
+    { endpointRoute: eventEndpointRoute('/:eventID/signin/affiliate'), method: 'POST' }
+  )
   async affiliateEventSignin(
     @Param('eventID') eventID: number,
     @CurrentUser({ required: true }) appUser: AppUser
@@ -233,6 +287,12 @@ export class EventController {
   @Post('/:eventID/rsvp')
   @ResponseSchema(RSVPResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to record the RSVP of a guest user for an event',
+    { endpointRoute: eventEndpointRoute('/:eventID/rsvp'), method: 'POST' }
+  )
   async rsvpForEvent(
     @Param('eventID') eventID: number,
     @Body() appUserRequest: AppUserEventRequest,
@@ -256,6 +316,12 @@ export class EventController {
   @Post('/:eventID/rsvp/affiliate')
   @ResponseSchema(RSVPResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
+  @LogMethod(
+    ENDPOINT_HANDLER,
+    'info',
+    'Requested endpoint to record the RSVP of an HKN affiliate for an event',
+    { endpointRoute: eventEndpointRoute('/:eventID/rsvp/affiliate'), method: 'POST' }
+  )
   async affiliateEventRSVP(
     @Param('eventID') eventID: number,
     @CurrentUser({ required: true }) appUser: AppUser
