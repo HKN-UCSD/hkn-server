@@ -11,7 +11,7 @@ import styles from './styles';
 import { Card, GetLocation } from '@SharedComponents';
 
 function EventCard({ event, onClose, classes }) {
-  // Listens to whether an event is selected or not from Calendar parent comp
+  // Listens to whether an event is selected from Calendar parent comp
   const isOpen = (event !== null);
 
   // Fixes error that Modal component needed a reference and an inner forwardRef 
