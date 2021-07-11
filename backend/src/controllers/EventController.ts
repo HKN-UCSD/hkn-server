@@ -46,6 +46,10 @@ import {
   RSVPMapperImpl,
 } from '@Mappers';
 import { OfficerAuthMiddleware } from '@Middlewares';
+import { logEndpointHandler } from '@Logger';
+
+const FILE_NAME = 'EventController.ts'; // For logging
+const ROUTE_PREFIX = '/api/events';
 
 @JsonController('/api/events')
 export class EventController {
@@ -64,6 +68,8 @@ export class EventController {
   @ResponseSchema(EventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createEvent(@Body() eventRequest: EventRequest): Promise<EventResponse> {
+    logEndpointHandler('createEvent', { eventRequest }, FILE_NAME, `${ROUTE_PREFIX}/`, 'POST');
+
     const event = this.eventMapper.requestToNewEntity(eventRequest);
     const savedEvent = await this.eventService.saveEvent(event);
     return this.eventMapper.entityToResponse(savedEvent);
@@ -76,6 +82,14 @@ export class EventController {
     @QueryParams() multipleEventQuery: MultipleEventQuery,
     @CurrentUser() appUser: AppUser
   ): Promise<MultipleEventResponse | undefined> {
+    logEndpointHandler(
+      'createEvent',
+      { multipleEventQuery, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/`,
+      'GET'
+    );
+
     let isOfficer = true;
 
     // Check if user is an officer to see if we should show pending events to them
@@ -95,6 +109,8 @@ export class EventController {
   @Get('/:eventID')
   @ResponseSchema(EventResponse)
   async getEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
+    logEndpointHandler('getEvent', { eventID }, FILE_NAME, `${ROUTE_PREFIX}/:eventID`, 'GET');
+
     const event = await this.eventService.getEventById(eventID);
     if (event === undefined) {
       return undefined;
@@ -110,6 +126,14 @@ export class EventController {
     @Param('eventID') id: number,
     @Body() eventRequest: EventRequest
   ): Promise<EventResponse> {
+    logEndpointHandler(
+      'updateEvent',
+      { id, eventRequest },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID`,
+      'POST'
+    );
+
     const event = await this.eventMapper.requestToExistingEntity(eventRequest, id);
     if (event === undefined) {
       return undefined;
@@ -124,6 +148,8 @@ export class EventController {
   @ResponseSchema(EventResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async deleteEvent(@Param('eventID') eventID: number): Promise<EventResponse> {
+    logEndpointHandler('deleteEvent', { eventID }, FILE_NAME, `${ROUTE_PREFIX}/:eventID`, 'DELETE');
+
     const deletedEvent = await this.eventService.deleteEvent(eventID);
     if (deletedEvent === undefined) {
       return undefined;
@@ -140,6 +166,14 @@ export class EventController {
     @Param('eventID') eventID: number,
     @QueryParams() multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<MultipleAttendanceResponse | undefined> {
+    logEndpointHandler(
+      'getEventAttendance',
+      { eventID, multipleAttendanceQuery },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/attendance`,
+      'GET'
+    );
+
     const attendances = await this.eventService.getEventAttendances(
       eventID,
       multipleAttendanceQuery
@@ -161,6 +195,14 @@ export class EventController {
   @UseBefore(OfficerAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getEventRSVP(@Param('eventID') eventID: number): Promise<MultipleRSVPResponse | undefined> {
+    logEndpointHandler(
+      'getEventRSVP',
+      { eventID },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/rsvp`,
+      'GET'
+    );
+
     const rsvps = await this.eventService.getEventRSVPs(eventID);
 
     if (rsvps === undefined) {
@@ -181,6 +223,14 @@ export class EventController {
     @Body() attendanceCheckOffRequest: AttendanceCheckOffRequest,
     @CurrentUser() officer: AppUser
   ): Promise<AttendanceResponse | undefined> {
+    logEndpointHandler(
+      'checkOffEventAttendance',
+      { eventID, attendanceCheckOffRequest },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/attendance`,
+      'POST'
+    );
+
     const { attendeeId } = attendanceCheckOffRequest;
     const checkedOffAttendance = await this.attendanceService.checkOffAttendance(
       eventID,
@@ -199,6 +249,14 @@ export class EventController {
     @Body() appUserRequest: AppUserEventRequest,
     @CurrentUser() appUser: AppUser
   ): Promise<AttendanceResponse | undefined> {
+    logEndpointHandler(
+      'signInToEvent',
+      { eventID, appUserRequest, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/signin`,
+      'POST'
+    );
+
     let currAppUser = appUser;
 
     if (appUser === undefined) {
@@ -221,6 +279,14 @@ export class EventController {
     @Param('eventID') eventID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AttendanceResponse | undefined> {
+    logEndpointHandler(
+      'affiliateEventSignin',
+      { eventID, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/signin/affiliate`,
+      'POST'
+    );
+
     if (appUser === undefined) {
       throw new UnauthorizedError();
     }
@@ -238,6 +304,14 @@ export class EventController {
     @Body() appUserRequest: AppUserEventRequest,
     @CurrentUser() appUser: AppUser
   ): Promise<RSVPResponse | undefined> {
+    logEndpointHandler(
+      'rsvpForEvent',
+      { eventID, appUserRequest, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/rsvp`,
+      'POST'
+    );
+
     let currAppUser = appUser;
 
     if (appUser === undefined) {
@@ -260,6 +334,14 @@ export class EventController {
     @Param('eventID') eventID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<RSVPResponse | undefined> {
+    logEndpointHandler(
+      'affiliateEventRSVP',
+      { eventID, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:eventID/rsvp/affiliate`,
+      'POST'
+    );
+
     if (appUser === undefined) {
       throw new UnauthorizedError();
     }

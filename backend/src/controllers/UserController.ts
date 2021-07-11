@@ -41,6 +41,10 @@ import {
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { InducteeAuthMiddleware, MemberAuthMiddleware, OfficerAuthMiddleware } from '@Middlewares';
 import { formatISO } from 'date-fns';
+import { logEndpointHandler } from '@Logger';
+
+const FILE_NAME = 'UserController.ts'; // For logging
+const ROUTE_PREFIX = '/api/users';
 
 @JsonController('/api/users')
 export class UserController {
@@ -58,8 +62,15 @@ export class UserController {
   async getMultipleUsers(
     @QueryParams() multipleUserQuery: MultipleUserQuery
   ): Promise<MultipleAppUserResponse | MultipleUserNameResponse> {
-    const multipleUsers = await this.appUserService.getAllAppUsers(multipleUserQuery);
+    logEndpointHandler(
+      'getMultipleUsers',
+      { multipleUserQuery },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/`,
+      'GET'
+    );
 
+    const multipleUsers = await this.appUserService.getAllAppUsers(multipleUserQuery);
     return { users: multipleUsers };
   }
 
@@ -68,6 +79,14 @@ export class UserController {
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createUser(@Body() appUserCreateRequest: AppUserPostRequest): Promise<AppUserResponse> {
+    logEndpointHandler(
+      'createUser',
+      { appUserCreateRequest },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/`,
+      'POST'
+    );
+
     const newAppUser = await this.appUserMapper.requestToNewEntity(appUserCreateRequest);
     const savedAppUser = await this.appUserService.saveAppUser(newAppUser);
 
@@ -82,6 +101,14 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserProfileResponse | undefined> {
+    logEndpointHandler(
+      'getUserProfile',
+      { userID, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID`,
+      'GET'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
@@ -105,6 +132,14 @@ export class UserController {
     @CurrentUser({ required: true })
     appUser: AppUser
   ): Promise<AppUserResponse | undefined> {
+    logEndpointHandler(
+      'updateUserProfile',
+      { userID, appUserUpdateRequest, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID`,
+      'POST'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
@@ -127,6 +162,14 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<AppUserRolesResponse | undefined> {
+    logEndpointHandler(
+      'getUserRole',
+      { userID, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/roles`,
+      'GET'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
@@ -148,6 +191,14 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
   ): Promise<AppUserInducteePointsResponse | undefined> {
+    logEndpointHandler(
+      'getUserInducteePoints',
+      { userID, requestAppUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/inductee-points`,
+      'GET'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(requestAppUser, userID)) {
       throw new ForbiddenError();
     }
@@ -194,6 +245,14 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) requestAppUser: AppUser
   ): Promise<AppUserMemberPointsResponse | undefined> {
+    logEndpointHandler(
+      'getUserMemberPoints',
+      { userID, requestAppUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/member-points`,
+      'GET'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(requestAppUser, userID)) {
       throw new ForbiddenError();
     }
@@ -212,6 +271,14 @@ export class UserController {
     @Body() appUserInterviewAvailabilities: AppUserInterviewAvailabilitiesRequest,
     @CurrentUser({ required: true }) requestingAppUser: AppUser
   ): Promise<AppUserResponse | undefined> {
+    logEndpointHandler(
+      'updateUserInterviewAvailabilities',
+      { userID, appUserInterviewAvailabilities, requestingAppUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/interview-availabilities`,
+      'POST'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(requestingAppUser, userID)) {
       throw new ForbiddenError();
     }
@@ -236,6 +303,14 @@ export class UserController {
     })
     file: Express.Multer.File
   ): Promise<string | null> {
+    logEndpointHandler(
+      'uploadResume',
+      { userID, appUser, resumeFileUploadOptions },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/resume`,
+      'POST'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }
@@ -254,6 +329,14 @@ export class UserController {
     @Param('userID') userID: number,
     @CurrentUser({ required: true }) appUser: AppUser
   ): Promise<Buffer | null> {
+    logEndpointHandler(
+      'downloadResume',
+      { userID, appUser },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:userID/resume`,
+      'GET'
+    );
+
     if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
       throw new ForbiddenError();
     }

@@ -4,6 +4,10 @@ import { InductionClassService, InductionClassServiceImpl } from '@Services';
 
 import { InterviewDatesResponse } from '@Payloads';
 import { ResponseSchema } from 'routing-controllers-openapi';
+import { logEndpointHandler } from '@Logger';
+
+const FILE_NAME = 'InductionClassController.ts'; // For logging
+const ROUTE_PREFIX = '/api/inductionclass';
 
 @JsonController('/api/inductionclass')
 export class InductionClassController {
@@ -14,6 +18,14 @@ export class InductionClassController {
   async getInterviewDates(
     @Param('inductionClassID') quarter: string
   ): Promise<InterviewDatesResponse> {
+    logEndpointHandler(
+      'getInterviewDates',
+      { quarter },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/:inductionClassID/interviewdates`,
+      'GET'
+    );
+
     const interviewDates: Date[] = await this.inductionClassService.getInterviewDatesByQuarter(
       // e.g. converting from fa20 to FA20 to transform the string in the url to the
       // format used to store the quarter string in the datbase

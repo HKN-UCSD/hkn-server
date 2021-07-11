@@ -98,6 +98,30 @@ export const logFunc = (
   logger.log(level, logMsg, additionalLogContent);
 };
 
+export const logEndpointHandler = (
+  handlerName: string,
+  handlerParams?: FuncParams,
+  fileName = '',
+  endpointRoute = '',
+  httpMethod = '',
+  message = '',
+  moreLogContent = {},
+  level = 'info'
+) => {
+  const params = handlerParams === undefined ? [] : handlerParams;
+
+  const handlerFile = fileName === '' ? '' : `in ${fileName}`;
+  const logMsg = `Called ${handlerName}() ${handlerFile} for ${httpMethod} ${endpointRoute}\n${message}`;
+
+  const additionalLogContent = {
+    handlerName,
+    params,
+    ...moreLogContent,
+  };
+
+  logger.log(level, logMsg, additionalLogContent);
+};
+
 export const logMany = (logs: Log[]) => {
   logs.forEach(log => {
     fillOptionalProperties(log);

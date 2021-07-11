@@ -5,6 +5,10 @@ import { AppUser } from '@Entities';
 import { AppUserSignupRequest, AppUserResponse } from '@Payloads';
 import { AppUserMapper, AppUserMapperImpl } from '@Mappers';
 import { AppUserService, AppUserServiceImpl, AccountService, AccountServiceImpl } from '@Services';
+import { logEndpointHandler } from '@Logger';
+
+const FILE_NAME = 'AuthController.ts'; // For logging
+const ROUTE_PREFIX = '/api/auth';
 
 @JsonController('/api/auth')
 export class AuthController {
@@ -20,6 +24,13 @@ export class AuthController {
     @Body() appUserSignupRequest: AppUserSignupRequest
   ): Promise<AppUserResponse | undefined> {
     const { email, password, firstName, lastName, major, graduationYear } = appUserSignupRequest;
+    logEndpointHandler(
+      'signUpUser',
+      { email, firstName, lastName },
+      FILE_NAME,
+      `${ROUTE_PREFIX}/signup`,
+      'POST'
+    );
 
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
 
