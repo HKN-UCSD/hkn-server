@@ -12,7 +12,7 @@ export class AuthController {
     private appUserService: AppUserService,
     private accountService: AccountService,
     private appUserMapper: AppUserMapper
-  ) { }
+  ) {}
 
   @Post('/signup')
   @ResponseSchema(AppUserResponse)

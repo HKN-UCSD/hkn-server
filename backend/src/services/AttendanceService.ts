@@ -9,7 +9,7 @@ import { logFunc } from '@Logger';
 const FILE_NAME = 'AttendanceService.ts';
 
 export class AttendanceService {
-  constructor(private appUserService: AppUserService) { }
+  constructor(private appUserService: AppUserService) {}
 
   /**
    * Builds a query object for TypeORM to filter rows when calling find() on Attendance table.

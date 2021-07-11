@@ -9,14 +9,21 @@ import { logFunc } from '@Logger';
 const FILE_NAME = 'EventService.ts'; // For logging
 
 export class EventService {
-  constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) { }
+  constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
 
   // Only officers can see pending events
   private buildMultipleEventQuery(
     multipleEventQuery: MultipleEventQuery,
     isOfficer: boolean
   ): FindManyOptions<Event> {
-    logFunc('buildMultipleEventQuery', { multipleEventQuery, isOfficer }, FILE_NAME, '', {}, 'debug');
+    logFunc(
+      'buildMultipleEventQuery',
+      { multipleEventQuery, isOfficer },
+      FILE_NAME,
+      '',
+      {},
+      'debug'
+    );
 
     const { pending, ready, complete } = multipleEventQuery;
     const query: FindManyOptions<Event> = {};

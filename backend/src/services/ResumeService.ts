@@ -29,7 +29,7 @@ export const resumeFileUploadOptions = {
 };
 
 export class ResumeService {
-  constructor(private storageService: StorageService) { }
+  constructor(private storageService: StorageService) {}
 
   /**
    * Uploads a document as the resume for the current signed in user.  Returns

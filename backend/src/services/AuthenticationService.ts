@@ -8,7 +8,7 @@ import { logFunc } from '@Logger';
 const FILE_NAME = 'AuthenticationService.ts';
 
 export class AuthenticationService {
-  constructor(private appUserService: AppUserService) { }
+  constructor(private appUserService: AppUserService) {}
 
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
     logFunc('firebaseVerifyIdToken', {}, FILE_NAME, '', {}, 'debug'); // Never expose tokens

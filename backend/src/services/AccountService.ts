@@ -8,7 +8,7 @@ const FILE_NAME = 'AccountService.ts';
 export class AccountService {
   // getAuthService is needed instead of just AuthService because we need to wait for firebase to
   // load first :)))
-  constructor(private getAuthService: () => IAuthService) { }
+  constructor(private getAuthService: () => IAuthService) {}
 
   /**
    * Creates a new Firebase Auth user using Admin SDK.
