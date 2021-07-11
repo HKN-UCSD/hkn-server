@@ -6,7 +6,10 @@ import {
   Availabilities,
 } from '@Entities';
 import { MultipleUserQuery } from '@Payloads';
+import { logFunc } from '@Logger';
 import { Any, getRepository, FindManyOptions } from 'typeorm';
+
+const FILE_NAME = 'AppUserService.ts';
 
 export class AppUserService {
   /**
@@ -16,6 +19,8 @@ export class AppUserService {
    * @returns {FindManyOptions<AppUser>} The query object used by TypeORM to filter rows by the query parameters.
    */
   private buildMultipleUserQuery(multipleUserQuery: MultipleUserQuery): FindManyOptions<AppUser> {
+    logFunc('buildMultipleEventQuery', { multipleUserQuery }, FILE_NAME, '', {}, 'debug');
+
     const { names, officers } = multipleUserQuery;
     const query: FindManyOptions<AppUser> = {};
 
@@ -38,8 +43,9 @@ export class AppUserService {
    * @returns {Promise} The saved AppUser entity.
    */
   async saveAppUser(appUser: AppUser): Promise<AppUser> {
-    const appUserRepository = getRepository(AppUser);
+    logFunc('saveAppUser', { appUser }, FILE_NAME);
 
+    const appUserRepository = getRepository(AppUser);
     return appUserRepository.save(appUser);
   }
 
@@ -50,6 +56,8 @@ export class AppUserService {
    * @returns {AppUser[]} Array of AppUser entities
    */
   getAllAppUsers(multipleUserQuery: MultipleUserQuery): Promise<AppUser[]> {
+    logFunc('getAllAppUser', { multipleUserQuery }, FILE_NAME);
+
     const appUserRepository = getRepository(AppUser);
     const query = this.buildMultipleUserQuery(multipleUserQuery);
 
@@ -63,8 +71,9 @@ export class AppUserService {
    * @returns {AppUser[]} Array of AppUser entities.
    */
   getMultipleAppUsers(ids: number[]): Promise<AppUser[]> {
-    const appUserRepository = getRepository(AppUser);
+    logFunc('getMultipleAppUsers', { ids }, FILE_NAME);
 
+    const appUserRepository = getRepository(AppUser);
     return appUserRepository.find({ id: Any(ids) });
   }
 
@@ -75,8 +84,9 @@ export class AppUserService {
    * @returns {Promise} An AppUser entity if it exists in AppUser table.
    */
   getAppUserById(id: number): Promise<AppUser | undefined> {
-    const appUserRepository = getRepository(AppUser);
+    logFunc('getAppUserById', { id }, FILE_NAME);
 
+    const appUserRepository = getRepository(AppUser);
     return appUserRepository.findOne({ id });
   }
 
@@ -87,8 +97,9 @@ export class AppUserService {
    * @returns {Promise} The role of the user if they exist in the AppUser table.
    */
   async getAppUserRoleById(id: number): Promise<string | undefined> {
-    const appUser = await this.getAppUserById(id);
+    logFunc('getAppUserRoleById', { id }, FILE_NAME);
 
+    const appUser = await this.getAppUserById(id);
     return appUser?.role;
   }
 
@@ -99,8 +110,9 @@ export class AppUserService {
    * @returns {Promise} An AppUser entity if it exists in AppUser table.
    */
   getAppUserByEmail(email: string): Promise<AppUser | undefined> {
-    const appUserRepository = getRepository(AppUser);
+    logFunc('getAppUserByEmail', { email }, FILE_NAME);
 
+    const appUserRepository = getRepository(AppUser);
     return appUserRepository.findOne({ email });
   }
 
@@ -112,6 +124,8 @@ export class AppUserService {
    * @returns {Promise} The saved AppUser entity that is a non-affiliate.
    */
   async saveNonAffiliate(appUser: AppUser): Promise<AppUser | undefined> {
+    logFunc('saveNonAffiliate', { appUser }, FILE_NAME);
+
     const { role } = appUser;
 
     if (role !== undefined && role !== AppUserRole.GUEST) {
@@ -134,8 +148,9 @@ export class AppUserService {
    * the one they put in the URL parameter userID.
    */
   isUnauthedUserOrNonOfficer(appUser: AppUser, urlUserID: number): boolean {
-    const { role, id: requesterID } = appUser;
+    logFunc('isUnauthedUserOrNonOfficer', { appUser, urlUserID }, FILE_NAME);
 
+    const { role, id: requesterID } = appUser;
     return (
       !(role === AppUserRole.ADMIN || role === AppUserRole.OFFICER) && requesterID != urlUserID
     );
@@ -148,6 +163,8 @@ export class AppUserService {
    * @returns {boolean} Whether the passed-in AppUser has officer or admin role or not.
    */
   isOfficer(appUser: AppUser): boolean {
+    logFunc('isOfficer', { appUser }, FILE_NAME);
+
     return appUser.role === AppUserRole.OFFICER || appUser.role === AppUserRole.ADMIN;
   }
 
@@ -158,10 +175,14 @@ export class AppUserService {
    * @returns {boolean} Whether the passed-in AppUser has guest role or not.
    */
   isGuest(appUser: AppUser): boolean {
+    logFunc('isGuest', { appUser }, FILE_NAME);
+
     return appUser.role === AppUserRole.GUEST;
   }
 
   async getAllInducteePoints(): Promise<InducteePointsView[] | undefined> {
+    logFunc('getAllInducteePoints', {}, FILE_NAME);
+
     const inducteePointsRepo = getRepository(InducteePointsView);
     return await inducteePointsRepo.find({});
   }
@@ -172,6 +193,8 @@ export class AppUserService {
    * @returns {InducteePoints}
    */
   async getInducteePoints(appUserID: number): Promise<InducteePointsView | undefined> {
+    logFunc('getInducteePoints', { appUserID }, FILE_NAME);
+
     const inducteePointsRepo = getRepository(InducteePointsView);
     return await inducteePointsRepo.findOne({ user: appUserID });
   }
@@ -182,6 +205,8 @@ export class AppUserService {
    * @returns {InducteePoints}
    */
   async getMemberPoints(appUserID: number): Promise<MemberPointsView | undefined> {
+    logFunc('getMemberPoints', { appUserID }, FILE_NAME);
+
     const memberPointsRepo = getRepository(MemberPointsView);
     return await memberPointsRepo.findOne({ user: appUserID });
   }
@@ -190,6 +215,8 @@ export class AppUserService {
     appUser: AppUser,
     availabilities: Availabilities
   ): Promise<AppUser | undefined> {
+    logFunc('updateInterviewAvailabilities', { appUser, availabilities }, FILE_NAME);
+
     appUser.availabilities = availabilities;
     return this.saveAppUser(appUser);
   }

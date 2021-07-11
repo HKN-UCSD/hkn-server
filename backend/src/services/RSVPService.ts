@@ -1,8 +1,13 @@
 import { AppUser, Event, RSVP } from '@Entities';
 import { getRepository, FindManyOptions } from 'typeorm';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'RSVPService.ts';
 
 export class RSVPService {
   private buildMultipleRSVPQuery(event: Event, cacheOn: boolean): FindManyOptions<RSVP> {
+    logFunc('buildMultipleRSVPQuery', { event, cacheOn }, FILE_NAME, '', {}, 'debug');
+
     const query: FindManyOptions<RSVP> = {};
 
     query.where = { event: event };
@@ -23,6 +28,8 @@ export class RSVPService {
    * @returns {Promise} A new RSVP entity, but undefined for duplicate RSVP.
    */
   async registerRSVP(event: Event, appUser: AppUser): Promise<RSVP | undefined> {
+    logFunc('registerRSVP', { event, appUser }, FILE_NAME);
+
     const rsvpRepository = getRepository(RSVP);
     const rsvpBeingProcessed = { event, appUser };
     const newRSVP = rsvpRepository.create(rsvpBeingProcessed);
@@ -37,6 +44,8 @@ export class RSVPService {
   }
 
   async getEventRSVPs(event: Event): Promise<RSVP[]> {
+    logFunc('getEventRSVPs', { event }, FILE_NAME);
+
     const rsvpRepository = getRepository(RSVP);
     const query = this.buildMultipleRSVPQuery(event, true);
 

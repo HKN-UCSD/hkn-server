@@ -3,11 +3,16 @@ import admin from 'firebase-admin';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 import { AppUser } from '@Entities';
 import { config } from '../config';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'AuthenticationService.ts';
 
 export class AuthenticationService {
-  constructor(private appUserService: AppUserService) {}
+  constructor(private appUserService: AppUserService) { }
 
   async firebaseVerifyIdToken(token: string): Promise<AppUser | undefined> {
+    logFunc('firebaseVerifyIdToken', {}, FILE_NAME, '', {}, 'debug'); // Never expose tokens
+
     try {
       const splitToken: string[] = token.split(' ');
       const userToken = splitToken[1];
@@ -32,6 +37,8 @@ export class AuthenticationService {
   }
 
   async localVerifyIdToken(token: string): Promise<AppUser | undefined> {
+    logFunc('localVerifyIdToken', {}, FILE_NAME, '', {}, 'debug'); // Never expose tokens
+
     try {
       const splitToken: string[] = token.split(' ');
       const userToken = splitToken[1];
@@ -49,6 +56,8 @@ export class AuthenticationService {
   }
 
   async verifyToken(token: string): Promise<AppUser | undefined> {
+    logFunc('verifyIdToken', {}, FILE_NAME, '', {}, 'debug'); // Never expose tokens
+
     const { devAuth } = config;
 
     if (devAuth) {

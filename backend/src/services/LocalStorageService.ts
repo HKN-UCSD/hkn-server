@@ -1,7 +1,9 @@
 import fs from 'fs';
 import { Response } from 'express';
+import { logFunc } from '@Logger';
 
 const dir_path = process.cwd() + '/local_fs/';
+const FILE_NAME = 'LocalStorageService.ts';
 
 if (!fs.existsSync(dir_path)) {
   fs.mkdirSync(dir_path);
@@ -9,6 +11,8 @@ if (!fs.existsSync(dir_path)) {
 
 export class LocalStorageService {
   async uploadFile(fileName: string, file: Express.Multer.File, options: Object): Promise<string> {
+    logFunc('uploadFile', {}, FILE_NAME);
+
     let fileNameKey = fileName;
     if (options) {
       if ('appendFileName' in options) {
@@ -19,7 +23,7 @@ export class LocalStorageService {
     fs.writeFile(
       dir_path + fileNameKey + file.originalname.substring(file.originalname.lastIndexOf('.')),
       file.buffer,
-      function(err) {
+      function (err) {
         if (err) {
           throw new Error(`Could not write file to ${dir_path + fileName}: ${err.message}`);
         }
@@ -29,6 +33,8 @@ export class LocalStorageService {
   }
 
   async downloadFile(fileName: string, res: Response, options: Object): Promise<Buffer | null> {
+    logFunc('downloadFile', {}, FILE_NAME);
+
     try {
       if (!options) {
         throw new Error('Options for bucket/container not specified');

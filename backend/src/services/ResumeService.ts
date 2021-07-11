@@ -4,8 +4,13 @@ import multer from 'multer';
 import { AppUser } from '@Entities';
 import { StorageService, StorageServiceImpl } from '@Services';
 import { config } from '@Config';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'ResumeService.ts';
 
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: Function): void => {
+  logFunc('fileFilter', {}, FILE_NAME);
+
   if (file.mimetype.includes('pdf')) {
     cb(null, true);
   } else {
@@ -24,7 +29,7 @@ export const resumeFileUploadOptions = {
 };
 
 export class ResumeService {
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService) { }
 
   /**
    * Uploads a document as the resume for the current signed in user.  Returns
@@ -35,6 +40,8 @@ export class ResumeService {
    * @return {Promise<string | null>} A Promise that indicates whether the upload succeeded.
    */
   async uploadResume(appUser: AppUser, file: Express.Multer.File): Promise<string | null> {
+    logFunc('uploadResume', { appUser }, FILE_NAME);
+
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume`;
     const options = {
       appendFileName: `${appUser.id}`,
@@ -52,6 +59,8 @@ export class ResumeService {
    * @param {Response} res The response object.
    */
   async downloadResume(appUser: AppUser, res: Response): Promise<Buffer | null> {
+    logFunc('downloadResume', { appUser }, FILE_NAME);
+
     const storedfileName = `${appUser.firstName}_${appUser.lastName}_Resume_${appUser.id}`;
     const options = {
       bucketName: config.awsConfig.resumeBucketName,

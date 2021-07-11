@@ -1,10 +1,14 @@
 import admin from 'firebase-admin';
 import '@firebase/auth';
 
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'AccountService.ts';
+
 export class AccountService {
   // getAuthService is needed instead of just AuthService because we need to wait for firebase to
   // load first :)))
-  constructor(private getAuthService: () => IAuthService) {}
+  constructor(private getAuthService: () => IAuthService) { }
 
   /**
    * Creates a new Firebase Auth user using Admin SDK.
@@ -16,6 +20,8 @@ export class AccountService {
    * process succeeds.
    */
   async createNewAccount(id: number, email: string, password: string): Promise<string | undefined> {
+    logFunc('createNewAccount', { id }, FILE_NAME); // Do not expose email or password
+
     try {
       const newFirebaseUser = await this.getAuthService().createUser({
         uid: id.toString(10),

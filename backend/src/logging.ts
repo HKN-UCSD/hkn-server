@@ -11,6 +11,10 @@ export interface Log {
   moreLogContent?: AdditionalLogContent;
 }
 
+interface FuncParams {
+  [key: string]: any;
+}
+
 const { combine, json, timestamp, colorize, prettyPrint } = format;
 const logLevels = { error: 0, warn: 1, info: 2, debug: 3 };
 
@@ -59,9 +63,9 @@ export const createNewLog = (): Log => {
 export const logVar = (
   variableName: string,
   variableValue: any,
-  level = 'info',
   message = '',
-  moreLogContent = {}
+  moreLogContent = {},
+  level = 'info'
 ) => {
   const additionalLogContent = {
     variableName,
@@ -72,21 +76,26 @@ export const logVar = (
   logger.log(level, message, additionalLogContent);
 };
 
-export const logFunction = (
-  functionName: string,
-  functionParams: any[],
-  level = 'info',
+export const logFunc = (
+  funcName: string,
+  funcParams?: FuncParams,
+  fileName = '',
   message = '',
-  moreLogContent = {}
+  moreLogContent = {},
+  level = 'info'
 ) => {
-  const funcParams = functionParams === undefined ? [] : functionParams;
+  const params = funcParams === undefined ? [] : funcParams;
+
+  const funcFile = fileName === '' ? '' : `in ${fileName}`;
+  const logMsg = `Called ${funcName}() ${funcFile}\n${message}`;
+
   const additionalLogContent = {
-    functionName,
-    functionParams,
+    funcName,
+    params,
     ...moreLogContent,
   };
 
-  logger.log(level, message, additionalLogContent);
+  logger.log(level, logMsg, additionalLogContent);
 };
 
 export const logMany = (logs: Log[]) => {

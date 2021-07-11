@@ -4,9 +4,12 @@ import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
 import { getRepository, FindManyOptions, Not, IsNull } from 'typeorm';
 import { differenceInMinutes } from 'date-fns';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'AttendanceService.ts';
 
 export class AttendanceService {
-  constructor(private appUserService: AppUserService) {}
+  constructor(private appUserService: AppUserService) { }
 
   /**
    * Builds a query object for TypeORM to filter rows when calling find() on Attendance table.
@@ -46,6 +49,8 @@ export class AttendanceService {
   }
 
   async getAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
+    logFunc('getAttendance', { attendeeId, eventId }, FILE_NAME);
+
     const attendanceRepository = getRepository(Attendance);
     return attendanceRepository.findOne(
       {
@@ -62,6 +67,8 @@ export class AttendanceService {
    * Gets all attendances of specified user. Fetches events as well.
    */
   async getUserAttendance(attendeeId: number): Promise<Attendance[] | undefined> {
+    logFunc('getUserAttendance', { attendeeId }, FILE_NAME);
+
     const attendanceRepository = getRepository(Attendance);
 
     return attendanceRepository.find({
@@ -83,6 +90,8 @@ export class AttendanceService {
     event: Event,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[]> {
+    logFunc('getEventAttendance', { event, multipleAttendanceQuery }, FILE_NAME);
+
     const attendanceRepository = getRepository(Attendance);
     const query = this.buildMultipleAttendanceQuery(event, multipleAttendanceQuery, true);
 
@@ -94,6 +103,8 @@ export class AttendanceService {
     attendeeId: number,
     officerId: number
   ): Promise<Attendance | undefined> {
+    logFunc('checkOffAttendance', { eventId, attendeeId, officerId }, FILE_NAME);
+
     const attendanceRepository = getRepository(Attendance);
     const attendance: Attendance = await this.getAttendance(attendeeId, eventId);
 
@@ -110,6 +121,8 @@ export class AttendanceService {
 
   // Precondition: event is fetched within attendance
   getAttendancePoints(attendance: Attendance): number {
+    logFunc('getAttendancePoints', { attendance }, FILE_NAME);
+
     if (attendance.event.type === EventType.MENTORSHIP) {
       return 1.0;
     }
@@ -124,8 +137,9 @@ export class AttendanceService {
   }
 
   async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
-    const attendanceRepository = getRepository(Attendance);
+    logFunc('saveAttendance', { attendance }, FILE_NAME);
 
+    const attendanceRepository = getRepository(Attendance);
     return attendanceRepository.save(attendance);
   }
 
@@ -137,6 +151,8 @@ export class AttendanceService {
    * @returns {Promise} A new Attendance entity, but undefined for duplicate Attendance entities.
    */
   async registerAttendance(event: Event, attendee: AppUser): Promise<Attendance | undefined> {
+    logFunc('registerAttendance', { event, attendee }, FILE_NAME);
+
     const attendanceRepository = getRepository(Attendance);
 
     const { role } = attendee;

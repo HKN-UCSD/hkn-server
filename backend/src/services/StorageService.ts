@@ -3,7 +3,10 @@ import { Response } from 'express';
 import { loadAWS_S3 } from '../loaders';
 import { BadRequestError } from 'routing-controllers';
 
+import { logFunc } from '@Logger';
+
 const s3 = loadAWS_S3();
+const FILE_NAME = 'StorageService.ts';
 
 type UploadOptions = {
   appendFileName: string;
@@ -29,6 +32,8 @@ export class StorageService {
     file: Express.Multer.File,
     options: UploadOptions
   ): Promise<string | null> {
+    logFunc('uploadFile', {}, FILE_NAME);
+
     let params;
     try {
       let fileNameKey = fileName;
@@ -87,6 +92,8 @@ export class StorageService {
     res: Response,
     options: DownloadOptions
   ): Promise<Buffer | null> {
+    logFunc('downloadFile', {}, FILE_NAME);
+
     try {
       if (options) {
         if (!options.bucketName) {
@@ -119,6 +126,8 @@ export class StorageService {
    * @returns {Promise<Array<string> | null>} A Promise that returns the list of all objects in the bucket.
    */
   async getFileIndex(bucketName: string): Promise<Array<string> | null> {
+    logFunc('getFileIndex', {}, FILE_NAME);
+
     try {
       const params = {
         Bucket: bucketName,

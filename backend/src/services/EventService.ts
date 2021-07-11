@@ -4,15 +4,20 @@ import { RSVPService, RSVPServiceImpl } from './RSVPService';
 
 import { getRepository, FindManyOptions, Not } from 'typeorm';
 import { MultipleAttendanceQuery, MultipleEventQuery } from '@Payloads';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'EventService.ts'; // For logging
 
 export class EventService {
-  constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) {}
+  constructor(private attendanceService: AttendanceService, private rsvpService: RSVPService) { }
 
   // Only officers can see pending events
   private buildMultipleEventQuery(
     multipleEventQuery: MultipleEventQuery,
     isOfficer: boolean
   ): FindManyOptions<Event> {
+    logFunc('buildMultipleEventQuery', { multipleEventQuery, isOfficer }, FILE_NAME, '', {}, 'debug');
+
     const { pending, ready, complete } = multipleEventQuery;
     const query: FindManyOptions<Event> = {};
     const whereArr = [];
@@ -58,6 +63,8 @@ export class EventService {
    * @returns {Promise} Saved event.
    */
   async saveEvent(event: Event): Promise<Event> {
+    logFunc('saveEvent', { event }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
 
     return eventRepository.save(event);
@@ -69,6 +76,8 @@ export class EventService {
    * @returns {Event[]} Array of all events.
    */
   getAllEvents(multipleEventQuery: MultipleEventQuery, isOfficer: boolean): Promise<Event[]> {
+    logFunc('getAllEvents', { multipleEventQuery, isOfficer }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
     const query = this.buildMultipleEventQuery(multipleEventQuery, isOfficer);
 
@@ -82,6 +91,8 @@ export class EventService {
    * @returns {Promise} Event with given id.
    */
   getEventById(id: number): Promise<Event | undefined> {
+    logFunc('getEventById', { id }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
 
     return eventRepository.findOne({ id });
@@ -94,6 +105,8 @@ export class EventService {
    * @returns {Promise} Deleted event.
    */
   async deleteEvent(id: number): Promise<Event | undefined> {
+    logFunc('deleteEvent', { id }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
     const event = await eventRepository.findOne({ id });
 
@@ -104,6 +117,8 @@ export class EventService {
     eventId: number,
     multipleAttendanceQuery: MultipleAttendanceQuery
   ): Promise<Attendance[] | undefined> {
+    logFunc('getEventAttendances', { eventId, multipleAttendanceQuery }, FILE_NAME);
+
     const event = await this.getEventById(eventId);
 
     if (event === undefined) {
@@ -119,6 +134,8 @@ export class EventService {
   }
 
   async getEventRSVPs(eventId: number): Promise<RSVP[] | undefined> {
+    logFunc('getEventRSVPs', { eventId }, FILE_NAME);
+
     const event = await this.getEventById(eventId);
 
     if (event === undefined) {
@@ -143,6 +160,8 @@ export class EventService {
     eventId: number,
     appUser: AppUser
   ): Promise<Attendance | undefined> {
+    logFunc('registerEventAttendance', { eventId, appUser }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
     const event = await eventRepository.findOne({ id: eventId });
     const newAttendance = await this.attendanceService.registerAttendance(event, appUser);
@@ -159,6 +178,8 @@ export class EventService {
    * @returns {Promise} A new RSVP entity.
    */
   async registerEventRSVP(eventId: number, appUser: AppUser): Promise<RSVP> {
+    logFunc('registerEventRSVP', { eventId, appUser }, FILE_NAME);
+
     const eventRepository = getRepository(Event);
     const event = await eventRepository.findOne({ id: eventId });
     const newRSVP = await this.rsvpService.registerRSVP(event, appUser);

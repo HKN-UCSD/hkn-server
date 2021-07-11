@@ -1,9 +1,13 @@
 import { AppUser } from '@Entities';
+import { logFunc } from '@Logger';
+
+const FILE_NAME = 'AuthorizationService.ts';
 
 export class AuthorizationService {
   hasSufficientRole(permittedRoles: Array<string>, appUserToCheck: AppUser): boolean {
-    const { role } = appUserToCheck;
+    logFunc('hasSufficientRole', { permittedRoles }, FILE_NAME);
 
+    const { role } = appUserToCheck;
     return permittedRoles.includes(role);
   }
 }
