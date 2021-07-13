@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Box, Button, Grid, Modal, Fade } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -10,10 +10,16 @@ import styles from './styles';
 
 import { Card, GetLocation } from '@SharedComponents';
 
-function EventCard({ event, classes }) {
-  return (
-    <>
-      {event && (
+function EventCard({ event, onClose, classes }) {
+  // Listens to whether an event is selected from Calendar parent comp
+  const isOpen = event !== null;
+
+  // Fixes error that Modal component needed a reference and an inner forwardRef
+  const ref = React.createRef();
+
+  const ModalContent = React.forwardRef(() => (
+    <Fade in={isOpen}>
+      <Grid container justify='center' alignItems='center'>
         <Card title={event.name}>
           <Typography variant='h6' color='textSecondary' gutterBottom>
             {format(parseISO(event.startDate), 'PP')} -{' '}
@@ -33,6 +39,21 @@ function EventCard({ event, classes }) {
             See More
           </Button>
         </Card>
+      </Grid>
+    </Fade>
+  ));
+
+  return (
+    <>
+      {event && (
+        <Modal
+          open={isOpen}
+          onClose={onClose}
+          ref={ref}
+          className={classes.modal}
+        >
+          <ModalContent />
+        </Modal>
       )}
     </>
   );
@@ -46,6 +67,7 @@ EventCard.propTypes = {
     location: PropTypes.string,
     id: PropTypes.number.isRequired,
   }),
+  onClose: PropTypes.func,
 };
 
 EventCard.defaultProps = {
