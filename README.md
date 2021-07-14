@@ -10,6 +10,9 @@ All code related to the HKN portal belongs here.
     - Top-level [README](./backend/README.md)
     - [Guides](./backend/guides)
 
+## Quick Access To Guides:
+- On all things [git](./guides/git), such as branch naming, the PR process, the branch creation process, etc.
+
 ## To Install Dependencies
 
 Do this before you build/start the project!
