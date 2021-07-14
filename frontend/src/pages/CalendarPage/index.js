@@ -19,6 +19,8 @@ import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { getAllEvents } from '@Services/EventService';
 import { Button } from '@SharedComponents';
 
+import SnackbarErrors from '../../components/error/snackBar'
+
 class CalendarPage extends React.Component {
   constructor() {
     super();
@@ -29,6 +31,9 @@ class CalendarPage extends React.Component {
       pending: true,
       ready: true,
       complete: true,
+      openSnackbar: false,
+      severity: "info",
+      message: "Hello World"
     };
   }
 
@@ -98,6 +103,8 @@ class CalendarPage extends React.Component {
   toggleView() {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
+      message: "view changed",
+      openSnackbar: true,
     }));
   }
 
@@ -112,6 +119,9 @@ class CalendarPage extends React.Component {
     }
   }
 
+  closeSnackbar(event) {
+    this.setState({ openSnackbar: false });
+  }
   render() {
     const {
       selectedEvent,
@@ -120,6 +130,9 @@ class CalendarPage extends React.Component {
       pending,
       ready,
       complete,
+      openSnackbar,
+      message,
+      severity,
     } = this.state;
     const { classes, history } = this.props;
     return (
@@ -199,7 +212,6 @@ class CalendarPage extends React.Component {
                 )}
               </Paper>
             </Grid>
-
             {selectedEvent && (
               <Grid item xs={4}>
                 <Container>
@@ -208,6 +220,11 @@ class CalendarPage extends React.Component {
               </Grid>
             )}
           </Grid>
+          <SnackbarErrors
+            open={openSnackbar}
+            message={message}
+            severity={severity}
+            handleClose={event => this.closeSnackbar(event)} />
         </Grid>
       </Grid>
     );
