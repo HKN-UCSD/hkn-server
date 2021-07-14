@@ -1,5 +1,19 @@
 # HKN Server
 
+## Quick Access To Guides:
+
+- On [adding](./guides/add) new services, entities, controllers, etc.
+- On how backend [auth](./guides/authentication) works for local development and production.
+- On the structure of our [backend](./guides/backend_api) and the hierarchical connection between its layers.
+- On [setting up](./guides/development) (local) development environments.
+- On [logging](./guides/logging) and how to add them to the backend codebase.
+- On how to use the [custom middlewares](./guides/middlewares) that we have.
+- On how to [name](./guides/naming) Mapper functions, Payload classes, etc.
+- On how the old, deprecated backend API [works](./guides/old_api) (for historical reasons).
+- On how to work with our Controller and endpoints for [Storage](./guides/storage), backed by AWS S3.
+- On adding different types of [tests](./guides/testing) for our backend code.
+- (**Important**) On a word of [caution](./guides/caution.md) when working on the backend codebase.
+
 ## Deploys
 
 - `Production`: https://api.hknucsd.com/
