@@ -25,4 +25,11 @@ const SnackbarErrors = props => {
   );
 }
 
+SnackbarErrors.propTypes = {
+  open: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
+  severity: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired
+};
+
 export default SnackbarErrors;

@@ -125,7 +125,7 @@ class CalendarPage extends React.Component {
     }
   }
 
-  closeSnackbar(event) {
+  closeSnackbar() {
     this.setState({ openSnackbar: false });
   }
   render() {
@@ -232,7 +232,7 @@ class CalendarPage extends React.Component {
             open={openSnackbar}
             message={message}
             severity={severity}
-            handleClose={event => this.closeSnackbar(event)} />
+            handleClose={event => this.closeSnackbar()} />
         </Grid>
       </Grid>
     );
