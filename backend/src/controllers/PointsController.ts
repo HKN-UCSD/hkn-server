@@ -5,10 +5,6 @@ import { AppUserService, AppUserServiceImpl } from '@Services';
 import { OfficerAuthMiddleware } from '@Middlewares';
 import { MultipleInducteePointsResponse, InducteePointsResponse, AppUserResponse } from '@Payloads';
 import { InducteePointsView } from '@Entities';
-import { logEndpointHandler } from '@Logger';
-
-const FILE_NAME = 'PointsController.ts'; // For logging
-const ROUTE_PREFIX = '/api/points';
 
 @JsonController('/api/points')
 export class PointsController {
@@ -19,8 +15,6 @@ export class PointsController {
   @UseBefore(OfficerAuthMiddleware)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async getAllInducteePoints(): Promise<MultipleInducteePointsResponse> {
-    logEndpointHandler('getAllInducteePoints', {}, FILE_NAME, `${ROUTE_PREFIX}/inductees`, 'GET');
-
     const points: InducteePointsView[] = await this.appUserService.getAllInducteePoints();
     const pointResponses = points.map((point: InducteePointsView) => {
       const res = new InducteePointsResponse();

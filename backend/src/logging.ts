@@ -5,12 +5,8 @@ export interface AdditionalLogContent {
   [key: string]: string;
 }
 
-export interface Log {
-  level?: string;
-  message?: string;
-  moreLogContent?: AdditionalLogContent;
-}
-
+// Function parameters are represented as an object with keys as
+// parameter names and values as parameter values
 interface FuncParams {
   [key: string]: any;
 }
@@ -27,10 +23,6 @@ export const isLogLevel = (level: string): boolean => {
   return ['error', 'warn', 'info', 'debug'].includes(level);
 };
 
-export const isEndpointLogLevel = (level: string): boolean => {
-  return ['info', 'debug'].includes(level);
-};
-
 export const logger = createLogger({
   levels: logLevels,
   format: combine(
@@ -42,24 +34,16 @@ export const logger = createLogger({
   transports: [new transports.Console({ level: config.maxLogLevel })],
 });
 
-export const fillOptionalProperties = (log: Log) => {
-  const { level, message, moreLogContent } = log;
-
-  log.level = level === undefined ? 'info' : level;
-  log.message = message === undefined ? '' : message;
-  log.moreLogContent = moreLogContent === undefined ? {} : moreLogContent;
-};
-
-export const createNewLog = (): Log => {
-  const newLog: Log = {
-    level: 'info',
-    message: '',
-    moreLogContent: {},
-  };
-
-  return newLog;
-};
-
+/**
+ * Logs information regarding a variable, i.e. its name, value and anything else one would
+ * like to log (in moreLogContent).
+ *
+ * @param {string} variableName Name of the variable being logged
+ * @param {any} variableValue Value of the variable being logged
+ * @param {string} message Default message field of log
+ * @param {Object} moreLogContent Other contents of the log, in JS object format
+ * @param {string} level Severity of log (error, warn, info or debug), default is info
+ */
 export const logVar = (
   variableName: string,
   variableValue: any,
@@ -67,15 +51,33 @@ export const logVar = (
   moreLogContent = {},
   level = 'info'
 ) => {
+  let logLevel = level;
+
+  if (!isLogLevel(level)) {
+    // Either throw an error or this, opted with this because it is not as disruptive
+    logLevel = 'info';
+  }
+
   const additionalLogContent = {
     variableName,
     variableValue,
     ...moreLogContent,
   };
 
-  logger.log(level, message, additionalLogContent);
+  logger.log(logLevel, message, additionalLogContent);
 };
 
+/**
+ * Logs information regarding a function/method, i.e. its name, value, the file it belongs to, etc.
+ * and anything else one would like to log (in moreLogContent).
+ *
+ * @param {string} funcName Name of the function being logged
+ * @param {FuncParams} funcParams Parameters of the function being logged
+ * @param {string} fileName The file at which the function resides
+ * @param {string} message Default message field of log
+ * @param {Object} moreLogContent Other contents of the log, in JS object format
+ * @param {string} level Severity of log (error, warn, info or debug), default is info
+ */
 export const logFunc = (
   funcName: string,
   funcParams?: FuncParams,
@@ -84,8 +86,13 @@ export const logFunc = (
   moreLogContent = {},
   level = 'info'
 ) => {
-  const params = funcParams === undefined ? [] : funcParams;
+  let logLevel = level;
 
+  if (!isLogLevel(level)) {
+    logLevel = 'info';
+  }
+
+  const params = funcParams === undefined ? [] : funcParams;
   const funcFile = fileName === '' ? '' : `in ${fileName}`;
   const logMsg = `Called ${funcName}() ${funcFile}\n${message}`;
 
@@ -95,38 +102,5 @@ export const logFunc = (
     ...moreLogContent,
   };
 
-  logger.log(level, logMsg, additionalLogContent);
-};
-
-export const logEndpointHandler = (
-  handlerName: string,
-  handlerParams?: FuncParams,
-  fileName = '',
-  endpointRoute = '',
-  httpMethod = '',
-  message = '',
-  moreLogContent = {},
-  level = 'info'
-) => {
-  const params = handlerParams === undefined ? [] : handlerParams;
-
-  const handlerFile = fileName === '' ? '' : `in ${fileName}`;
-  const logMsg = `Called ${handlerName}() ${handlerFile} for ${httpMethod} ${endpointRoute}\n${message}`;
-
-  const additionalLogContent = {
-    handlerName,
-    params,
-    ...moreLogContent,
-  };
-
-  logger.log(level, logMsg, additionalLogContent);
-};
-
-export const logMany = (logs: Log[]) => {
-  logs.forEach(log => {
-    fillOptionalProperties(log);
-    const { level, message, moreLogContent } = log;
-
-    logger.log(level, message, moreLogContent);
-  });
+  logger.log(logLevel, logMsg, additionalLogContent);
 };

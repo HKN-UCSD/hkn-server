@@ -1,10 +1,4 @@
-import {
-  logger,
-  AdditionalLogContent,
-  isLogLevel,
-  isEndpointLogLevel,
-  ENDPOINT_HANDLER,
-} from '@Logger';
+import { logger, AdditionalLogContent, isLogLevel, ENDPOINT_HANDLER } from '@Logger';
 
 interface MethodTypes {
   [key: number]: string;
@@ -32,8 +26,6 @@ export function LogMethod(
       throw new Error(
         `Invalid method type "${methodType}" for @LogMethod decorator in ${propertyKey}`
       );
-    } else if (methodType == ENDPOINT_HANDLER && !isEndpointLogLevel(level)) {
-      throw new Error(`Invalid log level "${level}" for endpoint handler ${propertyKey}`);
     } else if (!isLogLevel(level)) {
       throw new Error(`Invalid log level "${level}" for @LogMethod decorator in ${propertyKey}`);
     }
