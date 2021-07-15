@@ -218,14 +218,6 @@ class CalendarPage extends React.Component {
                 )}
               </Paper>
             </Grid>
-<<<<<<< HEAD
-            {selectedEvent && (
-              <Grid item xs={4}>
-                <Container>
-                  <EventCard event={selectedEvent} />
-                </Container>
-              </Grid>
-=======
 
             {(selectedEvent !== null) && (
               <Container>
@@ -234,7 +226,6 @@ class CalendarPage extends React.Component {
                   onClose={() => this.handleModalClose()}
                 />
               </Container>
->>>>>>> a235a57f06b29b5bd5d3c5adb1e05bad55679b0b
             )}
           </Grid>
           <SnackbarErrors
