@@ -232,7 +232,7 @@ class CalendarPage extends React.Component {
             open={openSnackbar}
             message={message}
             severity={severity}
-            handleClose={event => this.closeSnackbar()} />
+            handleClose={this.closeSnackbar()} />
         </Grid>
       </Grid>
     );
