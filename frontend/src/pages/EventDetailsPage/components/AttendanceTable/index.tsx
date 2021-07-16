@@ -103,18 +103,6 @@ function AttendanceTable(props: AttendanceTableProps) {
         </Button>
       ),
     },
-    {
-      title: '',
-      render: (rowData: AttendanceResponse) => (
-        <Button
-          primary
-          positive
-          onClick={() => { }}
-        >
-          Edit
-        </Button>
-      ),
-    },
   ];
 
   const attendanceData = attendances.map(attendance =>
