@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { parseISO, format } from 'date-fns';
 
 import { useInterval } from '@Hooks';
-import { Table } from '@SharedComponents';
+import { Button, Table } from '@SharedComponents';
 import {
   AttendanceResponse,
   MultipleAttendanceResponse,
   AppUserEventResponse,
 } from '@Services/api/models';
+import { deleteAttendance } from '@Services/AttendanceService';
 
 interface AttendanceTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
+  eventId: number;
 }
 
 const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
@@ -61,7 +63,7 @@ const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
 };
 
 function AttendanceTable(props: AttendanceTableProps) {
-  const { getAttendances } = props;
+  const { getAttendances, eventId } = props;
   const [attendances, setAttendances] = useState<AttendanceResponse[]>([]);
 
   useEffect(() => {
@@ -89,6 +91,30 @@ function AttendanceTable(props: AttendanceTableProps) {
     { title: 'End Time', field: 'endTimeString' },
     { title: 'Checking Officer', field: 'officerName' },
     { title: 'Points', field: 'points' },
+    {
+      title: '',
+      render: (rowData: AttendanceResponse) => (
+        <Button
+          primary
+          positive
+          onClick={() => deleteAttendance(rowData.attendee.id, eventId)}
+        >
+          Delete
+        </Button>
+      ),
+    },
+    {
+      title: '',
+      render: (rowData: AttendanceResponse) => (
+        <Button
+          primary
+          positive
+          onClick={() => { }}
+        >
+          Edit
+        </Button>
+      ),
+    },
   ];
 
   const attendanceData = attendances.map(attendance =>
