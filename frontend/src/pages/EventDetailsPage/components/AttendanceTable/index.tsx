@@ -93,9 +93,9 @@ function AttendanceTable(props: AttendanceTableProps) {
     { title: 'Points', field: 'points' },
     {
       title: '',
-      render: (rowData: AttendanceResponse) => (
+      render: ({ attendee: { id } }: AttendanceResponse) => (
         <AttendanceDeleteButton
-          attendeeId={rowData.attendee.id}
+          attendeeId={id}
           eventId={eventId}
         />
       ),

@@ -39,9 +39,9 @@ function CheckOffTable(props: CheckOffTableProps) {
     },
     {
       title: '',
-      render: (rowData: AttendanceResponse) => (
+      render: ({ attendee: { id } }: AttendanceResponse) => (
         <AttendanceDeleteButton
-          attendeeId={rowData.attendee.id}
+          attendeeId={id}
           eventId={eventId}
         />
       ),
