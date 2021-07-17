@@ -7,6 +7,7 @@ import {
   AttendanceResponse,
   MultipleAttendanceResponse,
 } from '@Services/api/models';
+import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 
 interface CheckOffTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
@@ -34,6 +35,15 @@ function CheckOffTable(props: CheckOffTableProps) {
         >
           Check Off
         </Button>
+      ),
+    },
+    {
+      title: '',
+      render: (rowData: AttendanceResponse) => (
+        <AttendanceDeleteButton
+          attendeeId={rowData.attendee.id}
+          eventId={eventId}
+        />
       ),
     },
   ];

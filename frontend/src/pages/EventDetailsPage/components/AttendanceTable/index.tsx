@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { parseISO, format } from 'date-fns';
 
 import { useInterval } from '@Hooks';
-import { Button, Table } from '@SharedComponents';
+import { Table } from '@SharedComponents';
 import {
   AttendanceResponse,
   MultipleAttendanceResponse,
   AppUserEventResponse,
 } from '@Services/api/models';
-import { deleteAttendance } from '@Services/AttendanceService';
+import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 
 interface AttendanceTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
@@ -94,13 +94,10 @@ function AttendanceTable(props: AttendanceTableProps) {
     {
       title: '',
       render: (rowData: AttendanceResponse) => (
-        <Button
-          primary
-          positive
-          onClick={() => deleteAttendance(rowData.attendee.id, eventId)}
-        >
-          Delete
-        </Button>
+        <AttendanceDeleteButton
+          attendeeId={rowData.attendee.id}
+          eventId={eventId}
+        />
       ),
     },
   ];
