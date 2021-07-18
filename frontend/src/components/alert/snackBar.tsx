@@ -10,7 +10,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SnackbarErrors = props => {
+const SnackbarAlerts = props => {
   const { open, message, severity, handleClose } = props;
   return (
     <Snackbar
@@ -25,11 +25,4 @@ const SnackbarErrors = props => {
   );
 }
 
-SnackbarErrors.propTypes = {
-  open: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
-  severity: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired
-};
-
-export default SnackbarErrors;
+export default SnackbarAlerts;

@@ -13,13 +13,12 @@ import Calendar from './components/Calendar';
 import EventCard from './components/EventCard';
 import EventList from './components/EventList';
 import styles from './styles';
+import SnackbarAlerts from '../../components/alert/snackBar'
 
 import * as ROUTES from '@Constants/routes';
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { getAllEvents } from '@Services/EventService';
 import { Button } from '@SharedComponents';
-
-import SnackbarErrors from '../../components/error/snackBar'
 
 class CalendarPage extends React.Component {
   constructor() {
@@ -228,11 +227,11 @@ class CalendarPage extends React.Component {
               </Container>
             )}
           </Grid>
-          <SnackbarErrors
+          <SnackbarAlerts
             open={openSnackbar}
             message={message}
             severity={severity}
-            handleClose={this.closeSnackbar()} />
+            handleClose={() => this.closeSnackbar()} />
         </Grid>
       </Grid>
     );
