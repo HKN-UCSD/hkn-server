@@ -3,9 +3,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Fade from '@material-ui/core/Fade';
 
-import PropTypes from 'prop-types';
-
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
