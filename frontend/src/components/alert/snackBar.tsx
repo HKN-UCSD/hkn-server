@@ -2,7 +2,6 @@ import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Fade from '@material-ui/core/Fade';
-import { StringLiteralLike } from 'typescript';
 
 interface snackbarProps {
   open: boolean;
