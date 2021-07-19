@@ -7,7 +7,7 @@ interface snackbarProps {
   open: boolean;
   message: string;
   severity: string;
-  handleClose: undefined;
+  handleClose: () => void;
 }
 
 function Alert(props) {
