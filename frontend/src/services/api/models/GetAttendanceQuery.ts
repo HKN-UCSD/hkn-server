@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AttendanceCheckOffRequest
+ * @interface GetAttendanceQuery
  */
-export interface AttendanceCheckOffRequest {
+export interface GetAttendanceQuery {
     /**
      * 
      * @type {number}
-     * @memberof AttendanceCheckOffRequest
+     * @memberof GetAttendanceQuery
      */
     attendeeId: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetAttendanceQuery
+     */
+    eventId: number;
 }
 
-export function AttendanceCheckOffRequestFromJSON(json: any): AttendanceCheckOffRequest {
-    return AttendanceCheckOffRequestFromJSONTyped(json, false);
+export function GetAttendanceQueryFromJSON(json: any): GetAttendanceQuery {
+    return GetAttendanceQueryFromJSONTyped(json, false);
 }
 
-export function AttendanceCheckOffRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AttendanceCheckOffRequest {
+export function GetAttendanceQueryFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAttendanceQuery {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'attendeeId': json['attendeeId'],
+        'eventId': json['eventId'],
     };
 }
 
-export function AttendanceCheckOffRequestToJSON(value?: AttendanceCheckOffRequest | null): any {
+export function GetAttendanceQueryToJSON(value?: GetAttendanceQuery | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -51,6 +58,7 @@ export function AttendanceCheckOffRequestToJSON(value?: AttendanceCheckOffReques
     return {
         
         'attendeeId': value.attendeeId,
+        'eventId': value.eventId,
     };
 }
 

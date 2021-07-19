@@ -125,8 +125,16 @@ export class AttendanceService {
 
   async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
     const attendanceRepository = getRepository(Attendance);
+    attendance.points = this.getAttendancePoints(attendance);
 
     return attendanceRepository.save(attendance);
+  }
+
+  async deleteAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+    const attendance = await this.getAttendance(attendeeId, eventId);
+
+    return attendance ? attendanceRepository.remove(attendance) : undefined;
   }
 
   /**
