@@ -13,7 +13,6 @@ import Calendar from './components/Calendar';
 import EventCard from './components/EventCard';
 import EventList from './components/EventList';
 import styles from './styles';
-import SnackbarAlerts from '../../components/alert/snackBar'
 
 import * as ROUTES from '@Constants/routes';
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
@@ -30,9 +29,6 @@ class CalendarPage extends React.Component {
       pending: true,
       ready: true,
       complete: true,
-      openSnackbar: false,
-      severity: "info",
-      message: "Hello World"
     };
   }
 
@@ -124,9 +120,6 @@ class CalendarPage extends React.Component {
     }
   }
 
-  closeSnackbar() {
-    this.setState({ openSnackbar: false });
-  }
   render() {
     const {
       selectedEvent,
@@ -135,9 +128,6 @@ class CalendarPage extends React.Component {
       pending,
       ready,
       complete,
-      openSnackbar,
-      message,
-      severity,
     } = this.state;
     const { classes, history } = this.props;
     return (
@@ -227,11 +217,6 @@ class CalendarPage extends React.Component {
               </Container>
             )}
           </Grid>
-          <SnackbarAlerts
-            open={openSnackbar}
-            message={message}
-            severity={severity}
-            handleClose={() => this.closeSnackbar()} />
         </Grid>
       </Grid>
     );
