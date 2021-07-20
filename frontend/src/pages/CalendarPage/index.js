@@ -104,8 +104,6 @@ class CalendarPage extends React.Component {
   toggleView() {
     this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
-      message: "view changed",
-      openSnackbar: true,
     }));
   }
 
