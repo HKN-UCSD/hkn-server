@@ -1,9 +1,9 @@
 import { Attendance, AppUser, AppUserRole, Event, EventType } from '@Entities';
-import { MultipleAttendanceQuery } from '@Payloads';
+import { MultipleAttendanceQuery, AttendanceRequest, GetAttendanceQuery } from '@Payloads';
 import { AppUserService, AppUserServiceImpl } from './AppUserService';
 
 import { getRepository, FindManyOptions, Not, IsNull } from 'typeorm';
-import { differenceInMinutes } from 'date-fns';
+import { differenceInMinutes, parseISO } from 'date-fns';
 
 export class AttendanceService {
   constructor(private appUserService: AppUserService) {}
@@ -123,15 +123,28 @@ export class AttendanceService {
     return points;
   }
 
-  async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
+  async saveAttendance(
+    attendanceQuery: GetAttendanceQuery,
+    attendanceReq: AttendanceRequest,
+    officerId: number
+  ): Promise<Attendance> {
     const attendanceRepository = getRepository(Attendance);
+    const { attendeeId, eventId } = attendanceQuery;
+    const { startTime, endTime } = attendanceReq;
+
+    const attendance = await this.getAttendance(attendeeId, eventId);
+    attendance.startTime = parseISO(startTime);
+    attendance.endTime = parseISO(endTime);
+    attendance.officer = await this.appUserService.getAppUserById(officerId);
     attendance.points = this.getAttendancePoints(attendance);
 
     return attendanceRepository.save(attendance);
   }
 
-  async deleteAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
+  async deleteAttendance(attendanceQuery: GetAttendanceQuery): Promise<Attendance | undefined> {
     const attendanceRepository = getRepository(Attendance);
+    const { attendeeId, eventId } = attendanceQuery;
+
     const attendance = await this.getAttendance(attendeeId, eventId);
 
     return attendance ? attendanceRepository.remove(attendance) : undefined;
