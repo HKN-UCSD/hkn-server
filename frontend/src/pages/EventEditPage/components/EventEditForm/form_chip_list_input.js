@@ -14,7 +14,7 @@ const FormikChipListInput = ({
       <ChipListInput
         label={label}
         selections={value}
-        onChange={(newValue) => setFieldValue(name, newValue)}
+        onChange={newValue => setFieldValue(name, newValue)}
       />
     </div>
   );

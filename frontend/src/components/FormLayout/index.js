@@ -130,7 +130,7 @@ export default function FormLayout({
       </Grid>
 
       {sections
-        .map((section) => (
+        .map(section => (
           <Section
             key={section.title}
             title={section.title}

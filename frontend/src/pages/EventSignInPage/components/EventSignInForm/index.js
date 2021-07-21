@@ -19,7 +19,7 @@ const INITIAL_INPUT_VALUES = {
   agreeToPhotoRelease: false,
 };
 
-const EventSignInForm = (props) => {
+const EventSignInForm = props => {
   const { classes, handleSubmit } = props;
 
   return (

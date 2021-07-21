@@ -17,8 +17,10 @@ export const ButtonWithAlertModal = ({
   name,
   ...otherButtonProps
 }: ButtonWithAlertModalProps) => {
-  const { closeButtonProps, ...modalTitleContentProps }: AlertModalProps =
-    alertModalProps;
+  const {
+    closeButtonProps,
+    ...modalTitleContentProps
+  }: AlertModalProps = alertModalProps;
 
   return (
     <ButtonWithModal

@@ -18,12 +18,12 @@ const createFullMajorTitle = (department, major) => {
   return fullMajorTitle;
 };
 
-const MajorDropdownField = (props) => {
+const MajorDropdownField = props => {
   const { classes, name, label, includeOthers, ...otherProps } = props;
 
   const listOfMajors = [];
-  Object.keys(ELIGIBLE_MAJORS).forEach((department) =>
-    Object.keys(ELIGIBLE_MAJORS[department]).forEach((major) => {
+  Object.keys(ELIGIBLE_MAJORS).forEach(department =>
+    Object.keys(ELIGIBLE_MAJORS[department]).forEach(major => {
       listOfMajors.push(createFullMajorTitle(department, major));
     })
   );

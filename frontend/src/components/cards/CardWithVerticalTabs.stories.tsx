@@ -11,7 +11,7 @@ export default {
   component: CardWithVerticalTabs,
 } as Meta;
 
-const Template: Story<CardWithVerticalTabsProps> = (args) => {
+const Template: Story<CardWithVerticalTabsProps> = args => {
   const { items } = args;
   return <CardWithVerticalTabs items={items} />;
 };

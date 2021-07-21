@@ -53,7 +53,7 @@ class NavBar extends React.Component {
   }
 
   handleDrawerToggle = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       isDrawerOpen: !prevState.isDrawerOpen,
     }));
   };
@@ -75,7 +75,7 @@ class NavBar extends React.Component {
     const { isDrawerOpen, isAnOfficer, isConfirmationModalOpen } = this.state;
 
     const tabs = isAnOfficer ? OfficerTabs : InducteeTabs;
-    const tabComponents = tabs.map((tab) => (
+    const tabComponents = tabs.map(tab => (
       <ListItem button component={Link} to={tab.route} key={tab.route}>
         <ListItemIcon>{tab.icon}</ListItemIcon>
         <ListItemText primary={tab.text} />

@@ -10,14 +10,16 @@ const schema = Yup.object({
     .min(PW_MIN_LENGTH, 'Your password is too short!')
     .required('Required'),
   confirmPW: Yup.string().when('password', {
-    is: (value) => value && value.length > 0,
+    is: value => value && value.length > 0,
     then: Yup.string()
       .oneOf([Yup.ref('password')], 'Both passwords need to be the same')
       .required('Required'),
   }),
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
-  major: Yup.string().min(2, 'Your major is too short!').required('Required'),
+  major: Yup.string()
+    .min(2, 'Your major is too short!')
+    .required('Required'),
   gradYear: Yup.number().required('Required'),
 });
 

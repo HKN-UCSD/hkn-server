@@ -57,7 +57,7 @@ function Links(props: LinksProps) {
       </Typography>
 
       <List dense>
-        {Object.values(urls).map((urlObj) => {
+        {Object.values(urls).map(urlObj => {
           return (
             <ListItem key={urlObj.label}>
               <Link href={urlObj.url}>

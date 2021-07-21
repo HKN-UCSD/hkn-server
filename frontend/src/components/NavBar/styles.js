@@ -1,5 +1,5 @@
 const drawerWidth = 200;
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     display: 'flex',
     height: '100vh',

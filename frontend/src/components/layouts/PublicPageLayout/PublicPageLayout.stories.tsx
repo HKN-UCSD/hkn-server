@@ -9,7 +9,7 @@ export default {
   component: PublicPageLayout,
 } as Meta;
 
-const Template: Story<PublicPageLayoutProps> = (args) => {
+const Template: Story<PublicPageLayoutProps> = args => {
   const { children } = args;
   return <PublicPageLayout>{children}</PublicPageLayout>;
 };

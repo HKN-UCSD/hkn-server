@@ -19,8 +19,8 @@ export const INTERVIEW_SCHEDULING = '/interview-scheduling';
 export const FORBIDDEN = '/403';
 export const NOT_FOUND = '/404';
 
-export const PROFILE_WITH_ID = (id) => `/profile/${id}`;
-export const PROFILE_EDIT_WITH_ID = (id) => `/profile/${id}/edit`;
-export const POINTS_WITH_ID = (id) => `/points/${id}`;
+export const PROFILE_WITH_ID = id => `/profile/${id}`;
+export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;
+export const POINTS_WITH_ID = id => `/points/${id}`;
 
 export const CURR_USER_ID_ALIAS = 'me';

@@ -1,22 +1,22 @@
-const isAdmin = (userContext) => {
+const isAdmin = userContext => {
   const { userRoles } = userContext;
 
   return userRoles.includes('admin');
 };
 
-const isOfficer = (userContext) => {
+const isOfficer = userContext => {
   const { userRoles } = userContext;
 
   return userRoles.includes('admin') || userRoles.includes('officer');
 };
 
-const isMember = (userContext) => {
+const isMember = userContext => {
   const { userRoles } = userContext;
 
   return userRoles.includes('officer') || userRoles.includes('member');
 };
 
-const isInductee = (userContext) => {
+const isInductee = userContext => {
   const { userRoles } = userContext;
 
   return (

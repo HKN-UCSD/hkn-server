@@ -32,7 +32,7 @@ const styles = () => ({
   },
 });
 
-const EventButtons = (props) => {
+const EventButtons = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>

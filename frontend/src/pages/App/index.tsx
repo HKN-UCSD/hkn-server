@@ -36,7 +36,7 @@ function App(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(async (user) => {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         const tokenResult = await user.getIdTokenResult();
         const { claims, token } = tokenResult;
@@ -119,29 +119,29 @@ function App(): JSX.Element {
           <Route
             exact
             path={ROUTES.HOME}
-            render={(props) => InducteeRoutingPermission(EventsPage)(props)}
+            render={props => InducteeRoutingPermission(EventsPage)(props)}
           />
           <Route
             exact
             path={ROUTES.POINTS}
-            render={(props) => InducteeRoutingPermission(PointsPage)(props)}
+            render={props => InducteeRoutingPermission(PointsPage)(props)}
           />
           <Route
             exact
             path={ROUTES.INDUCTEES}
-            render={(props) =>
+            render={props =>
               OfficerRoutingPermission(InducteePointsPage)(props)
             }
           />
           <Route
             exact
             path={ROUTES.CALENDAR}
-            render={(props) => InducteeRoutingPermission(CalendarPage)(props)}
+            render={props => InducteeRoutingPermission(CalendarPage)(props)}
           />
           <Route
             exact
             path={ROUTES.INTERVIEW_SCHEDULING}
-            render={(props) =>
+            render={props =>
               InducteeRoutingPermission(InterviewSchedulingPage)(props)
             }
           />
@@ -153,24 +153,22 @@ function App(): JSX.Element {
           <Route
             exact
             path={ROUTES.EVENT_DETAILS}
-            render={(props) =>
-              InducteeRoutingPermission(EventDetailsPage)(props)
-            }
+            render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
           />
           <Route
             exact
             path={ROUTES.EVENT_EDIT}
-            render={(props) => OfficerRoutingPermission(EventEditPage)(props)}
+            render={props => OfficerRoutingPermission(EventEditPage)(props)}
           />
           <Route
             exact
             path={ROUTES.FORBIDDEN}
-            render={(props) => InducteeRoutingPermission(ForbiddenPage)(props)}
+            render={props => InducteeRoutingPermission(ForbiddenPage)(props)}
           />
           <Route
             exact
             path={ROUTES.NOT_FOUND}
-            render={(props) => InducteeRoutingPermission(NotFoundPage)(props)}
+            render={props => InducteeRoutingPermission(NotFoundPage)(props)}
           />
           {/* <Route
               exact

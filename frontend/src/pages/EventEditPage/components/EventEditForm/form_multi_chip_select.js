@@ -15,7 +15,7 @@ const FormikMultiChipSelect = ({
         label={label}
         selections={selections}
         value={value}
-        onChange={(e) => setFieldValue(name, e.target.value)}
+        onChange={e => setFieldValue(name, e.target.value)}
       />
     </div>
   );

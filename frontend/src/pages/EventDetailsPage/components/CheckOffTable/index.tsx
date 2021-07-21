@@ -40,7 +40,10 @@ function CheckOffTable(props: CheckOffTableProps) {
     {
       title: '',
       render: ({ attendee: { id } }: AttendanceResponse) => (
-        <AttendanceDeleteButton attendeeId={id} eventId={eventId} />
+        <AttendanceDeleteButton
+          attendeeId={id}
+          eventId={eventId}
+        />
       ),
     },
   ];
@@ -62,11 +65,11 @@ function CheckOffTable(props: CheckOffTableProps) {
     delay: 1000,
   });
 
-  const attendanceData = attendances.map((attendance) => {
+  const attendanceData = attendances.map(attendance => {
     const fullName = `${attendance.attendee.firstName} ${attendance.attendee.lastName}`;
     // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
     const startTimeString = format(
-      parseISO(attendance.startTime as unknown as string),
+      parseISO((attendance.startTime as unknown) as string),
       'p'
     );
     const attendanceToDisplay = {

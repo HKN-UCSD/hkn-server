@@ -125,7 +125,7 @@ export const EventCreationForm = (props: EventCreationFormProps) => {
 
                     <Grid item>
                       <Grid container spacing={2}>
-                        {urlObjects.map((urlObject) => {
+                        {urlObjects.map(urlObject => {
                           const { name, label } = urlObject;
 
                           return (

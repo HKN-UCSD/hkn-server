@@ -8,7 +8,7 @@ export default {
   component: Card,
 } as Meta;
 
-const Template: Story<CardProps> = (args) => {
+const Template: Story<CardProps> = args => {
   const { children, title } = args;
   return <Card title={title}>{children}</Card>;
 };

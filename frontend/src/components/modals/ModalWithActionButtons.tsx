@@ -22,27 +22,25 @@ export const ModalWithActionButtons = ({
   actionButtonPropsList,
   children,
 }: ModalWithActionButtonProps) => {
-  const actionButtons = actionButtonPropsList.map(
-    (buttonProps: ButtonProps) => {
-      const { name, onClick, ...otherProps } = buttonProps;
+  const actionButtons = actionButtonPropsList.map((buttonProps: ButtonProps) => {
+    const { name, onClick, ...otherProps } = buttonProps;
 
-      const onClickFunction = (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-      ) => {
-        if (onClick !== undefined) {
-          onClick(event);
-        }
+    const onClickFunction = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      if (onClick !== undefined) {
+        onClick(event);
+      }
 
-        modalProps.handleClose();
-      };
+      modalProps.handleClose();
+    };
 
-      return (
-        <Button key={name} onClick={onClickFunction} {...otherProps}>
-          {name}
-        </Button>
-      );
-    }
-  );
+    return (
+      <Button key={name} onClick={onClickFunction} {...otherProps}>
+        {name}
+      </Button>
+    );
+  });
 
   return (
     <BaseModal {...modalProps} actionButtons={actionButtons}>

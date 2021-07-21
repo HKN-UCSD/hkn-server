@@ -12,14 +12,17 @@ import { Card, GetLocation } from '@SharedComponents';
 
 function EventCard({ event, onClose, classes }) {
   // Listens to whether an event is selected from Calendar parent comp
-  const isOpen = event !== null;
+  const isOpen = (event !== null);
 
-  // Fixes error that Modal component needed a reference and an inner forwardRef
+  // Fixes error that Modal component needed a reference and an inner forwardRef 
   const ref = React.createRef();
 
   const ModalContent = React.forwardRef(() => (
     <Fade in={isOpen}>
-      <Grid container justify='center' alignItems='center'>
+      <Grid container
+        justify="center"
+        alignItems="center"
+      >
         <Card title={event.name}>
           <Typography variant='h6' color='textSecondary' gutterBottom>
             {format(parseISO(event.startDate), 'PP')} -{' '}

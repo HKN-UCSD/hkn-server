@@ -35,11 +35,11 @@ class CalendarPage extends React.Component {
   componentDidMount() {
     const { pending, ready, complete } = this.state;
 
-    getAllEvents({ pending, ready, complete }).then((multipleEventResponse) => {
+    getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
       const { events } = multipleEventResponse;
       const calendarEvents = [];
 
-      events.forEach((event) => {
+      events.forEach(event => {
         // make a copy of the event
         const newEvent = Object.assign(event);
 
@@ -61,24 +61,22 @@ class CalendarPage extends React.Component {
       ready !== prevState.ready ||
       complete !== prevState.complete
     ) {
-      getAllEvents({ pending, ready, complete }).then(
-        (multipleEventResponse) => {
-          const { events } = multipleEventResponse;
-          const calendarEvents = [];
+      getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
+        const { events } = multipleEventResponse;
+        const calendarEvents = [];
 
-          events.forEach((event) => {
-            // make a copy of the event
-            const newEvent = Object.assign(event);
+        events.forEach(event => {
+          // make a copy of the event
+          const newEvent = Object.assign(event);
 
-            // For EventList
-            newEvent.title = newEvent.name;
+          // For EventList
+          newEvent.title = newEvent.name;
 
-            calendarEvents.push(newEvent);
-          });
+          calendarEvents.push(newEvent);
+        });
 
-          this.setState({ events: calendarEvents });
-        }
-      );
+        this.setState({ events: calendarEvents });
+      });
     }
   }
 
@@ -104,7 +102,7 @@ class CalendarPage extends React.Component {
   }
 
   toggleView() {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       view: prevState.view === 'calendar' ? ' list' : 'calendar',
     }));
   }
@@ -121,8 +119,14 @@ class CalendarPage extends React.Component {
   }
 
   render() {
-    const { selectedEvent, events, view, pending, ready, complete } =
-      this.state;
+    const {
+      selectedEvent,
+      events,
+      view,
+      pending,
+      ready,
+      complete,
+    } = this.state;
     const { classes, history } = this.props;
     return (
       <Grid className={classes.root} container direction='column'>
@@ -191,18 +195,18 @@ class CalendarPage extends React.Component {
                 {view === 'calendar' ? (
                   <Calendar
                     events={events}
-                    handleEventClick={(event) => this.toggleEventClick(event)}
+                    handleEventClick={event => this.toggleEventClick(event)}
                   />
                 ) : (
                   <EventList
                     events={events}
-                    handleEventClick={(event) => this.toggleEventClick(event)}
+                    handleEventClick={event => this.toggleEventClick(event)}
                   />
                 )}
               </Paper>
             </Grid>
 
-            {selectedEvent !== null && (
+            {(selectedEvent !== null) && (
               <Container>
                 <EventCard
                   event={selectedEvent}

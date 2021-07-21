@@ -1,4 +1,4 @@
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     [theme.breakpoints.up('sm')]: {
       marginTop: '8vh',

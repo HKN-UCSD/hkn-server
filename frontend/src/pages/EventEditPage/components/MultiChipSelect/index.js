@@ -8,7 +8,7 @@ class MultiChipSelect extends React.Component {
     this.state = { value: props.value || [] };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     const { onChange } = this.props;
 
     if (onChange) {
@@ -33,9 +33,9 @@ class MultiChipSelect extends React.Component {
           value={value}
           onChange={this.handleChange}
           input={<Input />}
-          renderValue={(selected) => (
+          renderValue={selected => (
             <div>
-              {selected.map((sel) => (
+              {selected.map(sel => (
                 <Chip key={sel} label={sel} />
               ))}
             </div>
@@ -52,7 +52,7 @@ class MultiChipSelect extends React.Component {
             getContentAnchorEl: null,
           }}
         >
-          {selections.map((select) => (
+          {selections.map(select => (
             <MenuItem key={select} value={select}>
               {select}
             </MenuItem>

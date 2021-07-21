@@ -7,7 +7,7 @@ import EventButtons from './eventButtons';
 
 import { MemberRenderPermission } from '@HOCs/RenderPermissions';
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     width: '100%',
     display: 'flex',
@@ -83,10 +83,8 @@ class EventsPage extends React.Component {
 
   getPagePluginURL = () => {
     const { width, height } = this.state;
-    return `${
-      'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events' +
-      '&width='
-    }${width}&height=${height}&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId`;
+    return `${'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events' +
+      '&width='}${width}&height=${height}&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId`;
   };
 
   getCalendarPluginURL = () => {

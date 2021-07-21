@@ -8,10 +8,7 @@ interface AttendanceDeleteButtonProps {
   eventId: number;
 }
 
-const AttendanceDeleteButton = ({
-  attendeeId,
-  eventId,
-}: AttendanceDeleteButtonProps) => {
+const AttendanceDeleteButton = ({ attendeeId, eventId }: AttendanceDeleteButtonProps) => {
   const confirmButtonProps = {
     name: 'Yes',
     onClick: () => deleteAttendance(attendeeId, eventId),
@@ -27,8 +24,7 @@ const AttendanceDeleteButton = ({
     <ButtonWithConfirmationModal
       confirmationModalProps={{
         title: 'Delete this attendance entry?',
-        contentText:
-          'This attendance entry will be deleted permanently from our database.',
+        contentText: 'This attendance entry will be deleted permanently from our database.',
         confirmButtonProps,
         cancelButtonProps,
       }}

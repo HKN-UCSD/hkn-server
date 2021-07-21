@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress as CircularProgress } from '@material-ui/core';
 
-const styles = (theme) => ({
+const styles = theme => ({
   progress: {
     margin: theme.spacing(3),
   },

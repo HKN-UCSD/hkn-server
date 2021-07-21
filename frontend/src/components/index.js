@@ -1,5 +1,6 @@
 import Button from './buttons';
-import {
+import
+{
   MajorDropdownField,
   YearDropdownField,
   AffiliateDropdownField,
@@ -19,7 +20,8 @@ import GetLocation from './GetLocation';
 export { OfficerNameAutocomplete } from './autocomplete';
 export { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
 
-export {
+export
+{
   Button,
   Card,
   CardWithVerticalTabs,

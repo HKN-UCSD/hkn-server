@@ -14,7 +14,7 @@ const yearDropdownChoices = (minYear, maxYear) => {
   return yearChoices;
 };
 
-const YearDropdownField = (props) => {
+const YearDropdownField = props => {
   const { name, label, minYear, maxYear, ...otherProps } = props;
 
   return (

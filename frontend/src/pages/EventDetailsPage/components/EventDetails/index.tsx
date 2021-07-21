@@ -102,7 +102,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         Hosts:{' '}
                         <Typography>
                           {hosts
-                            .map((host) => `${host.firstName} ${host.lastName}`)
+                            .map(host => `${host.firstName} ${host.lastName}`)
                             .join(', ')}
                         </Typography>
                       </Typography>

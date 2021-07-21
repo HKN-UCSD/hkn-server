@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 
 const schema = Yup.object({
-  email: Yup.string().email('Invalid email.').required('Required'),
+  email: Yup.string()
+    .email('Invalid email.')
+    .required('Required'),
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   major: Yup.string().required('Required'),

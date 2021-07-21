@@ -37,7 +37,7 @@ function EventEditPage(): JSX.Element {
   ) => {
     const eventRequest: EventRequest = {
       ...values,
-      hosts: values.hosts.map((host) => {
+      hosts: values.hosts.map(host => {
         return {
           id: host.id,
         };

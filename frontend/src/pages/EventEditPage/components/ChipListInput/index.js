@@ -27,11 +27,11 @@ class ChipListInput extends React.Component {
     };
   }
 
-  handleDelete = (entry) => {
+  handleDelete = entry => {
     const { onChange } = this.props;
 
     const { selections } = this.state;
-    const newSelections = selections.filter((option) => option !== entry);
+    const newSelections = selections.filter(option => option !== entry);
 
     if (onChange) {
       onChange(newSelections);
@@ -41,7 +41,7 @@ class ChipListInput extends React.Component {
   };
 
   toggleAddition = () => {
-    this.setState((prevState) => ({ addField: !prevState.addField }));
+    this.setState(prevState => ({ addField: !prevState.addField }));
   };
 
   addSelection = () => {
@@ -63,7 +63,7 @@ class ChipListInput extends React.Component {
     this.setState({ selections: newSelections, selectAddition: '' });
   };
 
-  handleAdditionChange = (e) => {
+  handleAdditionChange = e => {
     this.setState({
       selectAddition: e.target.value,
     });
@@ -79,7 +79,7 @@ class ChipListInput extends React.Component {
         <div>
           <InputLabel shrink>{label}</InputLabel>
           <Paper>
-            {selections.map((entry) => {
+            {selections.map(entry => {
               return (
                 <Chip
                   key={entry}
@@ -108,8 +108,8 @@ class ChipListInput extends React.Component {
               fullWidth
               variant='outlined'
               placeholder='Add another host'
-              onChange={(e) => this.handleAdditionChange(e)}
-              onKeyPress={(ev) => {
+              onChange={e => this.handleAdditionChange(e)}
+              onKeyPress={ev => {
                 if (ev.key === 'Enter') {
                   this.addSelection();
                   ev.preventDefault();
