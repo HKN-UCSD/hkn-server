@@ -3,7 +3,7 @@
     "javascript": "javascriptreact"
   },
   "emmet.triggerExpansionOnTab": true,
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.formatOnSaveTimeout": 3000,
   "[javascript]": {
