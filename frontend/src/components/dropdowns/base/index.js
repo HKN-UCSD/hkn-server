@@ -4,15 +4,9 @@ import { TextField, MenuItem } from '@material-ui/core';
 import { TextField as FormikTextField } from 'formik-material-ui';
 import { Field } from 'formik';
 
-const GenericDropdownField = props => {
-  const {
-    name,
-    label,
-    selections,
-    readOnly,
-    capitalizeLabel,
-    ...otherProps
-  } = props;
+const GenericDropdownField = (props) => {
+  const { name, label, selections, readOnly, capitalizeLabel, ...otherProps } =
+    props;
   const finalSelections = selections;
 
   if (readOnly) {
@@ -34,13 +28,11 @@ const GenericDropdownField = props => {
       label={label}
       {...otherProps}
     >
-      {finalSelections.map(selection => (
+      {finalSelections.map((selection) => (
         <MenuItem key={selection} value={selection}>
           {capitalizeLabel
-            ? selection
-                .toString()
-                .charAt(0)
-                .toUpperCase() + selection.toString().slice(1)
+            ? selection.toString().charAt(0).toUpperCase() +
+              selection.toString().slice(1)
             : selection}
         </MenuItem>
       ))}

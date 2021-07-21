@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core';
 import { TextField as FormikTextField } from 'formik-material-ui';
 import { Field } from 'formik';
 
-const InputField = props => {
+const InputField = (props) => {
   const { label, readOnly, ...otherProps } = props;
 
   if (readOnly) {

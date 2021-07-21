@@ -23,11 +23,11 @@ const doSignOut = () => {
   return firebase.auth().signOut();
 };
 
-const doPasswordReset = email => {
+const doPasswordReset = (email) => {
   return firebase.auth().sendPasswordResetEmail(email);
 };
 
-const doPasswordUpdate = password => {
+const doPasswordUpdate = (password) => {
   return firebase.auth().currentUser.updatePassword(password);
 };
 

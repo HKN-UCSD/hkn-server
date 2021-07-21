@@ -10,7 +10,7 @@ export default {
   component: ButtonWithModal,
 } as Meta;
 
-const Template: Story<ButtonWithModalProps> = args => (
+const Template: Story<ButtonWithModalProps> = (args) => (
   <ButtonWithModal {...args} />
 );
 

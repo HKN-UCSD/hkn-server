@@ -28,7 +28,7 @@ const schema = Yup.object({
   canvaURL: Yup.string(),
 });
 
-const EventEditForm = props => {
+const EventEditForm = (props) => {
   const { handleSubmit, handleCancel, classes, initialValues } = props;
   const { fbURL, canvaURL } = initialValues;
   const urlObjects = [
@@ -126,7 +126,7 @@ const EventEditForm = props => {
                 </Grid>
 
                 <Grid className={classes.urls}>
-                  {urlObjects.map(urlObject => {
+                  {urlObjects.map((urlObject) => {
                     const { name, label, url } = urlObject;
 
                     return (

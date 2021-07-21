@@ -34,7 +34,7 @@ import {
   getCurrentUserIDAndToken,
 } from '@Services/auth';
 
-const styles = theme => ({
+const styles = (theme) => ({
   main: {
     width: 'auto',
     display: 'block',
@@ -118,7 +118,7 @@ class SignInPage extends React.Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  handleSignIn = event => {
+  handleSignIn = (event) => {
     const { email, password, checked } = this.state;
     const { history, setClaims } = this.props;
 
@@ -126,7 +126,7 @@ class SignInPage extends React.Component {
       .then(() => {
         return getCurrentUserIDAndToken();
       })
-      .then(authObj => {
+      .then((authObj) => {
         const { userID } = authObj;
         return setClaims(userID);
       })
@@ -141,7 +141,7 @@ class SignInPage extends React.Component {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           failedSignInDialogOpen: true,
           signInError: error,
@@ -151,15 +151,15 @@ class SignInPage extends React.Component {
     event.preventDefault();
   };
 
-  handleEmailChange = event => {
+  handleEmailChange = (event) => {
     this.setState({ email: event.target.value });
   };
 
-  handlePasswordChange = event => {
+  handlePasswordChange = (event) => {
     this.setState({ password: event.target.value });
   };
 
-  handleForgotPasswordEmailChange = event => {
+  handleForgotPasswordEmailChange = (event) => {
     this.setState({ forgotPasswordEmail: event.target.value });
   };
 
@@ -184,7 +184,7 @@ class SignInPage extends React.Component {
         .then(() => {
           this.handleVerifyEmailDialogClose();
         })
-        .catch(error => {
+        .catch((error) => {
           doSignOut();
           this.setState({
             verifyEmailError: error,
@@ -194,7 +194,7 @@ class SignInPage extends React.Component {
     );
   };
 
-  handleCheckRemember = event => {
+  handleCheckRemember = (event) => {
     this.setState({ checked: event.target.checked });
   };
 
@@ -214,7 +214,7 @@ class SignInPage extends React.Component {
           forgotPasswordDialogOpen: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           forgotPasswordConfirmError: error,
           failedForgotPasswordConfirmDialogOpen: true,

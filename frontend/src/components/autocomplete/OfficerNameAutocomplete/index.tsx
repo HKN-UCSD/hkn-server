@@ -24,7 +24,7 @@ export const OfficerNameAutocomplete = (props: OfficerAutocompleteProp) => {
     getMultipleUsers({
       officers: true,
       names: true,
-    }).then(officerNameArr => {
+    }).then((officerNameArr) => {
       setOfficerNames(getUserNames(officerNameArr));
     });
   }, []);
@@ -36,7 +36,7 @@ export const OfficerNameAutocomplete = (props: OfficerAutocompleteProp) => {
       multiple
       filterSelectedOptions
       options={officerNames}
-      getOptionLabel={option => `${option.firstName} ${option.lastName}`}
+      getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
       getOptionSelected={(option, value) =>
         option.id === value.id &&
         option.firstName === value.firstName &&

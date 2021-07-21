@@ -1,9 +1,9 @@
 // / <reference types="Cypress" />
 
-describe('Inductee Sign In', function() {
-  it('Logs in and then logs out.', function() {
+describe('Inductee Sign In', function () {
+  it('Logs in and then logs out.', function () {
     cy.visit('http://localhost:3000', {
-      onBeforeLoad: win => {
+      onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
     });

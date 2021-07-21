@@ -22,7 +22,7 @@ const INITIAL_INPUT_BOX_VALUES = {
   gradYear: '',
 };
 
-const SignUpForm = props => {
+const SignUpForm = (props) => {
   const { handleSubmit, classes } = props;
 
   return (

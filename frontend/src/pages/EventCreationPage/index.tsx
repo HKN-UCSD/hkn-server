@@ -19,7 +19,7 @@ function EventCreationPage(): JSX.Element {
   ) => {
     const submission = {
       ...values,
-      hosts: values.hosts.map(host => {
+      hosts: values.hosts.map((host) => {
         return { id: host.id };
       }),
       fbURL: values.fbURL === '' ? undefined : values.fbURL,

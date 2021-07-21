@@ -59,7 +59,7 @@ function ProfileEditPage(): JSX.Element {
       validationSchema={schema}
       onSubmit={(values, { setSubmitting }) => {
         // TODO fix this
-        handleSave((values as unknown) as AppUserPostRequest, setSubmitting);
+        handleSave(values as unknown as AppUserPostRequest, setSubmitting);
       }}
     >
       {({ submitForm }) => (

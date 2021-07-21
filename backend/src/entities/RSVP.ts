@@ -10,7 +10,11 @@ export class RSVP {
   @ManyToOne(
     () => Event,
     event => event.rsvps,
-    { primary: true, deferrable: 'INITIALLY DEFERRED', onDelete: 'CASCADE' }
+    {
+      primary: true,
+      deferrable: 'INITIALLY DEFERRED',
+      onDelete: 'CASCADE',
+    }
   )
   event: Event;
 

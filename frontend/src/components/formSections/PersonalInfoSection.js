@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import InputField from '../InputField';
 import { MajorDropdownField, YearDropdownField } from '../dropdowns';
 
-const getPersonalInfoSection = params => {
+const getPersonalInfoSection = (params) => {
   let readOnly;
   if (params === undefined) {
     readOnly = false;

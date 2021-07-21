@@ -28,13 +28,14 @@ const resources = [
 
 const mainResource = 'status';
 
-const AppointmentWithClick = handleClick => props => (
-  <Appointments.Appointment
-    {...props}
-    // eslint-disable-next-line react/prop-types
-    onClick={() => handleClick(props.data)}
-  />
-);
+const AppointmentWithClick = (handleClick) => (props) =>
+  (
+    <Appointments.Appointment
+      {...props}
+      // eslint-disable-next-line react/prop-types
+      onClick={() => handleClick(props.data)}
+    />
+  );
 
 AppointmentWithClick.propTypes = {
   data: PropTypes.object.isRequired,
@@ -52,7 +53,7 @@ export default function Calendar({ events, handleEventClick }) {
       <TodayButton />
       <ViewSwitcher />
       <Appointments
-        appointmentComponent={AppointmentWithClick(appointment =>
+        appointmentComponent={AppointmentWithClick((appointment) =>
           handleEventClick(appointment)
         )}
       />

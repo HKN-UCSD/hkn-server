@@ -38,7 +38,7 @@ function RSVPTable(props: RSVPTableProps) {
     delay: 1000,
   });
 
-  const rsvpData = rsvps.map(rsvp => {
+  const rsvpData = rsvps.map((rsvp) => {
     const {
       firstName,
       lastName,

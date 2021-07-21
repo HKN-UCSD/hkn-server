@@ -5,7 +5,7 @@ import GenericDropdownField from '../base';
 
 import HKN_AFFILIATIONS from '@Constants/hknAffiliations';
 
-const AffiliateDropdownField = props => {
+const AffiliateDropdownField = (props) => {
   const { name, label, ...otherProps } = props;
 
   return (

@@ -10,7 +10,7 @@ import styles from './styles';
 function Tags({ classes, tags }) {
   return (
     <div className={classes.root}>
-      {tags.map(tag => (
+      {tags.map((tag) => (
         <Chip
           key={tag}
           label={tag.charAt(0).toUpperCase() + tag.slice(1)}

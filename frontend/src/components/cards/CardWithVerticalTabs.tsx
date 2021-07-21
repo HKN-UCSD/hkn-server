@@ -25,7 +25,7 @@ export function CardWithVerticalTabs({ items }: CardWithVerticalTabsProps) {
     setIndex(newValue);
   };
 
-  const tabElements: JSX.Element[] = items.map(item => (
+  const tabElements: JSX.Element[] = items.map((item) => (
     <MuiTab
       disableRipple
       label={item.title}

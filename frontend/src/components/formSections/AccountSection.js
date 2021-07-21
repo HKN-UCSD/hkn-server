@@ -2,7 +2,7 @@ import React from 'react';
 
 import InputField from '../InputField';
 
-const getAccountSection = params => {
+const getAccountSection = (params) => {
   const { readOnly, email } = params || {};
 
   return {

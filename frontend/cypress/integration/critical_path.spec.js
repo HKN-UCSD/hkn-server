@@ -1,10 +1,10 @@
 // / <reference types="Cypress" />
 
-describe('Inductee Sign In', function() {
-  it('Logs in and views points.', function() {
+describe('Inductee Sign In', function () {
+  it('Logs in and views points.', function () {
     cy.visit('http://localhost:3000', {
       // Rememver to clear session storage before every run to clear firebase auth's cache!
-      onBeforeLoad: win => {
+      onBeforeLoad: (win) => {
         win.sessionStorage.clear();
       },
     });

@@ -83,9 +83,8 @@ function SchedulersWithConfirmButton({
     const flattenedSchedule = userSchedules.flat();
 
     if (flattenedSchedule.length >= minTimesToPick) {
-      const availabilitiesToSend = getStartEndTimesFromStarts(
-        flattenedSchedule
-      );
+      const availabilitiesToSend =
+        getStartEndTimesFromStarts(flattenedSchedule);
 
       // Make API call here
       await updateUserInterviewAvailabilities(
