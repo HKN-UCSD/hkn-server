@@ -10,6 +10,7 @@
 7. After you complete step 6, go ahead and `Squash and Merge` commits from your branch on the PR to `master` branch.
 
 ## Some Things To Keep In Mind:
-- If you are the one opening the PR for your branch, you are responsible for responding to reviews, resolving any merge conflicts, updating your branch with changes from `master`, and merging commits from your branch to `master` after getting necessary approvals.
+- If you are the one opening the PR for your branch, you are responsible for responding to reviews, updating your branch with changes from `master` **AFTER** you get the necessary approvals, resolving any merge conflicts, and merging commits from your branch to `master` after getting necessary approvals.
+-When updating your branch with changes from `master`, if those changes are too big (i.e. changes involving package-lock.json) and may yield merge conflicts, pull changes from `master` directly to your local version of your branch, resolve merge conflicts if there are any, then push to your branch.
 - If there are more than one person reviewing your PR, it is strongly preferred that you obtain most or all reviewers' approvals before proceeding with merging. However, we only require 1 approval, so you need at least that much.
 - Do not use your commit message for your PR's title. GitHub automatically gets a portion of your most recent commit message and puts it in the PR's title, so please remove that and write your own unless your commit message is short enough to fit in the title.
