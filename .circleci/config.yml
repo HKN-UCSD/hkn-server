@@ -8,10 +8,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm install --prefix frontend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run:
@@ -23,10 +23,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm ci --prefix frontend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run: npm i -g wait-on
@@ -43,10 +43,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm install --prefix frontend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run: npm run --prefix frontend test
@@ -56,10 +56,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run:
@@ -72,10 +72,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run: npm run --prefix backend build:no-check
@@ -85,10 +85,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-node-v5-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run: npm run --prefix backend test
