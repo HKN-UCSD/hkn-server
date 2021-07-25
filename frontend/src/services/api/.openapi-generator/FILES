@@ -1,3 +1,4 @@
+apis\AttendanceApi.ts
 apis\AuthApi.ts
 apis\EventApi.ts
 apis\InductionClassApi.ts
@@ -21,11 +22,13 @@ models\AppUserResponse.ts
 models\AppUserRolesResponse.ts
 models\AppUserSignupRequest.ts
 models\AttendanceCheckOffRequest.ts
+models\AttendanceRequest.ts
 models\AttendanceResponse.ts
 models\EventAttendanceResponse.ts
 models\EventRSVPResponse.ts
 models\EventRequest.ts
 models\EventResponse.ts
+models\GetAttendanceQuery.ts
 models\InducteePointsResponse.ts
 models\InterviewDatesResponse.ts
 models\InterviewWeekStartDate.ts

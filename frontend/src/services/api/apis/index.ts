@@ -1,3 +1,4 @@
+export * from './AttendanceApi';
 export * from './AuthApi';
 export * from './EventApi';
 export * from './InductionClassApi';

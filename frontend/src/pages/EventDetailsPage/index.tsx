@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Grid } from '@material-ui/core';
 
-import BackToCalendarButton from './components/BackToCalendarButton';
+import BackToCalendarButton from './components/buttons/BackToCalendarButton';
 import EventDetailsComponent from './components/EventDetails';
 import AttendanceRSVPCard from './components/AttendanceRSVPCard';
 

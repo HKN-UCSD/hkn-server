@@ -106,7 +106,7 @@ export class StorageService {
         'content-disposition': data.ContentDisposition,
         'content-type': data.ContentType,
       });
-      return Buffer.from(data.Body);
+      return Buffer.from(data.Body.toString());
     } catch (e) {
       throw new BadRequestError(`Error downloading from storage: ${e.message}`);
     }
