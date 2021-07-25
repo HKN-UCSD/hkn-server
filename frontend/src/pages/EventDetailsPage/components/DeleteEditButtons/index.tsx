@@ -1,16 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { Grid } from '@material-ui/core';
 
 import { Button, ButtonWithConfirmationModal } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 import { deleteEvent } from '@Services/EventService';
 
-const DeleteEditButtons = props => {
-  const { eventId } = props;
+interface DeleteEditButtonsProps {
+  eventId: number
+}
 
-  const handleDeleteEvent = eventToDeleteId => {
+function DeleteEditButtons({ eventId }: DeleteEditButtonsProps) {
+  const history = useHistory();
+
+  const handleDeleteEvent = (eventToDeleteId: number) => {
     deleteEvent(eventToDeleteId)
       .then(res => {
         return res;
@@ -22,13 +25,12 @@ const DeleteEditButtons = props => {
 
   const handleConfirmDelete = () => {
     handleDeleteEvent(eventId);
+    history.push(ROUTES.CALENDAR);
   };
 
   const confirmButtonProps = {
     name: 'Yes',
     onClick: handleConfirmDelete,
-    to: ROUTES.CALENDAR,
-    component: Link,
     positive: true,
   };
 
@@ -41,10 +43,12 @@ const DeleteEditButtons = props => {
     <Grid container justify='flex-end' spacing={1}>
       <Grid item>
         <ButtonWithConfirmationModal
-          title='Delete this event?'
-          contentText='Do you want to delete this event permanently?'
-          confirmButtonProps={confirmButtonProps}
-          cancelButtonProps={cancelButtonProps}
+          confirmationModalProps={{
+            title: 'Delete this event?',
+            contentText: 'This event will be deleted permanently from our database.',
+            confirmButtonProps,
+            cancelButtonProps,
+          }}
           name='Delete'
           secondary
           negative
@@ -55,18 +59,13 @@ const DeleteEditButtons = props => {
         <Button
           primary
           positive
-          to={`/events/${eventId}/edit`}
-          component={Link}
+          onClick={() => history.push(`/events/${eventId}/edit`)}
         >
           Edit
         </Button>
       </Grid>
     </Grid>
   );
-};
-
-DeleteEditButtons.propTypes = {
-  eventId: PropTypes.number.isRequired,
 };
 
 export default DeleteEditButtons;
