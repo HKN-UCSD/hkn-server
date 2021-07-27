@@ -24,9 +24,11 @@ export {
 } from './AppUser';
 export {
   AttendanceCheckOffRequest,
+  AttendanceRequest,
   AttendanceResponse,
   MultipleAttendanceResponse,
   MultipleAttendanceQuery,
+  GetAttendanceQuery,
 } from './Attendance';
 export { InterviewDatesResponse } from './InterviewDates';
 export { RSVPResponse, MultipleRSVPResponse } from './RSVP';

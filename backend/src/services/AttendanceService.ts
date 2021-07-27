@@ -137,10 +137,18 @@ export class AttendanceService {
   }
 
   async saveAttendance(attendance: Attendance): Promise<Attendance | undefined> {
-    logFunc('saveAttendance', { attendance }, FILE_NAME);
+    const attendanceRepository = getRepository(Attendance);
+    attendance.points = this.getAttendancePoints(attendance);
 
     const attendanceRepository = getRepository(Attendance);
     return attendanceRepository.save(attendance);
+  }
+
+  async deleteAttendance(attendeeId: number, eventId: number): Promise<Attendance | undefined> {
+    const attendanceRepository = getRepository(Attendance);
+    const attendance = await this.getAttendance(attendeeId, eventId);
+
+    return attendance ? attendanceRepository.remove(attendance) : undefined;
   }
 
   /**
