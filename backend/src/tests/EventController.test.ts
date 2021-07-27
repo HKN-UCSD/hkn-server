@@ -27,7 +27,7 @@ describe('GET /api/events', () => {
 
 describe('GET /api/events/:eventID', () => {
   it('tests if GET request to /api/events/:eventID with some hardcoded eventID can be made without crashing the server.', async () => {
-    const res = await request(testApp).get('/api/events/1');
+    const res = await request(testApp).get('/api/events/2');
 
     expect(res.status).toEqual(200);
   });

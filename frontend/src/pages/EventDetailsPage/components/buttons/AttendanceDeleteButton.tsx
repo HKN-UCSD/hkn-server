@@ -22,12 +22,14 @@ const AttendanceDeleteButton = ({ attendeeId, eventId }: AttendanceDeleteButtonP
 
   return (
     <ButtonWithConfirmationModal
-      title='Delete this attendance entry?'
-      contentText='Do you want to delete this attendance entry permanently?'
-      confirmButtonProps={confirmButtonProps}
-      cancelButtonProps={cancelButtonProps}
+      confirmationModalProps={{
+        title: 'Delete this attendance entry?',
+        contentText: 'This attendance entry will be deleted permanently from our database.',
+        confirmButtonProps,
+        cancelButtonProps,
+      }}
       name='Delete'
-      secondary
+      primary
       negative
     />
   );

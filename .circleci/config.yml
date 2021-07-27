@@ -1,17 +1,17 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@1.24.0
+  cypress: cypress-io/cypress@1.28.0
 jobs:
   frontend_format:
     docker:
-      - image: circleci/node:12.14.0
+      - image: cimg/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm install --prefix frontend
       - save_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run:
@@ -23,10 +23,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm ci --prefix frontend
       - save_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run: npm i -g wait-on
@@ -39,27 +39,27 @@ jobs:
 
   frontend_test:
     docker:
-      - image: circleci/node:12.14.0
+      - image: cimg/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
       - run: npm install --prefix frontend
       - save_cache:
-          key: package-cache-v4{{checksum "frontend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "frontend/package.json"}}
           paths:
             - frontend/node_modules
       - run: npm run --prefix frontend test
   backend_format:
     docker:
-      - image: circleci/node:12.14.0
+      - image: cimg/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run:
@@ -68,27 +68,27 @@ jobs:
             cd backend; npx prettier --check ./src/**/*.ts
   backend_build:
     docker:
-      - image: circleci/node:12.14.0
+      - image: cimg/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run: npm run --prefix backend build:no-check
   backend_test:
     docker:
-      - image: circleci/node:12.14.0
+      - image: cimg/node:12.14.0
     steps:
       - checkout
       - restore_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
       - run: npm install --prefix backend
       - save_cache:
-          key: package-cache-v4{{checksum "backend/package.json"}}
+          key: package-node-v6-{{ arch }}-{{ .Branch }}-{{checksum "backend/package.json"}}
           paths:
             - backend/node_modules
       - run: npm run --prefix backend test

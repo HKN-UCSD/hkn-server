@@ -206,7 +206,7 @@ class CalendarPage extends React.Component {
               </Paper>
             </Grid>
 
-            {(selectedEvent !== null) && (
+            {selectedEvent !== null && (
               <Container>
                 <EventCard
                   event={selectedEvent}
