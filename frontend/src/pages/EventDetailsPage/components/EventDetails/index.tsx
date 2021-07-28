@@ -4,8 +4,8 @@ import { format, parseISO } from 'date-fns';
 
 import DeleteEditButtons from '../DeleteEditButtons';
 import Links from '../Links/Links';
-import SignInButton from '../SignInButton';
-import RSVPButton from '../RSVPButton';
+import SignInButton from '../buttons/SignInButton';
+import RSVPButton from '../buttons/RSVPButton';
 
 import useStyles from './styles';
 

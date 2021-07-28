@@ -30,6 +30,7 @@ function AttendanceRSVPCard({ eventID }: AttendanceRSVPCardProps) {
   const attendanceTable = (
     <AttendanceTable
       getAttendances={() => getEventAttendances(eventID, false, false)}
+      eventId={eventID}
     />
   );
   const rsvpTable = <RSVPTable getRSVPs={() => getEventRSVPs(eventID)} />;

@@ -9,7 +9,6 @@ import {
 import FormLayout from './FormLayout';
 import InputField from './InputField';
 import Loading from './Loading';
-import { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
 import { Card, CardWithVerticalTabs } from './cards';
 import { PublicPageLayout } from './layouts';
 import NavBar from './NavBar';
@@ -18,6 +17,7 @@ import Tags from './Tags';
 import GetLocation from './GetLocation';
 
 export { OfficerNameAutocomplete } from './autocomplete';
+export { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
 
 export {
   Button,
@@ -31,8 +31,6 @@ export {
   FormLayout,
   InputField,
   Loading,
-  ButtonWithConfirmationModal,
-  ButtonWithAlertModal,
   NavBar,
   Table,
   Tags,
