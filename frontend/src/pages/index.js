@@ -13,6 +13,7 @@ import EventRsvpPage from './EventRsvpPage';
 import EventCreationPage from './EventCreationPage';
 import QueriedEventPage from './QueriedEventPage';
 import InterviewSchedulingPage from './InterviewSchedulingPage';
+import EventSignInOptions from './EventSignInOptions';
 
 export {
   NotFoundPage,
@@ -30,4 +31,5 @@ export {
   EventCreationPage,
   QueriedEventPage,
   InterviewSchedulingPage,
+  EventSignInOptions,
 };
