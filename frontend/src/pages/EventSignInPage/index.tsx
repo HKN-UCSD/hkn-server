@@ -58,9 +58,10 @@ function EventSignInPage(): JSX.Element {
 
           <Grid item>
             <EventSignInForm
-              handleSubmit={(values: AppUserEventRequest) =>
-                signInToEvent(eventID, values)
-              }
+              handleSubmit={(values: AppUserEventRequest, callback) => {
+                signInToEvent(eventID, values);
+                callback;
+              }}
             />
           </Grid>
         </Grid>

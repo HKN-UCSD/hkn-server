@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, LinearProgress, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,6 +10,11 @@ import styles from './styles';
 
 import { MajorDropdownField, AffiliateDropdownField } from '@SharedComponents';
 
+import { ButtonWithConfirmationModal } from '@SharedComponents';
+import * as ROUTES from '@Constants/routes';
+import { useHistory } from "react-router";
+
+//do something...
 const INITIAL_INPUT_VALUES = {
   firstName: '',
   lastName: '',
@@ -22,12 +27,35 @@ const INITIAL_INPUT_VALUES = {
 const EventSignInForm = props => {
   const { classes, handleSubmit } = props;
 
+  const [modalDisplay, setModalDisplay] = useState(false);
+
+  const history = useHistory();
+
+  const handlePageSwitch = () => {
+    history.push(ROUTES.SIGN_IN);
+  }
+
+  const confirmButtonProps = {
+    name: 'Yes',
+    onClick: handlePageSwitch,
+    positive: true,
+  };
+
+  const cancelButtonProps = {
+    name: 'No',
+    positive: true,
+  };
+
+  const checkEmail = () => {
+    setModalDisplay(true);
+  }
+
   return (
     <Formik
       initialValues={INITIAL_INPUT_VALUES}
       validationSchema={schema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        await handleSubmit(values);
+        await handleSubmit(values, checkEmail);
         setSubmitting(false);
         resetForm({ values: '' });
       }}
@@ -126,7 +154,17 @@ const EventSignInForm = props => {
                 Sign In For Event
               </Button>
             </Grid>
-
+            {modalDisplay && <ButtonWithConfirmationModal
+              confirmationModalProps={{
+                title: 'sign in through the portal',
+                contentText: "blablabla",
+                confirmButtonProps,
+                cancelButtonProps
+              }}
+              name='Account Detected'
+              primary
+              negative
+            />}
             {isSubmitting && <LinearProgress />}
           </Grid>
         </Form>
