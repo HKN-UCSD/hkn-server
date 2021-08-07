@@ -9,6 +9,7 @@ import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
 import { Loading, Card, PublicPageLayout } from '@SharedComponents';
 import { getEventById, signInToEvent } from '@Services/EventService';
 import { EventResponse, AppUserEventRequest } from '@Services/api/models';
+import { format, parseISO } from 'date-fns';
 
 interface ParamTypes {
   id: string;
@@ -28,6 +29,16 @@ function EventSignInPage(): JSX.Element {
     getEvent();
   }, [eventID]);
 
+  /*const testHosts = {
+    {
+      firstName: "Kyle",
+      lastName: "Wade"
+    }
+    {
+
+    }
+  }
+  */
   return event == null ? (
     <Loading />
   ) : (
@@ -43,13 +54,40 @@ function EventSignInPage(): JSX.Element {
               <Grid item>
                 <Typography
                   className={classes.eventName}
-                  variant='h5'
+                  variant='h3'
                   align='center'
                 >
                   {event.name}
                 </Typography>
+                <Typography
+                  className={classes.eventName}
+                  variant='h5'
+                  align='center'
+                >
+                  {format(parseISO(event.startDate), 'PP')} -{' '}
+                  {format(parseISO(event.startDate), 'p')} to{' '}
+                  {format(parseISO(event.endDate), 'p')}
+                </Typography>
               </Grid>
 
+              <Grid item>
+                <Typography className={classes.eventName}
+                  variant='h5'
+                  align='center'>
+                  Hosts:{' '}
+                  {event.hosts
+                    .map(host => `${host.firstName} ${host.lastName}`)
+                    .join(', ')}
+                </Typography>
+                <Typography className={classes.eventName}
+                  variant='h5'
+                  align='center'>
+                  Event Details:{' '}
+                  {
+                    event.description
+                  }
+                </Typography>
+              </Grid>
               <Grid item>
                 <Typography variant='h6'>Event Sign In</Typography>
               </Grid>
