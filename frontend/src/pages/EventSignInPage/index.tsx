@@ -29,16 +29,6 @@ function EventSignInPage(): JSX.Element {
     getEvent();
   }, [eventID]);
 
-  /*const testHosts = {
-    {
-      firstName: "Kyle",
-      lastName: "Wade"
-    }
-    {
-
-    }
-  }
-  */
   return event == null ? (
     <Loading />
   ) : (
@@ -72,7 +62,7 @@ function EventSignInPage(): JSX.Element {
 
               <Grid item>
                 <Typography className={classes.eventName}
-                  variant='h5'
+                  variant='subtitle1'
                   align='center'>
                   Hosts:{' '}
                   {event.hosts
@@ -80,7 +70,7 @@ function EventSignInPage(): JSX.Element {
                     .join(', ')}
                 </Typography>
                 <Typography className={classes.eventName}
-                  variant='h5'
+                  variant='body2'
                   align='center'>
                   Event Details:{' '}
                   {
