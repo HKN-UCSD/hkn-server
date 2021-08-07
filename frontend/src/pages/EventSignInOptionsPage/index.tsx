@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams , useHistory } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { Button } from '@material-ui/core';
 
 import useStyles from './styles';
@@ -7,8 +7,6 @@ import useStyles from './styles';
 import * as ROUTES from '@Constants/routes';
 import { getEventById } from '@Services/EventService';
 import { EventResponse } from '@Services/api/models';
-
-
 
 interface EventID {
   id: string;
