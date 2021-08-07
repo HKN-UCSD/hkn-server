@@ -119,7 +119,7 @@ function App(): JSX.Element {
           />
           <Route
             exact
-            path={ROUTES.EVENT_SIGN_IN_REDIRECT}
+            path={ROUTES.EVENT_SIGN_IN_OPTIONS}
             render={() => <EventSignInOptionsPage />}
           />
           <Route
