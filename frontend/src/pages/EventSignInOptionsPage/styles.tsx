@@ -10,11 +10,12 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   button: {
-    margin: '50px',
+    marginBottom: '30px',
   },
   h2: {
     fontFamily: 'Roboto',
     color: '#000000',
+    marginBottom: '60px',
   },
 });
 

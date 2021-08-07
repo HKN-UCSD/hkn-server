@@ -19,7 +19,7 @@ import {
   InterviewSchedulingPage,
   ForbiddenPage,
   NotFoundPage,
-  EventSignInOptions,
+  EventSignInOptionsPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -120,7 +120,7 @@ function App(): JSX.Element {
           <Route
             exact
             path={ROUTES.EVENT_SIGN_IN_REDIRECT}
-            render={() => <EventSignInOptions />}
+            render={() => <EventSignInOptionsPage />}
           />
           <Route
             exact
