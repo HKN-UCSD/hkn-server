@@ -35,7 +35,6 @@ function EventSignInOptionsPage(): JSX.Element {
         <h2 className={classes.h2}>
           Are you a current HKN inductee or member?
         </h2>
-
         <Button
           className={classes.button}
           variant='contained'
