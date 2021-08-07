@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { parseISO, format } from 'date-fns';
 
-import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
-
 import { useInterval } from '@Hooks';
 import { Button, Table } from '@SharedComponents';
 import {
   AttendanceResponse,
   MultipleAttendanceResponse,
 } from '@Services/api/models';
+import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 
 interface CheckOffTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
@@ -41,7 +40,10 @@ function CheckOffTable(props: CheckOffTableProps) {
     {
       title: '',
       render: ({ attendee: { id } }: AttendanceResponse) => (
-        <AttendanceDeleteButton attendeeId={id} eventId={eventId} />
+        <AttendanceDeleteButton
+          attendeeId={id}
+          eventId={eventId}
+        />
       ),
     },
   ];
