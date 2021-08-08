@@ -43,27 +43,14 @@ function EventSignInPage(): JSX.Element {
 
               <Grid item>
                 {
-                  event.name.length < 40 ? (
-                    <Typography
-                      className={classes.eventName}
-                      variant='h3'
-                      align='center'
-                    >
-                      {event.name}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      className={classes.eventName}
-                      variant='h4'
-                      align='center'
-                    >
-                      {event.name}
-                    </Typography>
-                  )
-
+                  <Typography
+                    className={classes.eventName}
+                    variant={event.name.length < 40 ? ('h3') : ('h4')}
+                    align='center'
+                  >
+                    {event.name}
+                  </Typography>
                 }
-
-
                 <Typography
                   className={classes.eventName}
                   variant='h5'
