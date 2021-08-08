@@ -1,10 +1,6 @@
 # How To Add Logs using the logger
 
-## Environmental Variables:
-
-- For local development, in backend/.env, set the environmental variable "MAX_LOG_LEVEL" to the desired value for the max level of log to show. i.e.
-  "MAX_LOG_LEVEL=debug" to show all 4 levels
-- For heroku deployment, got to Settings -> Config Vars, and similarly set the MAX_LOG_LEVEL.
+**Check out `guide.md` first**
 
 ## Step-by-step Guide:
 

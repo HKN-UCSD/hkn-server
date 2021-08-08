@@ -1,6 +1,6 @@
 # Adding a New Service
 
-As mentioned in the README, a service encapsulates business logic pertaining to either entities or actions. The functions of a service should take in entities or some non payload config. The service class should be stateless, and should exist to group together a group of related functions.
+As mentioned in [this](../backend_api/structure.md), a service encapsulates business logic pertaining to either entities or actions. The functions of a service should take in entities or some non payload config. The service class should be stateless, and should exist to group together a group of related functions.
 
 For example, we might have an endpoint that promotes an event's status from 'pending' to 'active'. An event must satisfy some criteria to be promoted. In this case, we can add a `changeStatus` method to the EventService class that delegates to a `canPromoteStatus` method.
 
