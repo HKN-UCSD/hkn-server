@@ -8,9 +8,11 @@ import {
   MultipleAttendanceResponse,
   AppUserEventResponse,
 } from '@Services/api/models';
+import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 
 interface AttendanceTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
+  eventId: number;
 }
 
 const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
@@ -61,7 +63,7 @@ const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
 };
 
 function AttendanceTable(props: AttendanceTableProps) {
-  const { getAttendances } = props;
+  const { getAttendances, eventId } = props;
   const [attendances, setAttendances] = useState<AttendanceResponse[]>([]);
 
   useEffect(() => {
@@ -89,6 +91,15 @@ function AttendanceTable(props: AttendanceTableProps) {
     { title: 'End Time', field: 'endTimeString' },
     { title: 'Checking Officer', field: 'officerName' },
     { title: 'Points', field: 'points' },
+    {
+      title: '',
+      render: ({ attendee: { id } }: AttendanceResponse) => (
+        <AttendanceDeleteButton
+          attendeeId={id}
+          eventId={eventId}
+        />
+      ),
+    },
   ];
 
   const attendanceData = attendances.map(attendance =>

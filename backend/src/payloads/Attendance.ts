@@ -17,6 +17,14 @@ export class AttendanceCheckOffRequest {
   readonly attendeeId: number;
 }
 
+export class AttendanceRequest {
+  @IsDateString()
+  startTime: string;
+
+  @IsDateString()
+  endTime: string;
+}
+
 export class AttendanceResponse {
   @IsInstance(AppUserEventResponse)
   attendee: AppUserEventResponse;
@@ -58,4 +66,12 @@ export class MultipleAttendanceQuery {
   @IsBoolean()
   @IsOptional()
   inductee: boolean;
+}
+
+export class GetAttendanceQuery {
+  @IsNumber()
+  attendeeId: number;
+
+  @IsNumber()
+  eventId: number;
 }
