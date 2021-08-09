@@ -4,17 +4,15 @@ import { Button, Grid, LinearProgress, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Checkbox } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
+import { useHistory } from "react-router";
 
 import schema from './schema';
 import styles from './styles';
 
-import { MajorDropdownField, AffiliateDropdownField } from '@SharedComponents';
-
-import { ButtonWithConfirmationModal } from '@SharedComponents';
+import { MajorDropdownField, AffiliateDropdownField, ButtonWithConfirmationModal } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
-import { useHistory } from "react-router";
 
-//do something...
+
 const INITIAL_INPUT_VALUES = {
   firstName: '',
   lastName: '',
@@ -25,14 +23,16 @@ const INITIAL_INPUT_VALUES = {
 };
 
 const EventSignInForm = props => {
-  const { classes, handleSubmit } = props;
-
   const [modalDisplay, setModalDisplay] = useState(false);
-
   const history = useHistory();
+  const { classes, handleSubmit } = props;
 
   const handlePageSwitch = () => {
     history.push(ROUTES.SIGN_IN);
+  }
+
+  const handleNoPageSwitch = () => {
+    setModalDisplay(false);
   }
 
   const confirmButtonProps = {
@@ -43,11 +43,12 @@ const EventSignInForm = props => {
 
   const cancelButtonProps = {
     name: 'No',
+    onClick: handleNoPageSwitch,
     positive: true,
   };
 
-  const checkEmail = () => {
-    setModalDisplay(true);
+  const checkEmail = (checked) => {
+    setModalDisplay(checked);
   }
 
   return (
@@ -63,6 +64,17 @@ const EventSignInForm = props => {
       {({ submitForm, isSubmitting, values: { agreeToPhotoRelease } }) => (
         <Form>
           <Grid container direction='column' justify='center' spacing={3}>
+            {modalDisplay && <ButtonWithConfirmationModal
+              confirmationModalProps={{
+                title: 'Account Detected',
+                contentText: 'Looks like you have an HKN account, please sign in through the portal',
+                confirmButtonProps,
+                cancelButtonProps
+              }}
+              name='Sign in error'
+              primary
+              negative
+            />}
             <Grid item>
               <Grid container direction='row' spacing={3}>
                 <Grid item xs={6}>
@@ -154,17 +166,6 @@ const EventSignInForm = props => {
                 Sign In For Event
               </Button>
             </Grid>
-            {modalDisplay && <ButtonWithConfirmationModal
-              confirmationModalProps={{
-                title: 'sign in through the portal',
-                contentText: "blablabla",
-                confirmButtonProps,
-                cancelButtonProps
-              }}
-              name='Account Detected'
-              primary
-              negative
-            />}
             {isSubmitting && <LinearProgress />}
           </Grid>
         </Form>
