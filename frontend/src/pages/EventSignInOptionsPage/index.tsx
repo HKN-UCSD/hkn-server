@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
-import { Button } from '@material-ui/core';
 
 import useStyles from './styles';
 
+import { Button } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 import { getEventById } from '@Services/EventService';
 import { EventResponse } from '@Services/api/models';
@@ -13,10 +13,11 @@ interface EventID {
 }
 
 function EventSignInOptionsPage(): JSX.Element {
-  const history = useHistory();
+  const [eventInfo, setEventInfo] = useState<EventResponse | null>(null);
   const { id } = useParams<EventID>();
   const eventId = parseInt(id, 10);
-  const [eventInfo, setEventInfo] = useState<EventResponse | null>(null);
+
+  const history = useHistory();
   const signInURL = eventInfo == null ? '' : eventInfo.signInURL;
   const classes = useStyles();
 
@@ -38,9 +39,8 @@ function EventSignInOptionsPage(): JSX.Element {
 
         <Button
           className={classes.button}
-          variant='contained'
-          color='primary'
-          size='large'
+          primary
+          positive
           onClick={() => {
             history.push(ROUTES.SIGN_IN);
           }}
@@ -49,9 +49,8 @@ function EventSignInOptionsPage(): JSX.Element {
         </Button>
         <Button
           className={classes.button}
-          variant='contained'
-          color='primary'
-          size='large'
+          primary
+          positive
           onClick={() => {
             history.push(signInURL);
           }}
