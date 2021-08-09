@@ -46,13 +46,11 @@ const AttendanceEditButton = ({
 
   const handleStartTimeChange = (date: Date | null) => {
     const startTimeToSet = date === null ? currStartTime : date;
-    console.log(startTimeToSet);
     setCurrStartTime(startTimeToSet);
   };
 
   const handleEndTimeChange = (date: Date | null) => {
     const endTimeToSet = date === null ? currEndTime : date;
-    console.log(endTimeToSet);
     setCurrEndTime(endTimeToSet);
   };
 
