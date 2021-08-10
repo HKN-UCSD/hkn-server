@@ -64,18 +64,20 @@ function EventSignInPage(): JSX.Element {
               </Grid>
 
               <Grid item>
-                <Typography className={classes.eventName}
-                  variant='subtitle1'
-                  align='center'>
-                  Hosts: {event.hosts
-                    .map(host => `${host.firstName} ${host.lastName}`)
-                    .join(', ')}
-                </Typography>
-                <Typography className={classes.eventName}
-                  variant='body2'
-                  align='center'>
-                  Event Details: {event.description}
-                </Typography>
+                <Grid component='div'>
+                  <Typography className={classes.eventName}
+                    variant='subtitle1'
+                    align='center'>
+                    Hosts: {event.hosts
+                      .map(host => `${host.firstName} ${host.lastName}`)
+                      .join(', ')}
+                  </Typography>
+                  <Typography className={classes.eventName}
+                    variant='body2'
+                    align='center'>
+                    Event Details: {event.description}
+                  </Typography>
+                </Grid>
               </Grid>
               <Grid item>
                 <Typography variant='h6'>Event Sign In</Typography>
