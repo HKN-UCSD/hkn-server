@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { hot } from 'react-hot-loader/root';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   SignInPage,
@@ -31,6 +32,8 @@ import {
 import ApiConfigStore, { emptyGetTokenFunc } from '@Services/ApiConfigStore';
 import { config } from '@Config';
 
+const queryClient = new QueryClient();
+
 function App(): JSX.Element {
   const [userClaims, setUserClaims] = useState<UserContextValues | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,8 +46,8 @@ function App(): JSX.Element {
 
         const getTokenFunc = token
           ? async () => {
-              return user.getIdToken();
-            }
+            return user.getIdToken();
+          }
           : emptyGetTokenFunc;
 
         // TODO if there's no change then don't set state to
@@ -97,80 +100,81 @@ function App(): JSX.Element {
   }
 
   return (
-    <UserContext.Provider value={userClaims}>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            exact
-            path={ROUTES.SIGN_IN}
-            render={() => <SignInPage setClaims={setClaims} />}
-          />
-          <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
-          <Route
-            exact
-            path={ROUTES.EVENT_SIGN_IN}
-            render={() => <EventSignInPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_RSVP}
-            render={() => <EventRsvpPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.HOME}
-            render={props => InducteeRoutingPermission(EventsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.POINTS}
-            render={props => InducteeRoutingPermission(PointsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.INDUCTEES}
-            render={props =>
-              OfficerRoutingPermission(InducteePointsPage)(props)
-            }
-          />
-          <Route
-            exact
-            path={ROUTES.CALENDAR}
-            render={props => InducteeRoutingPermission(CalendarPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.INTERVIEW_SCHEDULING}
-            render={props =>
-              InducteeRoutingPermission(InterviewSchedulingPage)(props)
-            }
-          />
-          <Route
-            exact
-            path={ROUTES.EVENTS}
-            render={() => <QueriedEventPage />}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_DETAILS}
-            render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.EVENT_EDIT}
-            render={props => OfficerRoutingPermission(EventEditPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.FORBIDDEN}
-            render={props => InducteeRoutingPermission(ForbiddenPage)(props)}
-          />
-          <Route
-            exact
-            path={ROUTES.NOT_FOUND}
-            render={props => InducteeRoutingPermission(NotFoundPage)(props)}
-          />
-          {/* <Route
+    <QueryClientProvider client={queryClient}>
+      <UserContext.Provider value={userClaims}>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              exact
+              path={ROUTES.SIGN_IN}
+              render={() => <SignInPage setClaims={setClaims} />}
+            />
+            <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
+            <Route
+              exact
+              path={ROUTES.EVENT_SIGN_IN}
+              render={() => <EventSignInPage />}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_RSVP}
+              render={() => <EventRsvpPage />}
+            />
+            <Route
+              exact
+              path={ROUTES.HOME}
+              render={props => InducteeRoutingPermission(EventsPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.POINTS}
+              render={props => InducteeRoutingPermission(PointsPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTEES}
+              render={props =>
+                OfficerRoutingPermission(InducteePointsPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.CALENDAR}
+              render={props => InducteeRoutingPermission(CalendarPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.INTERVIEW_SCHEDULING}
+              render={props =>
+                InducteeRoutingPermission(InterviewSchedulingPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.EVENTS}
+              render={() => <QueriedEventPage />}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_DETAILS}
+              render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.EVENT_EDIT}
+              render={props => OfficerRoutingPermission(EventEditPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.FORBIDDEN}
+              render={props => InducteeRoutingPermission(ForbiddenPage)(props)}
+            />
+            <Route
+              exact
+              path={ROUTES.NOT_FOUND}
+              render={props => InducteeRoutingPermission(NotFoundPage)(props)}
+            />
+            {/* <Route
               exact
               path={ROUTES.PROFILE}
               render={props => InducteeRoutingPermission(ProfilePage)(props)}
@@ -180,10 +184,11 @@ function App(): JSX.Element {
               path={ROUTES.PROFILE_EDIT}
               render={props => InducteeRoutingPermission(ProfileEditPage)(props)}
             /> */}
-          <Route render={() => <Redirect to={ROUTES.HOME} />} />
-        </Switch>
-      </BrowserRouter>
-    </UserContext.Provider>
+            <Route render={() => <Redirect to={ROUTES.HOME} />} />
+          </Switch>
+        </BrowserRouter>
+      </UserContext.Provider>
+    </QueryClientProvider>
   );
 }
 
