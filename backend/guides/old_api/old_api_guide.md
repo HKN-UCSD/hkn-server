@@ -3,6 +3,8 @@
 HKN-Server is used as the server side for the HKN-Member-Portal.
 This is where we can run APIs.
 
+**Everything here is deprecated already; only kept for historical reasons**
+
 ## Running Server
 
 Type `npm run start` in your terminal.
