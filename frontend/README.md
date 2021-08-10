@@ -12,9 +12,17 @@ A member portal for UCSD HKN members to submit their resume and log membership p
 
 # Table of contents
 
+- [Quick Access To Guides](#quick-access-to-guides)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+
+# Quick Access To Guides
+
+- On what a [path alias](./guides/path_alias) is, how we use it in our codebase, and how to add one yourself.
+- On how to create a new [Page](./guides/creating_new_pages.md) to display content that is in `src/pages`.
+- On how to [test](./guides/testing_new_components.md) a new component that you have just written.
+- On [miscellaneous](./guides/miscellaneous) things in the frontend codebase that is good to know.
 
 # Prerequisites
 
