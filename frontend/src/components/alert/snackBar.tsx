@@ -8,19 +8,22 @@ interface snackbarProps {
   message: string;
   severity: string;
   handleClose: () => void;
+  autoHideDuration?: number | null;
 }
+
+const defaultHideDuration = 10000;
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const SnackbarAlerts = (props: snackbarProps) => {
-  const { open, message, severity, handleClose } = props;
+const SnackbarAlerts = ({ open, message, severity, handleClose, autoHideDuration = defaultHideDuration }: snackbarProps) => {
   return (
     <Snackbar
       TransitionComponent={Fade}
       open={open}
       onClose={handleClose}
+      autoHideDuration={autoHideDuration}
     >
       <Alert onClose={handleClose} severity={severity}>
         {message}
