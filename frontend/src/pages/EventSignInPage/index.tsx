@@ -42,7 +42,7 @@ function EventSignInPage(): JSX.Element {
               </Grid>
 
               <Grid item>
-                {
+                <Grid component='div'>
                   <Typography
                     className={classes.eventName}
                     variant={event.name.length < 40 ? ('h3') : ('h4')}
@@ -50,34 +50,31 @@ function EventSignInPage(): JSX.Element {
                   >
                     {event.name}
                   </Typography>
-                }
-                <Typography
-                  className={classes.eventName}
-                  variant='h5'
-                  align='center'
-                >
-                  {format(parseISO(event.startDate), 'PP')} -{' '}
-                  {format(parseISO(event.startDate), 'p')} to{' '}
-                  {format(parseISO(event.endDate), 'p')}
-                </Typography>
+
+                  <Typography
+                    className={classes.eventName}
+                    variant='h5'
+                    align='center'
+                  >
+                    {format(parseISO(event.startDate), 'PP')} -{' '}
+                    {format(parseISO(event.startDate), 'p')} to{' '}
+                    {format(parseISO(event.endDate), 'p')}
+                  </Typography>
+                </Grid>
               </Grid>
 
               <Grid item>
                 <Typography className={classes.eventName}
                   variant='subtitle1'
                   align='center'>
-                  Hosts:{' '}
-                  {event.hosts
+                  Hosts: {event.hosts
                     .map(host => `${host.firstName} ${host.lastName}`)
                     .join(', ')}
                 </Typography>
                 <Typography className={classes.eventName}
                   variant='body2'
                   align='center'>
-                  Event Details:{' '}
-                  {
-                    event.description
-                  }
+                  Event Details: {event.description}
                 </Typography>
               </Grid>
               <Grid item>
