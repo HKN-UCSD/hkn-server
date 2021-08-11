@@ -7,7 +7,7 @@ import * as ROUTES from '@Constants/routes';
 import { deleteEvent } from '@Services/EventService';
 
 interface DeleteEditButtonsProps {
-  eventId: number
+  eventId: number;
 }
 
 function DeleteEditButtons({ eventId }: DeleteEditButtonsProps) {
@@ -45,7 +45,8 @@ function DeleteEditButtons({ eventId }: DeleteEditButtonsProps) {
         <ButtonWithConfirmationModal
           confirmationModalProps={{
             title: 'Delete this event?',
-            contentText: 'This event will be deleted permanently from our database.',
+            contentText:
+              'This event will be deleted permanently from our database.',
             confirmButtonProps,
             cancelButtonProps,
           }}
@@ -66,6 +67,6 @@ function DeleteEditButtons({ eventId }: DeleteEditButtonsProps) {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default DeleteEditButtons;
