@@ -4,7 +4,6 @@ import {
   AttendanceControllerUpdateAttendanceTimesRequest
 } from './api/apis/AttendanceApi';
 import { AttendanceResponse } from './api/models';
-
 import ApiConfigStore from './ApiConfigStore';
 import { Configuration } from './api/runtime';
 
@@ -27,13 +26,16 @@ export async function updateAttendanceTimes(attendeeId: number, eventId: number,
   return attendanceApi.attendanceControllerUpdateAttendanceTimes(request);
 }
 
-export async function deleteAttendance(attendeeId: number, eventId: number): Promise<AttendanceResponse> {
+export async function deleteAttendance(
+  attendeeId: number,
+  eventId: number
+): Promise<AttendanceResponse> {
   const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const attendanceApi: AttendanceApi = new AttendanceApi(apiConfig);
   const request: AttendanceControllerDeleteAttendanceRequest = {
     attendeeId,
     eventId,
-  }
+  };
 
   return attendanceApi.attendanceControllerDeleteAttendance(request);
 }
