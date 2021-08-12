@@ -12,7 +12,6 @@ import styles from './styles';
 import { MajorDropdownField, AffiliateDropdownField, ButtonWithConfirmationModal } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 
-
 const INITIAL_INPUT_VALUES = {
   firstName: '',
   lastName: '',
