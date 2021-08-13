@@ -12,6 +12,20 @@ interface RequestErrorSnackbarProps {
   customErrorMessages?: CustomErrorMessages;
 }
 
+const handleDefaultErrMsg = (status: number) => {
+  let errorMessage = '';
+
+  if (status === 403) {
+    errorMessage = DEFAULT_403_MSG;
+  } else if (status === 404) {
+    errorMessage = DEFAULT_404_MSG;
+  } else if (status === 500) {
+    errorMessage = DEFAULT_500_MSG;
+  }
+
+  return errorMessage;
+}
+
 const RequestErrorSnackbar = ({ isError, error, customErrorMessages = {} }: RequestErrorSnackbarProps) => {
   const [isSnackbarOpen, setSnackbarOpen] = useState(isError);
   const { status, statusText } = error;
@@ -23,13 +37,7 @@ const RequestErrorSnackbar = ({ isError, error, customErrorMessages = {} }: Requ
     if (status in customErrorMessages) {
       errorMessage = customErrorMessages[status];
     } else {
-      if (status === 403) {
-        errorMessage = DEFAULT_403_MSG;
-      } else if (status === 404) {
-        errorMessage = DEFAULT_404_MSG;
-      } else if (status === 500) {
-        errorMessage = DEFAULT_500_MSG;
-      }
+      errorMessage = handleDefaultErrMsg(status);
     }
 
     return errorMessage;
