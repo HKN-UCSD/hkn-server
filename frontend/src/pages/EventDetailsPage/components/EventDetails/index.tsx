@@ -16,6 +16,7 @@ import {
 import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
 import { EventStatusEnum } from '@Services/EventService';
+import * as ROUTES from '@Constants/routes';
 
 interface EventDetailsComponentProps {
   eventInfo: EventInfo;
@@ -144,6 +145,17 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         urls,
                         signIn: { url: signInURL, label: 'Sign In Form' },
                         rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                        qrCode: {
+                          url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
+                          label: 'QR Code',
+                        },
+                        event: {
+                          name,
+                          startDate,
+                          endDate,
+                          location,
+                          id: eventId,
+                        },
                       })}
                     </Grid>
                   </Grid>

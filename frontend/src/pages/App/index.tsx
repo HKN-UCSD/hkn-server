@@ -15,6 +15,8 @@ import {
   EventDetailsPage,
   EventSignInPage,
   EventRsvpPage,
+  QrCodePage,
+  QrCodeIntermediatePage,
   QueriedEventPage,
   InterviewSchedulingPage,
   ForbiddenPage,
@@ -160,6 +162,16 @@ function App(): JSX.Element {
             exact
             path={ROUTES.EVENT_DETAILS}
             render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
+          />
+          <Route
+            exact
+            path={ROUTES.EVENT_QRCODE}
+            render={() => <QrCodePage />}
+          />
+          <Route
+            exact
+            path={ROUTES.EVENT_QRCODE_INTERMEDIATE}
+            render={() => <QrCodeIntermediatePage />}
           />
           <Route
             exact
