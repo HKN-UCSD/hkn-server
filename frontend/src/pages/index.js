@@ -8,6 +8,8 @@ import EventsPage from './EventsPage';
 import CalendarPage from './CalendarPage';
 import EventEditPage from './EventEditPage';
 import EventDetailsPage from './EventDetailsPage';
+import QrCodePage from './QrCodePage';
+import QrCodeIntermediatePage from './QrCodeIntermediatePage';
 import EventSignInPage from './EventSignInPage';
 import EventRsvpPage from './EventRsvpPage';
 import EventCreationPage from './EventCreationPage';
@@ -25,6 +27,8 @@ export {
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
+  QrCodePage,
+  QrCodeIntermediatePage,
   EventSignInPage,
   EventRsvpPage,
   EventCreationPage,

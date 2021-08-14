@@ -15,6 +15,8 @@ export const PROFILE = '/profile/:id';
 export const PROFILE_EDIT = '/profile/:id/edit';
 export const EVENT_SIGN_IN = '/events/:id/signin';
 export const EVENT_RSVP = '/events/:id/rsvp';
+export const EVENT_QRCODE = '/events/:id/qrcode';
+export const EVENT_QRCODE_INTERMEDIATE = '/events/:id/qrcode-intermediate';
 export const INTERVIEW_SCHEDULING = '/interview-scheduling';
 export const FORBIDDEN = '/403';
 export const NOT_FOUND = '/404';
@@ -22,5 +24,9 @@ export const NOT_FOUND = '/404';
 export const PROFILE_WITH_ID = id => `/profile/${id}`;
 export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;
 export const POINTS_WITH_ID = id => `/points/${id}`;
+export const EVENT_DETAILS_WITH_ID = id => `/events/${id}`;
+export const EVENT_QRCODE_WITH_ID = id => `/events/${id}/qrcode`;
+export const EVENT_QRCODE_INTERMEDIATE_WITH_ID = id =>
+  `/events/${id}/qrcode-intermediate`;
 
 export const CURR_USER_ID_ALIAS = 'me';
