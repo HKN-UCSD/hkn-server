@@ -9,6 +9,7 @@ import RSVPButton from '../buttons/RSVPButton';
 
 import useStyles from './styles';
 
+import * as ROUTES from '@Constants/routes';
 import {
   OfficerRenderPermission,
   InducteeRenderPermission,
@@ -16,7 +17,6 @@ import {
 import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
 import { EventStatusEnum } from '@Services/EventService';
-import * as ROUTES from '@Constants/routes';
 
 interface EventDetailsComponentProps {
   eventInfo: EventInfo;
