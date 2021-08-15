@@ -6,8 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Link, withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import { compose } from 'recompose';
-import
-{
+import {
   Dialog,
   DialogActions,
   DialogContent,
@@ -28,8 +27,7 @@ import
 
 import * as ROUTES from '@Constants/routes';
 import * as LOGO_URL from '@Images/hkn-trident.png';
-import
-{
+import {
   doSignInWithEmailAndPassword,
   doSignOut,
   doSendVerificationEmail,
@@ -114,45 +112,36 @@ const INITIAL_STATE = {
   forgotPasswordConfirmError: null,
 };
 
-class SignInPage extends React.Component
-{
-  constructor(props)
-  {
+class SignInPage extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
   }
 
-  handleSignIn = event =>
-  {
+  handleSignIn = event => {
     const { email, password, checked } = this.state;
     const { history, setClaims, location } = this.props;
 
     const { path } = queryString.parse(location.search);
     let pathToNavAfterLogin = ROUTES.HOME;
 
-    if (path !== null)
-    {
+    if (path !== null) {
       pathToNavAfterLogin = path;
     }
 
     doSignInWithEmailAndPassword(email, password, checked)
-      .then(() =>
-      {
+      .then(() => {
         return getCurrentUserIDAndToken();
       })
-      .then(authObj =>
-      {
+      .then(authObj => {
         const { userID } = authObj;
         return setClaims(userID);
       })
-      .then(() =>
-      {
-        if (firebase.auth().currentUser.emailVerified)
-        {
+      .then(() => {
+        if (firebase.auth().currentUser.emailVerified) {
           history.push(pathToNavAfterLogin);
-        } else
-        {
+        } else {
           doSignOut();
 
           this.setState({
@@ -160,8 +149,7 @@ class SignInPage extends React.Component
           });
         }
       })
-      .catch(error =>
-      {
+      .catch(error => {
         this.setState({
           failedSignInDialogOpen: true,
           signInError: error,
@@ -171,48 +159,40 @@ class SignInPage extends React.Component
     event.preventDefault();
   };
 
-  handleEmailChange = event =>
-  {
+  handleEmailChange = event => {
     this.setState({ email: event.target.value });
   };
 
-  handlePasswordChange = event =>
-  {
+  handlePasswordChange = event => {
     this.setState({ password: event.target.value });
   };
 
-  handleForgotPasswordEmailChange = event =>
-  {
+  handleForgotPasswordEmailChange = event => {
     this.setState({ forgotPasswordEmail: event.target.value });
   };
 
-  handleFailedSignInDialogClose = () =>
-  {
+  handleFailedSignInDialogClose = () => {
     this.setState({
       failedSignInDialogOpen: false,
       password: '',
     });
   };
 
-  handleVerifyEmailDialogClose = () =>
-  {
+  handleVerifyEmailDialogClose = () => {
     this.setState({
       verifyEmailDialogOpen: false,
     });
     doSignOut();
   };
 
-  handleResendVerificationEmail = () =>
-  {
+  handleResendVerificationEmail = () => {
     const { email, password, checked } = this.state;
     doSignInWithEmailAndPassword(email, password, checked).then(() =>
       doSendVerificationEmail()
-        .then(() =>
-        {
+        .then(() => {
           this.handleVerifyEmailDialogClose();
         })
-        .catch(error =>
-        {
+        .catch(error => {
           doSignOut();
           this.setState({
             verifyEmailError: error,
@@ -222,32 +202,27 @@ class SignInPage extends React.Component
     );
   };
 
-  handleCheckRemember = event =>
-  {
+  handleCheckRemember = event => {
     this.setState({ checked: event.target.checked });
   };
 
-  handleForgotPassword = () =>
-  {
+  handleForgotPassword = () => {
     this.setState({
       forgotPasswordDialogOpen: true,
     });
   };
 
-  handleForgotPasswordConfirm = () =>
-  {
+  handleForgotPasswordConfirm = () => {
     const { forgotPasswordEmail } = this.state;
 
     doPasswordReset(forgotPasswordEmail)
-      .then(() =>
-      {
+      .then(() => {
         this.setState({
           successfulForgotPasswordConfirmDialogOpen: true,
           forgotPasswordDialogOpen: false,
         });
       })
-      .catch(error =>
-      {
+      .catch(error => {
         this.setState({
           forgotPasswordConfirmError: error,
           failedForgotPasswordConfirmDialogOpen: true,
@@ -256,23 +231,20 @@ class SignInPage extends React.Component
       });
   };
 
-  handleForgotPasswordDialogClose = () =>
-  {
+  handleForgotPasswordDialogClose = () => {
     this.setState({
       forgotPasswordDialogOpen: false,
       forgotPasswordEmail: '',
     });
   };
 
-  handleSuccessfulForgotPasswordConfirmDialogClose = () =>
-  {
+  handleSuccessfulForgotPasswordConfirmDialogClose = () => {
     this.setState({
       successfulForgotPasswordConfirmDialogOpen: false,
     });
   };
 
-  handleFailedForgotPasswordConfirmDialogClose = () =>
-  {
+  handleFailedForgotPasswordConfirmDialogClose = () => {
     this.setState({
       forgotPasswordConfirmError: null,
       failedForgotPasswordConfirmDialogOpen: false,
@@ -280,8 +252,7 @@ class SignInPage extends React.Component
     });
   };
 
-  render()
-  {
+  render() {
     const { classes } = this.props;
     const {
       email,
@@ -464,7 +435,7 @@ class SignInPage extends React.Component
               <DialogContentText id='alert-dialog-description'>
                 {verifyEmailError
                   ? `${verifyEmailError.message}You can click RESEND below to resend the verification email.` +
-                  `If this issue persists, please contact a HKN officer.`
+                    `If this issue persists, please contact a HKN officer.`
                   : ''}
               </DialogContentText>
             </DialogContent>
@@ -578,6 +549,10 @@ class SignInPage extends React.Component
 
 SignInPage.propTypes = {
   setClaims: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }),
 };
 
 export default compose(withStyles(styles), withRouter)(SignInPage);
