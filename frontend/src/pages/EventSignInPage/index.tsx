@@ -92,10 +92,10 @@ function EventSignInPage(): JSX.Element {
 
           <Grid item>
             <EventSignInForm
-              handleSubmit={(values: AppUserEventRequest) =>
-                signInToEvent(eventID, values)
-              }
-            />
+              handleSubmit={(values: AppUserEventRequest, callback) =>
+                signInToEvent(eventID, values).then().catch((error) => {
+                  callback((error.status === 403) || (error.status === 500));
+                })} />
           </Grid>
         </Grid>
       </Card>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, formatISO } from 'date-fns';
 
 import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
+import AttendanceEditButton from '../buttons/AttendanceEditButton';
 
 import { useInterval } from '@Hooks';
 import { Table } from '@SharedComponents';
@@ -28,14 +29,14 @@ const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
 
   // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
   const startTimeString = format(
-    parseISO((attendance.startTime as unknown) as string),
+    parseISO(attendance.startTime as unknown as string),
     'p'
   );
 
   const endTimeString =
     attendance.endTime == null
       ? ''
-      : format(parseISO((attendance.endTime as unknown) as string), 'p');
+      : format(parseISO(attendance.endTime as unknown as string), 'p');
 
   let officerName = '';
   if (attendance.officer != null) {
@@ -98,9 +99,24 @@ function AttendanceTable(props: AttendanceTableProps) {
         <AttendanceDeleteButton attendeeId={id} eventId={eventId} />
       ),
     },
+    {
+      title: '',
+      render: ({
+        attendee: { id },
+        startTime,
+        endTime,
+      }: AttendanceResponse) => (
+        <AttendanceEditButton
+          attendeeId={id}
+          eventId={eventId}
+          startTime={startTime}
+          endTime={endTime === undefined ? formatISO(new Date()) : endTime}
+        />
+      ),
+    },
   ];
 
-  const attendanceData = attendances.map(attendance =>
+  const attendanceData = attendances.map((attendance) =>
     attendanceResponseToAttendanceRow(attendance)
   );
 
