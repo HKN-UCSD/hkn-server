@@ -98,9 +98,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": "eslint --fix './src/**/*.{js,ts,tsx}'",
-    "*.{js,ts,tsx,css,md}": "prettier --write"
   }
 }

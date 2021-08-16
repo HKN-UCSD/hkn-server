@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Avatar, Typography, Grid } from '@material-ui/core';
+import { format, parseISO } from 'date-fns';
 
 import EventSignInForm from './components/EventSignInForm';
 import useStyles from './styles';
@@ -9,7 +10,6 @@ import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
 import { Loading, Card, PublicPageLayout } from '@SharedComponents';
 import { getEventById, signInToEvent } from '@Services/EventService';
 import { EventResponse, AppUserEventRequest } from '@Services/api/models';
-import { format, parseISO } from 'date-fns';
 
 interface ParamTypes {
   id: string;
@@ -45,7 +45,7 @@ function EventSignInPage(): JSX.Element {
                 <Grid component='div'>
                   <Typography
                     className={classes.eventName}
-                    variant={event.name.length < 40 ? ('h3') : ('h4')}
+                    variant={event.name.length < 40 ? 'h3' : 'h4'}
                     align='center'
                   >
                     {event.name}
@@ -65,16 +65,21 @@ function EventSignInPage(): JSX.Element {
 
               <Grid item>
                 <Grid component='div'>
-                  <Typography className={classes.eventName}
+                  <Typography
+                    className={classes.eventName}
                     variant='subtitle1'
-                    align='center'>
-                    Hosts: {event.hosts
+                    align='center'
+                  >
+                    Hosts:{' '}
+                    {event.hosts
                       .map(host => `${host.firstName} ${host.lastName}`)
                       .join(', ')}
                   </Typography>
-                  <Typography className={classes.eventName}
+                  <Typography
+                    className={classes.eventName}
                     variant='body2'
-                    align='center'>
+                    align='center'
+                  >
                     Event Details: {event.description}
                   </Typography>
                 </Grid>
