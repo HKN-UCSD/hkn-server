@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, formatISO } from 'date-fns';
+
+import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
+import AttendanceEditButton from '../buttons/AttendanceEditButton';
 
 import { useInterval } from '@Hooks';
 import { Table } from '@SharedComponents';
@@ -8,7 +11,6 @@ import {
   MultipleAttendanceResponse,
   AppUserEventResponse,
 } from '@Services/api/models';
-import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 
 interface AttendanceTableProps {
   getAttendances: () => Promise<MultipleAttendanceResponse>;
@@ -94,9 +96,21 @@ function AttendanceTable(props: AttendanceTableProps) {
     {
       title: '',
       render: ({ attendee: { id } }: AttendanceResponse) => (
-        <AttendanceDeleteButton
+        <AttendanceDeleteButton attendeeId={id} eventId={eventId} />
+      ),
+    },
+    {
+      title: '',
+      render: ({
+        attendee: { id },
+        startTime,
+        endTime,
+      }: AttendanceResponse) => (
+        <AttendanceEditButton
           attendeeId={id}
           eventId={eventId}
+          startTime={startTime}
+          endTime={endTime === undefined ? formatISO(new Date()) : endTime}
         />
       ),
     },

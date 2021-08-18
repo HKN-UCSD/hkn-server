@@ -20,6 +20,7 @@ import {
   InterviewSchedulingPage,
   ForbiddenPage,
   NotFoundPage,
+  EventSignInOptionsPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -46,8 +47,8 @@ function App(): JSX.Element {
 
         const getTokenFunc = token
           ? async () => {
-            return user.getIdToken();
-          }
+              return user.getIdToken();
+            }
           : emptyGetTokenFunc;
 
         // TODO if there's no change then don't set state to
@@ -122,6 +123,11 @@ function App(): JSX.Element {
             />
             <Route
               exact
+              path={ROUTES.EVENT_SIGN_IN_OPTIONS}
+              render={() => <EventSignInOptionsPage />}
+            />
+            <Route
+              exact
               path={ROUTES.HOME}
               render={props => InducteeRoutingPermission(EventsPage)(props)}
             />
@@ -157,7 +163,9 @@ function App(): JSX.Element {
             <Route
               exact
               path={ROUTES.EVENT_DETAILS}
-              render={props => InducteeRoutingPermission(EventDetailsPage)(props)}
+              render={props =>
+                InducteeRoutingPermission(EventDetailsPage)(props)
+              }
             />
             <Route
               exact

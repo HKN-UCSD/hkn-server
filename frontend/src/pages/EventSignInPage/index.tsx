@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Avatar, Typography, Grid } from '@material-ui/core';
+import { format, parseISO } from 'date-fns';
 
 import EventSignInForm from './components/EventSignInForm';
 import useStyles from './styles';
@@ -41,15 +42,48 @@ function EventSignInPage(): JSX.Element {
               </Grid>
 
               <Grid item>
-                <Typography
-                  className={classes.eventName}
-                  variant='h5'
-                  align='center'
-                >
-                  {event.name}
-                </Typography>
+                <Grid component='div'>
+                  <Typography
+                    className={classes.eventName}
+                    variant={event.name.length < 40 ? 'h3' : 'h4'}
+                    align='center'
+                  >
+                    {event.name}
+                  </Typography>
+
+                  <Typography
+                    className={classes.eventName}
+                    variant='h5'
+                    align='center'
+                  >
+                    {format(parseISO(event.startDate), 'PP')} -{' '}
+                    {format(parseISO(event.startDate), 'p')} to{' '}
+                    {format(parseISO(event.endDate), 'p')}
+                  </Typography>
+                </Grid>
               </Grid>
 
+              <Grid item>
+                <Grid component='div'>
+                  <Typography
+                    className={classes.eventName}
+                    variant='subtitle1'
+                    align='center'
+                  >
+                    Hosts:{' '}
+                    {event.hosts
+                      .map(host => `${host.firstName} ${host.lastName}`)
+                      .join(', ')}
+                  </Typography>
+                  <Typography
+                    className={classes.eventName}
+                    variant='body2'
+                    align='center'
+                  >
+                    Event Details: {event.description}
+                  </Typography>
+                </Grid>
+              </Grid>
               <Grid item>
                 <Typography variant='h6'>Event Sign In</Typography>
               </Grid>
@@ -58,8 +92,12 @@ function EventSignInPage(): JSX.Element {
 
           <Grid item>
             <EventSignInForm
-              handleSubmit={(values: AppUserEventRequest) =>
+              handleSubmit={(values: AppUserEventRequest, callback) =>
                 signInToEvent(eventID, values)
+                  .then()
+                  .catch(error => {
+                    callback(error.status === 403 || error.status === 500);
+                  })
               }
             />
           </Grid>

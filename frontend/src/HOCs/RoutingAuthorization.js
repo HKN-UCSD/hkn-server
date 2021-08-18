@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
@@ -25,7 +26,12 @@ const RoutingAuthorization = allowedRoles => WrappedComponent => props => {
           }
         }
 
-        return <Redirect to={ROUTES.SIGN_IN} />;
+        // Route to account sign in page if user does not have allowed roles
+        const { location } = props;
+        const { pathname, search } = location;
+        const signInRoute = `${ROUTES.SIGN_IN}?path=${pathname}${search}`;
+
+        return <Redirect to={signInRoute} />;
       }}
     </UserContext.Consumer>
   );
