@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+
 import SnackbarAlerts from '../alert/snackBar';
-import { DEFAULT_403_MSG, DEFAULT_404_MSG, DEFAULT_500_MSG } from '@Constants/requestErrMsg';
+
+import {
+  DEFAULT_403_MSG,
+  DEFAULT_404_MSG,
+  DEFAULT_500_MSG,
+} from '@Constants/requestErrMsg';
 
 interface CustomErrorMessages {
   [status: number]: string;
@@ -24,9 +30,13 @@ const handleDefaultErrMsg = (status: number) => {
   }
 
   return errorMessage;
-}
+};
 
-const RequestErrorSnackbar = ({ isError, error, customErrorMessages = {} }: RequestErrorSnackbarProps) => {
+const RequestErrorSnackbar = ({
+  isError,
+  error,
+  customErrorMessages = {},
+}: RequestErrorSnackbarProps) => {
   const [isSnackbarOpen, setSnackbarOpen] = useState(isError);
   const { status, statusText } = error;
   const errorStatus = `${status} ${statusText}`;
@@ -41,7 +51,7 @@ const RequestErrorSnackbar = ({ isError, error, customErrorMessages = {} }: Requ
     }
 
     return errorMessage;
-  }
+  };
 
   const messageToDisplay = `[${errorStatus}]${handleErrorMessasge()}`;
 
@@ -53,6 +63,6 @@ const RequestErrorSnackbar = ({ isError, error, customErrorMessages = {} }: Requ
       severity='error'
     />
   );
-}
+};
 
 export default RequestErrorSnackbar;

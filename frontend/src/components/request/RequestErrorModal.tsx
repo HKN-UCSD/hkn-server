@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { ButtonProps } from '../buttons/Button';
 import { ModalWithActionButtons } from '../modals/ModalWithActionButtons';
 
-import { DEFAULT_403_MSG, DEFAULT_404_MSG, DEFAULT_500_MSG } from '@Constants/requestErrMsg';
+import {
+  DEFAULT_403_MSG,
+  DEFAULT_404_MSG,
+  DEFAULT_500_MSG,
+} from '@Constants/requestErrMsg';
 
 interface CustomActionButtonsByStatus {
   [status: number]: ButtonProps[];
@@ -21,8 +25,8 @@ interface CustomModalTexts {
 interface RequestErrorModalProps {
   isError: boolean;
   error: Response;
-  customActionButtonsByStatus: CustomActionButtonsByStatus;
-  customModalTexts: CustomModalTexts;
+  customActionButtonsByStatus?: CustomActionButtonsByStatus;
+  customModalTexts?: CustomModalTexts;
 }
 
 const handleDefaultErrMsg = (status: number) => {
@@ -37,9 +41,14 @@ const handleDefaultErrMsg = (status: number) => {
   }
 
   return errorMessage;
-}
+};
 
-const RequestErrorModal = ({ isError, error, customActionButtonsByStatus, customModalTexts }: RequestErrorModalProps) => {
+const RequestErrorModal = ({
+  isError,
+  error,
+  customActionButtonsByStatus = {},
+  customModalTexts = {},
+}: RequestErrorModalProps) => {
   const [isModalOpen, setModalOpen] = useState(isError);
   const { status, statusText } = error;
   const errorStatus = `${status} ${statusText}`;
@@ -48,15 +57,18 @@ const RequestErrorModal = ({ isError, error, customActionButtonsByStatus, custom
     let errorMessage = '';
 
     if (status in customModalTexts) {
-      errorMessage = customModalTexts[status]['errorMessage'];
+      errorMessage = customModalTexts[status].errorMessage;
     } else {
       errorMessage = handleDefaultErrMsg(status);
     }
 
     return errorMessage;
-  }
+  };
 
-  const title = (status in customModalTexts) ? `[${errorStatus}] ${customModalTexts[status]['title']}` : `[${errorStatus}]`;
+  const title =
+    status in customModalTexts
+      ? `[${errorStatus}] ${customModalTexts[status].title}`
+      : `[${errorStatus}]`;
   const contentText = handleErrorMessasge();
   const modalProps = {
     title,
@@ -65,8 +77,22 @@ const RequestErrorModal = ({ isError, error, customActionButtonsByStatus, custom
     handleClose: () => setModalOpen(false),
   };
 
-  const actionButtonPropsList = (status in customActionButtonsByStatus) ? customActionButtonsByStatus[status] : [];
-  return <ModalWithActionButtons modalProps={modalProps} actionButtonPropsList={actionButtonPropsList} />;
-}
+  const actionButtonPropsList =
+    status in customActionButtonsByStatus
+      ? customActionButtonsByStatus[status]
+      : [];
+  actionButtonPropsList.push({
+    name: 'Close',
+    positive: true,
+    secondary: true,
+  });
+
+  return (
+    <ModalWithActionButtons
+      modalProps={modalProps}
+      actionButtonPropsList={actionButtonPropsList}
+    />
+  );
+};
 
 export default RequestErrorModal;
