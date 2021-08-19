@@ -1,4 +1,4 @@
-import { JsonController, Get, Param } from 'routing-controllers';
+import { JsonController, Get, Param, Post } from 'routing-controllers';
 
 import { InductionClassService, InductionClassServiceImpl } from '@Services';
 
@@ -7,7 +7,32 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 
 @JsonController('/api/inductionclass')
 export class InductionClassController {
-  constructor(private inductionClassService: InductionClassService) {}
+  constructor(private inductionClassService: InductionClassService) { }
+
+  @Get('/')
+  async getMultipleInductionClasses() {
+
+  }
+
+  @Post('/')
+  async createInductionClass() {
+
+  }
+
+  @Get('/current')
+  async getCurrentInductionClass() {
+
+  }
+
+  @Get('/inductionClassId')
+  async getInductionClassByQuarter() {
+
+  }
+
+  @Post('/:inductionClassId')
+  async updateInductionClass() {
+
+  }
 
   @Get('/:inductionClassID/interviewdates')
   @ResponseSchema(InterviewDatesResponse)
