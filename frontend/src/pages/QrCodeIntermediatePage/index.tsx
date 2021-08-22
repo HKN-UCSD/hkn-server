@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router';
-import { Grid } from '@material-ui/core';
 
 import { UserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
@@ -27,14 +26,14 @@ function QrCodeIntermediatePage(): JSX.Element {
           if (userRoles != null) {
             // user is signed in, route to event details page (placeholder)
             history.push(ROUTES.EVENT_DETAILS_WITH_ID(eventId));
+          } else {
+            history.push(ROUTES.EVENT_SIGN_IN_OPTIONS);
           }
+        } else {
+          history.push(ROUTES.EVENT_SIGN_IN_OPTIONS);
         }
 
-        return (
-          <Grid container direction='column'>
-            HELLO!!? WHO ARE YOU? PLEASE SIGN IN....
-          </Grid>
-        );
+        return <></>;
       }}
     </UserContext.Consumer>
   );

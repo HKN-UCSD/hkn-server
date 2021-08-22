@@ -25,17 +25,10 @@ interface LinksProps {
   signIn: URLObject;
   rsvp: URLObject;
   qrCode: URLObject;
-  event: {
-    name: string;
-    startDate: string;
-    endDate: string;
-    location: string;
-    id: number;
-  };
 }
 
 function Links(props: LinksProps) {
-  const { urls, signIn, rsvp, qrCode, event } = props;
+  const { urls, signIn, rsvp, qrCode } = props;
   const classes = useStyles();
   const history = useHistory();
 
@@ -69,7 +62,6 @@ function Links(props: LinksProps) {
         onClick={() => {
           history.push({
             pathname: qrCode.url,
-            state: { event },
           });
         }}
       >
