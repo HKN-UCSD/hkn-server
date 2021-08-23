@@ -9,6 +9,7 @@ import RSVPButton from '../buttons/RSVPButton';
 
 import useStyles from './styles';
 
+import * as ROUTES from '@Constants/routes';
 import {
   OfficerRenderPermission,
   InducteeRenderPermission,
@@ -144,6 +145,17 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         urls,
                         signIn: { url: signInURL, label: 'Sign In Form' },
                         rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                        qrCode: {
+                          url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
+                          label: 'QR Code',
+                        },
+                        event: {
+                          name,
+                          startDate,
+                          endDate,
+                          location,
+                          id: eventId,
+                        },
                       })}
                     </Grid>
                   </Grid>
