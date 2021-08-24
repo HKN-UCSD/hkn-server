@@ -53,7 +53,7 @@ const inductionClass = {
   name: 'Alpha Beta',
   startDate: '2020-08-30',
   endDate: '2020-12-30',
-  interviewDates: [new Date('05 October 2011 14:48 UTC'), new Date('06 October 2011 14:48 UTC')],
+  interviewDates: ['2011-10-05', '2011-10-06'],
 };
 
 const events = [
