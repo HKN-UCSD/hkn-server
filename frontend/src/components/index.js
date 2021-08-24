@@ -18,6 +18,7 @@ import GetLocation from './GetLocation';
 
 export { OfficerNameAutocomplete } from './autocomplete';
 export { ButtonWithConfirmationModal, ButtonWithAlertModal } from './modals';
+export { RequestErrorModal, RequestErrorSnackbar } from './request';
 
 export {
   Button,
