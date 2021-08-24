@@ -29,5 +29,10 @@ export const EVENT_DETAILS_WITH_ID = id => `/events/${id}`;
 export const EVENT_QRCODE_WITH_ID = id => `/events/${id}/qrcode`;
 export const EVENT_QRCODE_INTERMEDIATE_WITH_ID = id =>
   `/events/${id}/qrcode-intermediate`;
+export const EVENT_SIGN_IN_WITH_ID = id => `/events/${id}/signin`;
+export const EVENT_SIGN_IN_OPTIONS_WITH_ID = id =>
+  `/events/${id}/signinoptions`;
+
+export const SIGN_IN_WITH_PATH = path => `/login?path=${path}`;
 
 export const CURR_USER_ID_ALIAS = 'me';

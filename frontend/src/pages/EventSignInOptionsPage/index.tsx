@@ -1,34 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, useHistory } from 'react-router';
 
 import useStyles from './styles';
 
 import { Button } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
-import { getEventById } from '@Services/EventService';
-import { EventResponse } from '@Services/api/models';
 
 interface EventID {
   id: string;
 }
 
 function EventSignInOptionsPage(): JSX.Element {
-  const [eventInfo, setEventInfo] = useState<EventResponse | null>(null);
+  const history = useHistory();
+  const classes = useStyles();
+
   const { id } = useParams<EventID>();
   const eventId = parseInt(id, 10);
 
-  const history = useHistory();
-  const signInURL = eventInfo == null ? '' : eventInfo.signInURL;
-  const classes = useStyles();
-
-  useEffect(() => {
-    const getEvent = async () => {
-      const eventResponse = await getEventById(eventId);
-      setEventInfo(eventResponse);
-    };
-
-    getEvent();
-  }, [eventId]);
+  const eventDetailsURL = ROUTES.EVENT_DETAILS_WITH_ID(eventId);
+  const guestSignInURL = ROUTES.EVENT_SIGN_IN_WITH_ID(eventId);
 
   return (
     <div style={{ margin: '200px' }}>
@@ -42,7 +32,7 @@ function EventSignInOptionsPage(): JSX.Element {
           primary
           positive
           onClick={() => {
-            history.push(ROUTES.SIGN_IN);
+            history.push(eventDetailsURL);
           }}
         >
           Inductee / Member Log In
@@ -52,7 +42,7 @@ function EventSignInOptionsPage(): JSX.Element {
           primary
           positive
           onClick={() => {
-            history.push(signInURL);
+            history.push(guestSignInURL);
           }}
         >
           Guest Sign In Form
