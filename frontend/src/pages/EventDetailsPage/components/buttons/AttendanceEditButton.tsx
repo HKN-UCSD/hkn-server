@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import { formatISO, parseISO } from 'date-fns';
+import { Grid } from '@material-ui/core';
 
 import { ButtonWithConfirmationModal } from '@SharedComponents';
 import { updateAttendanceTimes } from '@Services/AttendanceService';
-import { Grid } from '@material-ui/core';
 
 interface AttendanceEditButtonProps {
   attendeeId: number;

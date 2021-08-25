@@ -10,6 +10,8 @@ import EventEditPage from './EventEditPage';
 import EventDetailsPage from './EventDetailsPage';
 import EventSignInPage from './EventSignInPage';
 import EventRsvpPage from './EventRsvpPage';
+import QrCodePage from './QrCodePage';
+import QrCodeIntermediatePage from './QrCodeIntermediatePage';
 import EventCreationPage from './EventCreationPage';
 import QueriedEventPage from './QueriedEventPage';
 import InterviewSchedulingPage from './InterviewSchedulingPage';
@@ -26,6 +28,8 @@ export {
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
+  QrCodePage,
+  QrCodeIntermediatePage,
   EventSignInPage,
   EventRsvpPage,
   EventCreationPage,
