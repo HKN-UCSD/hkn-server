@@ -6,7 +6,7 @@ import { classToPlain, plainToClass } from 'class-transformer';
 import { getRepository } from 'typeorm';
 
 export class EventMapper {
-  constructor(private appUserService: AppUserService) { }
+  constructor(private appUserService: AppUserService) {}
 
   requestToNewEntity(eventRequest: EventRequest): Event {
     const eventRepository = getRepository(Event);

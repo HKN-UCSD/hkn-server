@@ -57,7 +57,7 @@ export class EventController {
     private attendanceService: AttendanceService,
     private attendanceMapper: AttendanceMapper,
     private rsvpMapper: RSVPMapper
-  ) { }
+  ) {}
 
   @Post('/')
   @UseBefore(OfficerAuthMiddleware)

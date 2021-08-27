@@ -1,4 +1,13 @@
-import { JsonController, Body, Param, Get, Post, UseBefore, QueryParams, Delete } from 'routing-controllers';
+import {
+  JsonController,
+  Body,
+  Param,
+  Get,
+  Post,
+  UseBefore,
+  QueryParams,
+  Delete,
+} from 'routing-controllers';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
 
 import { InductionClassService, InductionClassServiceImpl } from '@Services';
@@ -8,14 +17,17 @@ import {
   InterviewDatesResponse,
   MultipleInductionClassResponse,
   MultipleInductionClassQuery,
-  InductionClassUpdateRequest
+  InductionClassUpdateRequest,
 } from '@Payloads';
 import { OfficerAuthMiddleware } from '@Middlewares';
 import { InductionClassMapper, InductionClassMapperImpl } from '@Mappers';
 
 @JsonController('/api/inductionclass')
 export class InductionClassController {
-  constructor(private inductionClassService: InductionClassService, private inductionClassMapper: InductionClassMapper) { }
+  constructor(
+    private inductionClassService: InductionClassService,
+    private inductionClassMapper: InductionClassMapper
+  ) {}
 
   @Get('/')
   @UseBefore(OfficerAuthMiddleware)
@@ -24,7 +36,9 @@ export class InductionClassController {
   async getMultipleInductionClasses(
     @QueryParams() multipleInductionClassQuery: MultipleInductionClassQuery
   ): Promise<MultipleInductionClassResponse> {
-    const multipleInductionClasses = await this.inductionClassService.getMultipleInductionClasses(multipleInductionClassQuery);
+    const multipleInductionClasses = await this.inductionClassService.getMultipleInductionClasses(
+      multipleInductionClassQuery
+    );
     return { inductionClasses: multipleInductionClasses };
   }
 
@@ -32,9 +46,13 @@ export class InductionClassController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(InductionClassResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async createInductionClass(@Body() inductionClassRequest: InductionClassRequest): Promise<InductionClassResponse> {
+  async createInductionClass(
+    @Body() inductionClassRequest: InductionClassRequest
+  ): Promise<InductionClassResponse> {
     const newInductionClass = this.inductionClassMapper.requestToNewEntity(inductionClassRequest);
-    const createdInductionClass = await this.inductionClassService.createInductionClass(newInductionClass);
+    const createdInductionClass = await this.inductionClassService.createInductionClass(
+      newInductionClass
+    );
 
     if (createdInductionClass === undefined) {
       return undefined;
@@ -56,9 +74,13 @@ export class InductionClassController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(InductionClassResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async getInductionClassByQuarter(@Param('inductionClassId') quarter: string): Promise<InductionClassResponse> {
+  async getInductionClassByQuarter(
+    @Param('inductionClassId') quarter: string
+  ): Promise<InductionClassResponse> {
     const inductionClass = await this.inductionClassService.getInductionClassByQuarter(quarter);
-    return inductionClass === undefined ? undefined : this.inductionClassMapper.entityToResponse(inductionClass);
+    return inductionClass === undefined
+      ? undefined
+      : this.inductionClassMapper.entityToResponse(inductionClass);
   }
 
   @Post('/:inductionClassId')
@@ -72,14 +94,18 @@ export class InductionClassController {
     const inductionClassToUpdate = {
       ...inductionClassUpdateRequest,
       quarter: quarter.toUpperCase(),
-    }
-    const updatedInductionClass = await this.inductionClassMapper.requestToExistingEntity(inductionClassToUpdate);
+    };
+    const updatedInductionClass = await this.inductionClassMapper.requestToExistingEntity(
+      inductionClassToUpdate
+    );
 
     if (updatedInductionClass === undefined) {
-      return undefined
+      return undefined;
     }
 
-    const savedInductionClass = await this.inductionClassService.saveInductionClass(updatedInductionClass);
+    const savedInductionClass = await this.inductionClassService.saveInductionClass(
+      updatedInductionClass
+    );
     return this.inductionClassMapper.entityToResponse(savedInductionClass);
   }
 
@@ -87,8 +113,12 @@ export class InductionClassController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(InductionClassResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async deleteInductionClass(@Param('inductionClassId') quarter: string): Promise<InductionClassResponse | undefined> {
-    const deletedInductionClass = await this.inductionClassService.deleteInductionClassByQuarter(quarter);
+  async deleteInductionClass(
+    @Param('inductionClassId') quarter: string
+  ): Promise<InductionClassResponse | undefined> {
+    const deletedInductionClass = await this.inductionClassService.deleteInductionClassByQuarter(
+      quarter
+    );
 
     if (deletedInductionClass === undefined) {
       return undefined;
@@ -102,7 +132,9 @@ export class InductionClassController {
   async getInterviewDates(
     @Param('inductionClassID') quarter: string
   ): Promise<InterviewDatesResponse> {
-    const interviewDates: string[] = await this.inductionClassService.getInterviewDatesByQuarter(quarter);
+    const interviewDates: string[] = await this.inductionClassService.getInterviewDatesByQuarter(
+      quarter
+    );
     const interviewDateStrings = interviewDates.map(interviewDate => {
       const interviewDateString = { startDate: interviewDate };
       return interviewDateString;
@@ -115,4 +147,7 @@ export class InductionClassController {
   }
 }
 
-export const InductionClassControllerImpl = new InductionClassController(InductionClassServiceImpl, InductionClassMapperImpl);
+export const InductionClassControllerImpl = new InductionClassController(
+  InductionClassServiceImpl,
+  InductionClassMapperImpl
+);

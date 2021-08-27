@@ -32,7 +32,10 @@ export class InductionClassMapper {
 
   entityToResponse(inductionClass: InductionClass): InductionClassResponse {
     const plainInductionClass: Object = classToPlain(inductionClass);
-    const inductionClassResponse: InductionClassResponse = plainToClass(InductionClassResponse, plainInductionClass);
+    const inductionClassResponse: InductionClassResponse = plainToClass(
+      InductionClassResponse,
+      plainInductionClass
+    );
 
     return inductionClassResponse;
   }
