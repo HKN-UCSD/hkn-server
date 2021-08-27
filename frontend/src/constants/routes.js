@@ -21,6 +21,10 @@ export const INTERVIEW_SCHEDULING = '/interview-scheduling';
 export const FORBIDDEN = '/403';
 export const NOT_FOUND = '/404';
 export const EVENT_SIGN_IN_OPTIONS = '/events/:id/signinoptions';
+export const INDUCTION_CLASS_GENERAL = '/induction-class';
+export const INDUCTION_CLASS_CREATE = '/induction-class/create';
+export const INDUCTION_CLASS_DETAILS = '/induction-class/:quarter';
+export const INDUCTION_CLASS_EDIT = '/induction-class/:quarter/edit';
 
 export const PROFILE_WITH_ID = id => `/profile/${id}`;
 export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;
@@ -29,5 +33,9 @@ export const EVENT_DETAILS_WITH_ID = id => `/events/${id}`;
 export const EVENT_QRCODE_WITH_ID = id => `/events/${id}/qrcode`;
 export const EVENT_QRCODE_INTERMEDIATE_WITH_ID = id =>
   `/events/${id}/qrcode-intermediate`;
+export const INDUCTION_CLASS_DETAILS_WITH_QTR = quarter =>
+  `/induction-class/${quarter}`;
+export const INDUCTION_CLASS_EDIT_WITH_QTR = quarter =>
+  `/induction-class/${quarter}/edit`;
 
 export const CURR_USER_ID_ALIAS = 'me';

@@ -16,6 +16,10 @@ import EventCreationPage from './EventCreationPage';
 import QueriedEventPage from './QueriedEventPage';
 import InterviewSchedulingPage from './InterviewSchedulingPage';
 import EventSignInOptionsPage from './EventSignInOptionsPage';
+import InductionClassPage from './InductionClassPage';
+import InductionClassCreationPage from './InductionClassCreationPage';
+import InductionClassDetailsPage from './InductionClassDetailsPage';
+import InductionClassEditPage from './InductionClassEditPage';
 
 export {
   NotFoundPage,
@@ -36,4 +40,8 @@ export {
   QueriedEventPage,
   InterviewSchedulingPage,
   EventSignInOptionsPage,
+  InductionClassPage,
+  InductionClassCreationPage,
+  InductionClassDetailsPage,
+  InductionClassEditPage,
 };

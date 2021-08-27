@@ -17,6 +17,7 @@ export class InductionClassService {
     const allInductionClasses = await inductionClassRepository.find(query);
     let filteredInductionClasses = allInductionClasses;
 
+    // Ignore all this date filter stuff, too tired will come back later after gathering requirements - Thai 08/26/2021
     const targetStartYear = new Date(startYear, 1, 1);
     const targetEndYear = new Date(endYear, 1, 1);
     const isStartYearPresent = startYear !== undefined;

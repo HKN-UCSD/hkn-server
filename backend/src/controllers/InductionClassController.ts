@@ -7,7 +7,8 @@ import {
   InductionClassResponse,
   InterviewDatesResponse,
   MultipleInductionClassResponse,
-  MultipleInductionClassQuery
+  MultipleInductionClassQuery,
+  InductionClassUpdateRequest
 } from '@Payloads';
 import { OfficerAuthMiddleware } from '@Middlewares';
 import { InductionClassMapper, InductionClassMapperImpl } from '@Mappers';
@@ -64,8 +65,15 @@ export class InductionClassController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(InductionClassResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async updateInductionClass(@Body() inductionClassRequest: InductionClassRequest): Promise<InductionClassResponse | undefined> {
-    const updatedInductionClass = await this.inductionClassMapper.requestToExistingEntity(inductionClassRequest);
+  async updateInductionClass(
+    @Body() inductionClassUpdateRequest: InductionClassUpdateRequest,
+    @Param('inductionClassId') quarter: string
+  ): Promise<InductionClassResponse | undefined> {
+    const inductionClassToUpdate = {
+      ...inductionClassUpdateRequest,
+      quarter: quarter.toUpperCase(),
+    }
+    const updatedInductionClass = await this.inductionClassMapper.requestToExistingEntity(inductionClassToUpdate);
 
     if (updatedInductionClass === undefined) {
       return undefined

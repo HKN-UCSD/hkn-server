@@ -23,6 +23,10 @@ import {
   ForbiddenPage,
   NotFoundPage,
   EventSignInOptionsPage,
+  InductionClassPage,
+  InductionClassCreationPage,
+  InductionClassDetailsPage,
+  InductionClassEditPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -183,6 +187,34 @@ function App(): JSX.Element {
               exact
               path={ROUTES.EVENT_QRCODE_INTERMEDIATE}
               render={() => <QrCodeIntermediatePage />}
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_GENERAL}
+              render={props =>
+                OfficerRoutingPermission(InductionClassPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_CREATE}
+              render={props =>
+                OfficerRoutingPermission(InductionClassCreationPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_DETAILS}
+              render={props =>
+                OfficerRoutingPermission(InductionClassDetailsPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_EDIT}
+              render={props =>
+                OfficerRoutingPermission(InductionClassEditPage)(props)
+              }
             />
             <Route
               exact

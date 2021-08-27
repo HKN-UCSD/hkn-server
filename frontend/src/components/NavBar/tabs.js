@@ -4,6 +4,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
 
 import * as ROUTES from '@Constants/routes';
 
@@ -37,9 +38,16 @@ const PointsTab = {
   text: 'Points',
 };
 
+const InductionClassTab = {
+  route: ROUTES.INDUCTION_CLASS_GENERAL,
+  icon: <LibraryBooksOutlinedIcon />,
+  text: 'Induction Class',
+};
+
 export const OfficerTabs = [
   HomeTab,
   CalendarTab,
+  InductionClassTab,
   InducteesTab,
   PointsTab,
   InterviewTab,

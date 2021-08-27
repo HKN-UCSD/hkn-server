@@ -28,6 +28,21 @@ export class InductionClassRequest {
   readonly interviewDates?: string[]
 }
 
+export class InductionClassUpdateRequest {
+  @IsString()
+  readonly name: string;
+
+  @IsDateString()
+  readonly startDate: string;
+
+  @IsDateString()
+  readonly endDate: string;
+
+  @IsDateString({}, { each: true })
+  @IsOptional()
+  readonly interviewDates?: string[]
+}
+
 export class InductionClassResponse {
   @IsString()
   quarter: string
@@ -47,7 +62,8 @@ export class InductionClassResponse {
 
   @ValidateNested({ each: true })
   @Type(() => AppUserResponse)
-  affiliates: AppUserResponse[];
+  @IsOptional()
+  affiliates?: AppUserResponse[];
 }
 
 export class MultipleInductionClassResponse {

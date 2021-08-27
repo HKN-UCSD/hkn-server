@@ -30,6 +30,9 @@ models\EventRequest.ts
 models\EventResponse.ts
 models\GetAttendanceQuery.ts
 models\InducteePointsResponse.ts
+models\InductionClassRequest.ts
+models\InductionClassResponse.ts
+models\InductionClassUpdateRequest.ts
 models\InterviewDatesResponse.ts
 models\InterviewWeekStartDate.ts
 models\MultipleAppUserResponse.ts
@@ -38,6 +41,8 @@ models\MultipleAttendanceResponse.ts
 models\MultipleEventQuery.ts
 models\MultipleEventResponse.ts
 models\MultipleInducteePointsResponse.ts
+models\MultipleInductionClassQuery.ts
+models\MultipleInductionClassResponse.ts
 models\MultipleRSVPResponse.ts
 models\MultipleUserNameResponse.ts
 models\MultipleUserQuery.ts
