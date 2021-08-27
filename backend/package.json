@@ -99,6 +99,10 @@
       "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,js,css,md}": "prettier --write"
+  },
   "_moduleAliases": {
     "@Services/Interfaces": "dist/services/interfaces",
     "@Services": "dist/services",
