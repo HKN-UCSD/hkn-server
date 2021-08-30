@@ -23,6 +23,7 @@ import {
   ForbiddenPage,
   NotFoundPage,
   EventSignInOptionsPage,
+  InducteeSignUpPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
@@ -49,8 +50,8 @@ function App(): JSX.Element {
 
         const getTokenFunc = token
           ? async () => {
-              return user.getIdToken();
-            }
+            return user.getIdToken();
+          }
           : emptyGetTokenFunc;
 
         // TODO if there's no change then don't set state to
@@ -113,6 +114,7 @@ function App(): JSX.Element {
               render={() => <SignInPage setClaims={setClaims} />}
             />
             <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
+            <Route exact path={ROUTES.INDUCTEE_SIGN_UP_FORM} render={() => <InducteeSignUpPage />} />
             <Route
               exact
               path={ROUTES.EVENT_SIGN_IN}

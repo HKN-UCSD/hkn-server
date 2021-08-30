@@ -16,6 +16,7 @@ import EventCreationPage from './EventCreationPage';
 import QueriedEventPage from './QueriedEventPage';
 import InterviewSchedulingPage from './InterviewSchedulingPage';
 import EventSignInOptionsPage from './EventSignInOptionsPage';
+import InducteeSignUpPage from './InducteeSignUpPage';
 
 export {
   NotFoundPage,
@@ -36,4 +37,5 @@ export {
   QueriedEventPage,
   InterviewSchedulingPage,
   EventSignInOptionsPage,
+  InducteeSignUpPage,
 };

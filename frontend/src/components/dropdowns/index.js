@@ -3,6 +3,7 @@ import YearDropdownField from './YearDropdownField';
 import AffiliateDropdownField from './AffiliateDropdownField';
 import EventStatusDropdownField from './EventStatusDropdownField';
 import EventTypeDropdownField from './EventTypeDropdownField';
+import PronounDropdownField from './PronounDropdownField';
 
 export {
   MajorDropdownField,
@@ -10,4 +11,5 @@ export {
   AffiliateDropdownField,
   EventStatusDropdownField,
   EventTypeDropdownField,
+  PronounDropdownField,
 };
