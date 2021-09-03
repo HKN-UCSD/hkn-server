@@ -37,32 +37,6 @@ export class AuthController {
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
 
     if (appUserFromEmail === undefined || this.appUserService.isGuest(appUserFromEmail)) {
-      console.log(
-        'test: ' +
-          email +
-          ' ' +
-          password +
-          ' ' +
-          firstName +
-          ' ' +
-          lastName +
-          ' ' +
-          major +
-          ' ' +
-          graduationYear +
-          ' ' +
-          preferName +
-          ' ' +
-          pronoun +
-          ' ' +
-          customPronoun +
-          ' ' +
-          infoSession +
-          ' ' +
-          courseRequirement +
-          ' ' +
-          newsletter
-      );
       console.log('user ' + email + ' not found');
       return undefined;
     }
