@@ -16,6 +16,7 @@ import {
   MajorDropdownField,
   YearDropdownField,
   PronounDropdownField,
+  InfoSessionDropdownField,
 } from '@SharedComponents';
 
 const INITIAL_INPUT_BOX_VALUES = {
@@ -29,10 +30,8 @@ const INITIAL_INPUT_BOX_VALUES = {
   preferName: '',
   pronoun: '',
   customPronoun: '',
-  coursework: false,
-  info1: false,
-  info2: false,
-  info3: false,
+  infoSession: '',
+  courseRequirement: false,
   newsletter: false,
 };
 
@@ -102,26 +101,6 @@ const SignUpForm = props => {
               </Grid>
             </Grid>
 
-            {/* 
-            <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='test'
-                    color='primary'
-                  />
-
-                </Grid>
-                <Grid item>
-                  <Typography>
-                    test
-                </Typography>
-                </Grid>
-              </Grid>
-            </Grid> */}
-
             <Grid item>
               <Field
                 component={TextField}
@@ -176,7 +155,7 @@ const SignUpForm = props => {
                 className={classes.logo}
                 src={FOUR_YEAR_PLAN}
                 alt='Coursework Requirements'
-               />
+              />
             </Grid>
             <Grid item>
               <Grid container direction='row' alignItems='center'>
@@ -184,7 +163,7 @@ const SignUpForm = props => {
                   <Field
                     type='checkbox'
                     component={Checkbox}
-                    name='coursework'
+                    name='courseRequirement'
                     color='primary'
                   />
                 </Grid>
@@ -199,51 +178,11 @@ const SignUpForm = props => {
             </Grid>
 
             <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='info1'
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>Info Session 1</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='info2'
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>Info Session 2</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='info3'
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>Info Session 3</Typography>
-                </Grid>
-              </Grid>
+              <InfoSessionDropdownField
+                name='infoSession'
+                label='Info Session'
+                fullWidth
+              />
             </Grid>
 
             <Grid item>

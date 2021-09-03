@@ -24,10 +24,8 @@ const schema = Yup.object({
   preferName: Yup.string(),
   pronoun: Yup.string(),
   customPronoun: Yup.string(),
-  coursework: Yup.bool().required('Required'),
-  info1: Yup.bool(),
-  info2: Yup.bool(),
-  info3: Yup.bool(),
+  infoSession: Yup.string().required('Required'),
+  courseRequirement: Yup.bool().required('Required'),
   newsletter: Yup.bool().required('Required'),
 });
 

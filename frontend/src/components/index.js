@@ -6,6 +6,7 @@ import {
   EventStatusDropdownField,
   EventTypeDropdownField,
   PronounDropdownField,
+  InfoSessionDropdownField,
 } from './dropdowns';
 import FormLayout from './FormLayout';
 import InputField from './InputField';
@@ -31,6 +32,7 @@ export {
   EventTypeDropdownField,
   EventStatusDropdownField,
   PronounDropdownField,
+  InfoSessionDropdownField,
   FormLayout,
   InputField,
   Loading,

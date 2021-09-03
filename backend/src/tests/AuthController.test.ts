@@ -48,6 +48,12 @@ describe('signUpUser', () => {
       lastName: 'lastName',
       major: 'major',
       graduationYear: '2020',
+      preferName: 'preferName',
+      pronoun: 'None',
+      customPronoun: 'None',
+      infoSession: 'infoSession1',
+      courseRequirement: true,
+      newsletter: true,
     };
 
     const appUserResponse: AppUserResponse = {

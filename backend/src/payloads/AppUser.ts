@@ -83,6 +83,24 @@ export class AppUserSignupRequest {
 
   @IsString()
   readonly password: string;
+
+  @IsString()
+  readonly preferName: string;
+
+  @IsString()
+  readonly pronoun: string;
+
+  @IsString()
+  readonly customPronoun: string;
+
+  @IsString()
+  readonly infoSession: string;
+
+  @IsBoolean()
+  readonly courseRequirement: boolean;
+
+  @IsBoolean()
+  readonly newsletter: boolean;
 }
 
 export class AppUserInterviewAvailabilitiesRequest {

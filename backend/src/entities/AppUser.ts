@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
 
@@ -55,4 +55,22 @@ export class AppUser {
 
   @Column({ nullable: true, type: 'json' })
   availabilities: Availabilities;
+
+  @Column({ nullable: true })
+  preferName: string;
+
+  @Column({ nullable: true })
+  pronoun: string;
+
+  @Column({ nullable: true })
+  customPronoun: string;
+
+  @Column({ nullable: true })
+  infoSession: string;
+
+  @Column({ nullable: true })
+  courseRequirement: boolean;
+
+  @Column({ nullable: true })
+  newsletter: boolean;
 }

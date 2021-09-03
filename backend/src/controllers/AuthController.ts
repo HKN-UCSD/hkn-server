@@ -19,11 +19,50 @@ export class AuthController {
   async signUpUser(
     @Body() appUserSignupRequest: AppUserSignupRequest
   ): Promise<AppUserResponse | undefined> {
-    const { email, password, firstName, lastName, major, graduationYear } = appUserSignupRequest;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      major,
+      graduationYear,
+      preferName,
+      pronoun,
+      customPronoun,
+      infoSession,
+      courseRequirement,
+      newsletter,
+    } = appUserSignupRequest;
 
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
 
     if (appUserFromEmail === undefined || this.appUserService.isGuest(appUserFromEmail)) {
+      console.log(
+        'test: ' +
+          email +
+          ' ' +
+          password +
+          ' ' +
+          firstName +
+          ' ' +
+          lastName +
+          ' ' +
+          major +
+          ' ' +
+          graduationYear +
+          ' ' +
+          preferName +
+          ' ' +
+          pronoun +
+          ' ' +
+          customPronoun +
+          ' ' +
+          infoSession +
+          ' ' +
+          courseRequirement +
+          ' ' +
+          newsletter
+      );
       console.log('user ' + email + ' not found');
       return undefined;
     }
@@ -39,7 +78,19 @@ export class AuthController {
       return undefined;
     }
 
-    const appUserInfo = { email, firstName, lastName, major, graduationYear };
+    const appUserInfo = {
+      email,
+      firstName,
+      lastName,
+      major,
+      graduationYear,
+      preferName,
+      pronoun,
+      customPronoun,
+      infoSession,
+      courseRequirement,
+      newsletter,
+    };
     const appUserToSave: AppUser = await this.appUserMapper.requestToExistingEntity(
       appUserInfo,
       appUserID
