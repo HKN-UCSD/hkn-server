@@ -98,7 +98,7 @@ class InducteeSignUpPage extends React.Component {
               <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
             </Grid>
             <h2>INDUCTEE SIGN UP</h2>
-            <p> Congratulation! .........</p>
+            <p> Congratulation! Description ... </p>
             <Grid item>
               <SignUpForm handleSubmit={this.handleSubmit} />
             </Grid>
