@@ -60,7 +60,7 @@ export interface AppUserSignupRequest {
      * @type {string}
      * @memberof AppUserSignupRequest
      */
-    preferName: string;
+    preferredName: string;
     /**
      * 
      * @type {string}
@@ -109,7 +109,7 @@ export function AppUserSignupRequestFromJSONTyped(json: any, ignoreDiscriminator
         'major': json['major'],
         'graduationYear': json['graduationYear'],
         'password': json['password'],
-        'preferName': json['preferName'],
+        'preferredName': json['preferredName'],
         'pronoun': json['pronoun'],
         'customPronoun': json['customPronoun'],
         'infoSession': json['infoSession'],
@@ -133,7 +133,7 @@ export function AppUserSignupRequestToJSON(value?: AppUserSignupRequest | null):
         'major': value.major,
         'graduationYear': value.graduationYear,
         'password': value.password,
-        'preferName': value.preferName,
+        'preferredName': value.preferredName,
         'pronoun': value.pronoun,
         'customPronoun': value.customPronoun,
         'infoSession': value.infoSession,

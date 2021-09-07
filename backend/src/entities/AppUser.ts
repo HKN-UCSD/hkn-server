@@ -57,7 +57,7 @@ export class AppUser {
   availabilities: Availabilities;
 
   @Column({ nullable: true })
-  preferName: string;
+  preferredName: string;
 
   @Column({ nullable: true })
   pronoun: string;

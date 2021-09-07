@@ -1,4 +1,6 @@
-const styles = theme => ({
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
   root: {
     [theme.breakpoints.up('sm')]: {
       marginTop: '8vh',
@@ -17,6 +19,10 @@ const styles = theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-});
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+}));
 
-export default styles;
+export default useStyles;

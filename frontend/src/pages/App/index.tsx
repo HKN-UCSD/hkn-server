@@ -114,7 +114,7 @@ function App(): JSX.Element {
               render={() => <SignInPage setClaims={setClaims} />}
             />
             <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
-            <Route exact path={ROUTES.INDUCTEE_SIGN_UP_FORM} render={() => <InducteeSignUpPage />} />
+            <Route exact path={ROUTES.INDUCTEE_SIGN_UP_PAGE} render={() => <InducteeSignUpPage />} />
             <Route
               exact
               path={ROUTES.EVENT_SIGN_IN}

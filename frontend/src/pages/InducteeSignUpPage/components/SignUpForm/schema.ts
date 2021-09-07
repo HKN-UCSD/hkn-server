@@ -20,8 +20,8 @@ const schema = Yup.object({
   major: Yup.string()
     .min(2, 'Your major is too short!')
     .required('Required'),
-  gradYear: Yup.number().required('Required'),
-  preferName: Yup.string(),
+  graduationYear: Yup.number().required('Required'),
+  preferredName: Yup.string(),
   pronoun: Yup.string(),
   customPronoun: Yup.string(),
   infoSession: Yup.string().required('Required'),

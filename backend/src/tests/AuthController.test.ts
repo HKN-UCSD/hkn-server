@@ -48,7 +48,7 @@ describe('signUpUser', () => {
       lastName: 'lastName',
       major: 'major',
       graduationYear: '2020',
-      preferName: 'preferName',
+      preferredName: 'preferredName',
       pronoun: 'None',
       customPronoun: 'None',
       infoSession: 'infoSession1',

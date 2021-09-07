@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Button, Grid, LinearProgress, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import { TextField, Checkbox } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 
-
-import styles from './styles';
+import useStyles from './styles';
 import schema from './schema';
 
 import FOUR_YEAR_PLAN from '@Images/4_year_plan.png';
@@ -19,15 +16,33 @@ import {
   InfoSessionDropdownField,
 } from '@SharedComponents';
 
-const INITIAL_INPUT_BOX_VALUES = {
+import { AppUserSignupRequest } from '@Services/api/models';
+
+interface InitialValuesType {
+  email: string;
+  password: string;
+  confirmPW: string;
+  firstName: string;
+  lastName: string;
+  major: string;
+  graduationYear: string;
+  preferredName: string;
+  pronoun: string;
+  customPronoun: string;
+  infoSession: string;
+  courseRequirement: boolean;
+  newsletter: boolean;
+}
+
+const INITIAL_INPUT_BOX_VALUES: InitialValuesType = {
   email: '',
   password: '',
   confirmPW: '',
   firstName: '',
   lastName: '',
   major: '',
-  gradYear: '',
-  preferName: '',
+  graduationYear: '',
+  preferredName: '',
   pronoun: '',
   customPronoun: '',
   infoSession: '',
@@ -35,8 +50,16 @@ const INITIAL_INPUT_BOX_VALUES = {
   newsletter: false,
 };
 
-const SignUpForm = props => {
-  const { handleSubmit, classes } = props;
+interface SignUpFormProps {
+  handleSubmit: (
+    values: AppUserSignupRequest,
+    setSubmitting: (_: boolean) => void
+  ) => void;
+}
+
+export const SignUpForm = (props: SignUpFormProps) => {
+  const { handleSubmit } = props;
+  const classes = useStyles();
 
   return (
     <Formik
@@ -75,8 +98,8 @@ const SignUpForm = props => {
               <Field
                 component={TextField}
                 fullWidth
-                name='preferName'
-                label='Prefer Name'
+                name='preferredName'
+                label='Preferred Name'
               />
             </Grid>
 
@@ -91,9 +114,9 @@ const SignUpForm = props => {
                 </Grid>
                 <Grid item xs={6}>
                   <Field
-                    disabled={pronoun !== 'Custom'}
                     component={TextField}
                     fullWidth
+                    disabled={!(pronoun === 'customPronoun')}
                     name='customPronoun'
                     label='Pronoun (custom)'
                   />
@@ -133,12 +156,16 @@ const SignUpForm = props => {
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={8}>
-                  <MajorDropdownField name='major' label='Major' fullWidth />
+                  <MajorDropdownField
+                    name='major'
+                    label='Major'
+                    fullWidth
+                  />
                 </Grid>
 
                 <Grid item xs={4}>
                   <YearDropdownField
-                    name='gradYear'
+                    name='graduationYear'
                     label='Grad Year'
                     fullWidth
                   />
@@ -204,7 +231,7 @@ const SignUpForm = props => {
                 </Grid>
                 <Grid item>
                   <Typography>
-                    I understand that I will subscribe to newsletter.
+                    I understand.
                   </Typography>
                 </Grid>
               </Grid>
@@ -242,9 +269,3 @@ const SignUpForm = props => {
     </Formik>
   );
 };
-
-SignUpForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-};
-
-export default withStyles(styles)(SignUpForm);

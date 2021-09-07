@@ -4,7 +4,9 @@ export class AddAppUserInfo1630690500299 implements MigrationInterface {
   name = 'AddAppUserInfo1630690500299';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "public"."app_user" ADD "preferName" character varying`);
+    await queryRunner.query(
+      `ALTER TABLE "public"."app_user" ADD "preferredName" character varying`
+    );
     await queryRunner.query(`ALTER TABLE "public"."app_user" ADD "pronoun" character varying`);
     await queryRunner.query(
       `ALTER TABLE "public"."app_user" ADD "customPronoun" character varying`
@@ -20,6 +22,6 @@ export class AddAppUserInfo1630690500299 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "public"."app_user" DROP COLUMN "infoSession"`);
     await queryRunner.query(`ALTER TABLE "public"."app_user" DROP COLUMN "customPronoun"`);
     await queryRunner.query(`ALTER TABLE "public"."app_user" DROP COLUMN "pronoun"`);
-    await queryRunner.query(`ALTER TABLE "public"."app_user" DROP COLUMN "preferName"`);
+    await queryRunner.query(`ALTER TABLE "public"."app_user" DROP COLUMN "preferredName"`);
   }
 }
