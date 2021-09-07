@@ -118,7 +118,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                   <Field
                     component={TextField}
                     fullWidth
-                    disabled={!(pronoun === 'customPronoun')}
+                    disabled={!(pronoun === 'Custom')}
                     name='customPronoun'
                     label='Pronoun (custom)'
                   />
