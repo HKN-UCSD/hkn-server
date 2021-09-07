@@ -19,10 +19,6 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
 }));
 
 export default useStyles;

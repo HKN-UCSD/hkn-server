@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Grid, LinearProgress, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router';
+import { Grid, LinearProgress, Typography } from '@material-ui/core';
 import { TextField, Checkbox } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 
@@ -10,6 +10,7 @@ import schema from './schema';
 import FOUR_YEAR_PLAN from '@Images/4_year_plan.png';
 import * as ROUTES from '@Constants/routes';
 import {
+  Button,
   MajorDropdownField,
   YearDropdownField,
   PronounDropdownField,
@@ -59,6 +60,7 @@ interface SignUpFormProps {
 
 export const SignUpForm = (props: SignUpFormProps) => {
   const { handleSubmit } = props;
+  const history = useHistory();
   const classes = useStyles();
 
   return (
@@ -217,7 +219,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             </Grid>
 
             <Grid item>
-              <h3>Description</h3>
+              <h3>Newsletter Subscription</h3>
             </Grid>
             <Grid item>
               <Grid container direction='row' alignItems='center'>
@@ -240,8 +242,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <Grid item>
               <Button
                 className={classes.signUp}
-                variant='contained'
-                color='primary'
+                primary
+                positive
                 fullWidth
                 disabled={isSubmitting}
                 onClick={submitForm}
@@ -254,8 +256,9 @@ export const SignUpForm = (props: SignUpFormProps) => {
               <Grid container justify='center'>
                 <Button
                   className={classes.signInRedirect}
-                  to={ROUTES.SIGN_IN}
-                  component={Link}
+                  onClick={() => {
+                    history.push(ROUTES.SIGN_IN);
+                  }}
                 >
                   Have an Account Already?
                 </Button>
