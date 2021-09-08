@@ -3,7 +3,7 @@ import * as React from 'react';
 import GenericDropdownField from '@SharedComponents/dropdowns/base';
 import PRONOUNS from '@Constants/pronouns';
 
-type PronounFieldProp = {
+interface PronounFieldProp {
   name: string;
   label: string;
   fullWidth?: boolean;

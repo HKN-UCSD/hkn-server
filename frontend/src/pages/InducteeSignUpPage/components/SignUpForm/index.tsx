@@ -9,6 +9,7 @@ import schema from './schema';
 
 import FOUR_YEAR_PLAN from '@Images/4_year_plan.png';
 import * as ROUTES from '@Constants/routes';
+import { DESCRIPTION_TEXT } from '@Constants/descriptions';
 import {
   Button,
   MajorDropdownField,
@@ -90,6 +91,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 https://discord.gg/UWZ5FD8 <br />
               </Typography>
             </Grid>
+            <Grid item>
+              <Typography> {DESCRIPTION_TEXT}</Typography></Grid>
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>

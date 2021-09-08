@@ -3,7 +3,7 @@ import * as React from 'react';
 import GenericDropdownField from '@SharedComponents/dropdowns/base';
 import INFO_SESSIONS from '@Constants/infoSessions';
 
-type InfoSessionFieldProp = {
+interface InfoSessionFieldProp {
   name: string;
   label: string;
   fullWidth?: boolean;
