@@ -435,7 +435,7 @@ class SignInPage extends React.Component {
               <DialogContentText id='alert-dialog-description'>
                 {verifyEmailError
                   ? `${verifyEmailError.message}You can click RESEND below to resend the verification email.` +
-                    `If this issue persists, please contact a HKN officer.`
+                  `If this issue persists, please contact a HKN officer.`
                   : ''}
               </DialogContentText>
             </DialogContent>
