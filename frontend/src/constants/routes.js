@@ -21,7 +21,7 @@ export const INTERVIEW_SCHEDULING = '/interview-scheduling';
 export const FORBIDDEN = '/403';
 export const NOT_FOUND = '/404';
 export const EVENT_SIGN_IN_OPTIONS = '/events/:id/signinoptions';
-export const INDUCTEE_SIGN_UP_PAGE = '/inductee-signup-page'
+export const INDUCTEE_SIGN_UP_PAGE = '/inductee-signup-page';
 
 export const PROFILE_WITH_ID = id => `/profile/${id}`;
 export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;

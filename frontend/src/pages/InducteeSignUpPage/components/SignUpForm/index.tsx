@@ -80,7 +80,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             spacing={2}
             className={classes.main}>
             <Grid item>
-              <Typography>Congratulations! You've been selected to induct to Eta Kappa Nu (HKN), the Official Honor Society of IEEE. We are so happy to see that you are interested in inducting. <br /><br />
+              <Typography>Congratulations! You&apos;ve been selected to induct to Eta Kappa Nu (HKN), the Official Honor Society of IEEE. We are so happy to see that you are interested in inducting. <br /><br />
                 Please fill out this form to begin your induction process. There is no risk in filling out this form (you can opt-out at any time by unsubscribing or ignoring the emails), but it is mandatory for you to fill out this form in order to induct! <br /><br />
                 *Contact us* <br />
                 HKN @ UCSD <br />
