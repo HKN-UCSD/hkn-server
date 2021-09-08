@@ -32,7 +32,7 @@ YearDropdownField.propTypes = {
   label: PropTypes.string.isRequired,
   minYear: PropTypes.number,
   maxYear: PropTypes.number,
-  fullWidth: PropTypes.boolean,
+  fullWidth: PropTypes.bool,
 };
 
 YearDropdownField.defaultProps = {

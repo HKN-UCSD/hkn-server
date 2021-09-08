@@ -71,7 +71,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
         handleSubmit(values, setSubmitting);
       }}
     >
-      {({ submitForm, isSubmitting, values: { pronoun } }) => (
+      {({ submitForm, isSubmitting, values: { pronoun, courseRequirement, newsletter } }) => (
         <Form>
           <Grid container
             direction='column'
@@ -238,7 +238,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 primary
                 positive
                 fullWidth
-                disabled={isSubmitting}
+                disabled={!courseRequirement || !newsletter || isSubmitting}
                 onClick={submitForm}
               >
                 Sign Up
