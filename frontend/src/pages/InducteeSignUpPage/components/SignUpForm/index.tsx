@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Grid, LinearProgress, Typography } from '@material-ui/core';
-import { TextField, Checkbox } from 'formik-material-ui';
+import { TextField, CheckboxWithLabel } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 
 import useStyles from './styles';
@@ -73,7 +73,23 @@ export const SignUpForm = (props: SignUpFormProps) => {
     >
       {({ submitForm, isSubmitting, values: { pronoun } }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={2}>
+          <Grid container
+            direction='column'
+            justify='center'
+            alignItems='center'
+            spacing={2}
+            className={classes.main}>
+            <Grid item>
+              <Typography>Congratulations! You've been selected to induct to Eta Kappa Nu (HKN), the Official Honor Society of IEEE. We are so happy to see that you are interested in inducting. <br /><br />
+                Please fill out this form to begin your induction process. There is no risk in filling out this form (you can opt-out at any time by unsubscribing or ignoring the emails), but it is mandatory for you to fill out this form in order to induct! <br /><br />
+                *Contact us* <br />
+                HKN @ UCSD <br />
+                hkn@eng.ucsd.edu <br />
+                hkn.ucsd.edu <br />
+                https://www.facebook.com/hknucsd/ <br />
+                https://discord.gg/UWZ5FD8 <br />
+              </Typography>
+            </Grid>
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>
@@ -176,8 +192,26 @@ export const SignUpForm = (props: SignUpFormProps) => {
             </Grid>
 
             <Grid item>
+              <InfoSessionDropdownField
+                name='infoSession'
+                label='Select an info session to attend'
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item>
               <h3>Review your coursework</h3>
-              <Typography>Description.</Typography>
+              <Typography>Confirm that you have completed or are completing your classes for Fall of sophomore year (sample coursework below).</Typography>
+            </Grid>
+            <Grid item>
+              <Field
+                component={CheckboxWithLabel}
+                type="checkbox"
+                checked
+                name="courseRequirement"
+                Label={{
+                  label: 'I confirm.'
+                }} />
             </Grid>
             <Grid item>
               <img
@@ -186,58 +220,17 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 alt='Coursework Requirements'
               />
             </Grid>
-            <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='courseRequirement'
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>I understand</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
+
 
             <Grid item>
-              <h3>Select an info session</h3>
-            </Grid>
-
-            <Grid item>
-              <InfoSessionDropdownField
-                name='infoSession'
-                label='Info Session'
-                fullWidth
+              <Field
+                component={CheckboxWithLabel}
+                type="checkbox"
+                name="newsletter"
+                Label={{ label: "I understand that I am subscribing to HKN's newsletter." }}
               />
             </Grid>
 
-            <Grid item>
-              <h3>Buddy related (TBD)</h3>
-            </Grid>
-
-            <Grid item>
-              <h3>Newsletter Subscription</h3>
-            </Grid>
-            <Grid item>
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={1}>
-                  <Field
-                    type='checkbox'
-                    component={Checkbox}
-                    name='newsletter'
-                    color='primary'
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>
-                    I understand.
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
 
             <Grid item>
               <Button

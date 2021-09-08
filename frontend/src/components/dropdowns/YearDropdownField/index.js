@@ -15,13 +15,12 @@ const yearDropdownChoices = (minYear, maxYear) => {
 };
 
 const YearDropdownField = props => {
-  const { name, label, minYear, maxYear, fullWidth, ...otherProps } = props;
+  const { name, label, minYear, maxYear, ...otherProps } = props;
 
   return (
     <GenericDropdownField
       name={name}
       label={label}
-      fullWidth={fullWidth}
       {...otherProps}
       selections={yearDropdownChoices(minYear, maxYear)}
     />
@@ -33,13 +32,12 @@ YearDropdownField.propTypes = {
   label: PropTypes.string.isRequired,
   minYear: PropTypes.number,
   maxYear: PropTypes.number,
-  fullWidth: PropTypes.bool,
+  fullWidth: PropTypes.boolean,
 };
 
 YearDropdownField.defaultProps = {
   minYear: parseInt(getYear(new Date()), 10),
   maxYear: parseInt(getYear(new Date()), 10) + 5,
-  fullWidth: false,
 };
 
 export default YearDropdownField;

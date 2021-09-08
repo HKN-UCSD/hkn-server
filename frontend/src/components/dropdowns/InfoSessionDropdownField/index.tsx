@@ -23,8 +23,4 @@ const InfoSessionDropdownField = (props: InfoSessionFieldProp) => {
   );
 };
 
-InfoSessionDropdownField.defaultProps = {
-  fullWidth: false,
-};
-
 export default InfoSessionDropdownField;

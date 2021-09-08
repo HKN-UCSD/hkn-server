@@ -24,19 +24,10 @@ function InducteeSignUpPage(): JSX.Element {
   ) => {
     const signupSubmission = {
       ...values,
-      email: values.email,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      major: values.major,
       graduationYear: values.graduationYear.toString(),
-      password: values.password,
-      preferredName: values.preferredName,
-      pronoun: values.pronoun,
-      customPronoun: values.customPronoun,
-      infoSession: values.infoSession,
-      courseRequirement: values.courseRequirement,
-      newsletter: values.newsletter,
     };
+    const { email, password } = values;
+
     try {
       await createNewUser(signupSubmission);
     } catch {
@@ -46,7 +37,7 @@ function InducteeSignUpPage(): JSX.Element {
     }
 
     try {
-      await doSignInWithEmailAndPassword(values.email, values.password, false);
+      await doSignInWithEmailAndPassword(email, password, false);
     } catch {
       console.log('Sign in failed');
       setSubmitting(false);
@@ -77,7 +68,6 @@ function InducteeSignUpPage(): JSX.Element {
             <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
           </Grid>
           <h2> INDUCTEE SIGN UP </h2>
-          <p> Congratulation!</p>
           <Grid item >
             <SignUpForm handleSubmit={handleSubmit} />
           </Grid>

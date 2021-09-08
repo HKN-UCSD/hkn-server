@@ -19,7 +19,7 @@ const createFullMajorTitle = (department, major) => {
 };
 
 const MajorDropdownField = props => {
-  const { classes, name, label, includeOthers, fullWidth, ...otherProps } = props;
+  const { classes, name, label, includeOthers, ...otherProps } = props;
 
   const listOfMajors = [];
   Object.keys(ELIGIBLE_MAJORS).forEach(department =>
@@ -36,7 +36,6 @@ const MajorDropdownField = props => {
     <GenericDropdownField
       name={name}
       label={label}
-      fullWidth={fullWidth}
       selections={listOfMajors}
       {...otherProps}
     />
@@ -52,7 +51,6 @@ MajorDropdownField.propTypes = {
 
 MajorDropdownField.defaultProps = {
   includeOthers: false,
-  fullWidth: false,
 };
 
 export default MajorDropdownField;

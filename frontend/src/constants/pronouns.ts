@@ -1,5 +1,5 @@
 const PRONOUNS = {
-  NONE: 'None',
+  NONE: 'Prefer not to say',
   SHE: 'She/Her',
   HE: 'He/Him',
   THEY: 'They/Them',
