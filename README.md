@@ -13,6 +13,7 @@ All code related to the HKN portal belongs here.
 ## Quick Access To Guides:
 - On all things [git](./guides/git), such as branch naming, the PR process, the branch creation process, etc.
 - On how to work with issues that require working on the [full stack](./guides/full_stack_dev) - both frontend and backend.
+- On [coding conventions](./guides/coding_conventions) for frontend, backend and both.
 
 ## To Install Dependencies
 
