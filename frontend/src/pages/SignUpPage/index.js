@@ -55,6 +55,8 @@ class SignUpPage extends React.Component {
       await doSendVerificationEmail();
     } catch {
       console.log('Send verification email failed.');
+      setSubmitting(false);
+      return;
     }
 
     await doSignOut();

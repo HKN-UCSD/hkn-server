@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import {
   List,
   ListItem,
@@ -10,7 +9,6 @@ import {
 
 import useStyles from './styles';
 
-import { Button } from '@SharedComponents';
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 
 interface URLObject {
@@ -30,7 +28,6 @@ interface LinksProps {
 function Links(props: LinksProps) {
   const { urls, signIn, rsvp, qrCode } = props;
   const classes = useStyles();
-  const history = useHistory();
 
   const SignInLink = () => (
     <ListItem>
@@ -56,17 +53,12 @@ function Links(props: LinksProps) {
 
   const QRCodeLink = () => (
     <ListItem>
-      <Button
-        secondary
-        negative
-        onClick={() => {
-          history.push({
-            pathname: qrCode.url,
-          });
-        }}
-      >
-        {qrCode.label}
-      </Button>
+      <Link href={qrCode.url}>
+        <ListItemText
+          classes={{ primary: classes.list_item_text }}
+          primary={qrCode.label}
+        />
+      </Link>
     </ListItem>
   );
 
@@ -92,7 +84,7 @@ function Links(props: LinksProps) {
 
         {OfficerRenderPermission(SignInLink)({})}
         {OfficerRenderPermission(RSVPLink)({})}
-        <QRCodeLink />
+        {OfficerRenderPermission(QRCodeLink)({})}
       </List>
     </div>
   );
