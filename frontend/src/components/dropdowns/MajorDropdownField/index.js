@@ -46,6 +46,7 @@ MajorDropdownField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   includeOthers: PropTypes.bool,
+  fullWidth: PropTypes.bool,
 };
 
 MajorDropdownField.defaultProps = {
