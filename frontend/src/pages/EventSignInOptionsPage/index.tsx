@@ -6,8 +6,6 @@ import useStyles from './styles';
 import { Button } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 
-import { Grid, LinearProgress, Typography } from '@material-ui/core';
-
 interface EventID {
   id: string;
 }
@@ -23,7 +21,7 @@ function EventSignInOptionsPage(): JSX.Element {
   const guestSignInURL = ROUTES.EVENT_SIGN_IN_WITH_ID(eventId);
 
   return (
-    <div >
+    <div>
       <div className={classes.buttonsDiv}>
         <h2 className={classes.h2}>
           Are you a current HKN inductee or member?
