@@ -66,7 +66,7 @@ const EventSignInForm = props => {
     >
       {({ submitForm, isSubmitting, values: { agreeToPhotoRelease } }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={3}>
+          <Grid container direction='column' justify='center' spacing={3} className={classes.main}>
             {modalDisplay && (
               <ButtonWithConfirmationModal
                 confirmationModalProps={{
