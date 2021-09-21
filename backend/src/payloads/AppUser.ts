@@ -261,3 +261,49 @@ export class AppUserInterviewAvailability {
   @IsDateString()
   end: string;
 }
+
+export class InducteePostRequest {
+  @IsEmail()
+  readonly email: string;
+
+  @IsString()
+  readonly firstName: string;
+
+  @IsString()
+  readonly lastName: string;
+
+  @IsString()
+  readonly major: string;
+
+  @IsString()
+  readonly graduationYear: string;
+
+  @IsString()
+  readonly password: string;
+
+  @IsString()
+  readonly preferredName: string;
+
+  @IsString()
+  readonly pronoun: string;
+
+  @IsString()
+  readonly customPronoun: string;
+
+  @IsString()
+  readonly infoSession: string;
+
+  @IsBoolean()
+  readonly courseRequirement: boolean;
+
+  @IsBoolean()
+  readonly newsletter: boolean;
+
+  @IsString()
+  @IsOptional()
+  readonly inductionClassQuarter: string;
+
+  @IsEnum(AppUserRole)
+  @IsOptional()
+  readonly role: string;
+}
