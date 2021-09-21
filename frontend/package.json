@@ -30,6 +30,7 @@
     "formik-material-ui-lab": "0.0.5",
     "formik-material-ui-pickers": "0.0.8",
     "material-table": "^1.69.3",
+    "node-pre-gyp": "^0.17.0",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.1",
     "query-string": "^6.13.2",
