@@ -10,7 +10,7 @@ import RenderAuthorization from './RenderAuthorization';
  */
 
 export const AdminRenderPermission = RenderAuthorization([
-  'admin',
+  'admin'
 ])
 export const OfficerRenderPermission = RenderAuthorization([
   'admin',
