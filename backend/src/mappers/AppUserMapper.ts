@@ -4,6 +4,7 @@ import {
   AppUserEventResponse,
   AppUserProfileResponse,
   AppUserPostRequest,
+  InducteePostRequest,
 } from '@Payloads';
 import { AppUser, InductionClass } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
@@ -18,16 +19,19 @@ export class AppUserMapper {
    * Converts an EventSignInRequest payload to an AppUser entity and
    * returns the newly created entity to the caller.
    *
-   * @param {AppUserPostRequest | AppUserEventRequest} appUserRequest The request payload from which the AppUser entity is created.
+   * @param {AppUserPostRequest | AppUserEventRequest | InducteePostRequest} appUserRequest The request payload from which the AppUser entity is created.
    * @returns {AppUser} A newly created AppUser entity.
    */
   async requestToNewEntity(
-    appUserRequest: AppUserPostRequest | AppUserEventRequest
+    appUserRequest: AppUserPostRequest | AppUserEventRequest | InducteePostRequest
   ): Promise<AppUser> {
     const appUserRepository = getRepository(AppUser);
     const inductionClassRepository = getRepository(InductionClass);
 
-    if (appUserRequest instanceof AppUserPostRequest) {
+    if (
+      appUserRequest instanceof AppUserPostRequest ||
+      appUserRequest instanceof InducteePostRequest
+    ) {
       const inductionClass = await inductionClassRepository.findOne({
         quarter: appUserRequest.inductionClassQuarter,
       });

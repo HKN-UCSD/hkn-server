@@ -85,12 +85,15 @@ export class AppUserSignupRequest {
   readonly password: string;
 
   @IsString()
+  @IsOptional()
   readonly preferredName: string;
 
   @IsString()
+  @IsOptional()
   readonly pronoun: string;
 
   @IsString()
+  @IsOptional()
   readonly customPronoun: string;
 
   @IsString()
@@ -101,6 +104,52 @@ export class AppUserSignupRequest {
 
   @IsBoolean()
   readonly newsletter: boolean;
+}
+
+export class InducteePostRequest {
+  @IsEmail()
+  readonly email: string;
+
+  @IsString()
+  readonly firstName: string;
+
+  @IsString()
+  readonly lastName: string;
+
+  @IsString()
+  readonly major: string;
+
+  @IsString()
+  readonly graduationYear: string;
+
+  @IsString()
+  @IsOptional()
+  readonly preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  readonly pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly customPronoun: string;
+
+  @IsString()
+  readonly infoSession: string;
+
+  @IsBoolean()
+  readonly courseRequirement: boolean;
+
+  @IsBoolean()
+  readonly newsletter: boolean;
+
+  @IsEnum(AppUserRole)
+  @IsOptional()
+  readonly role: string;
+
+  @IsString()
+  @IsOptional()
+  readonly inductionClassQuarter: string;
 }
 
 export class AppUserInterviewAvailabilitiesRequest {
