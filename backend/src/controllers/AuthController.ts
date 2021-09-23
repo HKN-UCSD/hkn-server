@@ -110,7 +110,6 @@ export class AuthController {
       newsletter,
       role,
     };
-    const newAppUser = await this.appUserMapper.requestToNewEntity(inducteePostRequest); //create new AppUser
 
     //check if email already exists
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
@@ -118,6 +117,9 @@ export class AuthController {
       console.log(email + ' already has an account');
       return undefined;
     }
+
+    //create new app user
+    const newAppUser = await this.appUserMapper.requestToNewEntity(inducteePostRequest); //create new AppUser
 
     const savedAppUser: AppUser = await this.appUserService.saveAppUser(newAppUser);
 
