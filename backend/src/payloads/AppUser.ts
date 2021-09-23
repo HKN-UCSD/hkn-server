@@ -103,6 +103,52 @@ export class AppUserSignupRequest {
   readonly newsletter: boolean;
 }
 
+export class InducteePostRequest {
+  @IsEmail()
+  readonly email: string;
+
+  @IsString()
+  readonly firstName: string;
+
+  @IsString()
+  readonly lastName: string;
+
+  @IsString()
+  readonly major: string;
+
+  @IsString()
+  readonly graduationYear: string;
+
+  @IsString()
+  @IsOptional()
+  readonly preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  readonly pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly customPronoun: string;
+
+  @IsString()
+  readonly infoSession: string;
+
+  @IsBoolean()
+  readonly courseRequirement: boolean;
+
+  @IsBoolean()
+  readonly newsletter: boolean;
+
+  @IsEnum(AppUserRole)
+  @IsOptional()
+  readonly role: string;
+
+  @IsString()
+  @IsOptional()
+  readonly inductionClassQuarter: string;
+}
+
 export class AppUserInterviewAvailabilitiesRequest {
   @ValidateNested({ each: true })
   @Type(() => AppUserInterviewAvailability)
@@ -260,50 +306,4 @@ export class AppUserInterviewAvailability {
 
   @IsDateString()
   end: string;
-}
-
-export class InducteePostRequest {
-  @IsEmail()
-  readonly email: string;
-
-  @IsString()
-  readonly firstName: string;
-
-  @IsString()
-  readonly lastName: string;
-
-  @IsString()
-  readonly major: string;
-
-  @IsString()
-  readonly graduationYear: string;
-
-  @IsString()
-  readonly password: string;
-
-  @IsString()
-  readonly preferredName: string;
-
-  @IsString()
-  readonly pronoun: string;
-
-  @IsString()
-  readonly customPronoun: string;
-
-  @IsString()
-  readonly infoSession: string;
-
-  @IsBoolean()
-  readonly courseRequirement: boolean;
-
-  @IsBoolean()
-  readonly newsletter: boolean;
-
-  @IsString()
-  @IsOptional()
-  readonly inductionClassQuarter: string;
-
-  @IsEnum(AppUserRole)
-  @IsOptional()
-  readonly role: string;
 }
