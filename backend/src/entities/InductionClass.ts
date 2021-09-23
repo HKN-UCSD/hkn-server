@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
+import { AppUser } from './AppUser';
 
 /**
  * The InductionClass table is meant to represent an induction class.
@@ -20,7 +21,7 @@ export class InductionClass {
   @Column('date')
   startDate: string;
 
-  // Starting date of the induction cycle for said class
+  // Ending date of the induction cycle for said class
   @Column('date')
   endDate: string;
 
@@ -28,5 +29,12 @@ export class InductionClass {
     type: 'json',
     nullable: true,
   })
-  interviewDates: Date[];
+  interviewDates: string[];
+
+  @OneToMany(
+    () => AppUser,
+    affiliate => affiliate.inductionClass,
+    { nullable: true }
+  )
+  affiliates: AppUser[];
 }

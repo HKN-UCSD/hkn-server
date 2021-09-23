@@ -34,3 +34,10 @@ export {
 export { InterviewDatesResponse } from './InterviewDates';
 export { RSVPResponse, MultipleRSVPResponse } from './RSVP';
 export { InducteePointsResponse, MultipleInducteePointsResponse } from './Points';
+export {
+  InductionClassRequest,
+  InductionClassUpdateRequest,
+  InductionClassResponse,
+  MultipleInductionClassResponse,
+  MultipleInductionClassQuery,
+} from './InductionClass';
