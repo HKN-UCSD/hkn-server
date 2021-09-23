@@ -28,19 +28,10 @@ export class AppUserMapper {
     const appUserRepository = getRepository(AppUser);
     const inductionClassRepository = getRepository(InductionClass);
 
-    if (appUserRequest instanceof InducteePostRequest) {
-      const inductionClass = await inductionClassRepository.findOne({
-        quarter: appUserRequest.inductionClassQuarter,
-      });
-      const plainAppUserRequest: Object = classToPlain(appUserRequest);
-
-      const appUser = appUserRepository.create(plainAppUserRequest);
-      appUser.inductionClass = inductionClass;
-
-      return appUser;
-    }
-
-    if (appUserRequest instanceof AppUserPostRequest) {
+    if (
+      appUserRequest instanceof AppUserPostRequest ||
+      appUserRequest instanceof InducteePostRequest
+    ) {
       const inductionClass = await inductionClassRepository.findOne({
         quarter: appUserRequest.inductionClassQuarter,
       });
