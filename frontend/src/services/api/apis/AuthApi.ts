@@ -23,6 +23,10 @@ import {
     AppUserSignupRequestToJSON,
 } from '../models';
 
+export interface AuthControllerInducteeSignUpRequest {
+    appUserSignupRequest?: AppUserSignupRequest;
+}
+
 export interface AuthControllerSignUpUserRequest {
     appUserSignupRequest?: AppUserSignupRequest;
 }
@@ -31,6 +35,35 @@ export interface AuthControllerSignUpUserRequest {
  * 
  */
 export class AuthApi extends runtime.BaseAPI {
+
+    /**
+     * Inductee sign up
+     */
+    async authControllerInducteeSignUpRaw(requestParameters: AuthControllerInducteeSignUpRequest): Promise<runtime.ApiResponse<AppUserResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/auth/inductee-signup`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AppUserSignupRequestToJSON(requestParameters.appUserSignupRequest),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AppUserResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Inductee sign up
+     */
+    async authControllerInducteeSignUp(requestParameters: AuthControllerInducteeSignUpRequest): Promise<AppUserResponse> {
+        const response = await this.authControllerInducteeSignUpRaw(requestParameters);
+        return await response.value();
+    }
 
     /**
      * Sign up user

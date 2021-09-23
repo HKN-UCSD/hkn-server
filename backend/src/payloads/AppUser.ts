@@ -85,12 +85,15 @@ export class AppUserSignupRequest {
   readonly password: string;
 
   @IsString()
+  @IsOptional()
   readonly preferredName: string;
 
   @IsString()
+  @IsOptional()
   readonly pronoun: string;
 
   @IsString()
+  @IsOptional()
   readonly customPronoun: string;
 
   @IsString()

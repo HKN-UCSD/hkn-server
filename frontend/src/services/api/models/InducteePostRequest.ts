@@ -16,88 +16,94 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface AppUserSignupRequest
+ * @interface InducteePostRequest
  */
-export interface AppUserSignupRequest {
+export interface InducteePostRequest {
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     firstName: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     lastName: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     major: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     graduationYear: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
-     */
-    password: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     preferredName?: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     pronoun?: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     customPronoun?: string;
     /**
      * 
      * @type {string}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     infoSession: string;
     /**
      * 
      * @type {boolean}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     courseRequirement: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof AppUserSignupRequest
+     * @memberof InducteePostRequest
      */
     newsletter: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof InducteePostRequest
+     */
+    role?: InducteePostRequestRoleEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof InducteePostRequest
+     */
+    inductionClassQuarter?: string;
 }
 
-export function AppUserSignupRequestFromJSON(json: any): AppUserSignupRequest {
-    return AppUserSignupRequestFromJSONTyped(json, false);
+export function InducteePostRequestFromJSON(json: any): InducteePostRequest {
+    return InducteePostRequestFromJSONTyped(json, false);
 }
 
-export function AppUserSignupRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AppUserSignupRequest {
+export function InducteePostRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): InducteePostRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -108,17 +114,18 @@ export function AppUserSignupRequestFromJSONTyped(json: any, ignoreDiscriminator
         'lastName': json['lastName'],
         'major': json['major'],
         'graduationYear': json['graduationYear'],
-        'password': json['password'],
         'preferredName': !exists(json, 'preferredName') ? undefined : json['preferredName'],
         'pronoun': !exists(json, 'pronoun') ? undefined : json['pronoun'],
         'customPronoun': !exists(json, 'customPronoun') ? undefined : json['customPronoun'],
         'infoSession': json['infoSession'],
         'courseRequirement': json['courseRequirement'],
         'newsletter': json['newsletter'],
+        'role': !exists(json, 'role') ? undefined : json['role'],
+        'inductionClassQuarter': !exists(json, 'inductionClassQuarter') ? undefined : json['inductionClassQuarter'],
     };
 }
 
-export function AppUserSignupRequestToJSON(value?: AppUserSignupRequest | null): any {
+export function InducteePostRequestToJSON(value?: InducteePostRequest | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -132,14 +139,27 @@ export function AppUserSignupRequestToJSON(value?: AppUserSignupRequest | null):
         'lastName': value.lastName,
         'major': value.major,
         'graduationYear': value.graduationYear,
-        'password': value.password,
         'preferredName': value.preferredName,
         'pronoun': value.pronoun,
         'customPronoun': value.customPronoun,
         'infoSession': value.infoSession,
         'courseRequirement': value.courseRequirement,
         'newsletter': value.newsletter,
+        'role': value.role,
+        'inductionClassQuarter': value.inductionClassQuarter,
     };
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum InducteePostRequestRoleEnum {
+    Admin = 'admin',
+    Officer = 'officer',
+    Member = 'member',
+    Inductee = 'inductee',
+    Guest = 'guest'
 }
 
 
