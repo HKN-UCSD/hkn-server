@@ -125,11 +125,6 @@ export class AuthController {
 
     const appUserID: number = savedAppUser.id;
 
-    if (appUserID === undefined) {
-      console.log('id is undefined');
-      return undefined;
-    }
-
     //create new Firebase
     const newAccountID: string = await this.accountService.createNewAccount(
       appUserID,
