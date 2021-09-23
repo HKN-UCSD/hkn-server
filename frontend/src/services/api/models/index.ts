@@ -21,6 +21,7 @@ export * from './EventRequest';
 export * from './EventResponse';
 export * from './GetAttendanceQuery';
 export * from './InducteePointsResponse';
+export * from './InducteePostRequest';
 export * from './InductionClassRequest';
 export * from './InductionClassResponse';
 export * from './InductionClassUpdateRequest';
