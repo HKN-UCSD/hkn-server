@@ -55,4 +55,22 @@ export class AppUser {
 
   @Column({ nullable: true, type: 'json' })
   availabilities: Availabilities;
+
+  @Column({ nullable: true })
+  preferredName: string;
+
+  @Column({ nullable: true })
+  pronoun: string;
+
+  @Column({ nullable: true })
+  customPronoun: string;
+
+  @Column({ nullable: true })
+  infoSession: string;
+
+  @Column({ nullable: true })
+  courseRequirement: boolean;
+
+  @Column({ nullable: true })
+  newsletter: boolean;
 }

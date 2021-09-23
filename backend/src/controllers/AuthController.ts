@@ -19,7 +19,20 @@ export class AuthController {
   async signUpUser(
     @Body() appUserSignupRequest: AppUserSignupRequest
   ): Promise<AppUserResponse | undefined> {
-    const { email, password, firstName, lastName, major, graduationYear } = appUserSignupRequest;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      major,
+      graduationYear,
+      preferredName,
+      pronoun,
+      customPronoun,
+      infoSession,
+      courseRequirement,
+      newsletter,
+    } = appUserSignupRequest;
 
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
 
@@ -39,7 +52,19 @@ export class AuthController {
       return undefined;
     }
 
-    const appUserInfo = { email, firstName, lastName, major, graduationYear };
+    const appUserInfo = {
+      email,
+      firstName,
+      lastName,
+      major,
+      graduationYear,
+      preferredName,
+      pronoun,
+      customPronoun,
+      infoSession,
+      courseRequirement,
+      newsletter,
+    };
     const appUserToSave: AppUser = await this.appUserMapper.requestToExistingEntity(
       appUserInfo,
       appUserID

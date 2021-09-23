@@ -20,6 +20,7 @@ import InductionClassPage from './InductionClassPage';
 import InductionClassCreationPage from './InductionClassCreationPage';
 import InductionClassDetailsPage from './InductionClassDetailsPage';
 import InductionClassEditPage from './InductionClassEditPage';
+import InducteeSignUpPage from './InducteeSignUpPage';
 
 export {
   NotFoundPage,
@@ -44,4 +45,5 @@ export {
   InductionClassCreationPage,
   InductionClassDetailsPage,
   InductionClassEditPage,
+  InducteeSignUpPage,
 };
