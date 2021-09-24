@@ -21,7 +21,7 @@ function EventSignInOptionsPage(): JSX.Element {
   const guestSignInURL = ROUTES.EVENT_SIGN_IN_WITH_ID(eventId);
 
   return (
-    <div style={{ margin: '200px' }}>
+    <div>
       <div className={classes.buttonsDiv}>
         <h2 className={classes.h2}>
           Are you a current HKN inductee or member?
