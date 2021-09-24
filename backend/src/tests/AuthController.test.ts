@@ -31,6 +31,7 @@ describe('signUpUser', () => {
 
   it('should return undefined on account creation failure', async () => {
     (AppUserServiceImpl.getAppUserByEmail as jest.Mock).mockImplementation(() => undefined);
+    (AppUserServiceImpl.saveAppUser as jest.Mock).mockImplementation(() => new AppUser());
     (AccountServiceImpl.createNewAccount as jest.Mock).mockImplementation(() => undefined);
 
     expect(await authController.inducteeSignUp(new AppUserSignupRequest())).toEqual(undefined);
@@ -64,7 +65,7 @@ describe('signUpUser', () => {
     };
 
     (AppUserServiceImpl.getAppUserByEmail as jest.Mock).mockImplementation(() => undefined);
-
+    (AppUserServiceImpl.saveAppUser as jest.Mock).mockImplementation(() => new AppUser());
     (AccountServiceImpl.createNewAccount as jest.Mock).mockImplementation(() => '0');
     (AppUserMapperImpl.entityToResponse as jest.Mock).mockImplementation(() => appUserResponse);
 
