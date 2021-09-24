@@ -2,12 +2,12 @@ import React from 'react';
 import { Link as MuiLink } from '@material-ui/core';
 
 interface LinkProps {
-  url: string;
+  href: string;
   displayName?: string;
   openInNewTab?: boolean;
 }
 
-export const Link = ({ url, displayName = url, openInNewTab = true }: LinkProps) => {
+export const Link = ({ href, displayName = href, openInNewTab = true }: LinkProps) => {
   const newTabProps = {};
 
   if (openInNewTab) {
@@ -15,5 +15,5 @@ export const Link = ({ url, displayName = url, openInNewTab = true }: LinkProps)
     newTabProps['rel'] = 'noreferrer';
   }
 
-  return <MuiLink href={url} {...newTabProps}>{displayName}</MuiLink>
+  return <MuiLink href={href} {...newTabProps}>{displayName}</MuiLink>
 }

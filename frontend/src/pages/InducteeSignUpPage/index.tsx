@@ -27,8 +27,8 @@ function InducteeSignUpPage(): JSX.Element {
   const { urlAdderOne } = useParams<URLAdder>();
 
   const location = useLocation();
-  const values = queryString.parse(location.search);
-  const { code } = values;
+  const queryParams = queryString.parse(location.search);
+  const { code } = queryParams;
 
   if (urlAdderOne !== config.urlAdderOne || code !== config.urlAdderTwo) {
     return <Redirect to={ROUTES.HOME} />;

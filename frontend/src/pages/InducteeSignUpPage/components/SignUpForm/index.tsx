@@ -87,9 +87,9 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 *Contact us* <br />
                 HKN @ UCSD <br />
                 hkn@eng.ucsd.edu <br />
-                <Link url='https://hkn.ucsd.edu' openInNewTab /> <br />
-                <Link url='https://www.facebook.com/hknucsd/' openInNewTab /> <br />
-                <Link url='https://discord.gg/UWZ5FD8' openInNewTab /> <br />
+                <Link href='https://hkn.ucsd.edu' openInNewTab /> <br />
+                <Link href='https://www.facebook.com/hknucsd/' openInNewTab /> <br />
+                <Link href='https://discord.gg/UWZ5FD8' openInNewTab /> <br />
               </Typography>
             </Grid>
             <Grid item>
