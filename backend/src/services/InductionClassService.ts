@@ -5,63 +5,60 @@ import { InductionClass } from '@Entities';
 import { MultipleInductionClassQuery } from '@Payloads';
 
 export class InductionClassService {
-  async getMultipleInductionClasses(
+  private buildMultipleInductionClassQuery(
     multipleInductionClassQuery: MultipleInductionClassQuery
-  ): Promise<InductionClass[]> {
-    const inductionClassRepository = getRepository(InductionClass);
+  ): FindManyOptions<InductionClass> {
+    // Worry about filter by startYear and endYear later
     const { startYear, endYear, showAffiliates } = multipleInductionClassQuery;
-    const query: FindManyOptions<InductionClass> = {};
+    const query: FindManyOptions<InductionClass> = {
+      order: {
+        startDate: 'ASC',
+      },
+    };
 
     if (showAffiliates) {
       query.relations = ['affiliates'];
     }
 
-    const allInductionClasses = await inductionClassRepository.find(query);
-    let filteredInductionClasses = allInductionClasses;
+    return query;
+  }
 
-    // Ignore all this date filter stuff, too tired will come back later after gathering requirements - Thai 08/26/2021
-    const targetStartYear = new Date(startYear, 1, 1);
-    const targetEndYear = new Date(endYear, 1, 1);
-    const isStartYearPresent = startYear !== undefined;
-    const isEndYearPresent = endYear !== undefined;
+  async getMultipleInductionClasses(
+    multipleInductionClassQuery: MultipleInductionClassQuery
+  ): Promise<InductionClass[]> {
+    const inductionClassRepository = getRepository(InductionClass);
+    const query = this.buildMultipleInductionClassQuery(multipleInductionClassQuery);
 
-    if (isStartYearPresent) {
-      filteredInductionClasses = allInductionClasses.filter((inductionClass: InductionClass) =>
-        isSameYear(targetStartYear, parseISO(inductionClass.startDate))
-      );
-    }
-
-    if (isEndYearPresent) {
-      let toFilter = allInductionClasses;
-
-      if (isStartYearPresent) {
-        toFilter = filteredInductionClasses;
-      }
-
-      filteredInductionClasses = toFilter.filter((inductionClass: InductionClass) =>
-        isSameYear(targetEndYear, parseISO(inductionClass.endDate))
-      );
-    }
-
-    return filteredInductionClasses;
+    return inductionClassRepository.find(query);
   }
 
   async getCurrentInductionClass(): Promise<InductionClass | undefined> {
     const inductionClassRepository = getRepository(InductionClass);
-    const allInductionClasses = await inductionClassRepository.find();
+    const allInductionClasses = await inductionClassRepository.find({
+      order: {
+        startDate: 'ASC',
+      },
+    });
 
+    let selectedInductionClass = undefined;
     const currDate = new Date();
-    const currentInductionClass = allInductionClasses.filter(
-      (inductionClass: InductionClass) =>
-        compareAsc(currDate, parseISO(inductionClass.startDate)) == 1 &&
-        compareAsc(parseISO(inductionClass.endDate), currDate)
-    );
 
-    if (currentInductionClass.length > 1 || currentInductionClass.length === 0) {
-      return undefined;
+    // This assumes there is only one induction class per period of time,
+    // so no overlapping induction classes. If there are overlapping induction
+    // classes for some reason, this takes the first one.
+    for (let i = 0; i < allInductionClasses.length; i++) {
+      const currInductionClass = allInductionClasses[i];
+
+      if (
+        compareAsc(currDate, parseISO(currInductionClass.startDate)) >= 0 &&
+        compareAsc(parseISO(currInductionClass.endDate), currDate) >= 0
+      ) {
+        selectedInductionClass = currInductionClass;
+        break;
+      }
     }
 
-    return currentInductionClass[0];
+    return selectedInductionClass;
   }
 
   async getInductionClassByQuarter(quarter: string): Promise<InductionClass | undefined> {

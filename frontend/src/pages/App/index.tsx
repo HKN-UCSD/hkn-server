@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   SignInPage,
-  SignUpPage,
+  // SignUpPage,
   PointsPage,
   InducteePointsPage,
   EventsPage,
@@ -117,8 +117,8 @@ function App(): JSX.Element {
               path={ROUTES.SIGN_IN}
               render={() => <SignInPage setClaims={setClaims} />}
             />
-            <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
-            <Route exact path={ROUTES.INDUCTEE_SIGN_UP_PAGE} render={() => <InducteeSignUpPage />} />
+            {/*<Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />*/}
+            <Route exact path={ROUTES.INDUCTEE_SIGN_UP} render={() => <InducteeSignUpPage />} />
             <Route
               exact
               path={ROUTES.EVENT_SIGN_IN}

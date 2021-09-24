@@ -8,7 +8,7 @@ import styles from './styles';
 import { Card } from '@SharedComponents';
 import { PublicPageLayout } from '@SharedComponents/layouts';
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
-import { createNewUser } from '@Services/AuthService';
+// import { createNewUser } from '@Services/AuthService';
 import {
   doSignInWithEmailAndPassword,
   doSendVerificationEmail,
@@ -36,7 +36,7 @@ class SignUpPage extends React.Component {
     };
 
     try {
-      await createNewUser(signupSubmission);
+      // await createNewUser(signupSubmission);
     } catch {
       console.log('Create new user failed');
       setSubmitting(false);

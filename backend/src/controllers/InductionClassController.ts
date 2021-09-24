@@ -48,7 +48,7 @@ export class InductionClassController {
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async createInductionClass(
     @Body() inductionClassRequest: InductionClassRequest
-  ): Promise<InductionClassResponse> {
+  ): Promise<InductionClassResponse | undefined> {
     const newInductionClass = this.inductionClassMapper.requestToNewEntity(inductionClassRequest);
     const createdInductionClass = await this.inductionClassService.createInductionClass(
       newInductionClass
@@ -65,8 +65,13 @@ export class InductionClassController {
   @UseBefore(OfficerAuthMiddleware)
   @ResponseSchema(InductionClassResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async getCurrentInductionClass(): Promise<InductionClassResponse> {
+  async getCurrentInductionClass(): Promise<InductionClassResponse | undefined> {
     const currentInductionClass = await this.inductionClassService.getCurrentInductionClass();
+
+    if (currentInductionClass === undefined) {
+      return undefined;
+    }
+
     return this.inductionClassMapper.entityToResponse(currentInductionClass);
   }
 

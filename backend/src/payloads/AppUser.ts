@@ -106,50 +106,50 @@ export class AppUserSignupRequest {
   readonly newsletter: boolean;
 }
 
-export class InducteePostRequest {
+export class InducteeSignupInfo {
   @IsEmail()
-  readonly email: string;
+  email: string;
 
   @IsString()
-  readonly firstName: string;
+  firstName: string;
 
   @IsString()
-  readonly lastName: string;
+  lastName: string;
 
   @IsString()
-  readonly major: string;
+  major: string;
 
   @IsString()
-  readonly graduationYear: string;
-
-  @IsString()
-  @IsOptional()
-  readonly preferredName: string;
+  graduationYear: string;
 
   @IsString()
   @IsOptional()
-  readonly pronoun: string;
+  preferredName: string;
 
   @IsString()
   @IsOptional()
-  readonly customPronoun: string;
+  pronoun: string;
 
   @IsString()
-  readonly infoSession: string;
+  @IsOptional()
+  customPronoun: string;
+
+  @IsString()
+  infoSession: string;
 
   @IsBoolean()
-  readonly courseRequirement: boolean;
+  courseRequirement: boolean;
 
   @IsBoolean()
-  readonly newsletter: boolean;
+  newsletter: boolean;
 
   @IsEnum(AppUserRole)
   @IsOptional()
-  readonly role: string;
+  role: string;
 
   @IsString()
   @IsOptional()
-  readonly inductionClassQuarter: string;
+  inductionClassQuarter?: string;
 }
 
 export class AppUserInterviewAvailabilitiesRequest {
