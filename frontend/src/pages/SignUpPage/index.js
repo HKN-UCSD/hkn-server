@@ -36,6 +36,7 @@ class SignUpPage extends React.Component {
     };
 
     try {
+      console.log(signupSubmission);
       // await createNewUser(signupSubmission);
     } catch {
       console.log('Create new user failed');
