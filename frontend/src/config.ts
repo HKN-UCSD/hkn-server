@@ -8,6 +8,8 @@ type Config = {
   appID?: string;
   apiURL?: string;
   nodeEnv?: string;
+  urlAdderOne?: string;
+  urlAdderTwo?: string;
 };
 
 export const config: Config = {
@@ -20,4 +22,6 @@ export const config: Config = {
   appID: process.env.REACT_APP_APP_ID,
   apiURL: process.env.REACT_APP_API_URL,
   nodeEnv: process.env.NODE_ENV,
+  urlAdderOne: process.env.REACT_APP_URL_ADDER_ONE,
+  urlAdderTwo: process.env.REACT_APP_URL_ADDER_TWO,
 };

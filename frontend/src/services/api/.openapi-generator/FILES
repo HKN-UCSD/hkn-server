@@ -30,7 +30,7 @@ models\EventRequest.ts
 models\EventResponse.ts
 models\GetAttendanceQuery.ts
 models\InducteePointsResponse.ts
-models\InducteePostRequest.ts
+models\InducteeSignupInfo.ts
 models\InductionClassRequest.ts
 models\InductionClassResponse.ts
 models\InductionClassUpdateRequest.ts

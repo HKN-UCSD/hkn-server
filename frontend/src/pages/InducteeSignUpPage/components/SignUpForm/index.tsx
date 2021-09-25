@@ -16,6 +16,7 @@ import {
   YearDropdownField,
   PronounDropdownField,
   InfoSessionDropdownField,
+  Link,
 } from '@SharedComponents';
 
 import { AppUserSignupRequest } from '@Services/api/models';
@@ -86,9 +87,9 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 *Contact us* <br />
                 HKN @ UCSD <br />
                 hkn@eng.ucsd.edu <br />
-                hkn.ucsd.edu <br />
-                https://www.facebook.com/hknucsd/ <br />
-                https://discord.gg/UWZ5FD8 <br />
+                <Link href='https://hkn.ucsd.edu' openInNewTab /> <br />
+                <Link href='https://www.facebook.com/hknucsd/' openInNewTab /> <br />
+                <Link href='https://discord.gg/UWZ5FD8' openInNewTab /> <br />
               </Typography>
             </Grid>
             <Grid item>

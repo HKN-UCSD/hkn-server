@@ -51,6 +51,13 @@ export async function getInductionClassByQuarter(
   );
 }
 
+export async function getCurrentInductionClass(): Promise<InductionClassResponse> {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const inductionClassApi: InductionClassApi = new InductionClassApi(apiConfig);
+
+  return inductionClassApi.inductionClassControllerGetCurrentInductionClass();
+}
+
 export async function createInductionClass(
   inductionClassRequest: InductionClassRequest
 ): Promise<InductionClassResponse> {

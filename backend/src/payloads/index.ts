@@ -21,7 +21,7 @@ export {
   MultipleUserNameResponse,
   AppUserInducteePointsResponse,
   AppUserMemberPointsResponse,
-  InducteePostRequest,
+  InducteeSignupInfo,
 } from './AppUser';
 export {
   AttendanceCheckOffRequest,
