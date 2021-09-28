@@ -8,6 +8,11 @@ import RenderAuthorization from './RenderAuthorization';
  *     MemberRenderPermission(Component)({...props})
  *     InducteeRenderPermission(Component)({...props})
  */
+
+/* export const AdminRenderPermission = RenderAuthorization([
+  'admin'
+])
+*/
 export const OfficerRenderPermission = RenderAuthorization([
   'admin',
   'officer',
