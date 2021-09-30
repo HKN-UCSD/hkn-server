@@ -90,6 +90,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 <Link href='https://hkn.ucsd.edu' openInNewTab /> <br />
                 <Link href='https://www.facebook.com/hknucsd/' openInNewTab /> <br />
                 <Link href='https://discord.gg/UWZ5FD8' openInNewTab /> <br />
+				Have an Account Already? Please contact Tim at s9jiang@ucsd.edu or on Discord for manual adjustment. <br />
               </Typography>
             </Grid>
             <Grid item>
@@ -251,21 +252,6 @@ export const SignUpForm = (props: SignUpFormProps) => {
               </Button>
             </Grid>
 
-            <Grid item>
-              <Grid container justify='center'>
-				<Typography>
-				Have an Account Already? Please contact Tim at s9jiang@ucsd.edu for manual adjustment.
-				</Typography>
-                <Button
-                  className={classes.signInRedirect}
-                  onClick={() => {
-                    history.push(ROUTES.SIGN_IN);
-                  }}
-                >
-                  Log in here
-                </Button>
-              </Grid>
-            </Grid>
 
             {isSubmitting && <LinearProgress />}
           </Grid>
