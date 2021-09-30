@@ -64,8 +64,6 @@ export const SignUpForm = (props: SignUpFormProps) => {
   const { handleSubmit } = props;
   const history = useHistory();
   const classes = useStyles();
-  const descriptionHTML = document.createElement('div');
-  descriptionHTML.innerHTML = DESCRIPTION_TEXT;
 
   return (
     <Formik
@@ -95,7 +93,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography> {DESCRIPTION_TEXT}</Typography></Grid>
+                <DescriptionText />
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>
