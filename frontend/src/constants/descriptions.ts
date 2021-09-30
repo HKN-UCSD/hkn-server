@@ -1,1 +1,1 @@
-export const DESCRIPTION_TEXT = ' ';
+export const DESCRIPTION_TEXT = 'test';
