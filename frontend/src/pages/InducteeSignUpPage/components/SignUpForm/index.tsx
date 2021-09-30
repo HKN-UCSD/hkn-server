@@ -206,7 +206,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
 
             <Grid item>
               <h3>Review your coursework</h3>
-			  <Typography>The HKN induction process requires you to pass an interview involving technical questions in the following quarter, so we recommend that inductees have completed their major&apos;s 2nd year Fall Quarter courses in order to induct (following the most updated 4-year course plans). You can find the four-year-plan at <Link href='https://plans.ucsd.edu/' openInNewTab /> </Typography>
+			  <Typography>The HKN induction process requires you to pass an interview involving technical questions in the following quarter, so we recommend that inductees have completed their major&apos;s 2nd year Fall Quarter courses in order to induct (following the most updated 4-year course plans). You can find the four-year-plan at <Link href='https://plans.ucsd.edu/' openInNewTab /> .</Typography>
               <Typography>Please confirm that you have completed or are completing your classes for Fall of sophomore year according to UCSD 4-year plan (sample coursework below).</Typography>
             </Grid>
             <Grid item>
