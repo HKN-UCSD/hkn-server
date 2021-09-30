@@ -64,6 +64,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
   const { handleSubmit } = props;
   const history = useHistory();
   const classes = useStyles();
+  const descriptionHTML = document.createElement('div');
+  descriptionHTML.innerHTML = DESCRIPTION_TEXT;
 
   return (
     <Formik
