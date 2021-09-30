@@ -55,6 +55,42 @@ export interface AppUserSignupRequest {
      * @memberof AppUserSignupRequest
      */
     password: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppUserSignupRequest
+     */
+    preferredName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppUserSignupRequest
+     */
+    pronoun?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppUserSignupRequest
+     */
+    customPronoun?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AppUserSignupRequest
+     */
+    infoSession: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AppUserSignupRequest
+     */
+    courseRequirement: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AppUserSignupRequest
+     */
+    newsletter: boolean;
 }
 
 export function AppUserSignupRequestFromJSON(json: any): AppUserSignupRequest {
@@ -73,6 +109,12 @@ export function AppUserSignupRequestFromJSONTyped(json: any, ignoreDiscriminator
         'major': json['major'],
         'graduationYear': json['graduationYear'],
         'password': json['password'],
+        'preferredName': !exists(json, 'preferredName') ? undefined : json['preferredName'],
+        'pronoun': !exists(json, 'pronoun') ? undefined : json['pronoun'],
+        'customPronoun': !exists(json, 'customPronoun') ? undefined : json['customPronoun'],
+        'infoSession': json['infoSession'],
+        'courseRequirement': json['courseRequirement'],
+        'newsletter': json['newsletter'],
     };
 }
 
@@ -91,6 +133,12 @@ export function AppUserSignupRequestToJSON(value?: AppUserSignupRequest | null):
         'major': value.major,
         'graduationYear': value.graduationYear,
         'password': value.password,
+        'preferredName': value.preferredName,
+        'pronoun': value.pronoun,
+        'customPronoun': value.customPronoun,
+        'infoSession': value.infoSession,
+        'courseRequirement': value.courseRequirement,
+        'newsletter': value.newsletter,
     };
 }
 

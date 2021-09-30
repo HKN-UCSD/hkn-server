@@ -9,6 +9,7 @@ import RSVPButton from '../buttons/RSVPButton';
 
 import useStyles from './styles';
 
+import * as ROUTES from '@Constants/routes';
 import {
   OfficerRenderPermission,
   InducteeRenderPermission,
@@ -63,6 +64,15 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
     ) : (
       <></>
     );
+
+  const StatusField = () => (
+    <Typography className={classes.detail} variant='h6'>
+      Status:{' '}
+      <Typography>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </Typography>
+    </Typography>
+  );
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -128,6 +138,9 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         </Typography>
                       </Typography>
                     </Grid>
+                    <Grid item>
+                      {OfficerRenderPermission(StatusField)({})}
+                    </Grid>
                   </Grid>
                 </Grid>
 
@@ -144,6 +157,17 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         urls,
                         signIn: { url: signInURL, label: 'Sign In Form' },
                         rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                        qrCode: {
+                          url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
+                          label: 'QR Code',
+                        },
+                        event: {
+                          name,
+                          startDate,
+                          endDate,
+                          location,
+                          id: eventId,
+                        },
                       })}
                     </Grid>
                   </Grid>

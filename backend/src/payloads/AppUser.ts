@@ -83,6 +83,73 @@ export class AppUserSignupRequest {
 
   @IsString()
   readonly password: string;
+
+  @IsString()
+  @IsOptional()
+  readonly preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  readonly pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly customPronoun: string;
+
+  @IsString()
+  readonly infoSession: string;
+
+  @IsBoolean()
+  readonly courseRequirement: boolean;
+
+  @IsBoolean()
+  readonly newsletter: boolean;
+}
+
+export class InducteeSignupInfo {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  major: string;
+
+  @IsString()
+  graduationYear: string;
+
+  @IsString()
+  @IsOptional()
+  preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun: string;
+
+  @IsString()
+  infoSession: string;
+
+  @IsBoolean()
+  courseRequirement: boolean;
+
+  @IsBoolean()
+  newsletter: boolean;
+
+  @IsEnum(AppUserRole)
+  @IsOptional()
+  role: string;
+
+  @IsString()
+  @IsOptional()
+  inductionClassQuarter?: string;
 }
 
 export class AppUserInterviewAvailabilitiesRequest {

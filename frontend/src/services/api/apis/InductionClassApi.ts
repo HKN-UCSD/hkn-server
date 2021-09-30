@@ -15,19 +15,201 @@
 
 import * as runtime from '../runtime';
 import {
+    InductionClassRequest,
+    InductionClassRequestFromJSON,
+    InductionClassRequestToJSON,
+    InductionClassResponse,
+    InductionClassResponseFromJSON,
+    InductionClassResponseToJSON,
+    InductionClassUpdateRequest,
+    InductionClassUpdateRequestFromJSON,
+    InductionClassUpdateRequestToJSON,
     InterviewDatesResponse,
     InterviewDatesResponseFromJSON,
     InterviewDatesResponseToJSON,
+    MultipleInductionClassResponse,
+    MultipleInductionClassResponseFromJSON,
+    MultipleInductionClassResponseToJSON,
 } from '../models';
+
+export interface InductionClassControllerCreateInductionClassRequest {
+    inductionClassRequest?: InductionClassRequest;
+}
+
+export interface InductionClassControllerDeleteInductionClassRequest {
+    inductionClassId: string;
+}
+
+export interface InductionClassControllerGetInductionClassByQuarterRequest {
+    inductionClassId: string;
+}
 
 export interface InductionClassControllerGetInterviewDatesRequest {
     inductionClassID: string;
+}
+
+export interface InductionClassControllerGetMultipleInductionClassesRequest {
+    startYear?: number;
+    endYear?: number;
+    showAffiliates?: boolean;
+}
+
+export interface InductionClassControllerUpdateInductionClassRequest {
+    inductionClassId: string;
+    inductionClassUpdateRequest?: InductionClassUpdateRequest;
 }
 
 /**
  * 
  */
 export class InductionClassApi extends runtime.BaseAPI {
+
+    /**
+     * Create induction class
+     */
+    async inductionClassControllerCreateInductionClassRaw(requestParameters: InductionClassControllerCreateInductionClassRequest): Promise<runtime.ApiResponse<InductionClassResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: InductionClassRequestToJSON(requestParameters.inductionClassRequest),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Create induction class
+     */
+    async inductionClassControllerCreateInductionClass(requestParameters: InductionClassControllerCreateInductionClassRequest): Promise<InductionClassResponse> {
+        const response = await this.inductionClassControllerCreateInductionClassRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Delete induction class
+     */
+    async inductionClassControllerDeleteInductionClassRaw(requestParameters: InductionClassControllerDeleteInductionClassRequest): Promise<runtime.ApiResponse<InductionClassResponse>> {
+        if (requestParameters.inductionClassId === null || requestParameters.inductionClassId === undefined) {
+            throw new runtime.RequiredError('inductionClassId','Required parameter requestParameters.inductionClassId was null or undefined when calling inductionClassControllerDeleteInductionClass.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/{inductionClassId}`.replace(`{${"inductionClassId"}}`, encodeURIComponent(String(requestParameters.inductionClassId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete induction class
+     */
+    async inductionClassControllerDeleteInductionClass(requestParameters: InductionClassControllerDeleteInductionClassRequest): Promise<InductionClassResponse> {
+        const response = await this.inductionClassControllerDeleteInductionClassRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get current induction class
+     */
+    async inductionClassControllerGetCurrentInductionClassRaw(): Promise<runtime.ApiResponse<InductionClassResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/current`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get current induction class
+     */
+    async inductionClassControllerGetCurrentInductionClass(): Promise<InductionClassResponse> {
+        const response = await this.inductionClassControllerGetCurrentInductionClassRaw();
+        return await response.value();
+    }
+
+    /**
+     * Get induction class by quarter
+     */
+    async inductionClassControllerGetInductionClassByQuarterRaw(requestParameters: InductionClassControllerGetInductionClassByQuarterRequest): Promise<runtime.ApiResponse<InductionClassResponse>> {
+        if (requestParameters.inductionClassId === null || requestParameters.inductionClassId === undefined) {
+            throw new runtime.RequiredError('inductionClassId','Required parameter requestParameters.inductionClassId was null or undefined when calling inductionClassControllerGetInductionClassByQuarter.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/{inductionClassId}`.replace(`{${"inductionClassId"}}`, encodeURIComponent(String(requestParameters.inductionClassId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get induction class by quarter
+     */
+    async inductionClassControllerGetInductionClassByQuarter(requestParameters: InductionClassControllerGetInductionClassByQuarterRequest): Promise<InductionClassResponse> {
+        const response = await this.inductionClassControllerGetInductionClassByQuarterRaw(requestParameters);
+        return await response.value();
+    }
 
     /**
      * Get interview dates
@@ -56,6 +238,93 @@ export class InductionClassApi extends runtime.BaseAPI {
      */
     async inductionClassControllerGetInterviewDates(requestParameters: InductionClassControllerGetInterviewDatesRequest): Promise<InterviewDatesResponse> {
         const response = await this.inductionClassControllerGetInterviewDatesRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get multiple induction classes
+     */
+    async inductionClassControllerGetMultipleInductionClassesRaw(requestParameters: InductionClassControllerGetMultipleInductionClassesRequest): Promise<runtime.ApiResponse<MultipleInductionClassResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.startYear !== undefined) {
+            queryParameters['startYear'] = requestParameters.startYear;
+        }
+
+        if (requestParameters.endYear !== undefined) {
+            queryParameters['endYear'] = requestParameters.endYear;
+        }
+
+        if (requestParameters.showAffiliates !== undefined) {
+            queryParameters['showAffiliates'] = requestParameters.showAffiliates;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MultipleInductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get multiple induction classes
+     */
+    async inductionClassControllerGetMultipleInductionClasses(requestParameters: InductionClassControllerGetMultipleInductionClassesRequest): Promise<MultipleInductionClassResponse> {
+        const response = await this.inductionClassControllerGetMultipleInductionClassesRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update induction class
+     */
+    async inductionClassControllerUpdateInductionClassRaw(requestParameters: InductionClassControllerUpdateInductionClassRequest): Promise<runtime.ApiResponse<InductionClassResponse>> {
+        if (requestParameters.inductionClassId === null || requestParameters.inductionClassId === undefined) {
+            throw new runtime.RequiredError('inductionClassId','Required parameter requestParameters.inductionClassId was null or undefined when calling inductionClassControllerUpdateInductionClass.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/inductionclass/{inductionClassId}`.replace(`{${"inductionClassId"}}`, encodeURIComponent(String(requestParameters.inductionClassId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: InductionClassUpdateRequestToJSON(requestParameters.inductionClassUpdateRequest),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InductionClassResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Update induction class
+     */
+    async inductionClassControllerUpdateInductionClass(requestParameters: InductionClassControllerUpdateInductionClassRequest): Promise<InductionClassResponse> {
+        const response = await this.inductionClassControllerUpdateInductionClassRaw(requestParameters);
         return await response.value();
     }
 

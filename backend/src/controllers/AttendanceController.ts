@@ -3,7 +3,6 @@ import {
   Post,
   Delete,
   UseBefore,
-  Param,
   Body,
   QueryParams,
   CurrentUser,
@@ -32,11 +31,14 @@ export class AttendanceController {
     @Body() attendanceRequest: AttendanceRequest,
     @CurrentUser() officer: AppUser
   ): Promise<AttendanceResponse> {
-    // Use attendee and event id to get attendance
-    // Modify attendance's start and end times
-    // Save to DB
-    // Return modified attendance
-    return undefined;
+    const { id } = officer;
+    const savedAttendance = await this.attendanceService.saveAttendance(
+      getAttendanceQuery,
+      attendanceRequest,
+      id
+    );
+
+    return this.attendanceMapper.entityToResponse(savedAttendance);
   }
 
   @Delete('/')
@@ -45,9 +47,8 @@ export class AttendanceController {
   @OpenAPI({ security: [{ TokenAuth: [] }] })
   async deleteAttendance(
     @QueryParams() getAttendanceQuery: GetAttendanceQuery
-  ): Promise<AttendanceResponse> {
-    const { attendeeId, eventId } = getAttendanceQuery;
-    const deletedAttendance = await this.attendanceService.deleteAttendance(attendeeId, eventId);
+  ): Promise<AttendanceResponse | undefined> {
+    const deletedAttendance = await this.attendanceService.deleteAttendance(getAttendanceQuery);
 
     if (deletedAttendance === undefined) {
       return undefined;

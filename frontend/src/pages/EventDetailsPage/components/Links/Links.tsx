@@ -22,10 +22,11 @@ interface LinksProps {
   };
   signIn: URLObject;
   rsvp: URLObject;
+  qrCode: URLObject;
 }
 
 function Links(props: LinksProps) {
-  const { urls, signIn, rsvp } = props;
+  const { urls, signIn, rsvp, qrCode } = props;
   const classes = useStyles();
 
   const SignInLink = () => (
@@ -45,6 +46,17 @@ function Links(props: LinksProps) {
         <ListItemText
           classes={{ primary: classes.list_item_text }}
           primary={rsvp.label}
+        />
+      </Link>
+    </ListItem>
+  );
+
+  const QRCodeLink = () => (
+    <ListItem>
+      <Link href={qrCode.url}>
+        <ListItemText
+          classes={{ primary: classes.list_item_text }}
+          primary={qrCode.label}
         />
       </Link>
     </ListItem>
@@ -72,6 +84,7 @@ function Links(props: LinksProps) {
 
         {OfficerRenderPermission(SignInLink)({})}
         {OfficerRenderPermission(RSVPLink)({})}
+        {OfficerRenderPermission(QRCodeLink)({})}
       </List>
     </div>
   );

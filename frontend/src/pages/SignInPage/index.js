@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import { compose } from 'recompose';
 import {
   Dialog,
@@ -120,7 +121,14 @@ class SignInPage extends React.Component {
 
   handleSignIn = event => {
     const { email, password, checked } = this.state;
-    const { history, setClaims } = this.props;
+    const { history, setClaims, location } = this.props;
+
+    const { path } = queryString.parse(location.search);
+    let pathToNavAfterLogin = ROUTES.HOME;
+
+    if (path !== null) {
+      pathToNavAfterLogin = path;
+    }
 
     doSignInWithEmailAndPassword(email, password, checked)
       .then(() => {
@@ -132,7 +140,7 @@ class SignInPage extends React.Component {
       })
       .then(() => {
         if (firebase.auth().currentUser.emailVerified) {
-          history.push(ROUTES.HOME);
+          history.push(pathToNavAfterLogin);
         } else {
           doSignOut();
 
@@ -339,10 +347,7 @@ class SignInPage extends React.Component {
         {/* Create an account - SIGN UP */}
         <div className={classes.signupFooter}>
           <Typography component='p' style={{ display: 'inline-block' }}>
-            Don&apos;t have an account?{' '}
-            <Link to={ROUTES.SIGN_UP} className={classes.signupLink}>
-              Sign up
-            </Link>
+            Don&apos;t have an account? Contact us
           </Typography>
         </div>
 
@@ -427,7 +432,7 @@ class SignInPage extends React.Component {
               <DialogContentText id='alert-dialog-description'>
                 {verifyEmailError
                   ? `${verifyEmailError.message}You can click RESEND below to resend the verification email.` +
-                    `If this issue persists, please contact a HKN officer.`
+                  `If this issue persists, please contact a HKN officer.`
                   : ''}
               </DialogContentText>
             </DialogContent>
@@ -541,6 +546,10 @@ class SignInPage extends React.Component {
 
 SignInPage.propTypes = {
   setClaims: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }),
 };
 
 export default compose(withStyles(styles), withRouter)(SignInPage);
