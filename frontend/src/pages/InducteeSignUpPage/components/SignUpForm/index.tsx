@@ -253,13 +253,16 @@ export const SignUpForm = (props: SignUpFormProps) => {
 
             <Grid item>
               <Grid container justify='center'>
+				<Typography>
+				Have an Account Already? Please contact Tim at s9jiang@ucsd.edu for manual adjustment.
+				</Typography>
                 <Button
                   className={classes.signInRedirect}
                   onClick={() => {
                     history.push(ROUTES.SIGN_IN);
                   }}
                 >
-                  Have an Account Already?
+                  Log in here
                 </Button>
               </Grid>
             </Grid>
