@@ -9,7 +9,7 @@ import schema from './schema';
 
 import FOUR_YEAR_PLAN from '@Images/4_year_plan.png';
 import * as ROUTES from '@Constants/routes';
-import { DESCRIPTION_TEXT } from '@Constants/descriptions';
+import { DescriptionText } from '@Constants/descriptions';
 import {
   Button,
   MajorDropdownField,
@@ -93,7 +93,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography> {DESCRIPTION_TEXT}</Typography></Grid>
+                <DescriptionText />
+			</Grid>
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>
@@ -205,7 +206,8 @@ export const SignUpForm = (props: SignUpFormProps) => {
 
             <Grid item>
               <h3>Review your coursework</h3>
-              <Typography>Confirm that you have completed or are completing your classes for Fall of sophomore year (sample coursework below).</Typography>
+			  <Typography>The HKN induction process requires you to pass an interview involving technical questions in the following quarter, so we recommend that inductees have completed their major&apos;s 2nd year Fall Quarter courses in order to induct (following the most updated 4-year course plans). You can find the four-year-plan at <Link href='https://plans.ucsd.edu/' openInNewTab /> .</Typography>
+              <Typography>Please confirm that you have completed or are completing your classes for Fall of sophomore year according to UCSD 4-year plan (sample coursework below).</Typography>
             </Grid>
             <Grid item>
               <Field
