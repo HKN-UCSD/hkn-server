@@ -62,6 +62,8 @@ export default function PointsPage() {
     points,
     hasMentorshipRequirement,
     hasProfessionalRequirement,
+    hasTechnicalRequirement,
+    hasSocialRequirement,
     attendance,
   } = pointObj as AppUserInducteePointsResponse;
 
@@ -84,6 +86,18 @@ export default function PointsPage() {
               <h3>
                 Professional Requirement:{' '}
                 {hasProfessionalRequirement ? `Complete` : `Incomplete`}
+              </h3>
+            </Grid>
+            <Grid item>
+              <h3>
+                Technical Requirement:{' '}
+                {hasTechnicalRequirement ? `Complete` : `Incomplete`}
+              </h3>
+            </Grid>
+            <Grid item>
+              <h3>
+                Social Requirement:{' '}
+                {hasSocialRequirement ? `Complete` : `Incomplete`}
               </h3>
             </Grid>
           </Grid>

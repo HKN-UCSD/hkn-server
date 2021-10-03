@@ -49,6 +49,18 @@ export interface InducteePointsResponse {
      * @memberof InducteePointsResponse
      */
     hasMentorshipRequirement: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InducteePointsResponse
+     */
+    hasTechnicalRequirement: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InducteePointsResponse
+     */
+    hasSocialRequirement: boolean;
 }
 
 export function InducteePointsResponseFromJSON(json: any): InducteePointsResponse {
@@ -66,6 +78,8 @@ export function InducteePointsResponseFromJSONTyped(json: any, ignoreDiscriminat
         'points': json['points'],
         'hasProfessionalRequirement': json['hasProfessionalRequirement'],
         'hasMentorshipRequirement': json['hasMentorshipRequirement'],
+        'hasTechnicalRequirement': json['hasTechnicalRequirement'],
+        'hasSocialRequirement': json['hasSocialRequirement'],
     };
 }
 
@@ -83,6 +97,8 @@ export function InducteePointsResponseToJSON(value?: InducteePointsResponse | nu
         'points': value.points,
         'hasProfessionalRequirement': value.hasProfessionalRequirement,
         'hasMentorshipRequirement': value.hasMentorshipRequirement,
+        'hasTechnicalRequirement': value.hasTechnicalRequirement,
+        'hasSocialRequirement': value.hasSocialRequirement,
     };
 }
 

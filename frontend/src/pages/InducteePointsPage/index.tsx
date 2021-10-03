@@ -21,6 +21,16 @@ const columns = [
     field: 'hasProfessionalRequirement',
     lookup: { Complete: 'Complete', Incomplete: 'Incomplete' },
   },
+  {
+    title: 'Technical Requirement',
+    field: 'hasTechnicalRequirement',
+    lookup: { Complete: 'Complete', Incomplete: 'Incomplete' },
+  },
+  {
+    title: 'Social Requirement',
+    field: 'hasSocialRequirement',
+    lookup: { Complete: 'Complete', Incomplete: 'Incomplete' },
+  },
 ];
 
 export default function InducteePointsPage() {
