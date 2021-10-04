@@ -24,7 +24,7 @@ import { Event } from './Event';
         'hasTechnicalRequirement'
       )
       .addSelect(
-        "CASE WHEN( SUM(CASE WHEN event.type = 'social' THEN 1 ELSE 0 END)::int ) = 2 THEN TRUE ELSE FALSE END",
+        "CASE WHEN( SUM(CASE WHEN event.type = 'social' THEN 1 ELSE 0 END)::int ) >= 2 THEN TRUE ELSE FALSE END",
         'hasSocialRequirement'
       )
       .from(AppUser, 'appUser')
