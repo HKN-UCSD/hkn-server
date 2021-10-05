@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AppUserResponse,
-    AppUserResponseFromJSON,
-    AppUserResponseFromJSONTyped,
-    AppUserResponseToJSON,
+    AppUserInductionClassResponse,
+    AppUserInductionClassResponseFromJSON,
+    AppUserInductionClassResponseFromJSONTyped,
+    AppUserInductionClassResponseToJSON,
 } from './';
 
 /**
@@ -58,10 +58,10 @@ export interface InductionClassResponse {
     interviewDates?: Array<string>;
     /**
      * 
-     * @type {Array<AppUserResponse>}
+     * @type {Array<AppUserInductionClassResponse>}
      * @memberof InductionClassResponse
      */
-    affiliates?: Array<AppUserResponse>;
+    affiliates?: Array<AppUserInductionClassResponse>;
 }
 
 export function InductionClassResponseFromJSON(json: any): InductionClassResponse {
@@ -79,7 +79,7 @@ export function InductionClassResponseFromJSONTyped(json: any, ignoreDiscriminat
         'startDate': json['startDate'],
         'endDate': json['endDate'],
         'interviewDates': !exists(json, 'interviewDates') ? undefined : json['interviewDates'],
-        'affiliates': !exists(json, 'affiliates') ? undefined : ((json['affiliates'] as Array<any>).map(AppUserResponseFromJSON)),
+        'affiliates': !exists(json, 'affiliates') ? undefined : ((json['affiliates'] as Array<any>).map(AppUserInductionClassResponseFromJSON)),
     };
 }
 
@@ -97,7 +97,7 @@ export function InductionClassResponseToJSON(value?: InductionClassResponse | nu
         'startDate': value.startDate,
         'endDate': value.endDate,
         'interviewDates': value.interviewDates,
-        'affiliates': value.affiliates === undefined ? undefined : ((value.affiliates as Array<any>).map(AppUserResponseToJSON)),
+        'affiliates': value.affiliates === undefined ? undefined : ((value.affiliates as Array<any>).map(AppUserInductionClassResponseToJSON)),
     };
 }
 

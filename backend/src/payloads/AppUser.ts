@@ -255,6 +255,46 @@ export class AppUserNameResponse {
   lastName: string;
 }
 
+export class AppUserInductionClassResponse {
+  @IsInt()
+  id: number;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  major: string;
+
+  @IsString()
+  graduationYear: string;
+
+  @IsInstance(AppUserInductionClass)
+  @IsOptional()
+  inductionClass?: AppUserInductionClass;
+
+  @IsString()
+  @IsOptional()
+  preferredName?: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  infoSession?: string;
+}
+
 export class MultipleUserQuery {
   @IsBoolean()
   @IsOptional()

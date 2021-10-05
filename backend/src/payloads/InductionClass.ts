@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { AppUserResponse } from './AppUser';
+import { AppUserInductionClassResponse } from './AppUser';
 
 export class InductionClassRequest {
   @IsString()
@@ -61,9 +61,9 @@ export class InductionClassResponse {
   interviewDates?: string[];
 
   @ValidateNested({ each: true })
-  @Type(() => AppUserResponse)
+  @Type(() => AppUserInductionClassResponse)
   @IsOptional()
-  affiliates?: AppUserResponse[];
+  affiliates?: AppUserInductionClassResponse[];
 }
 
 export class MultipleInductionClassResponse {
