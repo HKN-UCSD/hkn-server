@@ -87,11 +87,6 @@ export class AuthController {
       newAppUser = await this.appUserMapper.requestToNewEntity(req);
     }
 
-    if (newAppUser === undefined) {
-      console.log('It should never have gotten here.');
-      return undefined;
-    }
-
     const savedAppUser: AppUser = await this.appUserService.saveAppUser(newAppUser);
     const appUserID: number = savedAppUser.id;
 
