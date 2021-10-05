@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
 
 import InductionClassDetailsComponent from './components/InductionClassDetailsComponent';
 
@@ -13,6 +14,7 @@ interface InductionClassQuarter {
 }
 
 function InductionClassDetailsPage(): JSX.Element {
+  const [showInducteeList, setShowInducteeList] = useState(false);
   const { quarter } = useParams<InductionClassQuarter>();
   const { data, isLoading, error, isError } = useRequest<
     InductionClassResponse,
@@ -33,9 +35,25 @@ function InductionClassDetailsPage(): JSX.Element {
     }
 
     return (
-      <Card>
-        <InductionClassDetailsComponent inductionClass={data} />
-      </Card>
+      <>
+        <Card>
+          <InductionClassDetailsComponent
+            inductionClass={data}
+            displayInductees={showInducteeList}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name='showInducteeList'
+                  onChange={() => setShowInducteeList(!showInducteeList)}
+                  checked={showInducteeList}
+                />
+              }
+              label='Show List'
+            />
+          </InductionClassDetailsComponent>
+        </Card>
+      </>
     );
   };
 

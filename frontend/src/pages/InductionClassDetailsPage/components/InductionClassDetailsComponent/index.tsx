@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Grid,
   Typography,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core';
 import { format, parseISO } from 'date-fns';
 import { useHistory } from 'react-router-dom';
@@ -19,14 +17,16 @@ import * as ROUTES from '@Constants/routes';
 
 interface InductionClassDetailsComponentProps {
   inductionClass: InductionClassResponse;
+  displayInductees: boolean;
+  children: JSX.Element;
 }
 
 function InductionClassDetailsComponent({
   inductionClass,
+  displayInductees,
+  children,
 }: InductionClassDetailsComponentProps): JSX.Element {
-  const [showInducteeList, setShowInducteeList] = useState(false);
   const history = useHistory();
-
   const {
     name,
     quarter,
@@ -46,7 +46,7 @@ function InductionClassDetailsComponent({
     interviewDatesString === undefined ? '' : interviewDatesString;
 
   const RenderedInducteeList = () =>
-    showInducteeList ? (
+    displayInductees ? (
       <InductionClassAffiliateTable affiliates={affiliatesToDisplay} />
     ) : (
       <></>
@@ -147,16 +147,7 @@ function InductionClassDetailsComponent({
               </Grid>
 
               <Grid item>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name='showInducteeList'
-                      onChange={() => setShowInducteeList(!showInducteeList)}
-                      checked={showInducteeList}
-                    />
-                  }
-                  label='Show List'
-                />
+                {children}
               </Grid>
             </Grid>
           </Grid>
