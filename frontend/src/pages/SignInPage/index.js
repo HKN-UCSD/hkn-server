@@ -126,7 +126,7 @@ class SignInPage extends React.Component {
     const { path } = queryString.parse(location.search);
     let pathToNavAfterLogin = ROUTES.HOME;
 
-    if (path !== null) {
+    if (path !== undefined) {
       pathToNavAfterLogin = path;
     }
 
