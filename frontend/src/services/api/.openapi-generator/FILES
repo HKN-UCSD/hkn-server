@@ -11,6 +11,7 @@ models\AppUserEventRequest.ts
 models\AppUserEventResponse.ts
 models\AppUserInducteePointsResponse.ts
 models\AppUserInductionClass.ts
+models\AppUserInductionClassResponse.ts
 models\AppUserInterviewAvailabilitiesRequest.ts
 models\AppUserInterviewAvailability.ts
 models\AppUserMemberPointsResponse.ts
