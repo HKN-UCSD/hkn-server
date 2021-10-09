@@ -11,6 +11,7 @@ import {
   PointsPage,
   InducteePointsPage,
   EventsPage,
+  ProfilePage,
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
