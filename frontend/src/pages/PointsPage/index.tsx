@@ -58,6 +58,8 @@ export default function PointsPage() {
     return <Redirect to={FORBIDDEN} />;
   }
 
+  const Completion = (props) => <span style={{ color: (props.children) ? 'green' : 'red' }}>{(props.children) ? 'Complete' : 'Incomplete'}</span>;
+
   const {
     points,
     hasMentorshipRequirement,
@@ -79,25 +81,26 @@ export default function PointsPage() {
             <Grid item>
               <h3>
                 Mentor Point:{' '}
-                {hasMentorshipRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasMentorshipRequirement}</Completion>
               </h3>
             </Grid>
             <Grid item>
               <h3>
                 Professional Requirement:{' '}
-                {hasProfessionalRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasProfessionalRequirement}</Completion>
               </h3>
+
             </Grid>
             <Grid item>
               <h3>
                 Technical Requirement:{' '}
-                {hasTechnicalRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasTechnicalRequirement}</Completion>
               </h3>
             </Grid>
             <Grid item>
               <h3>
                 Social Requirement:{' '}
-                {hasSocialRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasSocialRequirement}</Completion>
               </h3>
             </Grid>
           </Grid>
