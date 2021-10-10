@@ -44,32 +44,49 @@ export class AuthController {
 
     // Check if email already exists
     const appUserFromEmail: AppUser = await this.appUserService.getAppUserByEmail(email);
-    if (appUserFromEmail !== undefined) {
-      console.log(email + ' already has an account');
-      return undefined;
-    }
-
     const role = 'inductee';
     const currInductionClass = await this.inductionClassService.getCurrentInductionClass();
     const quarter = currInductionClass === undefined ? undefined : currInductionClass.quarter;
+    let newAppUser = undefined;
 
-    // Lmao - Thai 09/23/2021
-    const req = new InducteeSignupInfo();
-    req.email = email;
-    req.firstName = firstName;
-    req.lastName = lastName;
-    req.major = major;
-    req.graduationYear = graduationYear;
-    req.preferredName = preferredName;
-    req.pronoun = pronoun;
-    req.customPronoun = customPronoun;
-    req.infoSession = infoSession;
-    req.courseRequirement = courseRequirement;
-    req.newsletter = newsletter;
-    req.role = role;
-    req.inductionClassQuarter = quarter;
+    if (appUserFromEmail !== undefined) {
+      if (!this.appUserService.isGuest(appUserFromEmail)) {
+        console.log(email + ' already has an account');
+        return undefined;
+      } else {
+        appUserFromEmail.firstName = firstName;
+        appUserFromEmail.lastName = lastName;
+        appUserFromEmail.major = major;
+        appUserFromEmail.graduationYear = graduationYear;
+        appUserFromEmail.preferredName = preferredName;
+        appUserFromEmail.pronoun = pronoun;
+        appUserFromEmail.customPronoun = customPronoun;
+        appUserFromEmail.infoSession = infoSession;
+        appUserFromEmail.courseRequirement = courseRequirement;
+        appUserFromEmail.newsletter = newsletter;
+        appUserFromEmail.role = role;
+        appUserFromEmail.inductionClass = currInductionClass;
+        newAppUser = appUserFromEmail;
+      }
+    } else {
+      const req = new InducteeSignupInfo();
+      req.email = email;
+      req.firstName = firstName;
+      req.lastName = lastName;
+      req.major = major;
+      req.graduationYear = graduationYear;
+      req.preferredName = preferredName;
+      req.pronoun = pronoun;
+      req.customPronoun = customPronoun;
+      req.infoSession = infoSession;
+      req.courseRequirement = courseRequirement;
+      req.newsletter = newsletter;
+      req.role = role;
+      req.inductionClassQuarter = quarter;
 
-    const newAppUser = await this.appUserMapper.requestToNewEntity(req);
+      newAppUser = await this.appUserMapper.requestToNewEntity(req);
+    }
+
     const savedAppUser: AppUser = await this.appUserService.saveAppUser(newAppUser);
     const appUserID: number = savedAppUser.id;
 

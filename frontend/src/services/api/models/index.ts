@@ -2,6 +2,7 @@ export * from './AppUserEventRequest';
 export * from './AppUserEventResponse';
 export * from './AppUserInducteePointsResponse';
 export * from './AppUserInductionClass';
+export * from './AppUserInductionClassResponse';
 export * from './AppUserInterviewAvailabilitiesRequest';
 export * from './AppUserInterviewAvailability';
 export * from './AppUserMemberPointsResponse';
