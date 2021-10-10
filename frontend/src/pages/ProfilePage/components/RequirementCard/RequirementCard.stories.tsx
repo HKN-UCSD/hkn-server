@@ -1,10 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import {
-  PointRequirementCardProps,
-  PointRequirementCard,
-} from './RequirementCard';
+import { PointRequirementCardProps, PointRequirementCard } from '.';
 
 export default {
   title: 'ProfilePage/Point Requirement',

@@ -49,6 +49,22 @@ export class AppUserPostRequest {
   @IsEnum(AppUserRole)
   @IsOptional()
   readonly role: string;
+
+  @IsString()
+  @IsOptional()
+  readonly preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  readonly pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly customPronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly infoSession: string;
 }
 
 export class AppUserEventRequest {
@@ -188,6 +204,22 @@ export class AppUserResponse {
   @Type(() => AppUserInterviewAvailability)
   @IsOptional()
   availabilities?: AppUserInterviewAvailability[];
+
+  @IsString()
+  @IsOptional()
+  preferredName?: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  infoSession?: string;
 }
 
 export class AppUserEventResponse {
@@ -208,35 +240,6 @@ export class AppUserEventResponse {
 
   @IsEnum(AppUserRole)
   role: string;
-}
-
-export class AppUserProfileResponse {
-  @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
-
-  @IsString()
-  email: string;
-
-  @IsString()
-  major: string;
-
-  @IsString()
-  graduationYear: string;
-
-  @IsInstance(AppUserInductionClass)
-  @IsOptional()
-  inductionClass: AppUserInductionClass;
-
-  @IsEnum(AppUserRole)
-  role: string;
-
-  @ValidateNested({ each: true })
-  @Type(() => AppUserInterviewAvailability)
-  @IsOptional()
-  availabilities?: AppUserInterviewAvailability[];
 }
 
 export class AppUserRolesResponse {

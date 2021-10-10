@@ -1,2 +1,2 @@
-export { InducteeRequirementsCard } from './InducteeRequirementsCard';
-export { UserInfoCard } from './UserInfoCard';
+export { InducteeRequirementsCard } from './InducteeRequirementsCard/InducteeRequirementsCard';
+export { UserInfoCard } from './UserInfoCard/UserInfoCard';

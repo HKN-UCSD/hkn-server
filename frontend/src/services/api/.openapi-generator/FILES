@@ -18,7 +18,6 @@ models\AppUserMemberPointsResponse.ts
 models\AppUserNameResponse.ts
 models\AppUserPKPayload.ts
 models\AppUserPostRequest.ts
-models\AppUserProfileResponse.ts
 models\AppUserResponse.ts
 models\AppUserRolesResponse.ts
 models\AppUserSignupRequest.ts

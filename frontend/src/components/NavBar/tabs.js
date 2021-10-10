@@ -1,10 +1,10 @@
 import React from 'react';
-import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import HomeIcon from '@material-ui/icons/Home';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 import * as ROUTES from '@Constants/routes';
 
@@ -32,11 +32,11 @@ const InducteesTab = {
   text: 'Inductee Points',
 };
 
-const PointsTab = {
+/* const PointsTab = {
   route: ROUTES.POINTS_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
   icon: <AssessmentOutlinedIcon />,
   text: 'Points',
-};
+}; */
 
 const InductionClassTab = {
   route: ROUTES.INDUCTION_CLASS_GENERAL,
@@ -44,13 +44,19 @@ const InductionClassTab = {
   text: 'Induction Class',
 };
 
+const ProfileTab = {
+  route: ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS),
+  icon: <AssignmentIndIcon />,
+  text: 'Profile',
+};
+
 export const OfficerTabs = [
   HomeTab,
   CalendarTab,
   InductionClassTab,
   InducteesTab,
-  PointsTab,
+  ProfileTab,
   InterviewTab,
 ];
 
-export const InducteeTabs = [HomeTab, CalendarTab, PointsTab, InterviewTab];
+export const InducteeTabs = [HomeTab, CalendarTab, ProfileTab, InterviewTab];

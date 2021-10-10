@@ -5,8 +5,8 @@ import {
   PointRequirementCard,
   ProfessionalRequirementCard,
   MentorshipRequirementCard,
-} from './RequirementCard';
-import { AttendanceTable } from './AttendanceTable';
+} from '../RequirementCard';
+import { AttendanceTable } from '../AttendanceTable/AttendanceTable';
 
 import { Card } from '@SharedComponents';
 import { AppUserInducteePointsResponse } from '@Services/api/models';

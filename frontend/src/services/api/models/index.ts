@@ -9,7 +9,6 @@ export * from './AppUserMemberPointsResponse';
 export * from './AppUserNameResponse';
 export * from './AppUserPKPayload';
 export * from './AppUserPostRequest';
-export * from './AppUserProfileResponse';
 export * from './AppUserResponse';
 export * from './AppUserRolesResponse';
 export * from './AppUserSignupRequest';

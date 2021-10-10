@@ -12,7 +12,7 @@ export default {
 
 const Template: Story<UserInfoCardProps> = args => {
   const { profile } = args;
-  return <UserInfoCard profile={profile} />;
+  return <UserInfoCard profile={profile} canRenderEditButton />;
 };
 
 export const SampleUserInfoCard = Template.bind({});
