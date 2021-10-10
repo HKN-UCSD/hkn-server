@@ -7,13 +7,26 @@ interface LinkProps {
   openInNewTab?: boolean;
 }
 
-export const Link = ({ href, displayName = href, openInNewTab = true }: LinkProps) => {
-  const newTabProps = {};
+interface NewTabProps {
+  target?: string;
+  rel?: string;
+}
+
+export const Link = ({
+  href,
+  displayName = href,
+  openInNewTab = true,
+}: LinkProps) => {
+  const newTabProps: NewTabProps = {};
 
   if (openInNewTab) {
-    newTabProps['target'] = '_blank';
-    newTabProps['rel'] = 'noreferrer';
+    newTabProps.target = '_blank';
+    newTabProps.rel = 'noreferrer';
   }
 
-  return <MuiLink href={href} {...newTabProps}>{displayName}</MuiLink>
-}
+  return (
+    <MuiLink href={href} {...newTabProps}>
+      {displayName}
+    </MuiLink>
+  );
+};
