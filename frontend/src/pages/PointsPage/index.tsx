@@ -58,7 +58,7 @@ export default function PointsPage() {
     return <Redirect to={FORBIDDEN} />;
   }
 
-  const Completion = (props) => <span style={{ color: (props.children) ? 'green' : 'red' }}>{(props.children) ? 'Complete' : 'Incomplete'}</span>;
+  const Completion = ({ children }) => <span style={{ color: (children) ? 'green' : 'red' }}>{(children) ? 'Complete' : 'Incomplete'}</span>;
 
   const {
     points,
