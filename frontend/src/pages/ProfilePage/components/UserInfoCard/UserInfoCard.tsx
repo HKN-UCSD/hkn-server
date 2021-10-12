@@ -5,7 +5,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { RoleChip } from '../RoleChip';
 
 import { Card, Button } from '@SharedComponents';
-import { AppUserResponse } from '@Services/api/models';
+import { AppUserResponse, AppUserInductionClass } from '@Services/api/models';
 import * as ROUTES from '@Constants/routes';
 
 export interface UserInfoCardProps {
@@ -19,6 +19,19 @@ const renderUserValue = (value: string | undefined, title: string) => {
       <Typography variant='h6'>{`${title}:`}</Typography>
       <Typography>{`${value}`}</Typography>
     </Typography>
+  ) : (
+    <Typography variant='subtitle1' gutterBottom>
+      <Typography variant='h6'>{`${title}:`}</Typography>
+    </Typography>
+  );
+};
+
+const renderInductionClassQuarter = (
+  inductionClass: AppUserInductionClass | undefined,
+  title: string
+) => {
+  return inductionClass ? (
+    renderUserValue(inductionClass.quarter, title)
   ) : (
     <Typography variant='subtitle1' gutterBottom>
       <Typography variant='h6'>{`${title}:`}</Typography>
@@ -42,6 +55,7 @@ export function UserInfoCard({
     pronoun,
     customPronoun,
     infoSession,
+    inductionClass,
   } = profile;
 
   return (
@@ -104,14 +118,22 @@ export function UserInfoCard({
             <Grid item>
               <Grid container direction='row'>
                 <Grid item xs>
-                  {renderUserValue(
-                    customPronoun || pronoun,
-                    'Pronoun'
-                  )}
+                  {renderUserValue(customPronoun || pronoun, 'Pronoun')}
                 </Grid>
 
                 <Grid item xs>
                   {renderUserValue(infoSession, 'Info Session Selected')}
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item>
+              <Grid container direction='row'>
+                <Grid item xs>
+                  {renderInductionClassQuarter(
+                    inductionClass,
+                    'Induction Class Quarter'
+                  )}
                 </Grid>
               </Grid>
             </Grid>
