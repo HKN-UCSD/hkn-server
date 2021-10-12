@@ -26,6 +26,8 @@ export class PointsController {
       res.email = point.email;
       res.hasMentorshipRequirement = point.hasMentorshipRequirement;
       res.hasProfessionalRequirement = point.hasProfessionalRequirement;
+      res.hasTechnicalRequirement = point.hasTechnicalRequirement;
+      res.hasSocialRequirement = point.hasSocialRequirement;
       return res;
     });
 

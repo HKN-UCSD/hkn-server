@@ -10,6 +10,9 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  cap: {
+    textTransform: 'capitalize',
+  }
 });
 
 export default useStyles;

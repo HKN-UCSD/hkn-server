@@ -52,6 +52,18 @@ export interface AppUserInducteePointsResponse {
     hasMentorshipRequirement: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof AppUserInducteePointsResponse
+     */
+    hasTechnicalRequirement: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AppUserInducteePointsResponse
+     */
+    hasSocialRequirement: boolean;
+    /**
+     * 
      * @type {Array<AttendanceResponse>}
      * @memberof AppUserInducteePointsResponse
      */
@@ -72,6 +84,8 @@ export function AppUserInducteePointsResponseFromJSONTyped(json: any, ignoreDisc
         'points': json['points'],
         'hasProfessionalRequirement': json['hasProfessionalRequirement'],
         'hasMentorshipRequirement': json['hasMentorshipRequirement'],
+        'hasTechnicalRequirement': json['hasTechnicalRequirement'],
+        'hasSocialRequirement': json['hasSocialRequirement'],
         'attendance': ((json['attendance'] as Array<any>).map(AttendanceResponseFromJSON)),
     };
 }
@@ -89,6 +103,8 @@ export function AppUserInducteePointsResponseToJSON(value?: AppUserInducteePoint
         'points': value.points,
         'hasProfessionalRequirement': value.hasProfessionalRequirement,
         'hasMentorshipRequirement': value.hasMentorshipRequirement,
+        'hasTechnicalRequirement': value.hasTechnicalRequirement,
+        'hasSocialRequirement': value.hasSocialRequirement,
         'attendance': ((value.attendance as Array<any>).map(AttendanceResponseToJSON)),
     };
 }

@@ -19,6 +19,14 @@ import { Event } from './Event';
         "SUM(CASE WHEN event.type = 'mentorship' THEN 1 ELSE 0 END)::int::bool",
         'hasMentorshipRequirement'
       )
+      .addSelect(
+        "SUM(CASE WHEN event.type = 'technical' THEN 1 ELSE 0 END)::int::bool",
+        'hasTechnicalRequirement'
+      )
+      .addSelect(
+        "CASE WHEN( SUM(CASE WHEN event.type = 'social' THEN 1 ELSE 0 END)::int ) >= 2 THEN TRUE ELSE FALSE END",
+        'hasSocialRequirement'
+      )
       .from(AppUser, 'appUser')
       .innerJoin(Attendance, 'attendance', 'appUser.id = attendance.attendee')
       .innerJoin(Event, 'event', 'event.id = attendance.event')
@@ -40,4 +48,10 @@ export class InducteePointsView {
 
   @ViewColumn()
   hasMentorshipRequirement: boolean;
+
+  @ViewColumn()
+  hasTechnicalRequirement: boolean;
+
+  @ViewColumn()
+  hasSocialRequirement: boolean;
 }
