@@ -29,8 +29,8 @@ export function PointDisplay(props: PointProps): JSX.Element {
                       <Typography variant='h5' component='h2'>
                         {event.name}
                       </Typography>
-                      <Typography color='textSecondary'>
-                        {event.type} event
+                      <Typography className={classes.cap} color='textPrimary' >
+                        {event.type} Event
                       </Typography>
                       <Typography className={classes.pos} color='textSecondary'>
                         {format(parseISO(attendance.startTime), 'PP')}
