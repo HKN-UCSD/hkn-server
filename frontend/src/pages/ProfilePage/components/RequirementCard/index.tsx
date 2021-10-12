@@ -100,3 +100,29 @@ export function MentorshipRequirementCard({
     <RawMentorshipRequirementCard title={title} isSatisfied={isSatisfied} />
   );
 }
+
+const RawTechnicalRequirementCard = makeRequirementCard(
+  'You have satisfied the technical requirement for induction.',
+  'You have not satisfied the technical requirement for induction.'
+);
+
+export function TechnicalRequirementCard({
+  isSatisfied,
+}: RequirementCardProps): JSX.Element {
+  const title = isSatisfied ? 'Technical: Complete' : 'Technical: Incomplete';
+  return (
+    <RawTechnicalRequirementCard title={title} isSatisfied={isSatisfied} />
+  );
+}
+
+const RawSocialRequirementCard = makeRequirementCard(
+  'You have satisfied the social requirement for induction.',
+  'You have not satisfied the social requirement for induction.'
+);
+
+export function SocialRequirementCard({
+  isSatisfied,
+}: RequirementCardProps): JSX.Element {
+  const title = isSatisfied ? 'Social: Complete' : 'Social: Incomplete';
+  return <RawSocialRequirementCard title={title} isSatisfied={isSatisfied} />;
+}

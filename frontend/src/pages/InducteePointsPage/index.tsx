@@ -4,7 +4,7 @@ import PersonIcon from '@material-ui/icons/Person';
 
 import useStyles from './styles';
 
-import { POINTS_WITH_ID } from '@Constants/routes';
+import { PROFILE_WITH_ID } from '@Constants/routes';
 import { Table } from '@SharedComponents';
 import { getAllInducteePoints, InducteePoint } from '@Services/PointsService';
 
@@ -54,7 +54,7 @@ export default function InducteePointsPage() {
       icon: () => <PersonIcon />,
       tooltip: 'See more',
       onClick: (_: unknown, row: InducteePoint) =>
-        history.push(POINTS_WITH_ID(row.user)),
+        history.push(PROFILE_WITH_ID(row.user)),
     },
   ];
 

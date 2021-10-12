@@ -6,7 +6,7 @@ import { getRepository, FindManyOptions, Not, IsNull } from 'typeorm';
 import { differenceInMinutes, parseISO } from 'date-fns';
 
 export class AttendanceService {
-  constructor(private appUserService: AppUserService) {}
+  constructor(private appUserService: AppUserService) { }
 
   /**
    * Builds a query object for TypeORM to filter rows when calling find() on Attendance table.
@@ -76,7 +76,7 @@ export class AttendanceService {
       where: {
         attendee: { id: attendeeId } as AppUser,
       },
-      relations: ['event'],
+      relations: ['event', 'officer'],
     });
   }
 

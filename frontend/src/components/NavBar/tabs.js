@@ -53,9 +53,9 @@ const ProfileTab = {
 export const OfficerTabs = [
   HomeTab,
   CalendarTab,
+  ProfileTab,
   InductionClassTab,
   InducteesTab,
-  ProfileTab,
   InterviewTab,
 ];
 

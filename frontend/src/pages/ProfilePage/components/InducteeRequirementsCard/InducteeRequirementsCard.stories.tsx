@@ -27,6 +27,8 @@ SampleInducteeRequirementsCard.args = {
     points: 6,
     hasProfessionalRequirement: true,
     hasMentorshipRequirement: false,
+    hasTechnicalRequirement: false,
+    hasSocialRequirement: false,
     attendance: [
       {
         points: 1,
