@@ -188,6 +188,8 @@ export class UserController {
     res.user = userID;
     res.hasMentorshipRequirement = points.hasMentorshipRequirement;
     res.hasProfessionalRequirement = points.hasProfessionalRequirement;
+    res.hasTechnicalRequirement = points.hasTechnicalRequirement;
+    res.hasSocialRequirement = points.hasSocialRequirement;
     res.attendance = attendanceObjs;
     return res;
   }

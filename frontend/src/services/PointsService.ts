@@ -9,6 +9,8 @@ export interface InducteePoint {
   points: number;
   hasProfessionalRequirement: string;
   hasMentorshipRequirement: string;
+  hasTechnicalRequirement: string;
+  hasSocialRequirement: string;
 }
 
 // nit: might be better to move the bool => string conversion out into page/component later
@@ -26,6 +28,12 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
         ? 'Complete'
         : 'Incomplete',
       hasMentorshipRequirement: point.hasMentorshipRequirement
+        ? 'Complete'
+        : 'Incomplete',
+      hasTechnicalRequirement: point.hasTechnicalRequirement
+        ? 'Complete'
+        : 'Incomplete',
+      hasSocialRequirement: point.hasSocialRequirement
         ? 'Complete'
         : 'Incomplete',
     } as InducteePoint;

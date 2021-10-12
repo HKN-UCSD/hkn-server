@@ -333,6 +333,12 @@ export class AppUserInducteePointsResponse {
   @IsBoolean()
   hasMentorshipRequirement: boolean;
 
+  @IsBoolean()
+  hasTechnicalRequirement: boolean;
+
+  @IsBoolean()
+  hasSocialRequirement: boolean;
+
   @ValidateNested({ each: true })
   @Type(() => AttendanceResponse)
   attendance: AttendanceResponse[];

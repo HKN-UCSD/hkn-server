@@ -16,6 +16,12 @@ export class InducteePointsResponse {
 
   @IsBoolean()
   hasMentorshipRequirement: boolean;
+
+  @IsBoolean()
+  hasTechnicalRequirement: boolean;
+
+  @IsBoolean()
+  hasSocialRequirement: boolean;
 }
 
 export class MultipleInducteePointsResponse {

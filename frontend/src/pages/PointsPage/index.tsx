@@ -58,10 +58,18 @@ export default function PointsPage() {
     return <Redirect to={FORBIDDEN} />;
   }
 
+  const Completion = ({ children }) => (
+    <span style={{ color: children ? 'green' : 'red' }}>
+      {children ? 'Complete' : 'Incomplete'}
+    </span>
+  );
+
   const {
     points,
     hasMentorshipRequirement,
     hasProfessionalRequirement,
+    hasTechnicalRequirement,
+    hasSocialRequirement,
     attendance,
   } = pointObj as AppUserInducteePointsResponse;
 
@@ -77,13 +85,25 @@ export default function PointsPage() {
             <Grid item>
               <h3>
                 Mentor Point:{' '}
-                {hasMentorshipRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasMentorshipRequirement}</Completion>
               </h3>
             </Grid>
             <Grid item>
               <h3>
                 Professional Requirement:{' '}
-                {hasProfessionalRequirement ? `Complete` : `Incomplete`}
+                <Completion>{hasProfessionalRequirement}</Completion>
+              </h3>
+            </Grid>
+            <Grid item>
+              <h3>
+                Technical Requirement:{' '}
+                <Completion>{hasTechnicalRequirement}</Completion>
+              </h3>
+            </Grid>
+            <Grid item>
+              <h3>
+                Social Requirement:{' '}
+                <Completion>{hasSocialRequirement}</Completion>
               </h3>
             </Grid>
           </Grid>
