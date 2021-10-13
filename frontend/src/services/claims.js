@@ -42,4 +42,21 @@ const isUnauthedOrNonOfficer = (userContext, userIdFromURL) => {
   return false;
 };
 
-export { isAdmin, isOfficer, isMember, isInductee, isUnauthedOrNonOfficer };
+const isUnauthorized = (userContext, userIdFromURL) => {
+  const { userId } = userContext;
+
+  if (userIdFromURL !== CURR_USER_ID_ALIAS && userIdFromURL !== userId) {
+    return true;
+  }
+
+  return false;
+};
+
+export {
+  isAdmin,
+  isOfficer,
+  isMember,
+  isInductee,
+  isUnauthedOrNonOfficer,
+  isUnauthorized,
+};

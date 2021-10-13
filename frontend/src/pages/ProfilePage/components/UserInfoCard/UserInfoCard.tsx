@@ -31,7 +31,7 @@ const renderInductionClassQuarter = (
   title: string
 ) => {
   return inductionClass ? (
-    renderUserValue(inductionClass.quarter, title)
+    renderUserValue(`${inductionClass.name} (${inductionClass.quarter})`, title)
   ) : (
     <Typography variant='subtitle1' gutterBottom>
       <Typography variant='h6'>{`${title}:`}</Typography>

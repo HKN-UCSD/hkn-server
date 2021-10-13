@@ -12,7 +12,7 @@ import { UserContext } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
 import { getUserById, updateUserById } from '@Services/UserService';
 import { AppUserResponse, AppUserPostRequest } from '@Services/api';
-import { isUnauthedOrNonOfficer } from '@Services/claims';
+import { isUnauthorized } from '@Services/claims';
 
 interface UserId {
   id: string;
@@ -34,7 +34,7 @@ function ProfileEditPage(): JSX.Element {
 
   useEffect(() => {
     const getUserProfileAndInductionRequirements = async () => {
-      if (userContext == null || isUnauthedOrNonOfficer(userContext, id)) {
+      if (userContext == null || isUnauthorized(userContext, id)) {
         setProfile(undefined);
         return;
       }

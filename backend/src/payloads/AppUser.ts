@@ -22,6 +22,9 @@ export class AppUserPKPayload {
 export class AppUserInductionClass {
   @IsString()
   quarter: string;
+
+  @IsString()
+  name: string;
 }
 
 export class AppUserPostRequest {
