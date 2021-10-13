@@ -12,7 +12,7 @@ import { classToPlain, plainToClass } from 'class-transformer';
 import { getRepository } from 'typeorm';
 
 export class AppUserMapper {
-  constructor(private appUserService: AppUserService) { }
+  constructor(private appUserService: AppUserService) {}
 
   /**
    * Converts an EventSignInRequest payload to an AppUser entity and

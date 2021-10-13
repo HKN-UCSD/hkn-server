@@ -49,7 +49,7 @@ export class UserController {
     private attendanceService: AttendanceService,
     private appUserMapper: AppUserMapper,
     private resumeService: ResumeService
-  ) { }
+  ) {}
 
   @Get('/')
   @UseBefore(OfficerAuthMiddleware)
