@@ -7,15 +7,21 @@ import {
 
 export interface CardProps {
   title?: string;
-  children: JSX.Element;
+  children?: JSX.Element;
   className?: string;
+  elevation?: number;
 }
 
-export function Card({ children, title, className }: CardProps): JSX.Element {
+export function Card({
+  children,
+  title,
+  className,
+  elevation = 3,
+}: CardProps): JSX.Element {
   return (
-    <MuiCard elevation={3} className={className}>
+    <MuiCard elevation={elevation} className={className}>
       {title ? <MuiCardHeader title={title} /> : null}
-      <MuiCardContent>{children}</MuiCardContent>
+      {children ? <MuiCardContent>{children}</MuiCardContent> : <></>}
     </MuiCard>
   );
 }

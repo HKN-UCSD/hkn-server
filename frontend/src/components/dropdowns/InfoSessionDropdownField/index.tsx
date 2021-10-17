@@ -7,7 +7,7 @@ interface InfoSessionFieldProp {
   name: string;
   label: string;
   fullWidth?: boolean;
-};
+}
 
 const InfoSessionDropdownField = (props: InfoSessionFieldProp) => {
   const { name, label, fullWidth = false } = props;

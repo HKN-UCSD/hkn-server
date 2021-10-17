@@ -77,7 +77,7 @@ export class AppUserService {
   getAppUserById(id: number): Promise<AppUser | undefined> {
     const appUserRepository = getRepository(AppUser);
 
-    return appUserRepository.findOne({ id });
+    return appUserRepository.findOne({ id }, { relations: ['inductionClass'] });
   }
 
   /**

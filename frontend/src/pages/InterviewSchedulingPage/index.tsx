@@ -5,13 +5,16 @@ import SchedulersWithConfirmButton from './components/SchedulersWithConfirmButto
 
 import { UserContext } from '@Contexts';
 import {
-  AppUserProfileResponse,
+  AppUserResponse,
   AppUserInterviewAvailability,
   InterviewDatesResponse,
 } from '@Services/api';
 import { InterviewWeekStartDate } from '@Services/api/models';
-import { getUserProfile } from '@Services/UserService';
-import { getInterviewStartDates } from '@Services/InductionClassService';
+import { getUserById } from '@Services/UserService';
+import {
+  getInterviewStartDates,
+  getCurrentInductionClass,
+} from '@Services/InductionClassService';
 
 function splitScheduleByWeek(
   interviewStartWeek: Date[],
@@ -71,9 +74,7 @@ export default function InterviewSchedulingPage(): JSX.Element {
         return;
       }
       const { userId } = userContext;
-      const res: AppUserProfileResponse = await getUserProfile(
-        parseInt(userId, 10)
-      );
+      const res: AppUserResponse = await getUserById(parseInt(userId, 10));
       const { availabilities } = res;
       if (availabilities == null) {
         setExistingUserSchedules([]);
@@ -94,7 +95,8 @@ export default function InterviewSchedulingPage(): JSX.Element {
   useEffect(() => {
     const getInterviewWeekStartDateFunc = async () => {
       // hardcoded induction class for now
-      const res: InterviewDatesResponse = await getInterviewStartDates('WI21');
+      const { quarter } = await getCurrentInductionClass();
+      const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
         (interviewWeekStartDate: InterviewWeekStartDate) => {
           return parseISO(interviewWeekStartDate.startDate);

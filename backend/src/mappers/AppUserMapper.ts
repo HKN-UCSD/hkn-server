@@ -2,7 +2,6 @@ import {
   AppUserEventRequest,
   AppUserResponse,
   AppUserEventResponse,
-  AppUserProfileResponse,
   AppUserPostRequest,
   InducteeSignupInfo,
 } from '@Payloads';
@@ -121,23 +120,6 @@ export class AppUserMapper {
     const appUserResponse: AppUserEventResponse = plainToClass(AppUserEventResponse, plainAppUser);
 
     return appUserResponse;
-  }
-
-  /**
-   * Converts an AppUser entity to an AppUserProfileResponse payload and returns the newly created
-   * response payload to the caller.
-   *
-   * @param {AppUser} appUser The AppUser entity to be ocnverted to an AppUserProfileResponse payload.
-   * @returns {AppUserProfileResponse} An AppUserProfileResponse instance.
-   */
-  entityToProfileResponse(appUser: AppUser): AppUserProfileResponse {
-    const plainAppUserProfile: Object = classToPlain(appUser);
-    const appUserProfileResponse: AppUserProfileResponse = plainToClass(
-      AppUserProfileResponse,
-      plainAppUserProfile
-    );
-
-    return appUserProfileResponse;
   }
 }
 

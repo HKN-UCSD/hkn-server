@@ -15,7 +15,6 @@ export {
   AppUserResponse,
   AppUserEventResponse,
   AppUserRolesResponse,
-  AppUserProfileResponse,
   MultipleUserQuery,
   MultipleAppUserResponse,
   MultipleUserNameResponse,

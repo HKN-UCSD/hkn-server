@@ -29,7 +29,7 @@ export function PointDisplay(props: PointProps): JSX.Element {
                       <Typography variant='h5' component='h2'>
                         {event.name}
                       </Typography>
-                      <Typography className={classes.cap} color='textPrimary' >
+                      <Typography className={classes.cap} color='textPrimary'>
                         {event.type} Event
                       </Typography>
                       <Typography className={classes.pos} color='textSecondary'>
@@ -48,8 +48,8 @@ export function PointDisplay(props: PointProps): JSX.Element {
           </Grid>
         </div>
       ) : (
-          <div>You have no points yet!</div>
-        )}
+        <div>You have no points yet!</div>
+      )}
     </>
   );
 }

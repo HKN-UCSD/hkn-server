@@ -7,7 +7,7 @@ interface PronounFieldProp {
   name: string;
   label: string;
   fullWidth?: boolean;
-};
+}
 
 const PronounDropdownField = (props: PronounFieldProp) => {
   const { name, label, fullWidth = false } = props;

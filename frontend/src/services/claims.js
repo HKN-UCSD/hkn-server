@@ -1,3 +1,5 @@
+import { CURR_USER_ID_ALIAS } from '@Constants/routes';
+
 const isAdmin = userContext => {
   const { userRoles } = userContext;
 
@@ -26,4 +28,35 @@ const isInductee = userContext => {
   );
 };
 
-export { isAdmin, isOfficer, isMember, isInductee };
+const isUnauthedOrNonOfficer = (userContext, userIdFromURL) => {
+  const { userId } = userContext;
+
+  if (
+    !isOfficer(userContext) &&
+    userIdFromURL !== CURR_USER_ID_ALIAS &&
+    userIdFromURL !== userId
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+const isUnauthorized = (userContext, userIdFromURL) => {
+  const { userId } = userContext;
+
+  if (userIdFromURL !== CURR_USER_ID_ALIAS && userIdFromURL !== userId) {
+    return true;
+  }
+
+  return false;
+};
+
+export {
+  isAdmin,
+  isOfficer,
+  isMember,
+  isInductee,
+  isUnauthedOrNonOfficer,
+  isUnauthorized,
+};
