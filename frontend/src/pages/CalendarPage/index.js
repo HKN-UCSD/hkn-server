@@ -18,8 +18,7 @@ import * as ROUTES from '@Constants/routes';
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { getAllEvents } from '@Services/EventService';
 import { Button } from '@SharedComponents';
-import { EventResponse, EventRequest } from '@Services/api/models';
-import { getEventById, updateEvent } from '@Services/EventService';
+import { updateEvent } from '@Services/EventService';
 
 class CalendarPage extends React.Component {
   constructor() {

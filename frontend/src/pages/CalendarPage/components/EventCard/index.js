@@ -87,8 +87,10 @@ EventCard.propTypes = {
     name: PropTypes.string.isRequired,
     location: PropTypes.string,
     id: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired
   }),
   onClose: PropTypes.func,
+  updateStatus: PropTypes.func
 };
 
 EventCard.defaultProps = {
