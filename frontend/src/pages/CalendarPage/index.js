@@ -25,7 +25,7 @@ class CalendarPage extends React.Component {
     super();
     this.state = {
       events: [],
-      eventStatus: true,
+      eventStatusChanged: true,
       selectedEvent: null,
       view: 'calendar',
       pending: true,
@@ -56,13 +56,13 @@ class CalendarPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { pending, ready, complete, eventStatus } = this.state;
+    const { pending, ready, complete, eventStatusChanged } = this.state;
 
     if (
       pending !== prevState.pending ||
       ready !== prevState.ready ||
       complete !== prevState.complete ||
-      eventStatus !== prevState.eventStatus
+      eventStatusChanged !== prevState.eventStatusChanged
     ) {
       getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
         const { events } = multipleEventResponse;
@@ -99,18 +99,14 @@ class CalendarPage extends React.Component {
   }
 
   handleModalClose() {
-    const { eventStatus } = this.state;
     this.setState({
       selectedEvent: null,
-      eventStatus: !eventStatus
     });
   }
 
   handleUpdateStatus = async (
-    values
+    values, newStatus
   ) => {
-    const { eventStatus } = this.state;
-    this.setState({ eventStatus: !eventStatus });
     const eventRequest = {
       ...values,
       hosts: values.hosts.map(host => {
@@ -120,6 +116,11 @@ class CalendarPage extends React.Component {
       }),
     };
     await updateEvent(values.id, eventRequest);
+    const { eventStatusChanged, selectedEvent } = this.state;
+    this.setState({
+      eventStatusChanged: !eventStatusChanged,
+      selectedEvent: {...selectedEvent, status: newStatus}
+    });
   };
 
   toggleView() {
@@ -232,7 +233,7 @@ class CalendarPage extends React.Component {
                 <EventCard
                   event={selectedEvent}
                   onClose={() => this.handleModalClose()}
-                  updateStatus={event => this.handleUpdateStatus(event)}
+                  updateStatus={(event, newStatus) => this.handleUpdateStatus(event, newStatus)}
                 />
               </Container>
             )}

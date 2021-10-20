@@ -36,19 +36,19 @@ function EventCard({ event, onClose, classes, updateStatus }) {
               secondary: true,
               disabled: event.status === 'pending',
               children: 'Pending',
-              onClick: () => { event.status = 'pending'; updateStatus(event); },
+              onClick: () => { const newEvent = { ...event, status: 'pending'}; updateStatus(newEvent, 'pending');},
             })}
             {OfficerRenderPermission(Button)({
               secondary: true,
               disabled: event.status === 'complete',
               children: 'Complete',
-              onClick: () => { event.status = 'complete'; updateStatus(event); },
+              onClick: () => { const newEvent = { ...event, status: 'complete'}; updateStatus(newEvent, 'complete');},
             })}
             {OfficerRenderPermission(Button)({
               secondary: true,
               disabled: event.status === 'ready',
               children: 'Ready',
-              onClick: () => { event.status = 'ready'; updateStatus(event); },
+              onClick: () => { const newEvent = { ...event, status: 'ready'}; updateStatus(newEvent, 'ready');},
             })}
           </Grid>
           <Button
