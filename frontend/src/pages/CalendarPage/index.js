@@ -25,7 +25,7 @@ class CalendarPage extends React.Component {
     super();
     this.state = {
       events: [],
-      eventStatusChanged: true,
+      hasEventStatusChanged: true,
       selectedEvent: null,
       view: 'calendar',
       pending: true,
@@ -56,13 +56,13 @@ class CalendarPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { pending, ready, complete, eventStatusChanged } = this.state;
+    const { pending, ready, complete, hasEventStatusChanged } = this.state;
 
     if (
       pending !== prevState.pending ||
       ready !== prevState.ready ||
       complete !== prevState.complete ||
-      eventStatusChanged !== prevState.eventStatusChanged
+      hasEventStatusChanged !== prevState.hasEventStatusChanged
     ) {
       getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
         const { events } = multipleEventResponse;
@@ -105,21 +105,22 @@ class CalendarPage extends React.Component {
   }
 
   handleUpdateStatus = async (
-    values, newStatus
+  newStatus
   ) => {
+    const { hasEventStatusChanged, selectedEvent } = this.state;
+    const newEvent = {...selectedEvent, status: newStatus};
     const eventRequest = {
-      ...values,
-      hosts: values.hosts.map(host => {
+      ...newEvent,
+      hosts: selectedEvent.hosts.map(host => {
         return {
           id: host.id,
         };
       }),
     };
-    await updateEvent(values.id, eventRequest);
-    const { eventStatusChanged, selectedEvent } = this.state;
+    const updatedEvent = await updateEvent(selectedEvent.id, eventRequest);
     this.setState({
-      eventStatusChanged: !eventStatusChanged,
-      selectedEvent: {...selectedEvent, status: newStatus}
+      hasEventStatusChanged: !hasEventStatusChanged,
+      selectedEvent: updatedEvent
     });
   };
 
