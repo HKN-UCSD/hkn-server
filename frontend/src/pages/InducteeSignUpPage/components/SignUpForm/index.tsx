@@ -18,7 +18,6 @@ import {
   InfoSessionDropdownField,
   Link,
 } from '@SharedComponents';
-
 import { AppUserSignupRequest } from '@Services/api/models';
 
 interface InitialValuesType {
@@ -73,28 +72,46 @@ export const SignUpForm = (props: SignUpFormProps) => {
         handleSubmit(values, setSubmitting);
       }}
     >
-      {({ submitForm, isSubmitting, values: { pronoun, courseRequirement, newsletter } }) => (
+      {({
+        submitForm,
+        isSubmitting,
+        values: { pronoun, courseRequirement, newsletter },
+      }) => (
         <Form>
-          <Grid container
+          <Grid
+            container
             direction='column'
             justify='center'
             alignItems='center'
             spacing={2}
-            className={classes.main}>
+            className={classes.main}
+          >
             <Grid item>
-              <Typography>Congratulations! You&apos;ve been selected to induct to Eta Kappa Nu (HKN), the Official Honor Society of IEEE. We are so happy to see that you are interested in inducting. <br /><br />
-                Please fill out this form to begin your induction process. There is no risk in filling out this form (you can opt-out at any time by unsubscribing or ignoring the emails), but it is mandatory for you to fill out this form in order to induct! <br /><br />
+              <Typography>
+                Congratulations! You&apos;ve been selected to induct to Eta
+                Kappa Nu (HKN), the Official Honor Society of IEEE. We are so
+                happy to see that you are interested in inducting. <br />
+                <br />
+                Please fill out this form to begin your induction process. There
+                is no risk in filling out this form (you can opt-out at any time
+                by unsubscribing or ignoring the emails), but it is mandatory
+                for you to fill out this form in order to induct! <br />
+                <br />
                 *Contact us* <br />
                 HKN @ UCSD <br />
                 hkn@eng.ucsd.edu <br />
                 <Link href='https://hkn.ucsd.edu' openInNewTab /> <br />
-                <Link href='https://www.facebook.com/hknucsd/' openInNewTab /> <br />
+                <Link
+                  href='https://www.facebook.com/hknucsd/'
+                  openInNewTab
+                />{' '}
+                <br />
                 <Link href='https://discord.gg/UWZ5FD8' openInNewTab /> <br />
               </Typography>
             </Grid>
             <Grid item>
-                <DescriptionText />
-			</Grid>
+              <DescriptionText />
+            </Grid>
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={6}>
@@ -179,11 +196,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <Grid item>
               <Grid container direction='row' spacing={2}>
                 <Grid item xs={8}>
-                  <MajorDropdownField
-                    name='major'
-                    label='Major'
-                    fullWidth
-                  />
+                  <MajorDropdownField name='major' label='Major' fullWidth />
                 </Grid>
 
                 <Grid item xs={4}>
@@ -206,18 +219,30 @@ export const SignUpForm = (props: SignUpFormProps) => {
 
             <Grid item>
               <h3>Review your coursework</h3>
-			  <Typography>The HKN induction process requires you to pass an interview involving technical questions in the following quarter, so we recommend that inductees have completed their major&apos;s 2nd year Fall Quarter courses in order to induct (following the most updated 4-year course plans). You can find the four-year-plan at <Link href='https://plans.ucsd.edu/' openInNewTab /> .</Typography>
-              <Typography>Please confirm that you have completed or are completing your classes for Fall of sophomore year according to UCSD 4-year plan (sample coursework below).</Typography>
+              <Typography>
+                The HKN induction process requires you to pass an interview
+                involving technical questions in the following quarter, so we
+                recommend that inductees have completed their major&apos;s 2nd
+                year Fall Quarter courses in order to induct (following the most
+                updated 4-year course plans). You can find the four-year-plan at{' '}
+                <Link href='https://plans.ucsd.edu/' openInNewTab /> .
+              </Typography>
+              <Typography>
+                Please confirm that you have completed or are completing your
+                classes for Fall of sophomore year according to UCSD 4-year plan
+                (sample coursework below).
+              </Typography>
             </Grid>
             <Grid item>
               <Field
                 component={CheckboxWithLabel}
-                type="checkbox"
+                type='checkbox'
                 checked
-                name="courseRequirement"
+                name='courseRequirement'
                 Label={{
-                  label: 'I confirm.'
-                }} />
+                  label: 'I confirm.',
+                }}
+              />
             </Grid>
             <Grid item>
               <img
@@ -227,16 +252,17 @@ export const SignUpForm = (props: SignUpFormProps) => {
               />
             </Grid>
 
-
             <Grid item>
               <Field
                 component={CheckboxWithLabel}
-                type="checkbox"
-                name="newsletter"
-                Label={{ label: "I understand that I am subscribing to HKN's newsletter." }}
+                type='checkbox'
+                name='newsletter'
+                Label={{
+                  label:
+                    "I understand that I am subscribing to HKN's newsletter.",
+                }}
               />
             </Grid>
-
 
             <Grid item>
               <Button
@@ -250,11 +276,12 @@ export const SignUpForm = (props: SignUpFormProps) => {
                 Sign Up
               </Button>
             </Grid>
-			<Grid item>
+            <Grid item>
               <Grid container justify='center'>
-				<Typography>
-				Have an account from previous induction cycles? Please contact Tim at s9jiang@ucsd.edu to update your existing account.
-				</Typography>
+                <Typography>
+                  Have an account from previous induction cycles? Please contact
+                  Tim at s9jiang@ucsd.edu to update your existing account.
+                </Typography>
                 <Button
                   className={classes.signInRedirect}
                   onClick={() => {

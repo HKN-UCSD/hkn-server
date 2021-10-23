@@ -58,7 +58,11 @@ export default function PointsPage() {
     return <Redirect to={FORBIDDEN} />;
   }
 
-  const Completion = ({ children }) => <span style={{ color: (children) ? 'green' : 'red' }}>{(children) ? 'Complete' : 'Incomplete'}</span>;
+  const Completion = ({ children }) => (
+    <span style={{ color: children ? 'green' : 'red' }}>
+      {children ? 'Complete' : 'Incomplete'}
+    </span>
+  );
 
   const {
     points,
@@ -89,7 +93,6 @@ export default function PointsPage() {
                 Professional Requirement:{' '}
                 <Completion>{hasProfessionalRequirement}</Completion>
               </h3>
-
             </Grid>
             <Grid item>
               <h3>

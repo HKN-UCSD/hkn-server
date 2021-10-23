@@ -1,3 +1,5 @@
+import ProfilePage from './ProfilePage';
+import ProfileEditPage from './ProfileEditPage';
 import NotFoundPage from './NotFoundPage';
 import ForbiddenPage from './ForbiddenPage';
 import SignInPage from './SignInPage';
@@ -46,4 +48,6 @@ export {
   InductionClassDetailsPage,
   InductionClassEditPage,
   InducteeSignUpPage,
+  ProfilePage,
+  ProfileEditPage,
 };

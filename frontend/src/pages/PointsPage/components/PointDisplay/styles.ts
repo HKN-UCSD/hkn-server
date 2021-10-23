@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
   cap: {
     textTransform: 'capitalize',
-  }
+  },
 });
 
 export default useStyles;
