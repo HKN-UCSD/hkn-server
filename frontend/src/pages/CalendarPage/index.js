@@ -108,9 +108,9 @@ class CalendarPage extends React.Component {
   newStatus
   ) => {
     const { hasEventStatusChanged, selectedEvent } = this.state;
-    const newEvent = {...selectedEvent, status: newStatus};
     const eventRequest = {
-      ...newEvent,
+      ...selectedEvent,
+      status: newStatus,
       hosts: selectedEvent.hosts.map(host => {
         return {
           id: host.id,
