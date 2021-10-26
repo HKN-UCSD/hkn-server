@@ -12,19 +12,19 @@ import { Event } from './Event';
       .addSelect('appUser.email', 'email')
       .addSelect('SUM(attendance.points)', 'points')
       .addSelect(
-        "SUM(CASE WHEN event.type = 'professional' THEN 1 ELSE 0 END)::int::bool",
+        "CASE WHEN( SUM(CASE WHEN event.type = 'professional' THEN attendance.points ELSE 0 END)::float ) >= 1 THEN TRUE ELSE FALSE END",
         'hasProfessionalRequirement'
       )
       .addSelect(
-        "SUM(CASE WHEN event.type = 'mentorship' THEN 1 ELSE 0 END)::int::bool",
+        "CASE WHEN( SUM(CASE WHEN event.type = 'mentorship' THEN attendance.points ELSE 0 END)::float ) >= 1 THEN TRUE ELSE FALSE END",
         'hasMentorshipRequirement'
       )
       .addSelect(
-        "SUM(CASE WHEN event.type = 'technical' THEN 1 ELSE 0 END)::int::bool",
+        "CASE WHEN( SUM(CASE WHEN event.type = 'technical' THEN attendance.points ELSE 0 END)::float ) >= 1 THEN TRUE ELSE FALSE END",
         'hasTechnicalRequirement'
       )
       .addSelect(
-        "CASE WHEN( SUM(CASE WHEN event.type = 'social' THEN 1 ELSE 0 END)::int ) >= 2 THEN TRUE ELSE FALSE END",
+        "CASE WHEN( SUM(CASE WHEN event.type = 'social' THEN attendance.points ELSE 0 END)::float ) >= 2 THEN TRUE ELSE FALSE END",
         'hasSocialRequirement'
       )
       .from(AppUser, 'appUser')
