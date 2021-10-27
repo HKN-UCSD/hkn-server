@@ -80,7 +80,7 @@ function ProfileEditPage(): JSX.Element {
     pronoun: handleUndefinedStringValue(pronoun),
     customPronoun: handleUndefinedStringValue(customPronoun),
     infoSession: handleUndefinedStringValue(infoSession),
-    graduationYear: parseInt(graduationYear)
+    graduationYear: parseInt(graduationYear, 10)
   };
 
   return (
