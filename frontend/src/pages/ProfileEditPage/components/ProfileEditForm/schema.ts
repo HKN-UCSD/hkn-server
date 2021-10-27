@@ -15,7 +15,7 @@ const schema = Yup.object({
   preferredName: Yup.string(),
   pronoun: Yup.string(),
   customPronoun: Yup.string(),
-  infoSession: Yup.string().required('Required'),
+  infoSession: Yup.string(),
 });
 
 export default schema;

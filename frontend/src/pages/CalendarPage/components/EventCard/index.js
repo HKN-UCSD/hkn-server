@@ -40,15 +40,15 @@ function EventCard({ event, onClose, classes, updateStatus }) {
             })}
             {OfficerRenderPermission(Button)({
               secondary: true,
-              disabled: event.status === 'complete',
-              children: 'Complete',
-              onClick: () => { updateStatus('complete');},
-            })}
-            {OfficerRenderPermission(Button)({
-              secondary: true,
               disabled: event.status === 'ready',
               children: 'Ready',
               onClick: () => { updateStatus('ready');},
+            })}
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              disabled: event.status === 'complete',
+              children: 'Complete',
+              onClick: () => { updateStatus('complete');},
             })}
           </Grid>
           <Button

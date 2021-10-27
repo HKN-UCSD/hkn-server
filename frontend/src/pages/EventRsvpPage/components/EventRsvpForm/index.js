@@ -8,14 +8,13 @@ import { Formik, Field, Form } from 'formik';
 import schema from './schema';
 import styles from './styles';
 
-import { MajorDropdownField, AffiliateDropdownField } from '@SharedComponents';
+import { MajorDropdownField } from '@SharedComponents';
 
 const INITIAL_INPUT_VALUES = {
   firstName: '',
   lastName: '',
   email: '',
   major: '',
-  hknAffiliation: '',
   agreeToPhotoRelease: false,
 };
 
@@ -73,14 +72,6 @@ const EventRsvpForm = props => {
                     name='major'
                     label='Major'
                     includeOthers
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item>
-                  <AffiliateDropdownField
-                    name='hknAffiliation'
-                    label='Affiliation with HKN'
                     fullWidth
                   />
                 </Grid>

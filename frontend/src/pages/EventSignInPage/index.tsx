@@ -85,7 +85,7 @@ function EventSignInPage(): JSX.Element {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant='h6'>Event Sign In</Typography>
+                  <Typography variant='h6'>Event Sign In (Guest)</Typography>
                 </Grid>
               </Grid>
             </Grid>
