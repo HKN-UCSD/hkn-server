@@ -13,6 +13,8 @@ import {
 } from '@SharedComponents';
 import { AppUserPostRequest } from '@Services/api';
 
+import { getYear } from 'date-fns';
+
 interface UneditableValues {
   email: string;
 }
@@ -21,7 +23,7 @@ export interface InitialValuesType {
   firstName: string;
   lastName: string;
   major: string;
-  graduationYear: string;
+  graduationYear: number;
   preferredName: string;
   pronoun: string;
   customPronoun: string;
@@ -53,6 +55,7 @@ export const ProfileEditForm = (props: ProfileEditFormProps) => {
       onSubmit={(values, { setSubmitting }) => {
         const valuesToSubmit: AppUserPostRequest = {
           ...values,
+          graduationYear: values.graduationYear.toString(),
           ...uneditableValues,
         };
 
@@ -100,6 +103,7 @@ export const ProfileEditForm = (props: ProfileEditFormProps) => {
                       <YearDropdownField
                         name='graduationYear'
                         label='Graduation Year'
+                        minYear = {getYear(new Date()) - 10}
                         fullWidth
                       />
                     </Grid>

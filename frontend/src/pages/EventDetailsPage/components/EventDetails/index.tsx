@@ -155,8 +155,8 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                     <Grid item>
                       {InducteeRenderPermission(Links)({
                         urls,
-                        signIn: { url: signInURL, label: 'Sign In Form' },
-                        rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                        signIn: { url: signInURL, label: 'Sign In Form (Guest)' },
+                        rsvp: { url: rsvpURL, label: 'RSVP Form (Guest)' },
                         qrCode: {
                           url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
                           label: 'QR Code',

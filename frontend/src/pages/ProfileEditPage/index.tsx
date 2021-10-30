@@ -73,13 +73,14 @@ function ProfileEditPage(): JSX.Element {
     history.push(ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS));
   };
 
-  const { email, preferredName, pronoun, customPronoun, infoSession } = profile;
+  const { email, preferredName, pronoun, customPronoun, infoSession, graduationYear } = profile;
   const initialValues: InitialValuesType = {
     ...profile,
     preferredName: handleUndefinedStringValue(preferredName),
     pronoun: handleUndefinedStringValue(pronoun),
     customPronoun: handleUndefinedStringValue(customPronoun),
     infoSession: handleUndefinedStringValue(infoSession),
+    graduationYear: parseInt(graduationYear, 10)
   };
 
   return (
