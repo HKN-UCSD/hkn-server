@@ -5,6 +5,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import EditRolesIcon from '@material-ui/icons/AccountBalance';
 
 import * as ROUTES from '@Constants/routes';
 
@@ -49,6 +50,22 @@ const ProfileTab = {
   icon: <AssignmentIndIcon />,
   text: 'Profile',
 };
+
+const EditRolesTab = {
+  route: ROUTES.EDIT_ROLES,
+  icon: <EditRolesIcon />,
+  text: 'Edit Roles',
+};
+
+export const AdminTabs = [
+  HomeTab,
+  CalendarTab,
+  ProfileTab,
+  InductionClassTab,
+  InducteesTab,
+  InterviewTab,
+  EditRolesTab,
+];
 
 export const OfficerTabs = [
   HomeTab,
