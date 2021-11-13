@@ -25,6 +25,7 @@ function CheckOffTable(props: CheckOffTableProps) {
 
   const columns = [
     { title: 'Full Name', field: 'name' },
+    { title: 'Role', field: 'attendeeRole' },
     { title: 'Start Time', field: 'startTimeString' },
     {
       title: 'Check Off',
@@ -64,16 +65,22 @@ function CheckOffTable(props: CheckOffTableProps) {
   });
 
   const attendanceData = attendances.map(attendance => {
-    const fullName = `${attendance.attendee.firstName} ${attendance.attendee.lastName}`;
+    const { startTime, attendee } = attendance;
+    const { firstName, lastName, role } = attendee;
+
+    const fullName = `${firstName} ${lastName}`;
     // TODO: Remove type casting on startTime when startTime on payload is changed to string and move map logic to a separate function
     const startTimeString = format(
-      parseISO((attendance.startTime as unknown) as string),
+      parseISO((startTime as unknown) as string),
       'p'
     );
+    const attendeeRole = role.charAt(0).toUpperCase() + role.slice(1);
+
     const attendanceToDisplay = {
       ...attendance,
       name: fullName,
       startTimeString,
+      attendeeRole,
     };
 
     return attendanceToDisplay;

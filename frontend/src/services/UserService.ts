@@ -1,10 +1,10 @@
 import {
   UserApi,
   UserControllerGetUserRoleRequest,
-  UserControllerGetUserProfileRequest,
+  UserControllerGetUserByIdRequest,
   UserControllerCreateUserRequest,
   UserControllerGetMultipleUsersRequest,
-  UserControllerUpdateUserProfileRequest,
+  UserControllerUpdateUserByIdRequest,
   UserControllerGetUserInducteePointsRequest,
   UserControllerUpdateUserInterviewAvailabilitiesRequest,
 } from './api/apis/UserApi';
@@ -12,7 +12,6 @@ import {
   AppUserPostRequest,
   AppUserResponse,
   AppUserRolesResponse,
-  AppUserProfileResponse,
   MultipleAppUserResponse,
   MultipleUserNameResponse,
   AppUserNameResponse,
@@ -29,16 +28,14 @@ export interface InterviewAvailability {
   end: string;
 }
 
-export async function getUserProfile(
-  userID: number
-): Promise<AppUserProfileResponse> {
+export async function getUserById(userID: number): Promise<AppUserResponse> {
   const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
-  const request: UserControllerGetUserProfileRequest = {
+  const request: UserControllerGetUserByIdRequest = {
     userID,
   };
 
-  return userApi.userControllerGetUserProfile(request);
+  return userApi.userControllerGetUserById(request);
 }
 
 export async function getMultipleUsers(
@@ -84,18 +81,18 @@ export async function createNewUser(
   return userApi.userControllerCreateUser(request);
 }
 
-export async function updateUserProfile(
+export async function updateUserById(
   userID: number,
   appUserPostRequest: AppUserPostRequest
 ) {
   const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
   const userApi = new UserApi(apiConfig);
-  const request: UserControllerUpdateUserProfileRequest = {
+  const request: UserControllerUpdateUserByIdRequest = {
     userID,
     appUserPostRequest,
   };
 
-  return userApi.userControllerUpdateUserProfile(request);
+  return userApi.userControllerUpdateUserById(request);
 }
 
 export async function getUserRole(

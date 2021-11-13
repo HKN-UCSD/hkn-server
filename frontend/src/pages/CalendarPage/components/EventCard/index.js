@@ -5,12 +5,13 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 
 import styles from './styles';
 
 import { Card, GetLocation } from '@SharedComponents';
 
-function EventCard({ event, onClose, classes }) {
+function EventCard({ event, onClose, classes, updateStatus }) {
   // Listens to whether an event is selected from Calendar parent comp
   const isOpen = event !== null;
 
@@ -30,6 +31,26 @@ function EventCard({ event, onClose, classes }) {
             <RoomIcon color='disabled' />
             <GetLocation location={event.location} />
           </Box>
+          <Grid>
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              disabled: event.status === 'pending',
+              children: 'Pending',
+              onClick: () => { updateStatus('pending');},
+            })}
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              disabled: event.status === 'ready',
+              children: 'Ready',
+              onClick: () => { updateStatus('ready');},
+            })}
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              disabled: event.status === 'complete',
+              children: 'Complete',
+              onClick: () => { updateStatus('complete');},
+            })}
+          </Grid>
           <Button
             variant='outlined'
             color='primary'
@@ -66,8 +87,10 @@ EventCard.propTypes = {
     name: PropTypes.string.isRequired,
     location: PropTypes.string,
     id: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired
   }),
   onClose: PropTypes.func,
+  updateStatus: PropTypes.func
 };
 
 EventCard.defaultProps = {

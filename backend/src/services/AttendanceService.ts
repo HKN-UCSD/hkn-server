@@ -76,7 +76,7 @@ export class AttendanceService {
       where: {
         attendee: { id: attendeeId } as AppUser,
       },
-      relations: ['event'],
+      relations: ['event', 'officer'],
     });
   }
 

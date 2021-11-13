@@ -7,10 +7,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   SignInPage,
-  SignUpPage,
+  // SignUpPage,
   PointsPage,
   InducteePointsPage,
   EventsPage,
+  ProfilePage,
+  ProfileEditPage,
   CalendarPage,
   EventEditPage,
   EventDetailsPage,
@@ -23,6 +25,10 @@ import {
   ForbiddenPage,
   NotFoundPage,
   EventSignInOptionsPage,
+  InductionClassPage,
+  InductionClassCreationPage,
+  InductionClassDetailsPage,
+  InductionClassEditPage,
   InducteeSignUpPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
@@ -50,8 +56,8 @@ function App(): JSX.Element {
 
         const getTokenFunc = token
           ? async () => {
-            return user.getIdToken();
-          }
+              return user.getIdToken();
+            }
           : emptyGetTokenFunc;
 
         // TODO if there's no change then don't set state to
@@ -113,8 +119,12 @@ function App(): JSX.Element {
               path={ROUTES.SIGN_IN}
               render={() => <SignInPage setClaims={setClaims} />}
             />
-            <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} />
-            <Route exact path={ROUTES.INDUCTEE_SIGN_UP_PAGE} render={() => <InducteeSignUpPage />} />
+            {/* <Route exact path={ROUTES.SIGN_UP} render={() => <SignUpPage />} /> */}
+            <Route
+              exact
+              path={ROUTES.INDUCTEE_SIGN_UP}
+              render={() => <InducteeSignUpPage />}
+            />
             <Route
               exact
               path={ROUTES.EVENT_SIGN_IN}
@@ -188,6 +198,34 @@ function App(): JSX.Element {
             />
             <Route
               exact
+              path={ROUTES.INDUCTION_CLASS_GENERAL}
+              render={props =>
+                OfficerRoutingPermission(InductionClassPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_CREATE}
+              render={props =>
+                OfficerRoutingPermission(InductionClassCreationPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_DETAILS}
+              render={props =>
+                OfficerRoutingPermission(InductionClassDetailsPage)(props)
+              }
+            />
+            <Route
+              exact
+              path={ROUTES.INDUCTION_CLASS_EDIT}
+              render={props =>
+                OfficerRoutingPermission(InductionClassEditPage)(props)
+              }
+            />
+            <Route
+              exact
               path={ROUTES.FORBIDDEN}
               render={props => InducteeRoutingPermission(ForbiddenPage)(props)}
             />
@@ -196,7 +234,7 @@ function App(): JSX.Element {
               path={ROUTES.NOT_FOUND}
               render={props => InducteeRoutingPermission(NotFoundPage)(props)}
             />
-            {/* <Route
+            <Route
               exact
               path={ROUTES.PROFILE}
               render={props => InducteeRoutingPermission(ProfilePage)(props)}
@@ -204,8 +242,10 @@ function App(): JSX.Element {
             <Route
               exact
               path={ROUTES.PROFILE_EDIT}
-              render={props => InducteeRoutingPermission(ProfileEditPage)(props)}
-            /> */}
+              render={props =>
+                InducteeRoutingPermission(ProfileEditPage)(props)
+              }
+            />
             <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
         </BrowserRouter>

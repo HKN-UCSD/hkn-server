@@ -11,7 +11,6 @@ import styles from './styles';
 
 import {
   MajorDropdownField,
-  AffiliateDropdownField,
   ButtonWithConfirmationModal,
 } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
@@ -21,7 +20,6 @@ const INITIAL_INPUT_VALUES = {
   lastName: '',
   email: '',
   major: '',
-  hknAffiliation: '',
   agreeToPhotoRelease: false,
 };
 
@@ -66,7 +64,7 @@ const EventSignInForm = props => {
     >
       {({ submitForm, isSubmitting, values: { agreeToPhotoRelease } }) => (
         <Form>
-          <Grid container direction='column' justify='center' spacing={3}>
+          <Grid container direction='column' justify='center' spacing={3} className={classes.main}>
             {modalDisplay && (
               <ButtonWithConfirmationModal
                 confirmationModalProps={{
@@ -119,14 +117,6 @@ const EventSignInForm = props => {
                     name='major'
                     label='Major'
                     includeOthers
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid item>
-                  <AffiliateDropdownField
-                    name='hknAffiliation'
-                    label='Affiliation with HKN'
                     fullWidth
                   />
                 </Grid>

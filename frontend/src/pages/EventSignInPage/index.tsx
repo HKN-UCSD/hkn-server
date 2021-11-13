@@ -32,79 +32,79 @@ function EventSignInPage(): JSX.Element {
   return event == null ? (
     <Loading />
   ) : (
-    <PublicPageLayout>
-      <Card className={classes.eventSignInCard}>
-        <Grid container direction='column' alignItems='center' spacing={3}>
-          <Grid item>
-            <Grid container direction='column' alignItems='center' spacing={3}>
-              <Grid item>
-                <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
-              </Grid>
-
-              <Grid item>
-                <Grid component='div'>
-                  <Typography
-                    className={classes.eventName}
-                    variant={event.name.length < 40 ? 'h3' : 'h4'}
-                    align='center'
-                  >
-                    {event.name}
-                  </Typography>
-
-                  <Typography
-                    className={classes.eventName}
-                    variant='h5'
-                    align='center'
-                  >
-                    {format(parseISO(event.startDate), 'PP')} -{' '}
-                    {format(parseISO(event.startDate), 'p')} to{' '}
-                    {format(parseISO(event.endDate), 'p')}
-                  </Typography>
+      <PublicPageLayout>
+        <Card className={classes.eventSignInCard}>
+          <Grid container direction='column' alignItems='center' spacing={3}>
+            <Grid item>
+              <Grid container direction='column' alignItems='center' spacing={3}>
+                <Grid item>
+                  <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
                 </Grid>
-              </Grid>
 
-              <Grid item>
-                <Grid component='div'>
-                  <Typography
-                    className={classes.eventName}
-                    variant='subtitle1'
-                    align='center'
-                  >
-                    Hosts:{' '}
-                    {event.hosts
-                      .map(host => `${host.firstName} ${host.lastName}`)
-                      .join(', ')}
-                  </Typography>
-                  <Typography
-                    className={classes.eventName}
-                    variant='body2'
-                    align='center'
-                  >
-                    Event Details: {event.description}
-                  </Typography>
+                <Grid item>
+                  <Grid component='div'>
+                    <Typography
+                      className={classes.eventName}
+                      variant={event.name.length < 40 ? 'h3' : 'h4'}
+                      align='center'
+                    >
+                      {event.name}
+                    </Typography>
+
+                    <Typography
+                      className={classes.eventName}
+                      variant='h5'
+                      align='center'
+                    >
+                      {format(parseISO(event.startDate), 'PP')} -{' '}
+                      {format(parseISO(event.startDate), 'p')} to{' '}
+                      {format(parseISO(event.endDate), 'p')}
+                    </Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                <Typography variant='h6'>Event Sign In</Typography>
+
+                <Grid item>
+                  <Grid component='div'>
+                    <Typography
+                      className={classes.eventName}
+                      variant='subtitle1'
+                      align='center'
+                    >
+                      Hosts:{' '}
+                      {event.hosts
+                        .map(host => `${host.firstName} ${host.lastName}`)
+                        .join(', ')}
+                    </Typography>
+                    <Typography
+                      className={classes.eventName}
+                      variant='body2'
+                      align='center'
+                    >
+                      Event Details: {event.description}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography variant='h6'>Event Sign In (Guest)</Typography>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
 
-          <Grid item>
-            <EventSignInForm
-              handleSubmit={(values: AppUserEventRequest, callback) =>
-                signInToEvent(eventID, values)
-                  .then()
-                  .catch(error => {
-                    callback(error.status === 403 || error.status === 500);
-                  })
-              }
-            />
+            <Grid item>
+              <EventSignInForm
+                handleSubmit={(values: AppUserEventRequest, callback) =>
+                  signInToEvent(eventID, values)
+                    .then()
+                    .catch(error => {
+                      callback(error.status === 403 || error.status === 500);
+                    })
+                }
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </Card>
-    </PublicPageLayout>
-  );
+        </Card>
+      </PublicPageLayout>
+    );
 }
 
 export default EventSignInPage;

@@ -13,9 +13,9 @@ interface EventID {
  * From here, redirects to two different pages whether the user is signed in or not.
  */
 function QrCodeIntermediatePage(): JSX.Element {
+  const history = useHistory();
   const { id } = useParams<EventID>();
   const eventId = parseInt(id, 10);
-  const history = useHistory();
 
   return (
     <UserContext.Consumer>
@@ -27,10 +27,10 @@ function QrCodeIntermediatePage(): JSX.Element {
             // user is signed in, route to event details page (placeholder)
             history.push(ROUTES.EVENT_DETAILS_WITH_ID(eventId));
           } else {
-            history.push(ROUTES.EVENT_SIGN_IN_OPTIONS);
+            history.push(ROUTES.EVENT_SIGN_IN_OPTIONS_WITH_ID(eventId));
           }
         } else {
-          history.push(ROUTES.EVENT_SIGN_IN_OPTIONS);
+          history.push(ROUTES.EVENT_SIGN_IN_OPTIONS_WITH_ID(eventId));
         }
 
         return <></>;

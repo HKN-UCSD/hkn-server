@@ -1,26 +1,107 @@
-import React, { useState } from 'react';
-import { useParams, useHistory } from 'react-router';
-import { Grid } from '@material-ui/core';
-import { Formik, Form } from 'formik';
+import React, { useState, useContext, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { Card } from '@material-ui/core';
 
-import schema from './schema';
 import useStyles from './styles';
+import {
+  InitialValuesType,
+  ProfileEditForm,
+} from './components/ProfileEditForm';
 
-import { Card, FormLayout } from '@SharedComponents';
-import {
-  getAccountSection,
-  getPersonalInfoSection,
-} from '@SharedComponents/formSections';
-import { PROFILE_WITH_ID } from '@Constants/routes';
-import {
-  AppUserResponse,
-  AppUserResponseRoleEnum,
-  AppUserPostRequest,
-} from '@Services/api/models';
+import { UserContext } from '@Contexts';
+import * as ROUTES from '@Constants/routes';
+import { getUserById, updateUserById } from '@Services/UserService';
+import { AppUserResponse, AppUserPostRequest } from '@Services/api';
+import { isUnauthorized } from '@Services/claims';
+
+interface UserId {
+  id: string;
+}
+
+const handleUndefinedStringValue = (value: string | undefined): string => {
+  return value === undefined ? '' : value;
+};
 
 function ProfileEditPage(): JSX.Element {
+  const [profile, setProfile] = useState<AppUserResponse | undefined>(
+    undefined
+  );
+  const history = useHistory();
+  const classes = useStyles();
+
+  const userContext = useContext(UserContext);
+  const { id } = useParams<UserId>();
+
+  useEffect(() => {
+    const getUserProfileAndInductionRequirements = async () => {
+      if (userContext == null || isUnauthorized(userContext, id)) {
+        setProfile(undefined);
+        return;
+      }
+
+      const { userId } = userContext;
+      const currUserId: number =
+        id === ROUTES.CURR_USER_ID_ALIAS
+          ? parseInt(userId, 10)
+          : parseInt(id, 10);
+
+      try {
+        const requestedProfile = await getUserById(currUserId);
+        setProfile(requestedProfile);
+      } catch {
+        setProfile(undefined);
+      }
+    };
+
+    getUserProfileAndInductionRequirements();
+  }, [id, userContext]);
+
+  if (profile === undefined) {
+    return <></>;
+  }
+
+  const handleSubmit = async (
+    values: AppUserPostRequest,
+    setSubmitting: (_: boolean) => void
+  ) => {
+    await updateUserById(profile.id, values);
+    setSubmitting(false);
+    history.push(ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS));
+  };
+
+  const handleCancel = () => {
+    history.push(ROUTES.PROFILE_WITH_ID(ROUTES.CURR_USER_ID_ALIAS));
+  };
+
+  const { email, preferredName, pronoun, customPronoun, infoSession, graduationYear } = profile;
+  const initialValues: InitialValuesType = {
+    ...profile,
+    preferredName: handleUndefinedStringValue(preferredName),
+    pronoun: handleUndefinedStringValue(pronoun),
+    customPronoun: handleUndefinedStringValue(customPronoun),
+    infoSession: handleUndefinedStringValue(infoSession),
+    graduationYear: parseInt(graduationYear, 10)
+  };
+
+  return (
+    <Card className={classes.root}>
+      <ProfileEditForm
+        handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        initialProfileValues={initialValues}
+        uneditableValues={{
+          email,
+        }}
+      />
+    </Card>
+  );
+}
+
+export default ProfileEditPage;
+
+/* function ProfileEditPage(): JSX.Element {
   const [profile, setProfile] = useState<AppUserResponse | null>(null);
-  const { id } = useParams();
+  const { id } = useParams<UserId>();
   const history = useHistory();
   const classes = useStyles();
 
@@ -82,3 +163,4 @@ function ProfileEditPage(): JSX.Element {
 }
 
 export default ProfileEditPage;
+*/

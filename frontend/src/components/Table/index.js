@@ -42,12 +42,19 @@ const tableIcons = {
 
 export default function Table(props) {
   // eslint-disable-next-line react/prop-types
-  const { data } = props;
+  const { data, pageSize, enableExport } = props;
+  const pageSizeToSet = pageSize === undefined ? 20 : pageSize;
+  const enableExportOption = enableExport === undefined ? true : enableExport;
 
   if (!data) {
     return <></>;
   }
+
   return (
-    <MaterialTable icons={tableIcons} {...props} options={{ pageSize: 20 }} />
+    <MaterialTable
+      icons={tableIcons}
+      {...props}
+      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption }}
+    />
   );
 }

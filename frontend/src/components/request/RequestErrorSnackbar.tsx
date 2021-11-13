@@ -8,13 +8,18 @@ import {
   DEFAULT_500_MSG,
 } from '@Constants/requestErrMsg';
 
+interface CustomErrorResponse {
+  status: number;
+  statusText: string;
+}
+
 interface CustomErrorMessages {
   [status: number]: string;
 }
 
 interface RequestErrorSnackbarProps {
   isError: boolean;
-  error: Response;
+  error: Response | CustomErrorResponse;
   customErrorMessages?: CustomErrorMessages;
 }
 

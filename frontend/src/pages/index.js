@@ -1,3 +1,5 @@
+import ProfilePage from './ProfilePage';
+import ProfileEditPage from './ProfileEditPage';
 import NotFoundPage from './NotFoundPage';
 import ForbiddenPage from './ForbiddenPage';
 import SignInPage from './SignInPage';
@@ -16,6 +18,10 @@ import EventCreationPage from './EventCreationPage';
 import QueriedEventPage from './QueriedEventPage';
 import InterviewSchedulingPage from './InterviewSchedulingPage';
 import EventSignInOptionsPage from './EventSignInOptionsPage';
+import InductionClassPage from './InductionClassPage';
+import InductionClassCreationPage from './InductionClassCreationPage';
+import InductionClassDetailsPage from './InductionClassDetailsPage';
+import InductionClassEditPage from './InductionClassEditPage';
 import InducteeSignUpPage from './InducteeSignUpPage';
 
 export {
@@ -37,5 +43,11 @@ export {
   QueriedEventPage,
   InterviewSchedulingPage,
   EventSignInOptionsPage,
+  InductionClassPage,
+  InductionClassCreationPage,
+  InductionClassDetailsPage,
+  InductionClassEditPage,
   InducteeSignUpPage,
+  ProfilePage,
+  ProfileEditPage,
 };

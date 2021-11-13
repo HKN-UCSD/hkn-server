@@ -5,6 +5,7 @@ const PW_MIN_LENGTH = 6;
 const schema = Yup.object({
   email: Yup.string()
     .email('Your inputted email is invalid!')
+    .matches(RegExp('^.*(ucsd)\\.edu$'), 'Your inputted email is not a UCSD email!')
     .required('Required'),
   password: Yup.string()
     .min(PW_MIN_LENGTH, 'Your password is too short!')

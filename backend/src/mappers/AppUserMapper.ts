@@ -2,8 +2,8 @@ import {
   AppUserEventRequest,
   AppUserResponse,
   AppUserEventResponse,
-  AppUserProfileResponse,
   AppUserPostRequest,
+  InducteeSignupInfo,
 } from '@Payloads';
 import { AppUser, InductionClass } from '@Entities';
 import { AppUserService, AppUserServiceImpl } from '@Services';
@@ -18,16 +18,19 @@ export class AppUserMapper {
    * Converts an EventSignInRequest payload to an AppUser entity and
    * returns the newly created entity to the caller.
    *
-   * @param {AppUserPostRequest | AppUserEventRequest} appUserRequest The request payload from which the AppUser entity is created.
+   * @param {AppUserPostRequest | AppUserEventRequest | InducteeSignupInfo} appUserRequest The request payload from which the AppUser entity is created.
    * @returns {AppUser} A newly created AppUser entity.
    */
   async requestToNewEntity(
-    appUserRequest: AppUserPostRequest | AppUserEventRequest
+    appUserRequest: AppUserPostRequest | AppUserEventRequest | InducteeSignupInfo
   ): Promise<AppUser> {
     const appUserRepository = getRepository(AppUser);
     const inductionClassRepository = getRepository(InductionClass);
 
-    if (appUserRequest instanceof AppUserPostRequest) {
+    if (
+      appUserRequest instanceof AppUserPostRequest ||
+      appUserRequest instanceof InducteeSignupInfo
+    ) {
       const inductionClass = await inductionClassRepository.findOne({
         quarter: appUserRequest.inductionClassQuarter,
       });
@@ -117,23 +120,6 @@ export class AppUserMapper {
     const appUserResponse: AppUserEventResponse = plainToClass(AppUserEventResponse, plainAppUser);
 
     return appUserResponse;
-  }
-
-  /**
-   * Converts an AppUser entity to an AppUserProfileResponse payload and returns the newly created
-   * response payload to the caller.
-   *
-   * @param {AppUser} appUser The AppUser entity to be ocnverted to an AppUserProfileResponse payload.
-   * @returns {AppUserProfileResponse} An AppUserProfileResponse instance.
-   */
-  entityToProfileResponse(appUser: AppUser): AppUserProfileResponse {
-    const plainAppUserProfile: Object = classToPlain(appUser);
-    const appUserProfileResponse: AppUserProfileResponse = plainToClass(
-      AppUserProfileResponse,
-      plainAppUserProfile
-    );
-
-    return appUserProfileResponse;
   }
 }
 

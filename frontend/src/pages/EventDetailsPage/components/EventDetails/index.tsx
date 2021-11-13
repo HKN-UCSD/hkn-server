@@ -65,6 +65,15 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
       <></>
     );
 
+  const StatusField = () => (
+    <Typography className={classes.detail} variant='h6'>
+      Status:{' '}
+      <Typography>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </Typography>
+    </Typography>
+  );
+
   return (
     <Grid container justify='center' spacing={3}>
       <Grid item xs={12}>
@@ -129,6 +138,9 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         </Typography>
                       </Typography>
                     </Grid>
+                    <Grid item>
+                      {OfficerRenderPermission(StatusField)({})}
+                    </Grid>
                   </Grid>
                 </Grid>
 
@@ -143,8 +155,8 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                     <Grid item>
                       {InducteeRenderPermission(Links)({
                         urls,
-                        signIn: { url: signInURL, label: 'Sign In Form' },
-                        rsvp: { url: rsvpURL, label: 'RSVP Form' },
+                        signIn: { url: signInURL, label: 'Sign In Form (Guest)' },
+                        rsvp: { url: rsvpURL, label: 'RSVP Form (Guest)' },
                         qrCode: {
                           url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
                           label: 'QR Code',

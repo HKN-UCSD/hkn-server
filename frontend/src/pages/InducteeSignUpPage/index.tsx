@@ -1,13 +1,16 @@
 import React from 'react';
+import { useLocation, useParams, Redirect } from 'react-router-dom';
+import queryString from 'query-string';
 import { Avatar, Grid } from '@material-ui/core';
 
 import { SignUpForm } from './components/SignUpForm';
 import useStyles from './styles';
 
+import { config } from '@Config';
+import * as ROUTES from '@Constants/routes';
 import HKN_TRIDENT_LOGO from '@Images/hkn-trident.png';
 import { Card, PublicPageLayout } from '@SharedComponents';
-
-import { createNewUser } from '@Services/AuthService';
+import { createNewInducteeUser } from '@Services/AuthService';
 import {
   doSignInWithEmailAndPassword,
   doSendVerificationEmail,
@@ -15,8 +18,21 @@ import {
 } from '@Services/auth';
 import { AppUserSignupRequest } from '@Services/api/models';
 
+interface URLAdder {
+  urlAdderOne: string;
+}
+
 function InducteeSignUpPage(): JSX.Element {
   const classes = useStyles();
+  const { urlAdderOne } = useParams<URLAdder>();
+
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  const { code } = queryParams;
+
+  if (urlAdderOne !== config.urlAdderOne || code !== config.urlAdderTwo) {
+    return <Redirect to={ROUTES.HOME} />;
+  }
 
   const handleSubmit = async (
     values: AppUserSignupRequest,
@@ -29,7 +45,7 @@ function InducteeSignUpPage(): JSX.Element {
     const { email, password } = values;
 
     try {
-      await createNewUser(signupSubmission);
+      await createNewInducteeUser(signupSubmission);
     } catch {
       console.log('Create new user failed');
       setSubmitting(false);

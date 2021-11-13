@@ -51,7 +51,7 @@ function EventRsvpPage(): JSX.Element {
               </Grid>
 
               <Grid item>
-                <Typography variant='h6'>Event RSVP</Typography>
+                <Typography variant='h6'>Event RSVP (Guest)</Typography>
               </Grid>
             </Grid>
           </Grid>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import { compose } from 'recompose';
 import {
@@ -126,7 +126,7 @@ class SignInPage extends React.Component {
     const { path } = queryString.parse(location.search);
     let pathToNavAfterLogin = ROUTES.HOME;
 
-    if (path !== null) {
+    if (path !== undefined) {
       pathToNavAfterLogin = path;
     }
 
@@ -347,10 +347,7 @@ class SignInPage extends React.Component {
         {/* Create an account - SIGN UP */}
         <div className={classes.signupFooter}>
           <Typography component='p' style={{ display: 'inline-block' }}>
-            Don&apos;t have an account?{' '}
-            <Link to={ROUTES.SIGN_UP} className={classes.signupLink}>
-              Sign up
-            </Link>
+            Don&apos;t have an account? Contact us
           </Typography>
         </div>
 

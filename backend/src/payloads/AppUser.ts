@@ -22,6 +22,9 @@ export class AppUserPKPayload {
 export class AppUserInductionClass {
   @IsString()
   quarter: string;
+
+  @IsString()
+  name: string;
 }
 
 export class AppUserPostRequest {
@@ -49,6 +52,22 @@ export class AppUserPostRequest {
   @IsEnum(AppUserRole)
   @IsOptional()
   readonly role: string;
+
+  @IsString()
+  @IsOptional()
+  readonly preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  readonly pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly customPronoun: string;
+
+  @IsString()
+  @IsOptional()
+  readonly infoSession: string;
 }
 
 export class AppUserEventRequest {
@@ -85,12 +104,15 @@ export class AppUserSignupRequest {
   readonly password: string;
 
   @IsString()
+  @IsOptional()
   readonly preferredName: string;
 
   @IsString()
+  @IsOptional()
   readonly pronoun: string;
 
   @IsString()
+  @IsOptional()
   readonly customPronoun: string;
 
   @IsString()
@@ -101,6 +123,52 @@ export class AppUserSignupRequest {
 
   @IsBoolean()
   readonly newsletter: boolean;
+}
+
+export class InducteeSignupInfo {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  major: string;
+
+  @IsString()
+  graduationYear: string;
+
+  @IsString()
+  @IsOptional()
+  preferredName: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun: string;
+
+  @IsString()
+  infoSession: string;
+
+  @IsBoolean()
+  courseRequirement: boolean;
+
+  @IsBoolean()
+  newsletter: boolean;
+
+  @IsEnum(AppUserRole)
+  @IsOptional()
+  role: string;
+
+  @IsString()
+  @IsOptional()
+  inductionClassQuarter?: string;
 }
 
 export class AppUserInterviewAvailabilitiesRequest {
@@ -139,6 +207,22 @@ export class AppUserResponse {
   @Type(() => AppUserInterviewAvailability)
   @IsOptional()
   availabilities?: AppUserInterviewAvailability[];
+
+  @IsString()
+  @IsOptional()
+  preferredName?: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  infoSession?: string;
 }
 
 export class AppUserEventResponse {
@@ -161,35 +245,6 @@ export class AppUserEventResponse {
   role: string;
 }
 
-export class AppUserProfileResponse {
-  @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
-
-  @IsString()
-  email: string;
-
-  @IsString()
-  major: string;
-
-  @IsString()
-  graduationYear: string;
-
-  @IsInstance(AppUserInductionClass)
-  @IsOptional()
-  inductionClass: AppUserInductionClass;
-
-  @IsEnum(AppUserRole)
-  role: string;
-
-  @ValidateNested({ each: true })
-  @Type(() => AppUserInterviewAvailability)
-  @IsOptional()
-  availabilities?: AppUserInterviewAvailability[];
-}
-
 export class AppUserRolesResponse {
   @IsEnum(AppUserRole)
   role: string;
@@ -204,6 +259,46 @@ export class AppUserNameResponse {
 
   @IsString()
   lastName: string;
+}
+
+export class AppUserInductionClassResponse {
+  @IsInt()
+  id: number;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  firstName: string;
+
+  @IsString()
+  lastName: string;
+
+  @IsString()
+  major: string;
+
+  @IsString()
+  graduationYear: string;
+
+  @IsInstance(AppUserInductionClass)
+  @IsOptional()
+  inductionClass?: AppUserInductionClass;
+
+  @IsString()
+  @IsOptional()
+  preferredName?: string;
+
+  @IsString()
+  @IsOptional()
+  pronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  customPronoun?: string;
+
+  @IsString()
+  @IsOptional()
+  infoSession?: string;
 }
 
 export class MultipleUserQuery {
@@ -240,6 +335,12 @@ export class AppUserInducteePointsResponse {
 
   @IsBoolean()
   hasMentorshipRequirement: boolean;
+
+  @IsBoolean()
+  hasTechnicalRequirement: boolean;
+
+  @IsBoolean()
+  hasSocialRequirement: boolean;
 
   @ValidateNested({ each: true })
   @Type(() => AttendanceResponse)

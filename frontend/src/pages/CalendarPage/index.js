@@ -18,12 +18,14 @@ import * as ROUTES from '@Constants/routes';
 import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
 import { getAllEvents } from '@Services/EventService';
 import { Button } from '@SharedComponents';
+import { updateEvent } from '@Services/EventService';
 
 class CalendarPage extends React.Component {
   constructor() {
     super();
     this.state = {
       events: [],
+      hasEventStatusChanged: true,
       selectedEvent: null,
       view: 'calendar',
       pending: true,
@@ -54,12 +56,13 @@ class CalendarPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { pending, ready, complete } = this.state;
+    const { pending, ready, complete, hasEventStatusChanged } = this.state;
 
     if (
       pending !== prevState.pending ||
       ready !== prevState.ready ||
-      complete !== prevState.complete
+      complete !== prevState.complete ||
+      hasEventStatusChanged !== prevState.hasEventStatusChanged
     ) {
       getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
         const { events } = multipleEventResponse;
@@ -100,6 +103,26 @@ class CalendarPage extends React.Component {
       selectedEvent: null,
     });
   }
+
+  handleUpdateStatus = async (
+  newStatus
+  ) => {
+    const { hasEventStatusChanged, selectedEvent } = this.state;
+    const eventRequest = {
+      ...selectedEvent,
+      status: newStatus,
+      hosts: selectedEvent.hosts.map(host => {
+        return {
+          id: host.id,
+        };
+      }),
+    };
+    const updatedEvent = await updateEvent(selectedEvent.id, eventRequest);
+    this.setState({
+      hasEventStatusChanged: !hasEventStatusChanged,
+      selectedEvent: updatedEvent
+    });
+  };
 
   toggleView() {
     this.setState(prevState => ({
@@ -211,6 +234,7 @@ class CalendarPage extends React.Component {
                 <EventCard
                   event={selectedEvent}
                   onClose={() => this.handleModalClose()}
+                  updateStatus={(event, newStatus) => this.handleUpdateStatus(event, newStatus)}
                 />
               </Container>
             )}

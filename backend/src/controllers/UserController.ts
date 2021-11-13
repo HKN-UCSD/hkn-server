@@ -11,6 +11,7 @@ import {
   QueryParams,
   UploadedFile,
   BadRequestError,
+  InternalServerError,
 } from 'routing-controllers';
 import { Response } from 'express';
 import { ResponseSchema, OpenAPI } from 'routing-controllers-openapi';
@@ -30,7 +31,6 @@ import {
   AppUserInterviewAvailabilitiesRequest,
   AppUserResponse,
   AppUserRolesResponse,
-  AppUserProfileResponse,
   MultipleUserQuery,
   MultipleAppUserResponse,
   MultipleUserNameResponse,
@@ -76,13 +76,13 @@ export class UserController {
 
   @Get('/:userID')
   @UseBefore(InducteeAuthMiddleware)
-  @ResponseSchema(AppUserProfileResponse)
+  @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async getUserProfile(
+  async getUserById(
     @Param('userID') userID: number,
-    @CurrentUser({ required: true }) appUser: AppUser
-  ): Promise<AppUserProfileResponse | undefined> {
-    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
+    @CurrentUser({ required: true }) requester: AppUser
+  ): Promise<AppUserResponse | undefined> {
+    if (this.appUserService.isUnauthedUserOrNonOfficer(requester, userID)) {
       throw new ForbiddenError();
     }
 
@@ -92,21 +92,27 @@ export class UserController {
       return undefined;
     }
 
-    return this.appUserMapper.entityToProfileResponse(appUserFromID);
+    return this.appUserMapper.entityToResponse(appUserFromID);
   }
 
   @Post('/:userID')
   @UseBefore(InducteeAuthMiddleware)
   @ResponseSchema(AppUserResponse)
   @OpenAPI({ security: [{ TokenAuth: [] }] })
-  async updateUserProfile(
+  async updateUserById(
     @Param('userID') userID: number,
     @Body() appUserUpdateRequest: AppUserPostRequest,
-    @CurrentUser({ required: true })
-    appUser: AppUser
+    @CurrentUser({ required: true }) requester: AppUser
   ): Promise<AppUserResponse | undefined> {
-    if (this.appUserService.isUnauthedUserOrNonOfficer(appUser, userID)) {
+    if (this.appUserService.isUnauthedUserOrNonOfficer(requester, userID)) {
       throw new ForbiddenError();
+    }
+
+    const { email } = appUserUpdateRequest;
+    const appUserFromEmail = await this.appUserService.getAppUserByEmail(email);
+
+    if (appUserFromEmail !== undefined && appUserFromEmail.id !== userID) {
+      throw new InternalServerError('The inputted email is already taken');
     }
 
     const updatedAppUserToSave = await this.appUserMapper.requestToExistingEntity(
@@ -182,6 +188,8 @@ export class UserController {
     res.user = userID;
     res.hasMentorshipRequirement = points.hasMentorshipRequirement;
     res.hasProfessionalRequirement = points.hasProfessionalRequirement;
+    res.hasTechnicalRequirement = points.hasTechnicalRequirement;
+    res.hasSocialRequirement = points.hasSocialRequirement;
     res.attendance = attendanceObjs;
     return res;
   }
