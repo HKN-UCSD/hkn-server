@@ -26,16 +26,17 @@ import {
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { OfficerTabs, InducteeTabs } from './tabs';
+import { AdminTabs, OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
 
 import { UserContext } from '@Contexts';
 import { doSignOut } from '@Services/auth';
-import { isOfficer } from '@Services/claims';
+import { isAdmin, isOfficer } from '@Services/claims';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,
   isAnOfficer: false,
+  isAnAdmin: false,
   isConfirmationModalOpen: false,
 };
 
@@ -49,6 +50,7 @@ class NavBar extends React.Component {
     const userContext = this.context;
     this.setState({
       isAnOfficer: isOfficer(userContext),
+      isAnAdmin: isAdmin(userContext),
     });
   }
 
@@ -64,6 +66,16 @@ class NavBar extends React.Component {
     });
   };
 
+  handleTabs = () => {
+    if (isAnAdmin) {
+      return AdminTabs;
+    } else if (isAnOfficer) {
+      return OfficerTabs;
+    } else {
+      return InducteeTabs;
+    }
+  };
+
   handleClose = () => {
     this.setState({
       isConfirmationModalOpen: false,
@@ -72,9 +84,9 @@ class NavBar extends React.Component {
 
   render() {
     const { classes, children } = this.props;
-    const { isDrawerOpen, isAnOfficer, isConfirmationModalOpen } = this.state;
+    const { isDrawerOpen, isConfirmationModalOpen } = this.state;
 
-    const tabs = isAnOfficer ? OfficerTabs : InducteeTabs;
+    const tabs = this.handleTabs();
     const tabComponents = tabs.map(tab => (
       <ListItem button component={Link} to={tab.route} key={tab.route}>
         <ListItemIcon>{tab.icon}</ListItemIcon>
