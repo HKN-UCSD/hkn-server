@@ -8,7 +8,6 @@ const schema = Yup.object({
     .matches('^.*(ucsd)\\.edu$', 'Your inputted email is not a UCSD email!')
     .required('Required'),
   major: Yup.string().required('Required'),
-  hknAffiliation: Yup.string().required('Required'),
   agreeToPhotoRelease: Yup.bool().required('Required'),
 });
 
