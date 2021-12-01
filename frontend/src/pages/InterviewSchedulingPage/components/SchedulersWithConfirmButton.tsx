@@ -16,6 +16,9 @@ interface SchedulersWithConfirmButtonProps {
   existingUserSchedule: Date[][];
 }
 
+import { InterviewRenderPermission } from '@HOCs/RenderPermissions';
+
+
 const minTimesToPick = 8;
 
 const isEqualSchedules = (
@@ -106,12 +109,18 @@ function SchedulersWithConfirmButton({
     <Grid container direction='column' alignItems='center' spacing={3}>
       <Grid item>
         {startDates.map((startDate, index) => (
-          <InterviewScheduler
-            selectedSchedule={userSchedules[index]}
-            key={startDate.toDateString() + index} // eslint-disable-line react/no-array-index-key
-            startDate={startDate}
-            selectedScheduleCallback={setScheduleHOFByIndex(index)}
-          />
+          InterviewRenderPermission(InterviewScheduler)({
+            selectedSchedule: userSchedules[index],
+            key: startDate.toDateString() + index, // eslint-disable-line react/no-array-index-key
+            startDate: startDate,
+            selectedScheduleCallback: setScheduleHOFByIndex(index),
+          })
+          // <InterviewScheduler
+          //   selectedSchedule={userSchedules[index]}
+          //   key={startDate.toDateString() + index} // eslint-disable-line react/no-array-index-key
+          //   startDate={startDate}
+          //   selectedScheduleCallback={setScheduleHOFByIndex(index)}
+          // />
         ))}
       </Grid>
 

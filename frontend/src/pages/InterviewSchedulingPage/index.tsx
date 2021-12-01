@@ -9,8 +9,12 @@ import {
   AppUserInterviewAvailability,
   InterviewDatesResponse,
 } from '@Services/api';
+import {
+  AppUserInducteePointsResponse,
+} from '@Services/api/models';
 import { InterviewWeekStartDate } from '@Services/api/models';
-import { getUserById } from '@Services/UserService';
+import { getUserById, getInductionPoints } from '@Services/UserService';
+
 import {
   getInterviewStartDates,
   getCurrentInductionClass,
@@ -67,6 +71,8 @@ export default function InterviewSchedulingPage(): JSX.Element {
     []
   );
   const [interviewStartDates, setInterviewStartDates] = useState<Date[]>([]);
+  const [inductionRequirements, setInductionRequirements] =
+    useState<AppUserInducteePointsResponse | undefined>(undefined);
 
   useEffect(() => {
     const getUserFunc = async () => {
@@ -87,6 +93,15 @@ export default function InterviewSchedulingPage(): JSX.Element {
         }
       );
 
+      try {
+        const requestedInductionRequirements = await getInductionPoints(
+          parseInt(userId, 10)
+        );
+        setInductionRequirements(requestedInductionRequirements);
+      } catch {
+        setInductionRequirements(undefined);
+      }
+
       setExistingUserSchedules(startDates);
     };
     getUserFunc();
@@ -95,8 +110,9 @@ export default function InterviewSchedulingPage(): JSX.Element {
   useEffect(() => {
     const getInterviewWeekStartDateFunc = async () => {
       // hardcoded induction class for now
-      const { quarter } = await getCurrentInductionClass();
-      const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
+      //const { quarter } = await getCurrentInductionClass();
+      //const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
+      const res: InterviewDatesResponse = await getInterviewStartDates('FA21');
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
         (interviewWeekStartDate: InterviewWeekStartDate) => {
           return parseISO(interviewWeekStartDate.startDate);
@@ -113,10 +129,26 @@ export default function InterviewSchedulingPage(): JSX.Element {
     existingUserSchedules
   );
 
+  const pointsReq = inductionRequirements ?
+    (inductionRequirements.points >= 6) : false
+    ;
+
+  function Interview(props) {
+    const pointsReqMet = props.pointsReqMet;
+    if (pointsReqMet) {
+      return <SchedulersWithConfirmButton
+        startDates={interviewStartDates}
+        existingUserSchedule={scheduleByWeek}
+      />;
+    }
+    return <h1 style={{ textAlign: 'center' }}>No interview slots available</h1>;
+  }
+
   return (
-    <SchedulersWithConfirmButton
-      startDates={interviewStartDates}
-      existingUserSchedule={scheduleByWeek}
-    />
+    <Interview pointsReqMet={pointsReq} />
+    // <SchedulersWithConfirmButton
+    //   startDates={interviewStartDates}
+    //   existingUserSchedule={scheduleByWeek}
+    // />
   );
 }

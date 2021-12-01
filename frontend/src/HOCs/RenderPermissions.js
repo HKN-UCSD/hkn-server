@@ -25,3 +25,9 @@ export const InducteeRenderPermission = RenderAuthorization([
   'member',
   'inductee',
 ]);
+
+export const InterviewRenderPermission = RenderAuthorization([
+  'admin',
+  'officer',
+  'inductee',
+]);
