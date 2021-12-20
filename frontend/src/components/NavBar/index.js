@@ -35,8 +35,7 @@ import { isAdmin, isOfficer } from '@Services/claims';
 
 const INITIAL_STATES = {
   isDrawerOpen: false,
-  isAnOfficer: false,
-  isAnAdmin: false,
+  role: 'inductee',
   isConfirmationModalOpen: false,
 };
 
@@ -48,10 +47,15 @@ class NavBar extends React.Component {
 
   componentDidMount() {
     const userContext = this.context;
-    this.setState({
-      isAnOfficer: isOfficer(userContext),
-      isAnAdmin: isAdmin(userContext),
-    });
+    if (isAdmin(userContext)) {
+      this.setState({
+        role: 'admin',
+      });
+    } else if (isOfficer(userContext)) {
+      this.setState({
+        role: 'officer',
+      });
+    }
   }
 
   handleDrawerToggle = () => {
@@ -67,12 +71,13 @@ class NavBar extends React.Component {
   };
 
   handleTabs = () => {
-    if (isAnAdmin) {
-      return AdminTabs;
-    } else if (isAnOfficer) {
-      return OfficerTabs;
-    } else {
-      return InducteeTabs;
+    switch (this.state.role) {
+      case 'admin':
+        return AdminTabs;
+      case 'officer':
+        return OfficerTabs;
+      default:
+        return InducteeTabs;
     }
   };
 
