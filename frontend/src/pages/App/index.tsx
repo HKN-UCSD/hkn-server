@@ -30,12 +30,14 @@ import {
   InductionClassDetailsPage,
   InductionClassEditPage,
   InducteeSignUpPage,
+  EditRolesPage,
 } from '@Pages';
 import { Loading } from '@SharedComponents';
 import { UserContext, UserContextValues } from '@Contexts';
 import * as ROUTES from '@Constants/routes';
 import { getUserRole } from '@Services/UserService';
 import {
+  AdminRoutingPermission,
   InducteeRoutingPermission,
   OfficerRoutingPermission,
 } from '@HOCs/RoutingPermissions';
@@ -245,6 +247,11 @@ function App(): JSX.Element {
               render={props =>
                 InducteeRoutingPermission(ProfileEditPage)(props)
               }
+            />
+            <Route
+              exact
+              path={ROUTES.EDIT_ROLES}
+              render={props => AdminRoutingPermission(EditRolesPage)(props)}
             />
             <Route render={() => <Redirect to={ROUTES.HOME} />} />
           </Switch>
