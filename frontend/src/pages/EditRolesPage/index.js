@@ -1,135 +1,248 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { compose } from 'recompose';
-import { Divider } from '@material-ui/core';
+import {
+  Grid,
+  Paper,
+  Container,
+  Button as MuiButton,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core';
 
-import EventButtons from './eventButtons';
+import Calendar from './components/Calendar';
+import EventCard from './components/EventCard';
+import EventList from './components/EventList';
+import styles from './styles';
 
-import { MemberRenderPermission } from '@HOCs/RenderPermissions';
+import * as ROUTES from '@Constants/routes';
+import { OfficerRenderPermission } from '@HOCs/RenderPermissions';
+import { getAllEvents } from '@Services/EventService';
+import { Button } from '@SharedComponents';
+import { updateEvent } from '@Services/EventService';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    [theme.breakpoints.up(400 + theme.spacing(6))]: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  contentWrapper: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: theme.spacing(9),
-    // display: 'flex',
-    // [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
-    //   flexDirection: 'row',
-    // },
-    // [theme.breakpoints.down(theme.breakpoints.values.md)]: {
-    //   flexDirection: 'column',
-    // },
-    // flexDirection:'row',
-    alignItems: 'center',
-    // height: "100vh",
-  },
-});
-
-const INITIAL_STATE = {
-  width: 500,
-  height: 1000,
-};
-
-class EventsPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { ...INITIAL_STATE };
-    this.resizeFB = this.resizeFB.bind(this);
+class CalendarPage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      events: [],
+      hasEventStatusChanged: true,
+      selectedEvent: null,
+      view: 'calendar',
+      pending: true,
+      ready: true,
+      complete: true,
+    };
   }
 
   componentDidMount() {
-    this.resizeFB();
-    window.addEventListener('resize', this.resizeFB);
+    const { pending, ready, complete } = this.state;
+
+    getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
+      const { events } = multipleEventResponse;
+      const calendarEvents = [];
+
+      events.forEach(event => {
+        // make a copy of the event
+        const newEvent = Object.assign(event);
+
+        // For EventList
+        newEvent.title = newEvent.name;
+
+        calendarEvents.push(newEvent);
+      });
+
+      this.setState({ events: calendarEvents });
+    });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeFB);
+  componentDidUpdate(prevProps, prevState) {
+    const { pending, ready, complete, hasEventStatusChanged } = this.state;
+
+    if (
+      pending !== prevState.pending ||
+      ready !== prevState.ready ||
+      complete !== prevState.complete ||
+      hasEventStatusChanged !== prevState.hasEventStatusChanged
+    ) {
+      getAllEvents({ pending, ready, complete }).then(multipleEventResponse => {
+        const { events } = multipleEventResponse;
+        const calendarEvents = [];
+
+        events.forEach(event => {
+          // make a copy of the event
+          const newEvent = Object.assign(event);
+
+          // For EventList
+          newEvent.title = newEvent.name;
+
+          calendarEvents.push(newEvent);
+        });
+
+        this.setState({ events: calendarEvents });
+      });
+    }
   }
 
-  resizeFB = () => {
-    let fbHeight = window.innerHeight;
-    let fbWidth = window.innerWidth;
+  handlePendingChange() {
+    const { pending } = this.state;
+    this.setState({ pending: !pending });
+  }
 
-    // Range check for allowed height of FB Page plugin
-    if (fbHeight < 70) {
-      fbHeight = 70;
-    }
+  handleReadyChange() {
+    const { ready } = this.state;
+    this.setState({ ready: !ready });
+  }
 
-    // Range check for allowed width of FB Page plugin
-    if (fbWidth > 500) {
-      fbWidth = 500;
-    } else if (fbWidth < 180) {
-      fbWidth = 180;
-    }
+  handleCompleteChange() {
+    const { complete } = this.state;
+    this.setState({ complete: !complete });
+  }
 
+  handleModalClose() {
     this.setState({
-      height: fbHeight,
-      width: fbWidth,
+      selectedEvent: null,
+    });
+  }
+
+  handleUpdateStatus = async (
+  newStatus
+  ) => {
+    const { hasEventStatusChanged, selectedEvent } = this.state;
+    const eventRequest = {
+      ...selectedEvent,
+      status: newStatus,
+      hosts: selectedEvent.hosts.map(host => {
+        return {
+          id: host.id,
+        };
+      }),
+    };
+    const updatedEvent = await updateEvent(selectedEvent.id, eventRequest);
+    this.setState({
+      hasEventStatusChanged: !hasEventStatusChanged,
+      selectedEvent: updatedEvent
     });
   };
 
-  getPagePluginURL = () => {
-    const { width, height } = this.state;
-    return `${'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhknucsd%2F&tabs=events' +
-      '&width='}${width}&height=${height}&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId`;
-  };
+  toggleView() {
+    this.setState(prevState => ({
+      view: prevState.view === 'calendar' ? ' list' : 'calendar',
+    }));
+  }
 
-  getCalendarPluginURL = () => {
-    return 'https://calendar.google.com/calendar/embed?src=v90k4miuerv8iemlu0c3gaq968%40group.calendar.google.com&ctz=America%2FLos_Angeles';
-  };
+  toggleEventClick(event) {
+    const { selectedEvent } = this.state;
+    if (selectedEvent != null && event.id === selectedEvent.id) {
+      this.setState({
+        selectedEvent: null,
+      });
+    } else {
+      this.setState({ selectedEvent: event });
+    }
+  }
 
   render() {
-    const { width, height } = this.state;
-    const { classes } = this.props;
+    const {
+      selectedEvent,
+      events,
+      view,
+      pending,
+      ready,
+      complete,
+    } = this.state;
+    const { classes, history } = this.props;
     return (
-      <div>
-        <div style={{ margin: '20px' }}>
-          {MemberRenderPermission(EventButtons)({})}
-        </div>
+      <Grid className={classes.root} container direction='column'>
+        <Grid className={classes.buttons} container justify='space-between'>
+          <Grid item>
+            {OfficerRenderPermission(Button)({
+              secondary: true,
+              positive: true,
+              children: 'Create Event',
+              onClick: () => {
+                history.push(ROUTES.EVENT_CREATION);
+              },
+            })}
+          </Grid>
 
-        <div className={classes.contentWrapper}>
-          <Divider />
-          <h1 style={{ textAlign: 'center' }}>Upcoming Events</h1>
-          <Divider />
-        </div>
-        <div className={classes.root}>
-          <iframe
-            title='hkn-ucsd-fb'
-            className={classes.contentWrapper}
-            src={this.getPagePluginURL()}
-            width={width}
-            height={height}
-            frameBorder='0'
-            allow='encrypted-media'
-            overflow-x='visible'
-          />
+          {view === 'calendar' && (
+            <Grid item>
+              {OfficerRenderPermission(FormControlLabel)({
+                control: (
+                  <Checkbox
+                    name='pending'
+                    onChange={() => this.handlePendingChange()}
+                    checked={pending}
+                  />
+                ),
+                label: 'Pending',
+              })}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='ready'
+                    onChange={() => this.handleReadyChange()}
+                    checked={ready}
+                  />
+                }
+                label='Ready'
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name='complete'
+                    onChange={() => this.handleCompleteChange()}
+                    checked={complete}
+                  />
+                }
+                label='Complete'
+              />
+            </Grid>
+          )}
 
-          <iframe
-            title='hkn-google-cal'
-            className={classes.contentWrapper}
-            src={this.getCalendarPluginURL()}
-            width={width}
-            height={height}
-            frameBorder='0'
-            allow='encrypted-media'
-          />
-        </div>
-      </div>
+          <Grid item>
+            <MuiButton
+              onClick={() => {
+                this.toggleView();
+              }}
+            >
+              {view === 'calendar' ? 'list View' : 'calendar view'}
+            </MuiButton>
+          </Grid>
+        </Grid>
+
+        <Grid item className={classes.calendar}>
+          <Grid container>
+            <Grid item xs>
+              <Paper>
+                {view === 'calendar' ? (
+                  <Calendar
+                    events={events}
+                    handleEventClick={event => this.toggleEventClick(event)}
+                  />
+                ) : (
+                  <EventList
+                    events={events}
+                    handleEventClick={event => this.toggleEventClick(event)}
+                  />
+                )}
+              </Paper>
+            </Grid>
+
+            {selectedEvent !== null && (
+              <Container>
+                <EventCard
+                  event={selectedEvent}
+                  onClose={() => this.handleModalClose()}
+                  updateStatus={(event, newStatus) => this.handleUpdateStatus(event, newStatus)}
+                />
+              </Container>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     );
   }
 }
 
-export default compose(withStyles(styles))(EventsPage);
+export default withStyles(styles)(CalendarPage);
