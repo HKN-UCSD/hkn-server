@@ -12,6 +12,7 @@ import {
 import Calendar from './components/Calendar';
 import EventCard from './components/EventCard';
 import EventList from './components/EventList';
+import { Loading, RequestErrorSnackbar, Table } from '@SharedComponents';
 import styles from './styles';
 
 import * as ROUTES from '@Constants/routes';
@@ -104,9 +105,7 @@ class CalendarPage extends React.Component {
     });
   }
 
-  handleUpdateStatus = async (
-  newStatus
-  ) => {
+  handleUpdateStatus = async newStatus => {
     const { hasEventStatusChanged, selectedEvent } = this.state;
     const eventRequest = {
       ...selectedEvent,
@@ -120,7 +119,7 @@ class CalendarPage extends React.Component {
     const updatedEvent = await updateEvent(selectedEvent.id, eventRequest);
     this.setState({
       hasEventStatusChanged: !hasEventStatusChanged,
-      selectedEvent: updatedEvent
+      selectedEvent: updatedEvent,
     });
   };
 
@@ -151,6 +150,15 @@ class CalendarPage extends React.Component {
       complete,
     } = this.state;
     const { classes, history } = this.props;
+    const columns = [
+      { title: 'Quarter', field: 'quarter' },
+      { title: 'Name', field: 'name' },
+      { title: 'Start Date', field: 'startDate' },
+      { title: 'End Date', field: 'endDate' },
+      {
+        title: '',
+      },
+    ];
     return (
       <Grid className={classes.root} container direction='column'>
         <Grid className={classes.buttons} container justify='space-between'>
@@ -158,9 +166,9 @@ class CalendarPage extends React.Component {
             {OfficerRenderPermission(Button)({
               secondary: true,
               positive: true,
-              children: 'Create Event',
+              children: 'Save Changes',
               onClick: () => {
-                history.push(ROUTES.EVENT_CREATION);
+                // DO SOMETHING
               },
             })}
           </Grid>
@@ -211,35 +219,13 @@ class CalendarPage extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid item className={classes.calendar}>
-          <Grid container>
-            <Grid item xs>
-              <Paper>
-                {view === 'calendar' ? (
-                  <Calendar
-                    events={events}
-                    handleEventClick={event => this.toggleEventClick(event)}
-                  />
-                ) : (
-                  <EventList
-                    events={events}
-                    handleEventClick={event => this.toggleEventClick(event)}
-                  />
-                )}
-              </Paper>
-            </Grid>
-
-            {selectedEvent !== null && (
-              <Container>
-                <EventCard
-                  event={selectedEvent}
-                  onClose={() => this.handleModalClose()}
-                  updateStatus={(event, newStatus) => this.handleUpdateStatus(event, newStatus)}
-                />
-              </Container>
-            )}
-          </Grid>
-        </Grid>
+        <Table
+          columns={columns}
+          data={null}
+          title='Testing Title'
+          options={{ exportButton: true }}
+          pageSize={5}
+        />
       </Grid>
     );
   }
