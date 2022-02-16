@@ -45,7 +45,9 @@ export default function Table(props) {
   const { data, pageSize, enableExport } = props;
   const pageSizeToSet = pageSize === undefined ? 20 : pageSize;
   const enableExportOption = enableExport === undefined ? true : enableExport;
-
+  const size = data ? data.length : 0;
+  const pageSizeOptions = [5, 10, 20, { value: size, label: 'All' }];
+  
   if (!data) {
     return <></>;
   }
@@ -54,7 +56,7 @@ export default function Table(props) {
     <MaterialTable
       icons={tableIcons}
       {...props}
-      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption }}
+      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption, pageSizeOptions: pageSizeOptions }}
     />
   );
 }
