@@ -12,6 +12,7 @@ import {
 } from '@Services/api';
 import { inductionClassDateFormat } from '@Constants/dateTimeFormat';
 
+// I copied this directly from the induction class table
 const inductionClassResponseToInductionClassRow = ({
   name,
   quarter,
@@ -37,7 +38,7 @@ const inductionClassResponseToInductionClassRow = ({
   return inductionClassRow;
 };
 
-function InductionClassTable(): JSX.Element {
+function MemberTable(): JSX.Element {
   const { data, isLoading, error, isError } = useRequest<
     MultipleInductionClassResponse,
     Response
@@ -88,4 +89,4 @@ function InductionClassTable(): JSX.Element {
   return <ComponentToRender />;
 }
 
-export default InductionClassTable;
+export default MemberTable;

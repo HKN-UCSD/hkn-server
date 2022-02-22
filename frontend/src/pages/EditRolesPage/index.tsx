@@ -1,22 +1,13 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import InductionClassTable from './components/InductionClassTable';
-import InductionClassCreateButton from './components/buttons/InductionClassCreateButton';
+import MemberTable from './components/MemberTable';
 
 function EditRolesPage(): JSX.Element {
   return (
     <Grid container direction='column' spacing={2}>
       <Grid item>
-        <Grid container justifyContent='flex-start'>
-          <Grid item>
-            <InductionClassCreateButton />
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <Grid item>
-        <InductionClassTable />
+        <MemberTable />
       </Grid>
     </Grid>
   );
