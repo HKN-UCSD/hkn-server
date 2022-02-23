@@ -21,7 +21,7 @@ const InductionClassDetailsButton = ({
         history.push(ROUTES.INDUCTION_CLASS_DETAILS_WITH_QTR(quarter))
       }
     >
-      Details
+      Edit Role
     </Button>
   );
 };
