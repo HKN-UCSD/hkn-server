@@ -9,54 +9,48 @@ import { getMultipleInductionClasses } from '@Services/InductionClassService';
 import {
   MultipleInductionClassResponse,
   InductionClassResponse,
+  AppUserResponse,
+  MultipleAppUserResponse,
 } from '@Services/api';
 import { inductionClassDateFormat } from '@Constants/dateTimeFormat';
+import { getMultipleUsers } from '@Services/UserService';
 
 // I copied this directly from the induction class table
-const inductionClassResponseToInductionClassRow = ({
-  name,
-  quarter,
-  startDate,
-  endDate,
-}: InductionClassResponse) => {
-  const startDateCorrectFormat = format(
-    parseISO(startDate),
-    inductionClassDateFormat
-  );
-  const endDateCorrectFormat = format(
-    parseISO(endDate),
-    inductionClassDateFormat
-  );
-
-  const inductionClassRow = {
-    name,
-    quarter,
-    startDate: startDateCorrectFormat,
-    endDate: endDateCorrectFormat,
+const appUserResponseToAppUserRow = ({
+  id,
+  firstName,
+  lastName,
+  role,
+  email,
+}: AppUserResponse) => {
+  const userRow = {
+    id,
+    name: firstName + ' ' + lastName,
+    email,
+    role,
   };
 
-  return inductionClassRow;
+  return userRow;
 };
 
 function MemberTable(): JSX.Element {
   const { data, isLoading, error, isError } = useRequest<
-    MultipleInductionClassResponse,
+    MultipleAppUserResponse,
     Response
   >({
-    requestKey: 'getMultipleInductionClasses',
-    requestFunc: getMultipleInductionClasses,
+    requestKey: 'getMultipleUsers',
+    requestFunc: getMultipleUsers,
     requestParams: [{ showAffiliates: false }],
   });
 
   const columns = [
-    { title: 'Quarter', field: 'quarter' },
     { title: 'Name', field: 'name' },
-    { title: 'Start Date', field: 'startDate' },
-    { title: 'End Date', field: 'endDate' },
+    { title: 'Email', field: 'email' },
+    { title: 'Role', field: 'role' },
     {
       title: '',
-      render: ({ quarter }: InductionClassResponse) => (
-        <InductionClassDetailsButton quarter={quarter} />
+      render: ({ id }: AppUserResponse) => (
+        <InductionClassDetailsButton quarter={'0'} />
       ),
     },
   ];
@@ -70,15 +64,13 @@ function MemberTable(): JSX.Element {
       return <Loading />;
     }
 
-    const { inductionClasses } = data;
-    const inductionClassData = inductionClasses.map(inductionClass =>
-      inductionClassResponseToInductionClassRow(inductionClass)
-    );
+    const { users } = data;
+    const userData = users.map(user => appUserResponseToAppUserRow(user));
 
     return (
       <Table
         columns={columns}
-        data={inductionClassData}
+        data={userData}
         title=''
         options={{ exportButton: true }}
         pageSize={5}
