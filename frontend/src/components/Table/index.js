@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import PropTypes from 'prop-types';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -15,6 +16,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import MaterialTable from 'material-table';
+
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -47,7 +49,7 @@ export default function Table(props) {
   const enableExportOption = enableExport === undefined ? true : enableExport;
   const size = data ? data.length : 0;
   const pageSizeOptions = [5, 10, 20, { value: size, label: 'All' }];
-  
+
   if (!data) {
     return <></>;
   }
