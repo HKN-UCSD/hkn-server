@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -43,7 +42,7 @@ const tableIcons = {
 };
 
 export default function Table(props) {
-  // eslint-disable-next-line react/prop-types
+  // eslint-disable react/prop-types
   const { data, pageSize, enableExport } = props;
   const pageSizeToSet = pageSize === undefined ? 20 : pageSize;
   const enableExportOption = enableExport === undefined ? true : enableExport;
