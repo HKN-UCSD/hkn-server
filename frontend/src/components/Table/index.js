@@ -42,10 +42,11 @@ const tableIcons = {
 };
 
 export default function Table(props) {
-  // eslint-disable react/prop-types
+  // eslint-disable-next-line react/prop-types
   const { data, pageSize, enableExport } = props;
   const pageSizeToSet = pageSize === undefined ? 20 : pageSize;
   const enableExportOption = enableExport === undefined ? true : enableExport;
+  // eslint-disable-next-line react/prop-types
   const size = data ? data.length : 0;
   const pageSizeOptions = [5, 10, 20, { value: size, label: 'All' }];
 
