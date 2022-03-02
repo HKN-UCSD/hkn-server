@@ -16,6 +16,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import MaterialTable from 'material-table';
 
+
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -45,6 +46,9 @@ export default function Table(props) {
   const { data, pageSize, enableExport } = props;
   const pageSizeToSet = pageSize === undefined ? 20 : pageSize;
   const enableExportOption = enableExport === undefined ? true : enableExport;
+  // eslint-disable-next-line react/prop-types
+  const size = data ? data.length : 0;
+  const pageSizeOptions = [5, 10, 20, { value: size, label: 'All' }];
 
   if (!data) {
     return <></>;
@@ -54,7 +58,7 @@ export default function Table(props) {
     <MaterialTable
       icons={tableIcons}
       {...props}
-      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption }}
+      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption, pageSizeOptions: pageSizeOptions }}
     />
   );
 }
