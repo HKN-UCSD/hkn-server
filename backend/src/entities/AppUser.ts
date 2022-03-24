@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { InductionClass } from './InductionClass';
 
-export enum AppUserRole {
+export enum EventTypes {
   ADMIN = 'admin',
   OFFICER = 'officer',
   MEMBER = 'member',
