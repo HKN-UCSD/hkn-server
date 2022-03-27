@@ -9,7 +9,6 @@ import { Table } from '@SharedComponents';
 import { getAllInducteePoints, InducteePoint } from '@Services/PointsService';
 
 const columns = [
-  { title: 'Name', field: 'name', show: false },
   { title: 'Email', field: 'email' },
   { title: 'Total Points', field: 'points' },
   {
@@ -34,7 +33,7 @@ const columns = [
   },
 ];
 
-export default function InducteePointsPage() {
+export default function AllUserPage() {
   const [inducteePoints, setInducteePoints] = useState<
     InducteePoint[] | undefined
   >(undefined);

@@ -58,7 +58,7 @@ export default function Table(props) {
     <MaterialTable
       icons={tableIcons}
       {...props}
-      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption, pageSizeOptions: pageSizeOptions }}
+      options={{ pageSize: pageSizeToSet, exportButton: enableExportOption, pageSizeOptions: pageSizeOptions, filtering: true }}
     />
   );
 }
