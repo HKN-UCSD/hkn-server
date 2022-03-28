@@ -99,7 +99,7 @@ export default function InterviewSchedulingPage(): JSX.Element {
       //const { quarter } = await getCurrentInductionClass();
       const quarter = 'WI22';
       const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
-      res.interviewWeeks = Array<InterviewWeekStartDate>(res.interviewWeeks[0]);
+      res.interviewWeeks = Array<InterviewWeekStartDate>(res.interviewWeeks[1]);
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
         (interviewWeekStartDate: InterviewWeekStartDate) => {
           return parseISO(interviewWeekStartDate.startDate);
