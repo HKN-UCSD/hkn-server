@@ -1,10 +1,12 @@
 import { PointsApi } from './api/apis/PointsApi';
 import ApiConfigStore from './ApiConfigStore';
 import { InducteePointsResponse } from './api';
+import { getUserById } from './UserService';
 
 // nit: bad naming
 export interface InducteePoint {
   user: number;
+  name: string;
   email: string;
   points: number;
   hasProfessionalRequirement: string;
@@ -19,7 +21,7 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   const pointsApi: PointsApi = new PointsApi(apiConfig);
 
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
-  return points.inducteePoints.map((point: InducteePointsResponse) => {
+  return await Promise.all(points.inducteePoints.map(async (point: InducteePointsResponse) => {
     return {
       points: point.points,
       user: point.user,
@@ -36,6 +38,7 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
       hasSocialRequirement: point.hasSocialRequirement
         ? 'Complete'
         : 'Incomplete',
-    } as InducteePoint;
-  });
+      name: (await getUserById(point.user)).firstName + " " + (await getUserById(point.user)).lastName,
+    };
+  }));
 }
