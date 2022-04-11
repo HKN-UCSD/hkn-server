@@ -1,7 +1,7 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 
-import InductionClassDetailsButton from '../buttons/InductionClassDetailsButton';
+import EditRolesButton from '../buttons/EditRolesButton';
 
 import { Loading, RequestErrorSnackbar, Table } from '@SharedComponents';
 import { useRequest } from '@Hooks';
@@ -49,9 +49,7 @@ function MemberTable(): JSX.Element {
     { title: 'Role', field: 'role' },
     {
       title: '',
-      render: ({ id }: AppUserResponse) => (
-        <InductionClassDetailsButton quarter={'0'} />
-      ),
+      render: ({ id }: AppUserResponse) => <EditRolesButton id={id} />,
     },
   ];
 
