@@ -28,7 +28,14 @@ function SignInButton({ eventId, signedIn }: SignInButtonProps) {
       children: 'Sign In',
       primary: true,
       positive: true,
-      onClick: () => { },
+      onClick: () => {
+        try {
+          affiliateSignInToEvent(eventId);
+          alert("You've successfully signed in!");
+        } catch {
+          alert('Your sign in request could not be processed.');
+        }
+      },
     });
   }
 
