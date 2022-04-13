@@ -10,6 +10,7 @@ import { getAllInducteePoints, InducteePoint } from '@Services/PointsService';
 
 const columns = [
   { title: 'Email', field: 'email' },
+  { title: 'Name', field: 'name' },
   { title: 'Total Points', field: 'points' },
   {
     title: 'Mentorship Requirement',

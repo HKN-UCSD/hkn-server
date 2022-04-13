@@ -56,8 +56,8 @@ function App(): JSX.Element {
 
         const getTokenFunc = token
           ? async () => {
-              return user.getIdToken();
-            }
+            return user.getIdToken();
+          }
           : emptyGetTokenFunc;
 
         // TODO if there's no change then don't set state to

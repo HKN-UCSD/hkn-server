@@ -1,10 +1,14 @@
 import { PointsApi } from './api/apis/PointsApi';
 import ApiConfigStore from './ApiConfigStore';
-import { InducteePointsResponse } from './api';
+import { InducteePointsResponse, UserApi } from './api';
+import { AppUserResponse } from './api';
+import { isNamespaceImport } from 'typescript';
+import { getUserById, getInductionPoints } from '@Services/UserService';
 
 // nit: bad naming
 export interface InducteePoint {
   user: number;
+  name: string;
   email: string;
   points: number;
   hasProfessionalRequirement: string;
@@ -17,12 +21,14 @@ export interface InducteePoint {
 export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   const apiConfig = await ApiConfigStore.getApiConfig();
   const pointsApi: PointsApi = new PointsApi(apiConfig);
-
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
-  return points.inducteePoints.map((point: InducteePointsResponse) => {
+  const inducteePointsList = await Promise.all(points.inducteePoints.map(async (point: InducteePointsResponse) => {
+    // return points.inducteePoints.map((point: InducteePointsResponse) => {
     return {
       points: point.points,
       user: point.user,
+      name: await getUserById(point.user).firstName + ' ' + await getUserById(point.user).lastName, //TODO Stopped here
+      name: 'annie',
       email: point.email,
       hasProfessionalRequirement: point.hasProfessionalRequirement
         ? 'Complete'
@@ -37,5 +43,7 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
         ? 'Complete'
         : 'Incomplete',
     } as InducteePoint;
-  });
+
+  }));
+  return inducteePointsList;
 }
