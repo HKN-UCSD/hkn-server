@@ -15,6 +15,7 @@ export * from './AppUserSignupRequest';
 export * from './AttendanceCheckOffRequest';
 export * from './AttendanceRequest';
 export * from './AttendanceResponse';
+export * from './AttendanceResultResponse';
 export * from './EventAttendanceResponse';
 export * from './EventRSVPResponse';
 export * from './EventRequest';

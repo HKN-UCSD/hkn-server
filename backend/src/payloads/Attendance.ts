@@ -75,3 +75,14 @@ export class GetAttendanceQuery {
   @IsNumber()
   eventId: number;
 }
+
+export class AttendanceResultResponse {
+  @IsNumber()
+  attendeeId: number;
+
+  @IsNumber()
+  eventId: number;
+
+  @IsBoolean()
+  signin: boolean;
+}

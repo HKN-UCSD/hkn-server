@@ -24,6 +24,9 @@ import {
     AttendanceResponse,
     AttendanceResponseFromJSON,
     AttendanceResponseToJSON,
+    AttendanceResultResponse,
+    AttendanceResultResponseFromJSON,
+    AttendanceResultResponseToJSON,
     EventRequest,
     EventRequestFromJSON,
     EventRequestToJSON,
@@ -49,6 +52,10 @@ export interface EventControllerAffiliateEventRSVPRequest {
 }
 
 export interface EventControllerAffiliateEventSigninRequest {
+    eventID: number;
+}
+
+export interface EventControllerAffiliateEventSigninResultRequest {
     eventID: number;
 }
 
@@ -178,6 +185,44 @@ export class EventApi extends runtime.BaseAPI {
      */
     async eventControllerAffiliateEventSignin(requestParameters: EventControllerAffiliateEventSigninRequest): Promise<AttendanceResponse> {
         const response = await this.eventControllerAffiliateEventSigninRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Affiliate event signin result
+     */
+    async eventControllerAffiliateEventSigninResultRaw(requestParameters: EventControllerAffiliateEventSigninResultRequest): Promise<runtime.ApiResponse<AttendanceResultResponse>> {
+        if (requestParameters.eventID === null || requestParameters.eventID === undefined) {
+            throw new runtime.RequiredError('eventID','Required parameter requestParameters.eventID was null or undefined when calling eventControllerAffiliateEventSigninResult.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/events/{eventID}/signin/affiliate/result`.replace(`{${"eventID"}}`, encodeURIComponent(String(requestParameters.eventID))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AttendanceResultResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Affiliate event signin result
+     */
+    async eventControllerAffiliateEventSigninResult(requestParameters: EventControllerAffiliateEventSigninResultRequest): Promise<AttendanceResultResponse> {
+        const response = await this.eventControllerAffiliateEventSigninResultRaw(requestParameters);
         return await response.value();
     }
 
