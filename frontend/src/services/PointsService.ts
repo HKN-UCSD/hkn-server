@@ -27,8 +27,8 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
     return {
       points: point.points,
       user: point.user,
-      name: await getUserById(point.user).firstName + ' ' + await getUserById(point.user).lastName, //TODO Stopped here
-      name: 'annie',
+      name: (await getUserById(point.user)).firstName + ' ' + (await getUserById(point.user)).lastName, //TODO Stopped here
+      // name: 'annie',
       email: point.email,
       hasProfessionalRequirement: point.hasProfessionalRequirement
         ? 'Complete'
