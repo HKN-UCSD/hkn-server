@@ -22,7 +22,6 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   const apiConfig = await ApiConfigStore.getApiConfig();
   const pointsApi: PointsApi = new PointsApi(apiConfig);
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
-  const userInfo = await getUserById(point.user);
   const inducteePointsList = await Promise.all(points.inducteePoints.map(async (point: InducteePointsResponse) => {
     const userInfo = await getUserById(point.user);
     return {
