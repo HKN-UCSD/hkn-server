@@ -8,38 +8,23 @@ interface SignInButtonProps {
 }
 
 function SignInButton({ eventId, signedIn }: SignInButtonProps) {
-  if (signedIn) {
-    return InducteeRenderPermission(Button)({
-      children: 'Signed In',
-      primary: true,
-      positive: true,
-      disabled: true,
-      onClick: () => {
-        try {
-          affiliateSignInToEvent(eventId);
-          alert("You've successfully signed in!");
-        } catch {
-          alert('Your sign in request could not be processed.');
-        }
-      },
-    });
-  } else {
-    return InducteeRenderPermission(Button)({
-      children: 'Sign In',
-      primary: true,
-      positive: true,
-      onClick: () => {
-        try {
-          affiliateSignInToEvent(eventId);
-          alert("You've successfully signed in!");
-        } catch {
-          alert('Your sign in request could not be processed.');
-        }
-      },
-    });
-  }
-
-
+  const buttonProps = signedIn ? { children: 'Signed In', disabled: true } : { children: 'Sign In' }
+  return InducteeRenderPermission(Button)({
+    ...buttonProps,
+    primary: true,
+    positive: true,
+    onClick: () => {
+      try {
+        affiliateSignInToEvent(eventId);
+        alert("You've successfully signed in!");
+      } catch {
+        alert('Your sign in request could not be processed.');
+      }
+    },
+  });
 }
+
+
+
 
 export default SignInButton;
