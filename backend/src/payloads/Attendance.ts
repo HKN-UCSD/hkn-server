@@ -76,7 +76,7 @@ export class GetAttendanceQuery {
   eventId: number;
 }
 
-export class AttendanceResultResponse {
+export class AffiliateAttendanceResponse {
   @IsNumber()
   attendeeId: number;
 
@@ -84,5 +84,5 @@ export class AttendanceResultResponse {
   eventId: number;
 
   @IsBoolean()
-  signin: boolean;
+  isSignedIn: boolean;
 }

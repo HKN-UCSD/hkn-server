@@ -164,7 +164,7 @@ export async function affiliateSignInToEvent(
   return eventApi.eventControllerAffiliateEventSignin(request);
 }
 
-export async function affiliateSignInToEventResult(
+export async function getAffiliateEventAttendance(
   eventID: number
 ) {
   const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
@@ -172,7 +172,7 @@ export async function affiliateSignInToEventResult(
   const request: EventControllerAffiliateEventSigninRequest = {
     eventID,
   };
-  return eventApi.eventControllerAffiliateEventSigninResult(request);
+  return eventApi.eventControllerGetAffiliateEventAttendance(request);
 }
 
 export async function affiliateRSVPToEvent(

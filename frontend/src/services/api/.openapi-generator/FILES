@@ -7,6 +7,7 @@ apis/TeapotApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/AffiliateAttendanceResponse.ts
 models/AppUserEventRequest.ts
 models/AppUserEventResponse.ts
 models/AppUserInducteePointsResponse.ts
@@ -24,7 +25,6 @@ models/AppUserSignupRequest.ts
 models/AttendanceCheckOffRequest.ts
 models/AttendanceRequest.ts
 models/AttendanceResponse.ts
-models/AttendanceResultResponse.ts
 models/EventAttendanceResponse.ts
 models/EventRSVPResponse.ts
 models/EventRequest.ts

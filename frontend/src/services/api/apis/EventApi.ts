@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    AffiliateAttendanceResponse,
+    AffiliateAttendanceResponseFromJSON,
+    AffiliateAttendanceResponseToJSON,
     AppUserEventRequest,
     AppUserEventRequestFromJSON,
     AppUserEventRequestToJSON,
@@ -24,9 +27,6 @@ import {
     AttendanceResponse,
     AttendanceResponseFromJSON,
     AttendanceResponseToJSON,
-    AttendanceResultResponse,
-    AttendanceResultResponseFromJSON,
-    AttendanceResultResponseToJSON,
     EventRequest,
     EventRequestFromJSON,
     EventRequestToJSON,
@@ -55,10 +55,6 @@ export interface EventControllerAffiliateEventSigninRequest {
     eventID: number;
 }
 
-export interface EventControllerAffiliateEventSigninResultRequest {
-    eventID: number;
-}
-
 export interface EventControllerCheckOffEventAttendanceRequest {
     eventID: number;
     attendanceCheckOffRequest?: AttendanceCheckOffRequest;
@@ -69,6 +65,10 @@ export interface EventControllerCreateEventRequest {
 }
 
 export interface EventControllerDeleteEventRequest {
+    eventID: number;
+}
+
+export interface EventControllerGetAffiliateEventAttendanceRequest {
     eventID: number;
 }
 
@@ -189,44 +189,6 @@ export class EventApi extends runtime.BaseAPI {
     }
 
     /**
-     * Affiliate event signin result
-     */
-    async eventControllerAffiliateEventSigninResultRaw(requestParameters: EventControllerAffiliateEventSigninResultRequest): Promise<runtime.ApiResponse<AttendanceResultResponse>> {
-        if (requestParameters.eventID === null || requestParameters.eventID === undefined) {
-            throw new runtime.RequiredError('eventID','Required parameter requestParameters.eventID was null or undefined when calling eventControllerAffiliateEventSigninResult.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/api/events/{eventID}/signin/affiliate/result`.replace(`{${"eventID"}}`, encodeURIComponent(String(requestParameters.eventID))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => AttendanceResultResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Affiliate event signin result
-     */
-    async eventControllerAffiliateEventSigninResult(requestParameters: EventControllerAffiliateEventSigninResultRequest): Promise<AttendanceResultResponse> {
-        const response = await this.eventControllerAffiliateEventSigninResultRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * Check off event attendance
      */
     async eventControllerCheckOffEventAttendanceRaw(requestParameters: EventControllerCheckOffEventAttendanceRequest): Promise<runtime.ApiResponse<AttendanceResponse>> {
@@ -339,6 +301,44 @@ export class EventApi extends runtime.BaseAPI {
      */
     async eventControllerDeleteEvent(requestParameters: EventControllerDeleteEventRequest): Promise<EventResponse> {
         const response = await this.eventControllerDeleteEventRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get affiliate event attendance
+     */
+    async eventControllerGetAffiliateEventAttendanceRaw(requestParameters: EventControllerGetAffiliateEventAttendanceRequest): Promise<runtime.ApiResponse<AffiliateAttendanceResponse>> {
+        if (requestParameters.eventID === null || requestParameters.eventID === undefined) {
+            throw new runtime.RequiredError('eventID','Required parameter requestParameters.eventID was null or undefined when calling eventControllerGetAffiliateEventAttendance.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/events/{eventID}/signin/affiliate/attendance`.replace(`{${"eventID"}}`, encodeURIComponent(String(requestParameters.eventID))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AffiliateAttendanceResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get affiliate event attendance
+     */
+    async eventControllerGetAffiliateEventAttendance(requestParameters: EventControllerGetAffiliateEventAttendanceRequest): Promise<AffiliateAttendanceResponse> {
+        const response = await this.eventControllerGetAffiliateEventAttendanceRaw(requestParameters);
         return await response.value();
     }
 

@@ -18,7 +18,7 @@ import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
 import { EventStatusEnum } from '@Services/EventService';
 
-import { affiliateSignInToEventResult } from '@Services/EventService';
+import { getAffiliateEventAttendance } from '@Services/EventService';
 
 
 interface EventDetailsComponentProps {
@@ -29,12 +29,12 @@ interface EventDetailsComponentProps {
 function EventDetailsComponent(props: EventDetailsComponentProps) {
   const { eventInfo, eventId } = props;
   const classes = useStyles();
-  const [result, setResult] = useState<boolean>(false);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(true);
 
   useEffect(() => {
     const getAttendance = async () => {
-      const attendenceResult = await affiliateSignInToEventResult(eventId);
-      setResult(attendenceResult.signin);
+      const affiliateAttendance = await getAffiliateEventAttendance(eventId);
+      setIsSignedIn(affiliateAttendance.isSignedIn);
     };
     getAttendance();
   }, [eventId]);
@@ -66,7 +66,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
     status === EventStatusEnum.Ready ? (
       <Grid container justify='flex-end' spacing={1}>
         <Grid item>
-          <SignInButton eventId={eventId} signedIn={result} />
+          <SignInButton eventId={eventId} signedIn={isSignedIn} />
         </Grid>
 
         <Grid item>
