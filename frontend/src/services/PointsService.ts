@@ -22,13 +22,13 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   const apiConfig = await ApiConfigStore.getApiConfig();
   const pointsApi: PointsApi = new PointsApi(apiConfig);
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
+  const userInfo = await getUserById(point.user);
   const inducteePointsList = await Promise.all(points.inducteePoints.map(async (point: InducteePointsResponse) => {
-    // return points.inducteePoints.map((point: InducteePointsResponse) => {
+    const userInfo = await getUserById(point.user);
     return {
       points: point.points,
       user: point.user,
-      name: (await getUserById(point.user)).firstName + ' ' + (await getUserById(point.user)).lastName, //TODO Stopped here
-      // name: 'annie',
+      name: userInfo.firstName + ' ' + userInfo.lastName,
       email: point.email,
       hasProfessionalRequirement: point.hasProfessionalRequirement
         ? 'Complete'
@@ -43,7 +43,6 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
         ? 'Complete'
         : 'Incomplete',
     } as InducteePoint;
-
   }));
   return inducteePointsList;
 }
