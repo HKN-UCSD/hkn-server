@@ -28,7 +28,7 @@ interface EditRolesButtonProps {
 }
 
 const EditRolesButton = ({ id }: EditRolesButtonProps) => {
-  var isEditRolePopupOpen = false;
+  var isEditRolePopupOpen = true;
   //const history = useHistory();
   const handleEditRolePopup = () => {
     isEditRolePopupOpen = true;
@@ -39,7 +39,7 @@ const EditRolesButton = ({ id }: EditRolesButtonProps) => {
   return (
     <div>
       <Button positive primary onClick={() => handleEditRolePopup}>
-        Edit Role ${id}
+        Edit Role
       </Button>
       <Dialog
         open={isEditRolePopupOpen}
