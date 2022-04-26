@@ -28,6 +28,7 @@ interface EditRolesButtonProps {
 }
 interface INITIAL_STATES {
   isPopupOpen?: boolean;
+  id?: number;
 }
 
 class EditRolesButton extends React.Component<
@@ -39,6 +40,7 @@ class EditRolesButton extends React.Component<
 
     this.state = {
       isPopupOpen: false,
+      id: props.id,
     };
     this.handleEditRolePopup = this.handleEditRolePopup.bind(this);
     this.handleEditRoleClose = this.handleEditRoleClose.bind(this);
@@ -70,7 +72,7 @@ class EditRolesButton extends React.Component<
           <DialogTitle id='alert-dialog-title'>Edit Role Popup</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              What role do you want this user to be?
+              What role do you want this user to be? {this.state.id}
             </DialogContentText>
           </DialogContent>
         </Dialog>
