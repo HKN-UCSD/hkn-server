@@ -4,6 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { Button } from '@SharedComponents';
 import * as ROUTES from '@Constants/routes';
 import {
+  AppUserResponse,
+  AppUserInterviewAvailability,
+  InterviewDatesResponse,
+} from '@Services/api';
+import {
   CssBaseline,
   Drawer,
   AppBar,
@@ -22,6 +27,7 @@ import {
   DialogTitle,
   Hidden,
 } from '@material-ui/core';
+import { getUserById } from '@Services/UserService';
 
 interface EditRolesButtonProps {
   id: number;
@@ -56,7 +62,7 @@ class EditRolesButton extends React.Component<
       isPopupOpen: false,
     });
   }
-
+  //const res: AppUserResponse = await getUserById(parseInt(userId, 10));
   render() {
     return (
       <div>
@@ -80,39 +86,5 @@ class EditRolesButton extends React.Component<
     );
   }
 }
-/*
-const EditRolesButton = ({ id }: EditRolesButtonProps) => {
-  this.state = {...INITIAL_STATES};
-  var isEditRolePopupOpen = false;
-  //const history = useHistory();
-  const handleEditRolePopup = () => {
-    this.setState;
-    isEditRolePopupOpen = true;
-  };
-  const handleCloseEditRolePopup = () => {
-    isEditRolePopupOpen = false;
-  };
-  return (
-    <div>
-      <Button positive primary onClick={() => handleEditRolePopup}>
-        Edit Role
-      </Button>
-      <Dialog
-        open={isEditRolePopupOpen}
-        onClose={handleCloseEditRolePopup}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>Edit Role Popup</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            What role do you want this user to be?
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
-*/
 
 export default EditRolesButton;
