@@ -164,6 +164,17 @@ export async function affiliateSignInToEvent(
   return eventApi.eventControllerAffiliateEventSignin(request);
 }
 
+export async function getAffiliateEventAttendance(
+  eventID: number
+) {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerAffiliateEventSigninRequest = {
+    eventID,
+  };
+  return eventApi.eventControllerGetAffiliateEventAttendance(request);
+}
+
 export async function affiliateRSVPToEvent(
   eventID: number
 ): Promise<RSVPResponse> {
