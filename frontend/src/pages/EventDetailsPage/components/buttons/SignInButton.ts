@@ -7,8 +7,9 @@ interface SignInButtonProps {
   signedIn: boolean;
 }
 
-function SignInButton({ eventId, signedIn }: SignInButtonProps) {
-  const buttonProps = signedIn ? { children: 'Signed In', disabled: true } : { children: 'Sign In' }
+function SignInButton({ eventId }: SignInButtonProps) {
+  // const buttonProps = signedIn ? { children: 'Signed In', disabled: true } : { children: 'Sign In' }
+  const buttonProps = { children: 'Sign In' };
   return InducteeRenderPermission(Button)({
     ...buttonProps,
     primary: true,
