@@ -1,3 +1,4 @@
+export * from './AffiliateGetRSVPResponse';
 export * from './AppUserEventRequest';
 export * from './AppUserEventResponse';
 export * from './AppUserInducteePointsResponse';
@@ -20,6 +21,7 @@ export * from './EventRSVPResponse';
 export * from './EventRequest';
 export * from './EventResponse';
 export * from './GetAttendanceQuery';
+export * from './GetRSVPQuery';
 export * from './InducteePointsResponse';
 export * from './InducteeSignupInfo';
 export * from './InductionClassRequest';
