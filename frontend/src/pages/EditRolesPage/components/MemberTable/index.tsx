@@ -50,8 +50,14 @@ function MemberTable(): JSX.Element {
     { title: 'Role', field: 'role' },
     {
       title: '',
-      render: ({ id, firstName, lastName }: AppUserResponse) => (
-        <EditRolesButton id={id} name={firstName + ' ' + lastName} />
+      render: ({ id, firstName, lastName, email, role }: AppUserResponse) => (
+        <EditRolesButton
+          id={id}
+          email={email}
+          firstName={firstName}
+          lastName={lastName}
+          role={role}
+        />
       ),
     },
   ];

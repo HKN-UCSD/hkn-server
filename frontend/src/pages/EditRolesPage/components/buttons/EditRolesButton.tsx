@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Button } from '@SharedComponents';
@@ -27,16 +27,23 @@ import {
   DialogTitle,
   Hidden,
 } from '@material-ui/core';
-import { getUserById } from '@Services/UserService';
+import { updateUserById } from '@Services/UserService';
+import { AppUserPostRequest } from '@Services/api';
 
 interface EditRolesButtonProps {
   id: number;
-  name: string;
+  role: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 interface INITIAL_STATES {
   isPopupOpen?: boolean;
   id?: number;
-  name?: string;
+  role?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 class EditRolesButton extends React.Component<
@@ -49,10 +56,14 @@ class EditRolesButton extends React.Component<
     this.state = {
       isPopupOpen: false,
       id: props.id,
-      name: props.name,
+      role: props.role,
+      email: props.email,
+      firstName: props.firstName,
+      lastName: props.lastName,
     };
     this.handleEditRolePopup = this.handleEditRolePopup.bind(this);
     this.handleEditRoleClose = this.handleEditRoleClose.bind(this);
+    this.updateUserRole = this.updateUserRole.bind(this);
   }
 
   handleEditRolePopup() {
@@ -65,6 +76,20 @@ class EditRolesButton extends React.Component<
       isPopupOpen: false,
     });
   }
+  async updateUserRole(newRole) {
+    const updatedUser: AppUserPostRequest = {
+      role: newRole,
+      email: this.state.email!,
+      firstName: this.state.firstName!,
+      lastName: this.state.lastName!,
+    };
+    await updateUserById(this.state.id!, updatedUser);
+    this.setState({
+      role: newRole,
+    });
+    //await updateUserById(this.state.id, )
+  }
+
   //const res: AppUserResponse = await getUserById(parseInt(userId, 10));
   render() {
     return (
@@ -79,13 +104,41 @@ class EditRolesButton extends React.Component<
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle id='alert-dialog-title'>
-            Change role for {this.state.name}
+            Change role for {this.state.firstName + ' ' + this.state.lastName} (
+            {this.state.role})
           </DialogTitle>
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              What role do you want this user to be? {this.state.id}
-            </DialogContentText>
-          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => this.updateUserRole('guest')}
+              color='primary'
+            >
+              Guest
+            </Button>
+            <Button
+              onClick={() => this.updateUserRole('inductee')}
+              color='primary'
+            >
+              Inductee
+            </Button>
+            <Button
+              onClick={() => this.updateUserRole('member')}
+              color='primary'
+            >
+              Member
+            </Button>
+            <Button
+              onClick={() => this.updateUserRole('officer')}
+              color='primary'
+            >
+              Officer
+            </Button>
+            <Button
+              onClick={() => this.updateUserRole('admin')}
+              color='primary'
+            >
+              Administrator
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );
