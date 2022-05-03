@@ -24,6 +24,8 @@ const appUserResponseToAppUserRow = ({
 }: AppUserResponse) => {
   const userRow = {
     id,
+    firstName,
+    lastName,
     name: firstName + ' ' + lastName,
     email,
     role,
