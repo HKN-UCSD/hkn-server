@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 
 import EditRolesButton from '../buttons/EditRolesButton';
@@ -14,6 +14,8 @@ import {
 } from '@Services/api';
 import { inductionClassDateFormat } from '@Constants/dateTimeFormat';
 import { getMultipleUsers } from '@Services/UserService';
+
+// Do Use Effect so table reloads
 
 const appUserResponseToAppUserRow = ({
   id,
