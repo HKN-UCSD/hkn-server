@@ -31,10 +31,12 @@ import { getUserById } from '@Services/UserService';
 
 interface EditRolesButtonProps {
   id: number;
+  name: string;
 }
 interface INITIAL_STATES {
   isPopupOpen?: boolean;
   id?: number;
+  name?: string;
 }
 
 class EditRolesButton extends React.Component<
@@ -47,6 +49,7 @@ class EditRolesButton extends React.Component<
     this.state = {
       isPopupOpen: false,
       id: props.id,
+      name: props.name,
     };
     this.handleEditRolePopup = this.handleEditRolePopup.bind(this);
     this.handleEditRoleClose = this.handleEditRoleClose.bind(this);
@@ -75,7 +78,9 @@ class EditRolesButton extends React.Component<
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id='alert-dialog-title'>Edit Role Popup</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>
+            Change role for {this.state.name}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
               What role do you want this user to be? {this.state.id}

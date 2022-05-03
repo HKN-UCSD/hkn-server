@@ -15,7 +15,6 @@ import {
 import { inductionClassDateFormat } from '@Constants/dateTimeFormat';
 import { getMultipleUsers } from '@Services/UserService';
 
-// I copied this directly from the induction class table
 const appUserResponseToAppUserRow = ({
   id,
   firstName,
@@ -49,7 +48,9 @@ function MemberTable(): JSX.Element {
     { title: 'Role', field: 'role' },
     {
       title: '',
-      render: ({ id }: AppUserResponse) => <EditRolesButton id={id} />,
+      render: ({ id, firstName, lastName }: AppUserResponse) => (
+        <EditRolesButton id={id} name={firstName + ' ' + lastName} />
+      ),
     },
   ];
 
