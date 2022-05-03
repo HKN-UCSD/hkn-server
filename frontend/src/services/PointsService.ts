@@ -21,7 +21,9 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   const pointsApi: PointsApi = new PointsApi(apiConfig);
 
   const points = await pointsApi.pointsControllerGetAllInducteePoints();
+
   const inducteePointsList = await Promise.all(points.inducteePoints.map(async (point: InducteePointsResponse) => {
+    const userAcc = await getUserById(point.user);
     return {
       points: point.points,
       user: point.user,
@@ -38,7 +40,8 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
       hasSocialRequirement: point.hasSocialRequirement
         ? 'Complete'
         : 'Incomplete',
-      name: (await getUserById(point.user)).firstName + " " + (await getUserById(point.user)).lastName,
+
+      name: userAcc.firstName + " " + userAcc.lastName,
     } as InducteePoint;
   }));
   return inducteePointsList;
