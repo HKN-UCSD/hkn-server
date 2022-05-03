@@ -26,6 +26,7 @@ import {
   AppUserEventRequest,
   RSVPResponse,
   MultipleRSVPResponse,
+  AffiliateAttendanceResponse,
 } from '@Payloads';
 import {
   AttendanceService,
@@ -228,6 +229,25 @@ export class EventController {
     const newAttendance = await this.eventService.registerEventAttendance(eventID, appUser);
 
     return this.attendanceMapper.entityToResponse(newAttendance);
+  }
+
+  @Get('/:eventID/signin/affiliate/attendance')
+  @ResponseSchema(AffiliateAttendanceResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getAffiliateEventAttendance(
+    @Param('eventID') eventID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<AffiliateAttendanceResponse | undefined> {
+    if (appUser === undefined) {
+      throw new UnauthorizedError();
+    }
+
+    const newAttendance = await this.attendanceService.getAttendance(appUser.id, eventID);
+
+    if (newAttendance === undefined) {
+      return { attendeeId: appUser.id, eventId: eventID, isSignedIn: false };
+    }
+    return { attendeeId: appUser.id, eventId: eventID, isSignedIn: true };
   }
 
   @Post('/:eventID/rsvp')

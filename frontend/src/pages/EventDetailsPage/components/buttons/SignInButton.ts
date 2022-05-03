@@ -4,12 +4,14 @@ import { affiliateSignInToEvent } from '@Services/EventService';
 
 interface SignInButtonProps {
   eventId: number;
-  children?: string;
+  signedIn: boolean;
 }
 
-function SignInButton({ eventId, children = 'Sign In' }: SignInButtonProps) {
+function SignInButton({ eventId }: SignInButtonProps) {
+  // const buttonProps = signedIn ? { children: 'Signed In', disabled: true } : { children: 'Sign In' }
+  const buttonProps = { children: 'Sign In' };
   return InducteeRenderPermission(Button)({
-    children,
+    ...buttonProps,
     primary: true,
     positive: true,
     onClick: () => {
@@ -22,5 +24,8 @@ function SignInButton({ eventId, children = 'Sign In' }: SignInButtonProps) {
     },
   });
 }
+
+
+
 
 export default SignInButton;
