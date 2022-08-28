@@ -27,10 +27,12 @@ function splitScheduleByWeek(
     const currUserDate = userSchedule[i];
 
     for (let j = 0; j < interviewStartWeek.length; j += 1) {
-      const currStartWeek = interviewStartWeek[j];
+      const currStartWeek = new Date(interviewStartWeek[j].toDateString());
+      // const currStartWeek = interviewStartWeek[j];
 
       if (j < interviewStartWeek.length - 1) {
-        const nextStartWeek = interviewStartWeek[j + 1];
+        const nextStartWeek = new Date(interviewStartWeek[j + 1].toDateString());
+        // const nextStartWeek = interviewStartWeek[j + 1];
 
         if (
           compareAsc(currUserDate, currStartWeek) >= 0 &&
@@ -95,8 +97,9 @@ export default function InterviewSchedulingPage(): JSX.Element {
     const getInterviewWeekStartDateFunc = async () => {
       // hardcoded induction class for now
       //const { quarter } = await getCurrentInductionClass();
-      const quarter = 'FA21';
+      const quarter = 'WI22';
       const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
+      res.interviewWeeks = Array<InterviewWeekStartDate>(res.interviewWeeks[1]);
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
         (interviewWeekStartDate: InterviewWeekStartDate) => {
           return parseISO(interviewWeekStartDate.startDate);
