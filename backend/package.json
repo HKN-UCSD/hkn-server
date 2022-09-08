@@ -60,7 +60,6 @@
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "0.8.0",
     "routing-controllers-openapi": "^2.1.0",
-    "typeorm": "^0.2.32",
     "typescript": "^3.9.5",
     "winston": "^3.3.3"
   },
@@ -96,7 +95,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "lint-staged": {
