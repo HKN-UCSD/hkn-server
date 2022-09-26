@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 
 import MemberTable from './components/MemberTable';
 
+// Edit Roles Page
 function EditRolesPage(): JSX.Element {
   return (
     <Grid container direction='column' spacing={2}>
