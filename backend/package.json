@@ -61,7 +61,7 @@
     "routing-controllers": "0.8.0",
     "routing-controllers-openapi": "3.1.0",
     "typeorm": "0.3.6-dev.78df84c",
-    "typescript": "^3.9.5",
+    "typescript": "3.9.5",
     "winston": "3.7.2"
   },
   "devDependencies": {
