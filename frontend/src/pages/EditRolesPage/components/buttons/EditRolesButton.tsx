@@ -83,11 +83,13 @@ class EditRolesButton extends React.Component<
       firstName: this.state.firstName!,
       lastName: this.state.lastName!,
     };
-    await updateUserById(this.state.id!, updatedUser);
-    this.setState({
-      role: newRole,
-    });
-    //await updateUserById(this.state.id, )
+    try {
+      await updateUserById(this.state.id!, updatedUser);
+      this.setState({
+        role: newRole,
+      });
+    } catch (error) {}
+    window.location.reload();
   }
 
   //const res: AppUserResponse = await getUserById(parseInt(userId, 10));
