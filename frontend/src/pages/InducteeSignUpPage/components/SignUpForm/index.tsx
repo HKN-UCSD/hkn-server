@@ -9,7 +9,7 @@ import schema from './schema';
 
 import FOUR_YEAR_PLAN from '@Images/4_year_plan.png';
 import * as ROUTES from '@Constants/routes';
-import { DescriptionText } from '@Constants/descriptions';
+import { DescriptionText as InfoSessionText } from '@Constants/descriptions';
 import {
   Button,
   MajorDropdownField,
@@ -110,7 +110,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
               </Typography>
             </Grid>
             <Grid item>
-              <DescriptionText />
+              <InfoSessionText />
             </Grid>
             <Grid item>
               <Grid container direction='row' spacing={2}>
