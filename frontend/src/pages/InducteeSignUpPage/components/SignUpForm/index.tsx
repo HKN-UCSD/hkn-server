@@ -280,7 +280,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
               <Grid container justify='center'>
                 <Typography>
                   Have an account from previous induction cycles? Please contact
-                  Tim at s9jiang@ucsd.edu to update your existing account.
+                  Tim at mvadlapu@ucsd.edu to update your existing account.
                 </Typography>
                 <Button
                   className={classes.signInRedirect}
