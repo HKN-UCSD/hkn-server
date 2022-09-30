@@ -18,6 +18,7 @@ All code related to the HKN portal belongs here.
 
 Do this before you build/start the project!
 
+Check if you have node version 12.13.1. Then, run...
 `cd frontend; npm i; cd ../backend; npm i; cd ..`
 
 ## To Start Fullstack
