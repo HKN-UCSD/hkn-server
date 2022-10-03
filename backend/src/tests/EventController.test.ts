@@ -11,10 +11,13 @@ beforeAll(async () => {
 
   testApp = app;
   testConnection = connection;
+  console.log(testApp, testConnection)
 });
 
 afterAll(async () => {
-  await testConnection.close();
+  if (testConnection != null) {
+    await testConnection.close();
+  }
 });
 
 describe('GET /api/events', () => {
