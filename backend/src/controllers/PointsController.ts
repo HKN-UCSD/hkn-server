@@ -22,7 +22,9 @@ export class PointsController {
       res.points = point.points;
 
       // man i hate this
+      // yep agreed -kyle
       res.user = point.user;
+      res.inductionClassQuarter = point.inductionClassQuarter;
       res.email = point.email;
       res.hasMentorshipRequirement = point.hasMentorshipRequirement;
       res.hasProfessionalRequirement = point.hasProfessionalRequirement;

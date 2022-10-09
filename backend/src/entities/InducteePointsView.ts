@@ -38,6 +38,9 @@ export class InducteePointsView {
   user: number;
 
   @ViewColumn()
+  inductionClassQuarter: string;
+
+  @ViewColumn()
   email: string;
 
   @ViewColumn()

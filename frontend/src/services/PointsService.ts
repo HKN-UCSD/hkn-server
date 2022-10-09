@@ -5,6 +5,7 @@ import { InducteePointsResponse } from './api';
 // nit: bad naming
 export interface InducteePoint {
   user: number;
+  inductionClassQuarter: string;
   email: string;
   points: number;
   hasProfessionalRequirement: string;
@@ -22,6 +23,7 @@ export async function getAllInducteePoints(): Promise<InducteePoint[]> {
   return points.inducteePoints.map((point: InducteePointsResponse) => {
     return {
       points: point.points,
+      inductionClassQuarter: point.inductionClassQuarter,
       user: point.user,
       email: point.email,
       hasProfessionalRequirement: point.hasProfessionalRequirement
