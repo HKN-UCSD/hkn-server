@@ -11,7 +11,7 @@ beforeAll(async () => {
 
   testApp = app;
   testConnection = connection;
-  console.log(testApp, testConnection)
+  console.log(testApp, testConnection);
 });
 
 afterAll(async () => {
