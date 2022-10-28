@@ -17,6 +17,12 @@ import { getMultipleUsers } from '@Services/UserService';
 
 // Do Use Effect so table reloads
 
+export interface MemberTableProps {
+  data: MultipleAppUserResponse | undefined;
+  isLoading: boolean;
+  error: Response | null;
+  isError: boolean;
+}
 const appUserResponseToAppUserRow = ({
   id,
   firstName,
@@ -36,16 +42,12 @@ const appUserResponseToAppUserRow = ({
   return userRow;
 };
 
-function MemberTable(): JSX.Element {
-  const { data, isLoading, error, isError } = useRequest<
-    MultipleAppUserResponse,
-    Response
-  >({
-    requestKey: 'getMultipleUsers',
-    requestFunc: getMultipleUsers,
-    requestParams: [{ showAffiliates: false }],
-  });
-
+export function MemberTable({
+  data,
+  isLoading,
+  error,
+  isError,
+}: MemberTableProps) {
   const columns = [
     { title: 'Name', field: 'name' },
     { title: 'Email', field: 'email' },

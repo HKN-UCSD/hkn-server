@@ -11,7 +11,7 @@ export const EVENT_EDIT = '/events/:eventId/edit';
 export const EVENT_DETAILS = '/events/:id';
 export const EVENT_CREATION = '/events?create=true';
 export const TEST = '/test';
-export const EDIT_ROLES = '/editroles';
+export const EDIT_ROLES = '/roles';
 export const PROFILE = '/profile/:id';
 export const PROFILE_EDIT = '/profile/:id/edit';
 export const EVENT_SIGN_IN = '/events/:id/signin';

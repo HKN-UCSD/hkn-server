@@ -70,8 +70,8 @@ class NavBar extends React.Component {
     });
   };
 
-  handleTabs = () => {
-    switch (this.state.role) {
+  getTabsByRole = role => {
+    switch (role) {
       case 'admin':
         return AdminTabs;
       case 'officer':
@@ -91,7 +91,7 @@ class NavBar extends React.Component {
     const { classes, children } = this.props;
     const { isDrawerOpen, isConfirmationModalOpen } = this.state;
 
-    const tabs = this.handleTabs();
+    const tabs = this.getTabsByRole(this.state.role);
     const tabComponents = tabs.map(tab => (
       <ListItem button component={Link} to={tab.route} key={tab.route}>
         <ListItemIcon>{tab.icon}</ListItemIcon>

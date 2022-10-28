@@ -89,7 +89,6 @@ class EditRolesButton extends React.Component<
         role: newRole,
       });
     } catch (error) {}
-    window.location.reload();
   }
 
   //const res: AppUserResponse = await getUserById(parseInt(userId, 10));
