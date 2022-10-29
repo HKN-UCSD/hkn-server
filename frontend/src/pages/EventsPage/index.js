@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { Divider } from '@material-ui/core';
-import * as LOGO_URL from '@Images/hkn-trident.png';
+import HomepageBanner from '../../components/HomepageBanner/index.js';
 
 import EventButtons from './eventButtons';
 
@@ -97,58 +97,7 @@ class EventsPage extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <div
-          className={classes.contentWrapper}
-          style={{
-            background: '#5197FF',
-            marginTop: 0,
-            color: 'white',
-            display: 'flex',
-            justifyContent: 'center', 
-            padding: 10
-          }}
-        >
-          <img src={LOGO_URL} />
-          <div
-            style={{
-              width: 'auto',
-            }}
-          >
-            <h2
-              style={{
-                textAlign: 'left',
-                padding: 0,
-                margin: 0,
-                fontWeight: 100,
-              }}
-            >
-              University of California, San Diego
-            </h2>
-            <h1
-              style={{
-                textAlign: 'left',
-                padding: 0,
-                marginTop: -8,
-                marginBottom: -8, 
-                fontSize: 36,
-                fontWeight: 700
-              }}
-            >
-              ETA KAPPA NU
-            </h1>
-            <h2 
-              style={{ 
-                textAlign: 'left', 
-                padding: 1, 
-                margin: 0,
-                fontWeight: 100,
-              }}
-            >
-              Engineering Honor Society of IEEE
-            </h2>
-          </div>
-        </div>
-
+        <HomepageBanner />
         <div style={{ margin: '20px' }}>
           {MemberRenderPermission(EventButtons)({})}
         </div>
