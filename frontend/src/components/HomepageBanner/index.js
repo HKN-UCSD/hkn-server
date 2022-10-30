@@ -3,14 +3,14 @@ import * as LOGO_URL from '@Images/hkn-logo-white.png';
 import useStyles from './styles.ts';
 import { Typography } from '@material-ui/core';
 
-export const HomepageBanner = props =>{ 
+export const HomepageBanner = () => { 
   const classes = useStyles();
 
   return (
     <div
       className={classes.banner}
     >
-      <img src={LOGO_URL} className={classes.logo} />
+      <img src={LOGO_URL} className={classes.logo} alt="HKN Logo"/>
       <div className={classes.container}>
         <h2 className={classes.h2}>
           University of California, San Diego

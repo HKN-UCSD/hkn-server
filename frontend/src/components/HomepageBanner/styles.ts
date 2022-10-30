@@ -1,6 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core';
-
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = () => ({
   banner: {
     background: '#5197FF',
     color: 'white',
@@ -29,6 +27,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: '20vw',
     height: 'auto',
   },
-}));
+});
 
 export default useStyles;
