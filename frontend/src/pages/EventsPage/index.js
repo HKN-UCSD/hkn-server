@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import {HomepageBanner} from '../../components/HomepageBanner/index.js';
+import {HomepageBanner} from '../../components/HomepageBanner/index.tsx';
 
 import EventButtons from './eventButtons';
 
