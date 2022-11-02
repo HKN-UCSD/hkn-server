@@ -2,11 +2,10 @@ import React from 'react';
 import LOGO_URL from '@Images/hkn-logo-white.png';
 import { Typography } from '@material-ui/core';
 import {
-  makeStyles,
-  Theme,
+  makeStyles
 } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   banner: {
     background: '#5197FF',
     color: 'white',
