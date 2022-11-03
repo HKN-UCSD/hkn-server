@@ -33,13 +33,13 @@ const styles = theme => ({
   h5: {
     marginBottom: theme.spacing(2),
   },
-  container: {
+  socialContainer: {
     width: '90%',
     display: 'flex',
     flexDirection: 'column-reverse',
     height: '100%',
     borderCollapse: 'collapse',
-    paddingLeft: '2px',
+    paddingLeft: '0',
   },
   socialSection: {
     display: 'flex',

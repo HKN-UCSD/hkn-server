@@ -101,7 +101,7 @@ class NavBar extends React.Component {
             <ListItemText primary='Logout' />
           </ListItem>
         </List>
-        <Container className={classes.container}>
+        <Container className={classes.socialContainer}>
           <List className={classes.socialSection}>{socialComponents}</List>
         </Container>
 
