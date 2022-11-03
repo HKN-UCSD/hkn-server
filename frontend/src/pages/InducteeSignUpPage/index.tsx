@@ -47,7 +47,7 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await createNewInducteeUser(signupSubmission);
     } catch {
-      console.log('Create new user failed');
+      alert('Create new user failed');
       setSubmitting(false);
       return;
     }
@@ -55,7 +55,7 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await doSignInWithEmailAndPassword(email, password, false);
     } catch {
-      console.log('Sign in failed');
+      alert('Sign in failed');
       setSubmitting(false);
       return;
     }
@@ -63,7 +63,7 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await doSendVerificationEmail();
     } catch {
-      console.log('Send verification email failed.');
+      alert('Send verification email failed.');
     }
     await doSignOut();
     setSubmitting(false);
