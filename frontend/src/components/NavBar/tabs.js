@@ -50,6 +50,12 @@ const ProfileTab = {
   text: 'Profile',
 };
 
+const DiscordTab = {
+  route: ROUTES.DISCORD_INVITE_LINK,
+  icon: <AssignmentIndIcon />,
+  text: 'Discord',
+};
+
 export const OfficerTabs = [
   HomeTab,
   CalendarTab,
@@ -57,6 +63,7 @@ export const OfficerTabs = [
   InductionClassTab,
   InducteesTab,
   InterviewTab,
+  DiscordTab,
 ];
 
 export const InducteeTabs = [HomeTab, CalendarTab, ProfileTab, InterviewTab];
