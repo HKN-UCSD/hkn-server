@@ -7,6 +7,9 @@ import EventButtons from './eventButtons';
 
 import { MemberRenderPermission } from '@HOCs/RenderPermissions';
 
+import { getAllEvents } from '../../services/EventService';
+import { EventCard } from '../../components/EventCard';
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -43,16 +46,24 @@ const INITIAL_STATE = {
 };
 
 class EventsPage extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
     this.resizeFB = this.resizeFB.bind(this);
+
+    this.state = {
+      events: false
+    }
   }
 
   componentDidMount() {
     this.resizeFB();
     window.addEventListener('resize', this.resizeFB);
+    getAllEvents({}).then(res => {
+      this.setState({ events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); }).slice(0, 12).map(event => EventCard({ event })) });
+    });
   }
 
   componentWillUnmount() {
@@ -94,6 +105,15 @@ class EventsPage extends React.Component {
   render() {
     const { width, height } = this.state;
     const { classes } = this.props;
+
+    const gridStyle = {
+      display: "grid",
+      gridAutoFlow: "row",
+      gridTemplateColumns: "repeat(3, 1fr)",
+      rowGap: "24px",
+      columnGap: "48px"
+    }
+
     return (
       <div>
         <div style={{ margin: '20px' }}>
@@ -105,31 +125,11 @@ class EventsPage extends React.Component {
           <h1 style={{ textAlign: 'center' }}>Upcoming Events</h1>
           <Divider />
         </div>
-        <div className={classes.root}>
-          <iframe
-            title='hkn-ucsd-fb'
-            className={classes.contentWrapper}
-            src={this.getPagePluginURL()}
-            width={width}
-            height={height}
-            frameBorder='0'
-            allow='encrypted-media'
-            overflow-x='visible'
-          />
-
-          <iframe
-            title='hkn-google-cal'
-            className={classes.contentWrapper}
-            src={this.getCalendarPluginURL()}
-            width={width}
-            height={height}
-            frameBorder='0'
-            allow='encrypted-media'
-          />
+        <div className={classes.root} style={gridStyle}>
+          {this.state.events===false?'':this.state.events}
         </div>
       </div>
     );
   }
 }
-
 export default compose(withStyles(styles))(EventsPage);
