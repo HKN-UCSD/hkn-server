@@ -2,6 +2,8 @@
 
 All code related to the HKN portal belongs here.
 
+Portal Link: https://portal.hknucsd.com/
+
 ## Frontend And Backend READMEs And Guides:
 - Frontend:
     - Top-level [README](./frontend/README.md)
