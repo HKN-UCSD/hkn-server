@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     textAlign: 'left',
     padding: 1,
     margin: 0,
-    fontWeight: 200,
+    fontWeight: 205,
     fontSize: '1.5vw',
   },
   mainheader: {
