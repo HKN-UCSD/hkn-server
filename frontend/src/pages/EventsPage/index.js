@@ -1,7 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
+<<<<<<< HEAD
 import { HomepageBanner } from '@SharedComponents/HomepageBanner';
+=======
+
+import { HomepageBanner } from '../../components/HomepageBanner';
+>>>>>>> ae91738 (Removed index reference on import)
 
 import EventButtons from './eventButtons';
 
