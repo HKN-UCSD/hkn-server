@@ -9,6 +9,7 @@ import { MemberRenderPermission } from '@HOCs/RenderPermissions';
 
 import { getAllEvents } from '../../services/EventService';
 import { EventCard } from '../../components/EventCard';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -36,7 +37,7 @@ const styles = theme => ({
     // },
     // flexDirection:'row',
     alignItems: 'center',
-    // height: "100vh",
+    // height: '100vh',
   },
 });
 
@@ -54,15 +55,27 @@ class EventsPage extends React.Component {
     this.resizeFB = this.resizeFB.bind(this);
 
     this.state = {
-      events: false
+      events: false,
+      show: 6,
     }
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  loadMore() {
+    this.setState({ ...this.state, show: this.state.show + 6 });
+    console.log(this.state.show);
   }
 
   componentDidMount() {
     this.resizeFB();
     window.addEventListener('resize', this.resizeFB);
-    getAllEvents({}).then(res => {
-      this.setState({ events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); }).slice(0, 12).map(event => EventCard({ event })) });
+    getAllEvents({pending: false, ready: true, complete: false}).then(res => {
+      const curr = new Date();
+      this.setState({
+        events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); }),
+          .filter(event => (new Date(event.endDate) - curr) > 0),
+        show: 6,
+      });
     });
   }
 
@@ -103,15 +116,17 @@ class EventsPage extends React.Component {
   };
 
   render() {
-    const { width, height } = this.state;
+    //const { width, height } = this.state;
     const { classes } = this.props;
 
     const gridStyle = {
-      display: "grid",
-      gridAutoFlow: "row",
-      gridTemplateColumns: "repeat(3, 1fr)",
-      rowGap: "24px",
-      columnGap: "48px"
+      display: 'grid',
+      gridAutoFlow: 'row',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      rowGap: '24px',
+      columnGap: '48px',
+      flex: '1 0 100%',
+      margin: '1em 0px',
     }
 
     return (
@@ -125,9 +140,20 @@ class EventsPage extends React.Component {
           <h1 style={{ textAlign: 'center' }}>Upcoming Events</h1>
           <Divider />
         </div>
-        <div className={classes.root} style={gridStyle}>
-          {this.state.events===false?'':this.state.events}
-        </div>
+        {this.state.events === false ? '' :
+          this.state.events.length === 0 ? <h2 style={{ textAlign: 'center' }}>No Upcoming Events</h2> :
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div className={classes.root} style={gridStyle}>
+              {this.state.events.slice(0, this.state.show).map(event => EventCard({ event }))}
+            </div>
+            {
+              this.state.events.length > this.state.show ?
+              <Button className={classes.button} style={{ margin: '2em 0px 0px 0px' }} onClick={this.loadMore} variant='contained' color='primary' size='medium'>
+                Load More
+              </Button> : ""
+            }
+            </div>
+        }
       </div>
     );
   }
