@@ -66,8 +66,6 @@ function InducteeSignUpPage(): JSX.Element {
       alert('Send verification email failed.');
     }
     await doSignOut();
-    setSubmitting(false);
-    alert('You have successfully signed up for an account.');
   };
 
   return (
@@ -80,11 +78,11 @@ function InducteeSignUpPage(): JSX.Element {
           direction='column'
           spacing={2}
         >
-          <Grid item >
+          <Grid item>
             <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
           </Grid>
           <h2> INDUCTEE SIGN UP </h2>
-          <Grid item >
+          <Grid item>
             <SignUpForm handleSubmit={handleSubmit} />
           </Grid>
         </Grid>
