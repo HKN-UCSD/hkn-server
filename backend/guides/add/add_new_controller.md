@@ -38,4 +38,4 @@ classes that you use so you can pass it into the constructor call of you control
 
 ### 6. Include controller in top-level index file of controllers folder
 
-In ./src/controllers/index, add `export {XController, XControllerImpl} from './XController'`
+In ./src/controllers/index, add `export {XController, XControllerImpl} from './XController'` and `controllerMap.set(XController.name, XControllerImpl);`.

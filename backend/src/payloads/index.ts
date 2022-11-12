@@ -29,6 +29,7 @@ export {
   MultipleAttendanceResponse,
   MultipleAttendanceQuery,
   GetAttendanceQuery,
+  AffiliateAttendanceResponse,
 } from './Attendance';
 export { InterviewDatesResponse } from './InterviewDates';
 export { RSVPResponse, MultipleRSVPResponse } from './RSVP';
