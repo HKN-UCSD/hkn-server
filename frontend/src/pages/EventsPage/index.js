@@ -72,7 +72,7 @@ class EventsPage extends React.Component {
     getAllEvents({pending: false, ready: true, complete: false}).then(res => {
       const curr = new Date();
       this.setState({
-        events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); }),
+        events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); })
           .filter(event => (new Date(event.endDate) - curr) > 0),
         show: 6,
       });
