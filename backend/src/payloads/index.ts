@@ -32,7 +32,7 @@ export {
   AffiliateAttendanceResponse,
 } from './Attendance';
 export { InterviewDatesResponse } from './InterviewDates';
-export { RSVPResponse, MultipleRSVPResponse } from './RSVP';
+export { RSVPResponse, MultipleRSVPResponse, GetRSVPQuery, AffiliateGetRSVPResponse } from './RSVP';
 export { InducteePointsResponse, MultipleInducteePointsResponse } from './Points';
 export {
   InductionClassRequest,

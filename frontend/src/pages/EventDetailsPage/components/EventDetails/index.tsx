@@ -16,7 +16,7 @@ import {
 } from '@HOCs/RenderPermissions';
 import { Tags, Card, GetLocation } from '@SharedComponents';
 import { EventResponse as EventInfo } from '@Services/api/models';
-import { EventStatusEnum } from '@Services/EventService';
+import { EventStatusEnum, getAffiliateEventRSVP } from '@Services/EventService';
 
 import { getAffiliateEventAttendance } from '@Services/EventService';
 
@@ -29,9 +29,16 @@ interface EventDetailsComponentProps {
 function EventDetailsComponent(props: EventDetailsComponentProps) {
   const { eventInfo, eventId } = props;
   const classes = useStyles();
+  const [rsvped, setRsvped] = useState<boolean>(false);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(true);
 
   useEffect(() => {
+    const getRSVP = async () => {
+      const affiliateRSVP = await getAffiliateEventRSVP(eventId);
+      setRsvped(affiliateRSVP.isRsvped);
+    };
+    getRSVP();
+
     const getAttendance = async () => {
       const affiliateAttendance = await getAffiliateEventAttendance(eventId);
       setIsSignedIn(affiliateAttendance.isSignedIn);
@@ -70,7 +77,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
         </Grid>
 
         <Grid item>
-          <RSVPButton eventId={eventId} />
+          <RSVPButton eventId={eventId} rsvped={rsvped} />
         </Grid>
       </Grid>
     ) : (

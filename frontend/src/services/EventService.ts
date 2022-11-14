@@ -11,6 +11,8 @@ import {
   EventControllerCheckOffEventAttendanceRequest,
   EventControllerAffiliateEventSigninRequest,
   EventControllerAffiliateEventRSVPRequest,
+  EventControllerAffiliateEventUnRSVPRequest,
+  EventControllerGetAffiliateEventRSVPRequest,
   EventControllerGetMultipleEventsRequest,
 } from './api/apis/EventApi';
 import {
@@ -186,3 +188,27 @@ export async function affiliateRSVPToEvent(
 
   return eventApi.eventControllerAffiliateEventRSVP(request);
 }
+
+export async function affiliateUnRSVPToEvent(
+  eventID: number
+): Promise<RSVPResponse> {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerAffiliateEventUnRSVPRequest = {
+    eventID,
+  };
+
+  return eventApi.eventControllerAffiliateEventUnRSVP(request);
+}
+
+export async function getAffiliateEventRSVP(
+  eventID: number
+) {
+  const apiConfig: Configuration = await ApiConfigStore.getApiConfig();
+  const eventApi: EventApi = new EventApi(apiConfig);
+  const request: EventControllerGetAffiliateEventRSVPRequest = {
+    eventID,
+  };
+  return eventApi.eventControllerGetAffiliateEventRSVP(request);
+}
+
