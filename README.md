@@ -2,6 +2,8 @@
 
 All code related to the HKN portal belongs here.
 
+Portal Link: https://portal.hknucsd.com/
+
 ## Frontend And Backend READMEs And Guides:
 - Frontend:
     - Top-level [README](./frontend/README.md)
@@ -17,6 +19,8 @@ All code related to the HKN portal belongs here.
 ## To Install Dependencies
 
 Do this before you build/start the project!
+
+Check if you have node version 12.13.1. Then, run...
 
 `cd frontend; npm i; cd ../backend; npm i; cd ..`
 

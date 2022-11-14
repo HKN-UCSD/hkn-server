@@ -8,6 +8,7 @@ apis/UserApi.ts
 apis/index.ts
 index.ts
 models/AffiliateGetRSVPResponse.ts
+models/AffiliateAttendanceResponse.ts
 models/AppUserEventRequest.ts
 models/AppUserEventResponse.ts
 models/AppUserInducteePointsResponse.ts

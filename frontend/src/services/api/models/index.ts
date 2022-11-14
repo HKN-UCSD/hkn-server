@@ -1,4 +1,5 @@
 export * from './AffiliateGetRSVPResponse';
+export * from './AffiliateAttendanceResponse';
 export * from './AppUserEventRequest';
 export * from './AppUserEventResponse';
 export * from './AppUserInducteePointsResponse';
