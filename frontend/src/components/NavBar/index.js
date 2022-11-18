@@ -72,7 +72,7 @@ class NavBar extends React.Component {
   };
 
   handleDiscord = () => {
-    location.href = 'https://discord.gg/dX7xc73';
+    location.href = 'https://discord.gg/FzJN95tPqq';
   };
 
   render() {
