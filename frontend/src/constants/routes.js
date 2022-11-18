@@ -26,7 +26,6 @@ export const INDUCTION_CLASS_CREATE = '/induction-class/create';
 export const INDUCTION_CLASS_DETAILS = '/induction-class/:quarter';
 export const INDUCTION_CLASS_EDIT = '/induction-class/:quarter/edit';
 export const INDUCTEE_SIGN_UP = `/inductee-signup/:urlAdderOne`;
-export const DISCORD_INVITE_LINK = `https://discord.gg/dX7xc73`;
 
 export const PROFILE_WITH_ID = id => `/profile/${id}`;
 export const PROFILE_EDIT_WITH_ID = id => `/profile/${id}/edit`;

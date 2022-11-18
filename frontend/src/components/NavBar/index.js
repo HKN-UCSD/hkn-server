@@ -25,6 +25,7 @@ import {
 } from '@material-ui/core';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { OfficerTabs, InducteeTabs } from './tabs';
 import styles from './styles';
@@ -70,6 +71,10 @@ class NavBar extends React.Component {
     });
   };
 
+  handleDiscord = () => {
+    location.href = 'https://discord.gg/dX7xc73';
+  };
+
   render() {
     const { classes, children } = this.props;
     const { isDrawerOpen, isAnOfficer, isConfirmationModalOpen } = this.state;
@@ -85,6 +90,14 @@ class NavBar extends React.Component {
     const drawer = (
       <>
         <List>{tabComponents}</List>
+        <List>
+          <ListItem button onClick={this.handleDiscord}>
+            <ListItemIcon>
+              <FontAwesomeIcon icon="fa-brands fa-discord" />
+            </ListItemIcon>
+            <ListItemText primary='Discord' />
+          </ListItem>
+        </List>
         <Divider />
         <List>
           <ListItem button onClick={this.handleLogOut}>
