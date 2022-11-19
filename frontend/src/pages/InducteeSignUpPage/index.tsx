@@ -47,7 +47,7 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await createNewInducteeUser(signupSubmission);
     } catch {
-      console.log('Create new user failed');
+      alert('Create new user failed');
       setSubmitting(false);
       return;
     }
@@ -55,7 +55,7 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await doSignInWithEmailAndPassword(email, password, false);
     } catch {
-      console.log('Sign in failed');
+      alert('Sign in failed');
       setSubmitting(false);
       return;
     }
@@ -63,11 +63,9 @@ function InducteeSignUpPage(): JSX.Element {
     try {
       await doSendVerificationEmail();
     } catch {
-      console.log('Send verification email failed.');
+      alert('Send verification email failed.');
     }
     await doSignOut();
-    setSubmitting(false);
-    alert('You have successfully signed up for an account.');
   };
 
   return (
@@ -80,11 +78,11 @@ function InducteeSignUpPage(): JSX.Element {
           direction='column'
           spacing={2}
         >
-          <Grid item >
+          <Grid item>
             <Avatar className={classes.logo} src={HKN_TRIDENT_LOGO} />
           </Grid>
           <h2> INDUCTEE SIGN UP </h2>
-          <Grid item >
+          <Grid item>
             <SignUpForm handleSubmit={handleSubmit} />
           </Grid>
         </Grid>
