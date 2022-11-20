@@ -1,4 +1,5 @@
 import { AppUser, Event, RSVP } from '@Entities';
+import { GetRSVPQuery } from '@Payloads';
 import { getRepository, FindManyOptions } from 'typeorm';
 
 export class RSVPService {
@@ -41,6 +42,34 @@ export class RSVPService {
     const query = this.buildMultipleRSVPQuery(event, true);
 
     return rsvpRepository.find(query);
+  }
+
+  /**
+   * Finds the rsvp that matches the inputted user and event ID.
+   *
+   * @param {number} eventId ID in the DB of the event.
+   * @param {number} userId ID in the DB of the appuser.
+   * @returns {Promise} The RSVP entity matching user and event ID. Returns undefined if there
+   * is no such entity in the DB.
+   */
+  async getUserRSVP(eventId: number, userId: number): Promise<RSVP | undefined> {
+    const rsvpRepository = getRepository(RSVP);
+    return rsvpRepository.findOne(
+      {
+        event: { id: eventId } as Event,
+        appUser: { id: userId } as AppUser,
+      },
+
+      { relations: ['event', 'appUser'] }
+    );
+  }
+
+  async deleteAffiliateRSVP(rsvpQuery: GetRSVPQuery): Promise<RSVP | undefined> {
+    const rsvpRepository = getRepository(RSVP);
+    const { eventId, appUserId } = rsvpQuery;
+
+    const rsvp = await this.getUserRSVP(eventId, appUserId);
+    return rsvp ? rsvpRepository.remove(rsvp) : undefined;
   }
 }
 

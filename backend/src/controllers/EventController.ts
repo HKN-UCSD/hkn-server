@@ -26,6 +26,7 @@ import {
   AppUserEventRequest,
   RSVPResponse,
   MultipleRSVPResponse,
+  AffiliateGetRSVPResponse,
   AffiliateAttendanceResponse,
 } from '@Payloads';
 import {
@@ -35,6 +36,8 @@ import {
   AppUserServiceImpl,
   EventService,
   EventServiceImpl,
+  RSVPService,
+  RSVPServiceImpl,
 } from '@Services';
 import {
   AppUserMapper,
@@ -57,6 +60,7 @@ export class EventController {
     private eventMapper: EventMapper,
     private attendanceService: AttendanceService,
     private attendanceMapper: AttendanceMapper,
+    private rsvpService: RSVPService,
     private rsvpMapper: RSVPMapper
   ) {}
 
@@ -288,6 +292,38 @@ export class EventController {
 
     return this.rsvpMapper.entityToResponse(newRSVP);
   }
+
+  @Delete('/:eventID/unrsvp/affiliate')
+  @ResponseSchema(RSVPResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async affiliateEventUnRSVP(
+    @Param('eventID') eventID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<RSVPResponse | undefined> {
+    const getRSVPQuery = { eventId: eventID, appUserId: appUser.id };
+    const deletedRSVP = await this.rsvpService.deleteAffiliateRSVP(getRSVPQuery);
+
+    if (deletedRSVP === undefined) {
+      return undefined;
+    }
+
+    return this.rsvpMapper.entityToResponse(deletedRSVP);
+  }
+
+  @Get('/:eventID/getrsvp/affiliate')
+  @ResponseSchema(AffiliateGetRSVPResponse)
+  @OpenAPI({ security: [{ TokenAuth: [] }] })
+  async getAffiliateEventRSVP(
+    @Param('eventID') eventID: number,
+    @CurrentUser({ required: true }) appUser: AppUser
+  ): Promise<AffiliateGetRSVPResponse | undefined> {
+    if (appUser === undefined) {
+      throw new UnauthorizedError();
+    }
+
+    const userRSVP = await this.rsvpService.getUserRSVP(eventID, appUser.id);
+    return { eventId: eventID, appUserId: appUser.id, isRsvped: !(userRSVP === undefined) };
+  }
 }
 
 export const EventControllerImpl = new EventController(
@@ -297,5 +333,6 @@ export const EventControllerImpl = new EventController(
   EventMapperImpl,
   AttendanceServiceImpl,
   AttendanceMapperImpl,
+  RSVPServiceImpl,
   RSVPMapperImpl
 );

@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    AffiliateGetRSVPResponse,
+    AffiliateGetRSVPResponseFromJSON,
+    AffiliateGetRSVPResponseToJSON,
     AffiliateAttendanceResponse,
     AffiliateAttendanceResponseFromJSON,
     AffiliateAttendanceResponseToJSON,
@@ -55,6 +58,10 @@ export interface EventControllerAffiliateEventSigninRequest {
     eventID: number;
 }
 
+export interface EventControllerAffiliateEventUnRSVPRequest {
+    eventID: number;
+}
+
 export interface EventControllerCheckOffEventAttendanceRequest {
     eventID: number;
     attendanceCheckOffRequest?: AttendanceCheckOffRequest;
@@ -65,6 +72,10 @@ export interface EventControllerCreateEventRequest {
 }
 
 export interface EventControllerDeleteEventRequest {
+    eventID: number;
+}
+
+export interface EventControllerGetAffiliateEventRSVPRequest {
     eventID: number;
 }
 
@@ -189,6 +200,44 @@ export class EventApi extends runtime.BaseAPI {
     }
 
     /**
+     * Affiliate event un rsvp
+     */
+    async eventControllerAffiliateEventUnRSVPRaw(requestParameters: EventControllerAffiliateEventUnRSVPRequest): Promise<runtime.ApiResponse<RSVPResponse>> {
+        if (requestParameters.eventID === null || requestParameters.eventID === undefined) {
+            throw new runtime.RequiredError('eventID','Required parameter requestParameters.eventID was null or undefined when calling eventControllerAffiliateEventUnRSVP.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/events/{eventID}/unrsvp/affiliate`.replace(`{${"eventID"}}`, encodeURIComponent(String(requestParameters.eventID))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RSVPResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Affiliate event un rsvp
+     */
+    async eventControllerAffiliateEventUnRSVP(requestParameters: EventControllerAffiliateEventUnRSVPRequest): Promise<RSVPResponse> {
+        const response = await this.eventControllerAffiliateEventUnRSVPRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Check off event attendance
      */
     async eventControllerCheckOffEventAttendanceRaw(requestParameters: EventControllerCheckOffEventAttendanceRequest): Promise<runtime.ApiResponse<AttendanceResponse>> {
@@ -305,6 +354,35 @@ export class EventApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get affiliate event rsvp
+     */
+    async eventControllerGetAffiliateEventRSVPRaw(requestParameters: EventControllerGetAffiliateEventRSVPRequest): Promise<runtime.ApiResponse<AffiliateGetRSVPResponse>> {
+        if (requestParameters.eventID === null || requestParameters.eventID === undefined) { 
+            throw new runtime.RequiredError('eventID','Required parameter requestParameters.eventID was null or undefined when calling eventControllerGetAffiliateEventRSVP.');
+        }
+        
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("TokenAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/api/events/{eventID}/getrsvp/affiliate`.replace(`{${"eventID"}}`, encodeURIComponent(String(requestParameters.eventID))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+        return new runtime.JSONApiResponse(response, (jsonValue) => AffiliateGetRSVPResponseFromJSON(jsonValue));
+     }
+     
+    /**
      * Get affiliate event attendance
      */
     async eventControllerGetAffiliateEventAttendanceRaw(requestParameters: EventControllerGetAffiliateEventAttendanceRequest): Promise<runtime.ApiResponse<AffiliateAttendanceResponse>> {
@@ -330,8 +408,15 @@ export class EventApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
         });
-
         return new runtime.JSONApiResponse(response, (jsonValue) => AffiliateAttendanceResponseFromJSON(jsonValue));
+    }    
+
+    /**
+     * Get affiliate event rsvp
+     */
+    async eventControllerGetAffiliateEventRSVP(requestParameters: EventControllerGetAffiliateEventRSVPRequest): Promise<AffiliateGetRSVPResponse> {
+        const response = await this.eventControllerGetAffiliateEventRSVPRaw(requestParameters);
+        return await response.value();
     }
 
     /**
