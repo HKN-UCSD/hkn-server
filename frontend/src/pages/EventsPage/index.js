@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import { HomepageBanner } from '../../components/HomepageBanner';
+import { HomepageBanner } from '@SharedComponents/HomepageBanner';
 
 import EventButtons from './eventButtons';
 
