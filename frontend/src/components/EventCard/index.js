@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './styles';
+//import styles from './styles';
+import styles from './styles.module.css';
 import { EventResponseTypeEnum } from '../../services/api/models/EventResponse';
 import logo from '../../images/hkn-logo-black.png'
 
@@ -33,14 +34,20 @@ export function EventCard(props) {
   if (dateTime.indexOf(dateTime.slice(-2)) !== dateTime.length - 2)
     dateTime = dateTime.replace(dateTime.slice(-2), '');
 
-  return <a key={event.id} href={'events/' + event.id} style={{all: 'unset', cursor: 'pointer'}}><div style={styles.card}>
-    <div style={styles.frame}>
-      <img style={styles.image} alt='' src={logo} />
+  return <a key={event.id} href={'events/' + event.id} style={{ all: 'unset', cursor: 'pointer' }}>
+    <div className={styles.card}>
+      <div className={styles.frame}>
+        <img className={styles.image} alt='' src={logo} />
+        <div className={styles.cover}>
+          <div className={styles.spacer}/>
+          <div className={styles.title}>{event.name}</div>
+          <div className={styles.spacer} />
+        </div>
+      </div>
+      <div className={styles.bar}>
+        <div className={styles.info}>{dateTime}<br />{event.location}</div>
+        <div className={styles.type} style={{ backgroundColor: typeColor(event.type) }}>{capitalize(event.type)}</div>
+      </div>
     </div>
-    <div style={styles.bar}>
-      <div style={styles.info}>{dateTime}<br/>{event.location}</div>
-      <div style={{ ...styles.type, backgroundColor: typeColor(event.type) }}>{capitalize(event.type)}</div>
-    </div>
-  </div>
   </a>
 }

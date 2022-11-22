@@ -13,6 +13,23 @@ const styles = {
     overflow: 'hidden',
     willChange: 'transform',
   },
+  cover: {
+    color: '#ffffff',
+    backgroundColor: '#000000aa',
+    textAlign: 'center',
+    position: 'absolute',
+    width: '100%',
+    top: '0px',
+    left: '0px',
+    bottom: '100%',
+    overflow: 'hidden',
+    textOverflow: 'clip',
+    whiteSpace: 'nowrap',
+    transition: '0.5s',
+    'frame:hover &': {
+      bottom: '0%',
+    },
+  },
   image: {
     position: 'absolute',
     width: '100%',
