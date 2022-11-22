@@ -1,3 +1,10 @@
+.base {
+    all: unset;
+    cursor: pointer;
+    flex: 1 0 300px;
+    margin: 8px 16px;
+}
+
 .card {
     border: 2px solid #aaaaaa;
     border-radius: 16px;

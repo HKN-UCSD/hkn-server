@@ -122,12 +122,9 @@ class EventsPage extends React.Component {
     const { classes } = this.props;
 
     const gridStyle = {
-      display: 'grid',
-      gridAutoFlow: 'row',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      rowGap: '24px',
-      columnGap: '48px',
+      display: 'flex',
       flex: '1 0 100%',
+      flexWrap: 'wrap',
       margin: '1em 0px',
     }
 

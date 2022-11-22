@@ -50,7 +50,7 @@ export function EventCard(props) {
   if (dateTime.indexOf(dateTime.slice(-2)) !== dateTime.length - 2)
     dateTime = dateTime.replace(dateTime.slice(-2), '');
 
-  return <a key={event.id} href={'events/' + event.id} style={{ all: 'unset', cursor: 'pointer' }}>
+  return <a key={event.id} href={'events/' + event.id} className={styles.base}>
     <div className={styles.card}>
       <div className={styles.frame}>
         <img className={styles.image} alt='' src={typeImage(event.type)} />
