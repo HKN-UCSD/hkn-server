@@ -11,6 +11,8 @@ import { getAllEvents } from '../../services/EventService';
 import { EventCard } from '../../components/EventCard';
 import { Button } from '@material-ui/core';
 
+import { isAfter } from 'date-fns';
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -72,7 +74,7 @@ class EventsPage extends React.Component {
     getAllEvents({pending: false, ready: true, complete: false}).then(res => {
       const curr = new Date();
       this.setState({
-        events: res.events.sort((a, b) => { return new Date(a.startDate) - new Date(b.startDate); })
+        events: res.events.sort((a, b) => { return isAfter(new Date(a.startDate), new Date(b.startDate)) ? 1 : -1; })
           .filter(event => (new Date(event.endDate) - curr) > 0),
         show: 6,
       });

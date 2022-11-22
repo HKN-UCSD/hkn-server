@@ -2,13 +2,11 @@ import React from 'react';
 //import styles from './styles';
 import styles from './styles.module.css';
 import { EventResponseTypeEnum } from '../../services/api/models/EventResponse';
+import { format } from 'date-fns';
 import imgTechnical from '../../images/default-event/technical.png'
 import imgProfessional from '../../images/default-event/professional.png'
 import imgSocial from '../../images/default-event/social.png'
 import imgMentorship from '../../images/default-event/mentorship.png'
-
-const dateTimeFormat = new Intl.DateTimeFormat('en-US', { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-const timeFormat = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' });
 
 function capitalize(str) {
   if (str === undefined || str.length === 0)
@@ -48,7 +46,7 @@ function typeColor(type) {
 
 export function EventCard(props) {
   const event = props.event;
-  let dateTime = dateTimeFormat.format(new Date(event.startDate)) + ' - ' + timeFormat.format(new Date(event.endDate));
+  let dateTime = format(new Date(event.startDate), 'E, M/d, h:mm a') + ' - ' + format(new Date(event.endDate), 'h:mm a');
   if (dateTime.indexOf(dateTime.slice(-2)) !== dateTime.length - 2)
     dateTime = dateTime.replace(dateTime.slice(-2), '');
 
