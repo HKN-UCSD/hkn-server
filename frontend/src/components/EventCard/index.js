@@ -2,7 +2,10 @@ import React from 'react';
 //import styles from './styles';
 import styles from './styles.module.css';
 import { EventResponseTypeEnum } from '../../services/api/models/EventResponse';
-import logo from '../../images/hkn-logo-black.png'
+import imgTechnical from '../../images/default-event/technical.png'
+import imgProfessional from '../../images/default-event/professional.png'
+import imgSocial from '../../images/default-event/social.png'
+import imgMentorship from '../../images/default-event/mentorship.png'
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', { weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 const timeFormat = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' });
@@ -11,6 +14,21 @@ function capitalize(str) {
   if (str === undefined || str.length === 0)
     return '';
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function typeImage(type) {
+  switch (type) {
+    case EventResponseTypeEnum.Professional:
+      return imgProfessional;
+    case EventResponseTypeEnum.Social:
+      return imgSocial;
+    case EventResponseTypeEnum.Technical:
+      return imgTechnical;
+    case EventResponseTypeEnum.Mentorship:
+      return imgMentorship;
+    default:
+      return '';
+  }
 }
 
 function typeColor(type) {
@@ -37,7 +55,7 @@ export function EventCard(props) {
   return <a key={event.id} href={'events/' + event.id} style={{ all: 'unset', cursor: 'pointer' }}>
     <div className={styles.card}>
       <div className={styles.frame}>
-        <img className={styles.image} alt='' src={logo} />
+        <img className={styles.image} alt='' src={typeImage(event.type)} />
         <div className={styles.cover}>
           <div className={styles.spacer}/>
           <div className={styles.title}>{event.name}</div>
