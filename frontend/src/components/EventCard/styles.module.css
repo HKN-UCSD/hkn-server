@@ -1,7 +1,8 @@
 .card {
     border: 2px solid #aaaaaa;
-    border-radius: 8px;
+    border-radius: 16px;
     width: 100%;
+    overflow: hidden;
 }
 
 .frame {
