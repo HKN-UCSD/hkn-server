@@ -119,6 +119,8 @@ class NavBar extends React.Component {
       </>
     );
 
+    // TESTING SOMETHING
+
     return (
       <div className={classes.root}>
         <CssBaseline />
