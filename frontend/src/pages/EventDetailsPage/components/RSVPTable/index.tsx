@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useInterval } from '@Hooks';
-import { Table } from '@SharedComponents';
+import { Loading, Table } from '@SharedComponents';
 import {
   RSVPResponse,
   MultipleRSVPResponse,
@@ -15,6 +15,7 @@ interface RSVPTableProps {
 function RSVPTable(props: RSVPTableProps) {
   const { getRSVPs } = props;
   const [rsvps, setRSVPs] = useState<RSVPResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   const columns = [
     { title: 'Full Name', field: 'name' },
@@ -25,6 +26,7 @@ function RSVPTable(props: RSVPTableProps) {
     const getEventRSVPs = async () => {
       const { rsvps: incomingRSVPs } = await getRSVPs();
       setRSVPs(incomingRSVPs);
+      setIsLoading(false);
     };
 
     getEventRSVPs();
@@ -34,6 +36,7 @@ function RSVPTable(props: RSVPTableProps) {
     callback: async () => {
       const { rsvps: incomingRSVPs } = await getRSVPs();
       setRSVPs(incomingRSVPs);
+      setIsLoading(false);
     },
     delay: 1000,
   });
@@ -55,6 +58,10 @@ function RSVPTable(props: RSVPTableProps) {
 
     return rsvpToDisplay;
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Table

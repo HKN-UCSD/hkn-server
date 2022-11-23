@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { parseISO, format } from 'date-fns';
 
 import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
-
+import { Loading } from '@SharedComponents';
 import { useInterval } from '@Hooks';
 import { Button, Table } from '@SharedComponents';
 import {
@@ -22,6 +22,7 @@ interface CheckOffTableProps {
 function CheckOffTable(props: CheckOffTableProps) {
   const { getAttendances, checkOffAttendance, eventId } = props;
   const [attendances, setAttendances] = useState<AttendanceResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   const columns = [
     { title: 'Full Name', field: 'name' },
@@ -51,6 +52,7 @@ function CheckOffTable(props: CheckOffTableProps) {
     const getEventAttendances = async () => {
       const { attendances: incomingAttendances } = await getAttendances();
       setAttendances(incomingAttendances);
+      setIsLoading(false);
     };
 
     getEventAttendances();
@@ -60,6 +62,7 @@ function CheckOffTable(props: CheckOffTableProps) {
     callback: async () => {
       const { attendances: incomingAttendances } = await getAttendances();
       setAttendances(incomingAttendances);
+      setIsLoading(false);
     },
     delay: 1000,
   });
@@ -85,6 +88,10 @@ function CheckOffTable(props: CheckOffTableProps) {
 
     return attendanceToDisplay;
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Table

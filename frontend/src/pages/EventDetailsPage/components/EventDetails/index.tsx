@@ -6,7 +6,7 @@ import DeleteEditButtons from '../DeleteEditButtons';
 import Links from '../Links/Links';
 import SignInButton from '../buttons/SignInButton';
 import RSVPButton from '../buttons/RSVPButton';
-
+import { Loading } from '@SharedComponents';
 import useStyles from './styles';
 
 import * as ROUTES from '@Constants/routes';
@@ -20,21 +20,24 @@ import { EventStatusEnum } from '@Services/EventService';
 
 import { getAffiliateEventAttendance } from '@Services/EventService';
 
-
 interface EventDetailsComponentProps {
   eventInfo: EventInfo;
   eventId: number;
 }
-
 function EventDetailsComponent(props: EventDetailsComponentProps) {
   const { eventInfo, eventId } = props;
   const classes = useStyles();
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(true);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsLoading(true);
     const getAttendance = async () => {
       const affiliateAttendance = await getAffiliateEventAttendance(eventId);
       setIsSignedIn(affiliateAttendance.isSignedIn);
+      // As of 11/22/2022, affiliatAttendance does not return a value due to API issue.
+      // This is going to get fixed eventually
+      setIsLoading(false);
     };
     getAttendance();
   }, [eventId]);
@@ -85,6 +88,11 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
       </Typography>
     </Typography>
   );
+
+  if (isLoading) {
+    console.log('Reached loading here');
+    return <Loading />;
+  }
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -150,9 +158,7 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                         </Typography>
                       </Typography>
                     </Grid>
-                    <Grid item>
-                      {OfficerRenderPermission(StatusField)({})}
-                    </Grid>
+                    <Grid item>{OfficerRenderPermission(StatusField)({})}</Grid>
                   </Grid>
                 </Grid>
 
@@ -167,7 +173,10 @@ function EventDetailsComponent(props: EventDetailsComponentProps) {
                     <Grid item>
                       {InducteeRenderPermission(Links)({
                         urls,
-                        signIn: { url: signInURL, label: 'Sign In Form (Guest)' },
+                        signIn: {
+                          url: signInURL,
+                          label: 'Sign In Form (Guest)',
+                        },
                         rsvp: { url: rsvpURL, label: 'RSVP Form (Guest)' },
                         qrCode: {
                           url: ROUTES.EVENT_QRCODE_WITH_ID(eventId),
