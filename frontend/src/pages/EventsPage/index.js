@@ -1,7 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import { Divider } from '@material-ui/core';
+
+import { HomepageBanner } from '@SharedComponents/HomepageBanner';
 
 import EventButtons from './eventButtons';
 
@@ -96,14 +97,13 @@ class EventsPage extends React.Component {
     const { classes } = this.props;
     return (
       <div>
+        <HomepageBanner />
         <div style={{ margin: '20px' }}>
           {MemberRenderPermission(EventButtons)({})}
         </div>
 
-        <div className={classes.contentWrapper}>
-          <Divider />
+        <div>
           <h1 style={{ textAlign: 'center' }}>Upcoming Events</h1>
-          <Divider />
         </div>
         <div className={classes.root}>
           <iframe
