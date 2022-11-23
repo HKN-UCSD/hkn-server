@@ -5,7 +5,7 @@ import AttendanceDeleteButton from '../buttons/AttendanceDeleteButton';
 import AttendanceEditButton from '../buttons/AttendanceEditButton';
 
 import { useInterval } from '@Hooks';
-import { Table } from '@SharedComponents';
+import { Loading, Table } from '@SharedComponents';
 import {
   AttendanceResponse,
   MultipleAttendanceResponse,
@@ -67,11 +67,13 @@ const attendanceResponseToAttendanceRow = (attendance: AttendanceResponse) => {
 function AttendanceTable(props: AttendanceTableProps) {
   const { getAttendances, eventId } = props;
   const [attendances, setAttendances] = useState<AttendanceResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   useEffect(() => {
     const getEventAttendances = async () => {
       const { attendances: incomingAttendances } = await getAttendances();
       setAttendances(incomingAttendances);
+      setIsLoading(false);
     };
 
     getEventAttendances();
@@ -81,6 +83,7 @@ function AttendanceTable(props: AttendanceTableProps) {
     callback: async () => {
       const { attendances: incomingAttendances } = await getAttendances();
       setAttendances(incomingAttendances);
+      setIsLoading(false);
     },
     delay: 1000,
   });
@@ -119,6 +122,10 @@ function AttendanceTable(props: AttendanceTableProps) {
   const attendanceData = attendances.map(attendance =>
     attendanceResponseToAttendanceRow(attendance)
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Table
