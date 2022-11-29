@@ -347,6 +347,7 @@ class SignInPage extends React.Component {
         </Paper>
 
         {/* Create an account - SIGN UP */}
+        {}
         <a className={classes.signupFooter} href='mailto:hkn@eng.ucsd.edu'>
           <Typography
             target='_blank'
