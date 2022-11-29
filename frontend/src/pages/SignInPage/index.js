@@ -353,7 +353,7 @@ class SignInPage extends React.Component {
             component='p'
             style={{ display: 'inline-block' }}
           >
-            Don&apos;t have an account? Contact us at hkn@eng.ucsd.edu
+            Don&apos;t have an account? Email us at hkn@eng.ucsd.edu
           </Typography>
         </a>
 
