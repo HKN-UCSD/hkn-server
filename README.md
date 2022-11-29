@@ -20,7 +20,7 @@ Portal Link: https://portal.hknucsd.com/
 
 Do this before you build/start the project!
 
-Check if you have node version 12.13.1. Then, run...
+Check if you have node version 12.14.0. Then, run...
 
 `cd frontend; npm i; cd ../backend; npm i; cd ..`
 
