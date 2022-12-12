@@ -11,9 +11,7 @@ import {
 } from '@Services/api';
 import { InterviewWeekStartDate } from '@Services/api/models';
 import { getUserById } from '@Services/UserService';
-import {
-  getInterviewStartDates,
-} from '@Services/InductionClassService';
+import { getInterviewStartDates } from '@Services/InductionClassService';
 
 function splitScheduleByWeek(
   interviewStartWeek: Date[],
@@ -31,7 +29,9 @@ function splitScheduleByWeek(
       // const currStartWeek = interviewStartWeek[j];
 
       if (j < interviewStartWeek.length - 1) {
-        const nextStartWeek = new Date(interviewStartWeek[j + 1].toDateString());
+        const nextStartWeek = new Date(
+          interviewStartWeek[j + 1].toDateString()
+        );
         // const nextStartWeek = interviewStartWeek[j + 1];
 
         if (
@@ -97,7 +97,7 @@ export default function InterviewSchedulingPage(): JSX.Element {
     const getInterviewWeekStartDateFunc = async () => {
       // hardcoded induction class for now
       //const { quarter } = await getCurrentInductionClass();
-      const quarter = 'WI22';
+      const quarter = 'FA22';
       const res: InterviewDatesResponse = await getInterviewStartDates(quarter);
       res.interviewWeeks = Array<InterviewWeekStartDate>(res.interviewWeeks[1]);
       const interviewStartDateObjs: Date[] = res.interviewWeeks.map(
