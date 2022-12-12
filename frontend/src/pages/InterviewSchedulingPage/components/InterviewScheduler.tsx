@@ -19,15 +19,18 @@ function InterviewScheduler({
   selectedScheduleCallback = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: InterviewSchedulerProps): JSX.Element {
   return (
-    <ScheduleSelector
-      selection={selectedSchedule}
-      numDays={numDays}
-      minTime={minTime}
-      maxTime={maxTime}
-      startDate={startDate}
-      onChange={selectedScheduleCallback}
-      dateFormat='ddd M/D'
-    />
+    <div>
+      <ScheduleSelector
+        selection={selectedSchedule}
+        numDays={numDays}
+        minTime={minTime}
+        maxTime={maxTime}
+        startDate={startDate}
+        onChange={selectedScheduleCallback}
+        dateFormat='ddd M/D'
+      />
+      <br />
+    </div>
   );
 }
 

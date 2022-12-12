@@ -103,7 +103,7 @@ function SchedulersWithConfirmButton({
   };
 
   return (
-    <Grid container direction='column' alignItems='center' spacing={3}>
+    <Grid container direction='column' alignItems='center'>
       <Grid item>
         {startDates.map((startDate, index) => (
           <InterviewScheduler
