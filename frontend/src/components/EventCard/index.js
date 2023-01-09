@@ -49,6 +49,9 @@ export function EventCard(props) {
   let dateTime = format(new Date(event.startDate), 'E, M/d, h:mm a') + ' - ' + format(new Date(event.endDate), 'h:mm a');
   if (dateTime.indexOf(dateTime.slice(-2)) !== dateTime.length - 2)
     dateTime = dateTime.replace(dateTime.slice(-2), '');
+  let title = event.name.substring(0, 80);
+  if(event.name.length > 80)
+    title = title.substring(0, title.lastIndexOf(' '));
 
   return <a key={event.id} href={'events/' + event.id} className={styles.base}>
     <div className={styles.card}>
@@ -56,10 +59,11 @@ export function EventCard(props) {
         <img className={styles.image} alt='' src={typeImage(event.type)} />
         <div className={styles.cover}>
           <div className={styles.spacer}/>
-          <div className={styles.title}>{event.name}</div>
+          <div className={styles.title}>{title}</div>
           <div className={styles.spacer} />
         </div>
       </div>
+      <div className={styles.name}>{title}</div>
       <div className={styles.bar}>
         <div className={styles.info}>{dateTime}<br />{event.location}</div>
         <div className={styles.type} style={{ backgroundColor: typeColor(event.type) }}>{capitalize(event.type)}</div>

@@ -2,6 +2,8 @@
     all: unset;
     cursor: pointer;
     flex: 1 0 300px;
+    width: 100%;
+    max-width: 31%;
     margin: 8px 16px;
 }
 
@@ -78,6 +80,13 @@
     flex: 1 2 auto;
     padding: 0px 0.4em;
     overflow-wrap: anywhere;
+}
+
+.name {
+    flex: 1 2 auto;
+    padding: 0px 0.4em;
+    text-overflow: clip;
+    white-space: nowrap;
 }
 
 .type {
