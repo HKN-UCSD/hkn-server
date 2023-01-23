@@ -22,11 +22,13 @@ import {
   DialogContentText,
   DialogTitle,
   Hidden,
+  Container,
 } from '@material-ui/core';
 import SignOutIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { OfficerTabs, InducteeTabs } from './tabs';
+import { SocialButtons } from './socialButtons';
 import styles from './styles';
 
 import { UserContext } from '@Contexts';
@@ -81,6 +83,11 @@ class NavBar extends React.Component {
         <ListItemText primary={tab.text} />
       </ListItem>
     ));
+    const socialComponents = SocialButtons.map(social => (
+      <ListItem button component={Link} to={{ pathname: social.pathname }} target={social.target} className={classes.socialButton}>
+        <ListItemIcon className={classes.socialIcon}>{social.icon}</ListItemIcon>
+      </ListItem>
+    ));
 
     const drawer = (
       <>
@@ -94,6 +101,9 @@ class NavBar extends React.Component {
             <ListItemText primary='Logout' />
           </ListItem>
         </List>
+        <Container className={classes.socialContainer}>
+          <List className={classes.socialSection}>{socialComponents}</List>
+        </Container>
 
         <Dialog
           open={isConfirmationModalOpen}

@@ -9,7 +9,6 @@ import { Table } from '@SharedComponents';
 import { getAllInducteePoints, InducteePoint } from '@Services/PointsService';
 
 const columns = [
-  { title: 'Name', field: 'name' },
   { title: 'Email', field: 'email' },
   { title: 'Total Points', field: 'points' },
   {
