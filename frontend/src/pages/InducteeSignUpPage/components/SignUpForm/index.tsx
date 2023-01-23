@@ -212,7 +212,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             <Grid item>
               <InfoSessionDropdownField
                 name='infoSession'
-                label='Select an info session to attend'
+                label='Select a session to attend'
                 fullWidth
               />
             </Grid>
