@@ -82,6 +82,8 @@ const styles = theme => ({
     textAlign: 'center',
     flexDirection: 'column',
     display: 'flex',
+    textDecoration: 'none',
+    color: 'inherit',
   },
   signupLink: {
     textDecoration: 'none',
@@ -345,11 +347,16 @@ class SignInPage extends React.Component {
         </Paper>
 
         {/* Create an account - SIGN UP */}
-        <div className={classes.signupFooter}>
-          <Typography component='p' style={{ display: 'inline-block' }}>
-            Don&apos;t have an account? Contact us
+        {}
+        <a className={classes.signupFooter} href='mailto:hkn@eng.ucsd.edu'>
+          <Typography
+            target='_blank'
+            component='p'
+            style={{ display: 'inline-block' }}
+          >
+            Don&apos;t have an account? Email us at hkn@eng.ucsd.edu
           </Typography>
-        </div>
+        </a>
 
         {/* Footer Element */}
         <Typography className={classes.footer} variant='caption' gutterBottom>
@@ -359,7 +366,7 @@ class SignInPage extends React.Component {
             target='_blank'
             rel='noopener noreferrer'
           >
-            &copy; 2019 Eta Kappa Nu UCSD
+            &copy; 2019-2023 Eta Kappa Nu UCSD
           </a>
         </Typography>
 
@@ -432,7 +439,7 @@ class SignInPage extends React.Component {
               <DialogContentText id='alert-dialog-description'>
                 {verifyEmailError
                   ? `${verifyEmailError.message}You can click RESEND below to resend the verification email.` +
-                  `If this issue persists, please contact a HKN officer.`
+                    `If this issue persists, please contact a HKN officer.`
                   : ''}
               </DialogContentText>
             </DialogContent>
