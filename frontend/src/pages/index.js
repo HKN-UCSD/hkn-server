@@ -1,5 +1,6 @@
 import ProfilePage from './ProfilePage';
 import ProfileEditPage from './ProfileEditPage';
+import EditRolesPage from './EditRolesPage';
 import NotFoundPage from './NotFoundPage';
 import ForbiddenPage from './ForbiddenPage';
 import SignInPage from './SignInPage';
@@ -50,4 +51,5 @@ export {
   InducteeSignUpPage,
   ProfilePage,
   ProfileEditPage,
+  EditRolesPage,
 };

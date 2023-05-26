@@ -10,6 +10,8 @@ import RoutingAuthorization from './RoutingAuthorization';
  * Note that the component prop is to be like that, other props are up to the person using these
  * wrappers
  */
+export const AdminRoutingPermission = RoutingAuthorization(['admin']);
+
 export const OfficerRoutingPermission = RoutingAuthorization([
   'admin',
   'officer',
